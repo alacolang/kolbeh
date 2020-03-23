@@ -9,6 +9,11 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
   "dependencies": {
     "@react-native-community/cli-platform-android": "3.0.3",
     "react": "16.9.0",

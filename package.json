@@ -8,12 +8,7 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": [
-      "**/react-native",
-      "**/react-native/**",
-      "**/@react-native-community",
-      "**/@react-native-community/**"
-    ]
+    "nohoist": []
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
