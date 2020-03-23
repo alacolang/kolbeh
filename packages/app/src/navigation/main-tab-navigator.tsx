@@ -9,7 +9,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={pages.Home} />
-      <Tab.Screen name="Parent" component={pages.Home} />
+      <Tab.Screen name="Parent" component={pages.ParentFeed} />
     </Tab.Navigator>
   );
 };
