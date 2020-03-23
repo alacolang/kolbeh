@@ -10,7 +10,7 @@ const GET_INFO = gql`
   }
 `;
 
-function Block() {
+function Home() {
   const { data, loading, error } = useQuery(GET_INFO);
 
   const info = data ? data.info : {};
@@ -18,4 +18,4 @@ function Block() {
   return <div>version: {info.version}</div>;
 }
 
-export default Block;
+export default Home;
