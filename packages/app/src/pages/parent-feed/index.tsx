@@ -1,15 +1,24 @@
 import React from "react";
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { View, Image, StyleSheet, ScrollView } from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import Post from "./post";
+import PostTile from "./post-tile";
+import Loading from "../../components/loading";
+import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
+import colors from "../../colors";
+import icons from "../../icons";
+import { IPost } from "../../types";
 
 const GET_FEED = gql`
   query GetFeed {
     parentFeed {
       edges {
-        title
-        image
+        node {
+          id
+          title
+          imageUrl
+        }
       }
       pageInfo {
         hasNextPage
@@ -18,19 +27,34 @@ const GET_FEED = gql`
   }
 `;
 
-export type IPost = {
-  title: String;
-  image: String;
+type IPostEdge = {
+  node: IPost;
 };
 
+type ParentFeedNavigationProp = NavigationProp<
+  ParentStackParamList,
+  "parentPost"
+>;
+
 const ParentFeed = () => {
+  const navigation = useNavigation<ParentFeedNavigationProp>();
   const { data, loading, error } = useQuery(GET_FEED);
-  const feed: IPost[] = data ? data.parentFeed.edges : {};
-  console.log({ feed });
+  if (loading) {
+    return <Loading />;
+  }
+
+  const feed: IPostEdge[] = data ? data.parentFeed.edges : {};
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {feed.map((post) => (
-        <Post post={post} />
+      <View style={styles.clipContainer}>
+        <Image source={icons.clip} style={{ width: 24, height: 24 }} />
+      </View>
+      {feed.map(({ node: post }) => (
+        <PostTile
+          key={post.id}
+          post={post}
+          onPress={() => navigation.navigate("parentPost", post)}
+        />
       ))}
     </ScrollView>
   );
@@ -42,7 +66,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexGrow: 1,
+    backgroundColor: colors.background,
   },
+  clipContainer: {
+    position: "relative",
+    bottom: -10,
+    zIndex: 1000,
+    paddingRight: 25 + 5,
+    alignSelf: "flex-end",
+    alignContent: "flex-end",
+  },
+  clip: {},
 });
 
 export default ParentFeed;

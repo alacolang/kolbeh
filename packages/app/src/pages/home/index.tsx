@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import colors from "../../colors";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: "#e0e0e0",
+    backgroundColor: colors.background,
   },
   header: {
     fontSize: 46,

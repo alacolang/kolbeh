@@ -1,6 +1,9 @@
-import Home from './home'
-import ParentFeed from './parent-feed'
+import Home from "./home";
+import ParentFeed from "./parent-feed";
+import ParentPost from "./parent-post";
 export default {
   Home,
-  ParentFeed
-}
+  ParentFeed,
+  ParentPost,
+  Kid: () => null
+};
