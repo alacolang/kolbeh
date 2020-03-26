@@ -7,11 +7,13 @@ const resolvers = {
     },
     parentFeed: () => {
       return {
-        edges: [
-          { id: "1", image: "/static/images/note1.jpeg", title: "note 1 title" },
-          { id: "2", image: "/static/images/note2.jpeg", title: "note 2 title" },
-          { id: "3", image: "/static/images/note3.jpeg", title: "note 3 title" },
-        ],
+        edges: Array.from({ length: 8 }, (_, i) => i).map((i) => ({
+          node: {
+            id: `id-${i + 1}`,
+            imageUrl: `/static/images/note${(i % 3) + 1}.jpeg`,
+            title: `note ${i + 1} title`,
+          },
+        })),
         pageInfo: {
           hasNextPage: false,
         },

@@ -10,8 +10,12 @@ const schema = gql`
     version: String
   }
 
+  type PostEdge {
+    node: Post
+  }
+
   type ParentFeedConnection {
-    edges: [Post!]!
+    edges: [PostEdge!]!
     pageInfo: PageInfo!
   }
 
@@ -22,7 +26,7 @@ const schema = gql`
 
   type Post {
     id: ID!
-    image: String!
+    imageUrl: String!
     title: String!
   }
 `;
