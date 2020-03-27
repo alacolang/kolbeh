@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, Text } from "react-native";
+import { StyleSheet, Image, Text } from "react-native";
 import pages from "../pages";
 import icons from "../icons";
 import colors from "../colors";
@@ -24,9 +24,10 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarLabel: ({ focused }) => {
-          const color = focused ? colors.orange : colors.secondary;
-          return <Text style={{ color }}>{texts[route.name]}</Text>;
+        tabBarLabel: ({ color }) => {
+          return (
+            <Text style={[styles.text, { color }]}>{texts[route.name]}</Text>
+          );
         },
         tabBarIcon: ({ focused, color, size }) => {
           const icon = icons[route.name + (focused ? "Active" : "")];
@@ -34,7 +35,7 @@ const TabNavigator = () => {
           return (
             <Image
               source={icon}
-              style={{ width: 24, height: 24 }}
+              style={{ width: 30, height: 30 }}
               resizeMode="contain"
             />
           );
@@ -43,11 +44,13 @@ const TabNavigator = () => {
       tabBarOptions={{
         style: {
           height: 69,
+          paddingTop: 10,
           paddingBottom: 15,
           justifyContent: "center",
           alignItems: "center",
         },
-        activeTintColor: "tomato",
+        activeTintColor: colors.orange,
+        // active
         inactiveTintColor: "gray",
       }}
     >
@@ -57,5 +60,12 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 12,
+    color: colors.primary,
+  },
+});
 
 export default TabNavigator;
