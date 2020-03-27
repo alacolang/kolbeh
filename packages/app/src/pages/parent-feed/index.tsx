@@ -7,7 +7,6 @@ import PostTile from "./post-tile";
 import Loading from "../../components/loading";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
-import icons from "../../icons";
 import { IPost } from "../../types";
 
 const GET_FEED = gql`
@@ -16,8 +15,11 @@ const GET_FEED = gql`
       edges {
         node {
           id
+          category
           title
-          imageUrl
+          images {
+            url
+          }
         }
       }
       pageInfo {
@@ -46,10 +48,7 @@ const ParentFeed = () => {
   const feed: IPostEdge[] = data ? data.parentFeed.edges : {};
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.clipContainer}>
-        <Image source={icons.clip} style={{ width: 24, height: 24 }} />
-      </View>
-      {feed.map(({ node: post }) => (
+      {feed.map(({ node: post }, index) => (
         <PostTile
           key={post.id}
           post={post}
@@ -67,16 +66,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1,
     backgroundColor: colors.background,
+    paddingTop: 30,
   },
-  clipContainer: {
-    position: "relative",
-    bottom: -10,
-    zIndex: 1000,
-    paddingRight: 25 + 5,
-    alignSelf: "flex-end",
-    alignContent: "flex-end",
-  },
-  clip: {},
 });
 
 export default ParentFeed;

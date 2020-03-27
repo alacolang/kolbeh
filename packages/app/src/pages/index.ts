@@ -5,5 +5,5 @@ export default {
   Home,
   ParentFeed,
   ParentPost,
-  Kid: () => null
+  Kid: () => null,
 };
