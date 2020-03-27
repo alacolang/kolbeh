@@ -24,9 +24,14 @@ const schema = gql`
     endCursor: String
   }
 
+  type Image {
+    url: String!
+  }
+
   type Post {
     id: ID!
-    imageUrl: String!
+    category: String!
+    images: [Image]!,
     title: String!
   }
 `;
