@@ -15,9 +15,17 @@ const MessagesProvider: React.FC = (props) => {
 type Props = {
   id: string;
 };
-const FormattedText: React.FC<TextProperties & Props> = ({ id, ...props }) => {
+const FormattedText: React.FC<TextProperties & Props> = ({
+  style,
+  id,
+  ...props
+}) => {
   const messages = React.useContext(MessagesContext);
-  return <Text {...props}>{messages[id]}</Text>;
+  return (
+    <Text style={[styles.persian, style]} {...props}>
+      {messages[id]}
+    </Text>
+  );
 };
 
 export { MessagesProvider, FormattedText };
@@ -35,11 +43,11 @@ export { MessagesProvider, FormattedText };
 //   </Text>
 // );
 
-// const styles = StyleSheet.create({
-//   persian: {
-//     fontFamily: "IRANYekanRDMobile",
-//     textAlign: "left",
-//   },
-// });
+const styles = StyleSheet.create({
+  persian: {
+    fontFamily: "IRANYekanRDMobile",
+    textAlign: "left",
+  },
+});
 
 // export default MyText;
