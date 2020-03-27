@@ -1,5 +1,10 @@
+type Image = {
+  url: string;
+};
+
 export type IPost = {
-  id: string,
+  id: string;
   title: string;
-  imageUrl: string;
+  category: string;
+  images: Image[];
 };
