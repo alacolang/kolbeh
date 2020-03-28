@@ -8,13 +8,13 @@ import { IPost } from "../types";
 import colors from "../colors";
 import Icons from "../icons";
 
-export type ParentStackParamList = {
+export type ChildStackParamList = {
   childList: undefined;
   childPost: IPost;
 };
-const Stack = createStackNavigator<ParentStackParamList>();
+const Stack = createStackNavigator<ChildStackParamList>();
 
-type KidFeedNavigationProp = RouteProp<ParentStackParamList, "childPost">;
+type KidFeedNavigationProp = RouteProp<ChildStackParamList, "childPost">;
 
 const HeaderTitle = () => {
   const route = useRoute<KidFeedNavigationProp>();

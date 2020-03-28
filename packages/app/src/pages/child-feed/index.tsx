@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import PostTile from "./post-tile";
 import Loading from "../../components/loading";
-import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
+import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import colors from "../../colors";
 import { IPost } from "../../types";
 
@@ -37,10 +37,7 @@ type IPostEdge = {
   node: IPost;
 };
 
-type ChildFeedNavigationProp = NavigationProp<
-  ParentStackParamList,
-  "parentPost"
->;
+type ChildFeedNavigationProp = NavigationProp<ChildStackParamList, "childPost">;
 
 const ChildFeed = () => {
   const navigation = useNavigation<ChildFeedNavigationProp>();
@@ -57,7 +54,7 @@ const ChildFeed = () => {
         <PostTile
           key={post.id}
           post={post}
-          onPress={() => navigation.navigate("parentPost", post)}
+          onPress={() => navigation.navigate("childPost", post)}
         />
       ))}
     </ScrollView>
