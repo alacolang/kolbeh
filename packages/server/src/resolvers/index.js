@@ -91,6 +91,7 @@ const parentPosts = [
       { filename: "parenting3.mp4" },
       { filename: "parenting4.mp4" },
     ],
+    images: [],
   },
 ];
 
