@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ScrollView } from "react-native";
+import { StatusBar, StyleSheet, ScrollView } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -48,6 +48,7 @@ const ParentFeed = () => {
   const feed: IPostEdge[] = data ? data.parentFeed.edges : {};
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
       {feed.map(({ node: post }, index) => (
         <PostTile
           key={post.id}

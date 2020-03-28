@@ -2,6 +2,7 @@ import React from "react";
 import {
   Image,
   Dimensions,
+  StatusBar,
   TouchableOpacity,
   View,
   StyleSheet,
@@ -25,6 +26,10 @@ const Home = () => {
   const info = data ? data.info : {};
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={colors.background}
+        barStyle="dark-content"
+      />
+
       <View style={styles.information}>
         <View style={styles.outerCircle}></View>
         <View style={styles.circle}></View>
