@@ -12,12 +12,6 @@ export type TabParamList = {
   kid: undefined;
 };
 
-const texts = {
-  home: "خانه",
-  parent: "والدین",
-  kid: "فرزندان",
-};
-
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator = () => {
