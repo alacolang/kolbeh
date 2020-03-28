@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
+    "build": "babel-node src/index.js",
     "fmt": "prettier --write 'src/**/*.js'"
   },
   "dependencies": {
