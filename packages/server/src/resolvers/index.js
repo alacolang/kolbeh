@@ -1,3 +1,20 @@
+const childPosts = [
+  {
+    name: "kid",
+    title: "کلبه آرامش کودک",
+    images: Array.from({ length: 4 }).map((_, i) => ({
+      filename: `stress-kid-${i + 1}.png`,
+    })),
+  },
+  {
+    name: "teen",
+    title: "کلبه آرامش نوجوان",
+    images: Array.from({ length: 5 }).map((_, i) => ({
+      filename: `emotion-teen-${i + 1}.png`,
+    })),
+  },
+];
+
 const parentPosts = [
   {
     name: "stress",
@@ -77,40 +94,49 @@ const parentPosts = [
   },
 ];
 
-const getVideos = (i) => {
-  const meta = parentPosts[i].videos || [];
+const getVideos = (data, i) => {
+  const meta = data[i].videos || [];
   return meta.map((meta) => ({
     url: `/static/videos/${meta.filename}`,
     cover: `/static/images/${meta.filename.replace(".mp4", "-cover.png")}`,
   }));
 };
 
-const getImages = (i) => {
-  if (!parentPosts[i].images) {
+const getImages = (data, i) => {
+  if (!data[i].images) {
     return [
       {
-        url: `/static/images/${parentPosts[i].name}.jpeg`,
+        url: `/static/images/${data[i].name}.jpeg`,
       },
     ];
   } else {
-    return parentPosts[i].images.map((image) => ({
+    return data[i].images.map((image) => ({
       url: `/static/images/${image.filename}`,
     }));
   }
 };
 
-const fakeEdges = () =>
+const fakeParentFeed = () =>
   Array.from({ length: 10 }, (_, i) => i).map((i) => ({
     node: {
-      id: `id-${i + 1}`,
-      images: getImages(i),
-      videos: getVideos(i),
+      id: `id-parent-${i + 1}`,
+      images: getImages(parentPosts, i),
+      videos: getVideos(parentPosts, i),
       category: parentPosts[i].name,
       title: parentPosts[i].title,
     },
   }));
 
-// const edges = [{ id: 1, title: "", imageUrl: "/static/images/" }];
+const fakeChildFeed = () =>
+  Array.from({ length: 2 }, (_, i) => i).map((i) => ({
+    node: {
+      id: `id-child-${i + 1}`,
+      images: getImages(childPosts, i),
+      videos: getVideos(childPosts, i),
+      category: childPosts[i].name,
+      title: childPosts[i].title,
+    },
+  }));
 
 const resolvers = {
   Query: {
@@ -121,7 +147,15 @@ const resolvers = {
     },
     parentFeed: () => {
       return {
-        edges: fakeEdges(),
+        edges: fakeParentFeed(),
+        pageInfo: {
+          hasNextPage: false,
+        },
+      };
+    },
+    childFeed: () => {
+      return {
+        edges: fakeChildFeed(),
         pageInfo: {
           hasNextPage: false,
         },

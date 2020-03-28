@@ -4,6 +4,7 @@ const schema = gql`
   type Query {
     info: Info
     parentFeed: ParentFeedConnection!
+    childFeed: ParentFeedConnection!
   }
 
   type Info {
