@@ -17,6 +17,10 @@ const GET_FEED = gql`
           id
           category
           title
+          videos {
+            url
+            cover
+          }
           images {
             url
           }
