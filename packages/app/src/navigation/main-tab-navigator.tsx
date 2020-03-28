@@ -6,11 +6,12 @@ import icons from "../icons";
 import colors from "../colors";
 import { FormattedText } from "../components/formatted-text";
 import ParentNavigator from "./parent-stack-navigator";
+import ChildNavigator from "./child-stack-navigator";
 
 export type TabParamList = {
   home: undefined;
   parent: undefined;
-  kid: undefined;
+  child: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -51,7 +52,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="parent" component={ParentNavigator} />
       <Tab.Screen name="home" component={pages.Home} />
-      <Tab.Screen name="kid" component={pages.Kid} />
+      <Tab.Screen name="child" component={ChildNavigator} />
     </Tab.Navigator>
   );
 };

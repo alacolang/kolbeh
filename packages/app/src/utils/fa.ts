@@ -3,7 +3,7 @@ const messages: Record<string, string> = {
   contactus: "ارتباط با ما",
   home: "کلبه",
   parent: "والدین",
-  kid: "فرزندان",
+  child: "فرزندان",
 };
 
 export default messages;

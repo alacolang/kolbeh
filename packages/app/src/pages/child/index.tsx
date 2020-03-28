@@ -6,7 +6,7 @@ import config from "../../config";
 // "background.mp4" in your project. You can include multiple videos
 // on a single screen if you like.
 
-const Kid = () => {
+const Child = () => {
   // let ref = React.useRef();
   return (
     <View style={styles.container}></View>
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Kid;
+export default Child;
