@@ -28,10 +28,16 @@ const schema = gql`
     url: String!
   }
 
+  type Video {
+    url: String!
+    cover: String
+  }
+
   type Post {
     id: ID!
     category: String!
     images: [Image]!,
+    videos: [Video]!,
     title: String!
   }
 `;
