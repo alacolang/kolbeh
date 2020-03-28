@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
     lineHeight: 2 * 18,
     // borderWidth: 1,
-    textAlign: "justify",
+    textAlign: "center",
   },
   logo: {
     alignSelf: "flex-end",
