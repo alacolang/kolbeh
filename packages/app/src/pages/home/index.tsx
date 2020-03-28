@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { FormattedText } from "../../components/FormattedText";
+import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
 import icons from "../../icons";
 
