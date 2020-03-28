@@ -10,6 +10,7 @@ import {
 import { IPost } from "../../types";
 import icons from "../../icons";
 import colors from "../../colors";
+import { FormattedText } from "../../components/formatted-text";
 
 const width = Dimensions.get("window").width;
 
@@ -30,7 +31,7 @@ const PostTile = ({ post, onPress }: Props) => {
         </View>
         <View style={styles.outerCircle}></View>
         <View style={styles.circle}></View>
-        <Text style={styles.text}>{post.title}</Text>
+        <FormattedText style={styles.text}>{post.title}</FormattedText>
       </View>
     </TouchableOpacity>
   );

@@ -4,6 +4,7 @@ import { StyleSheet, Image, Text } from "react-native";
 import pages from "../pages";
 import icons from "../icons";
 import colors from "../colors";
+import { FormattedText } from "../components/formatted-text";
 import ParentNavigator from "./parent-stack-navigator";
 
 export type TabParamList = {
@@ -20,7 +21,7 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarLabel: ({ color }) => {
           return (
-            <Text style={[styles.text, { color }]}>{texts[route.name]}</Text>
+            <FormattedText style={[styles.text, { color }]} id={route.name} />
           );
         },
         tabBarIcon: ({ focused, color, size }) => {

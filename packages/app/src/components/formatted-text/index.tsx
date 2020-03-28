@@ -13,7 +13,7 @@ const MessagesProvider: React.FC = (props) => {
 };
 
 type Props = {
-  id: string;
+  id?: string;
 };
 const FormattedText: React.FC<TextProperties & Props> = ({
   style,
@@ -21,11 +21,15 @@ const FormattedText: React.FC<TextProperties & Props> = ({
   ...props
 }) => {
   const messages = React.useContext(MessagesContext);
-  return (
-    <Text style={[styles.persian, style]} {...props}>
-      {messages[id]}
-    </Text>
-  );
+  if (id) {
+    return (
+      <Text style={[styles.persian, style]} {...props}>
+        {messages[id]}
+      </Text>
+    );
+  } else {
+    return <Text style={[styles.persian, style]} {...props} />;
+  }
 };
 
 export { MessagesProvider, FormattedText };
