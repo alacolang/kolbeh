@@ -1,10 +1,10 @@
 import ParentActiveIcon from "./images/parent-active.png";
 import ParentIcon from "./images/parent.png";
-import KidIcon from "./images/kid.png";
-import KidActiveIcon from "./images/kid-active.png";
+import ChildIcon from "./images/child.png";
+import ChildActiveIcon from "./images/child-active.png";
 import HomeIcon from "./images/home.png";
 import HomeActiveIcon from "./images/home-active.png";
-import BackIcon from "./images/back3.png";
+import BackIcon from "./images/back.png";
 import ClipIcon from "./images/clip-active.png";
 import LogoIcon from "./images/logo.png";
 import AnxietyIcon from "./images/empathy.png";
@@ -30,14 +30,18 @@ import AdhdActiveIcon from './images/adhd-active.png'
 import AutismActiveIcon from './images/autism-active.png'
 import BipolarActiveIcon from './images/bipolar-active.png'
 import ParentingActiveIcon from './images/parenting-active.png'
+import KidIcon from './images/kid.png'
+import TeenIcon from './images/teen.png'
+import KidActiveIcon from './images/kid-active.png'
+import TeenActiveIcon from './images/teen-active.png'
 
 type Icons = Record<string, ImageSourcePropType>;
 
 const icons: Icons = {
   parent: ParentIcon,
   parentActive: ParentActiveIcon,
-  kid: KidIcon,
-  kidActive: KidActiveIcon,
+  child: ChildIcon,
+  childActive: ChildActiveIcon,
   home: HomeIcon,
   homeActive: HomeActiveIcon,
   back: BackIcon,
@@ -65,6 +69,10 @@ const icons: Icons = {
   autismActive: AutismActiveIcon,
   bipolarActive: BipolarActiveIcon,
   parentingActive: ParentingActiveIcon,
+  kid: KidIcon,
+  teen: TeenIcon,
+  kidActive: KidActiveIcon,
+  teenActive: TeenActiveIcon,
 };
 
 export default icons;
