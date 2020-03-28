@@ -25,7 +25,7 @@ const PostTile = ({ post, onPress }: Props) => {
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           <Image
-            source={icons[post.category]}
+            source={icons[`${post.category}Active`]}
             style={{ width: 64, height: 64 }}
           />
         </View>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     height: 44 * 4,
-    paddingLeft: 25,
+    paddingHorizontal: 25,
     width: width - 50,
     borderRadius: 10,
     marginBottom: 15,
@@ -65,8 +65,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 44,
-    borderWidth: 2,
-    borderColor: colors.orange,
+    // padding: 10,
+    // borderWidth: 2,
+    // borderColor: colors.orange,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   icon: {},
   text: {
