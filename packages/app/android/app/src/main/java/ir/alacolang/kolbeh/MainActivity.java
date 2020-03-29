@@ -1,4 +1,4 @@
-package com.app;
+package ir.alacolang.kolbeh;
 
 import com.facebook.react.ReactActivity;
 
