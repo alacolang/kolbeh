@@ -5,10 +5,8 @@ import ChildActiveIcon from "./images/child-active.png";
 import HomeIcon from "./images/home.png";
 import HomeActiveIcon from "./images/home-active.png";
 import BackIcon from "./images/back.png";
-import ClipIcon from "./images/clip-active.png";
 import LogoIcon from "./images/logo.png";
 import AnxietyIcon from "./images/empathy.png";
-import ArrowIcon from "./images/arrow.png";
 import { ImageSourcePropType } from "react-native";
 import EmpathyIcon from "./images/empathy.png";
 import GriefIcon from "./images/grief.png";
@@ -20,20 +18,21 @@ import AdhdIcon from "./images/adhd.png";
 import AutismIcon from "./images/autism.png";
 import BipolarIcon from "./images/bipolar.png";
 import ParentingIcon from "./images/parenting.png";
-import EmpathyActiveIcon from './images/empathy-active.png'
-import GriefActiveIcon from './images/grief-active.png'
-import StressActiveIcon from './images/stress-active.png'
-import DepressionActiveIcon from './images/depression-active.png'
-import ObsessionActiveIcon from './images/obsession-active.png'
-import EducationActiveIcon from './images/education-active.png'
-import AdhdActiveIcon from './images/adhd-active.png'
-import AutismActiveIcon from './images/autism-active.png'
-import BipolarActiveIcon from './images/bipolar-active.png'
-import ParentingActiveIcon from './images/parenting-active.png'
-import KidIcon from './images/kid.png'
-import TeenIcon from './images/teen.png'
-import KidActiveIcon from './images/kid-active.png'
-import TeenActiveIcon from './images/teen-active.png'
+import EmpathyActiveIcon from "./images/empathy-active.png";
+import GriefActiveIcon from "./images/grief-active.png";
+import StressActiveIcon from "./images/stress-active.png";
+import DepressionActiveIcon from "./images/depression-active.png";
+import ObsessionActiveIcon from "./images/obsession-active.png";
+import EducationActiveIcon from "./images/education-active.png";
+import AdhdActiveIcon from "./images/adhd-active.png";
+import AutismActiveIcon from "./images/autism-active.png";
+import BipolarActiveIcon from "./images/bipolar-active.png";
+import ParentingActiveIcon from "./images/parenting-active.png";
+import KidIcon from "./images/kid.png";
+import TeenIcon from "./images/teen.png";
+import KidActiveIcon from "./images/kid-active.png";
+import TeenActiveIcon from "./images/teen-active.png";
+import ContactIcon from "./images/contact-active.png";
 import InstagramIcon from "./images/instagram.png";
 import TwitterIcon from "./images/twitter.png";
 import TelegramIcon from "./images/telegram.png";
@@ -48,10 +47,8 @@ const icons: Icons = {
   home: HomeIcon,
   homeActive: HomeActiveIcon,
   back: BackIcon,
-  clip: ClipIcon,
   logo: LogoIcon,
   anxiety: AnxietyIcon,
-  arrow: ArrowIcon,
   empathy: EmpathyIcon,
   grief: GriefIcon,
   stress: StressIcon,
@@ -76,6 +73,10 @@ const icons: Icons = {
   teen: TeenIcon,
   kidActive: KidActiveIcon,
   teenActive: TeenActiveIcon,
+  contact: ContactIcon,
+  instagram: InstagramIcon,
+  twitter: TwitterIcon,
+  telegram: TelegramIcon,
 };
 
 export default icons;
