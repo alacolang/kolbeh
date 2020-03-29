@@ -31,13 +31,16 @@ const TheVideo = ({ video }: { video: { url: string; cover: string } }) => {
   return (
     <View style={{ flex: 1 }}>
       <Modal
-        transparent={false}
+        transparent={true}
         animationType="fade"
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(false);
         }}
+        statusBarTranslucent={true}
+        presentationStyle="overFullScreen"
       >
+        {/* <StatusBar backgroundColor={"white"} barStyle="dark-content" /> */}
         <View style={styles.modelContainer}>
           <Video
             source={{ uri }}
@@ -52,8 +55,9 @@ const TheVideo = ({ video }: { video: { url: string; cover: string } }) => {
             resizeMode="contain"
             // minLoadRetryCount={4}
             controls={true}
-            poster={video.cover ? config.HOST + video.cover : undefined}
+            // poster={video.cover ? config.HOST + video.cover : undefined}
             // posterResizeMode="cover"
+            hideShutterView={true}
           />
         </View>
       </Modal>
@@ -78,7 +82,7 @@ const TheImage = ({ image }: { image: { url: string } }) => {
   Image.getSize(
     uri,
     (width, height) => {
-      setSize({ height: frameWidth / width * height });
+      setSize({ height: (frameWidth / width) * height });
     },
     () => {}
   );
@@ -174,12 +178,13 @@ const styles = StyleSheet.create({
     width: frameWidth,
   },
   backgroundVideo: {
+    backgroundColor: colors.background,
     position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    borderRadius: 5,
+    // borderRadius: 5,
   },
   imageContainer: {
     // height: (width / 600) * 1600,
