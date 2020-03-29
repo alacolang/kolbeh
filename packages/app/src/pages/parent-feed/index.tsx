@@ -49,7 +49,7 @@ const ParentFeed = () => {
     return <Loading />;
   }
 
-  const feed: IPostEdge[] = data ? data.parentFeed.edges : {};
+  const feed: IPostEdge[] = data ? data.parentFeed.edges : [];
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
