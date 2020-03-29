@@ -14,6 +14,7 @@ import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
 import icons from "../../icons";
+import { getVersion } from "../../utils/codepush";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -26,6 +27,19 @@ const GET_INFO = gql`
 const Contact = () => {
   const { data, loading, error } = useQuery(GET_INFO);
   const info = data ? data.info : {};
+  const [codepushVersion, setCodepushVersion] = React.useState({
+    label: "na",
+    version: "na",
+  });
+
+  React.useEffect(() => {
+    async function helper() {
+      const codepushVersion = await getVersion();
+      setCodepushVersion(codepushVersion);
+    }
+    helper();
+  }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
@@ -95,7 +109,12 @@ const Contact = () => {
           />
         </View> */}
       </View>
-      <Text style={styles.version}>version: {info.version}</Text>
+      <View style={styles.versionContainer}>
+        <Text style={styles.version}>api version: {info.version || '-'}</Text>
+        <Text style={styles.version}>
+          push version: {`${codepushVersion.label}--${codepushVersion.version}`}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -176,18 +195,21 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  version: {
-    color: "#c0c0c0",
-    fontSize: 12,
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-  },
   row: {
     height: 44,
     // borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  versionContainer: {
+    flexDirection: "column",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
+  version: {
+    color: "#c0c0c0",
+    fontSize: 12,
   },
 });
 
