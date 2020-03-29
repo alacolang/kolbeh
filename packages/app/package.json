@@ -8,7 +8,10 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "fmt": "prettier --write 'src/**/*.ts*'"
+    "fmt": "prettier --write 'src/**/*.ts*'",
+    "build-dev": "NODE_ENV=development ./node_modules/.bin/react-native bundle --platform android --dev true --entry-file index.js   --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "build": "NODE_ENV=production ./node_modules/.bin/react-native bundle --platform android --dev false --entry-file index.js   --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "codepush": "NODE_ENV=production appcenter codepush release-react -d Production -a yassermzh/kolbeh --debug"
   },
   "workspaces": {
     "nohoist": [
