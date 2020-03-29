@@ -7,37 +7,31 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { FormattedText } from "../../components/formatted-text";
+import { HomeStackParamList } from "../../navigation/home-stack-navigator";
 import colors from "../../colors";
 import icons from "../../icons";
 
-const GET_INFO = gql`
-  query GetInfo {
-    info {
-      version
-    }
-  }
-`;
+type HomeNavigationProp = NavigationProp<HomeStackParamList, "home">;
 
 const Home = () => {
-  const { data, loading, error } = useQuery(GET_INFO);
-  const info = data ? data.info : {};
+  const navigation = useNavigation<HomeNavigationProp>();
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.background}
-        barStyle="dark-content"
-      />
+      <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
 
       <View style={styles.information}>
         <View style={styles.outerCircle}></View>
         <View style={styles.circle}></View>
         <FormattedText style={styles.content} id="home.information" />
         <View style={styles.logo}>
-          <Image source={icons.logo} style={{ width: 35, height: 35 }} />
+          <Image source={icons.logo} resizeMode="contain" style={{ width: 35, height: 35 }} />
         </View>
-        <TouchableOpacity style={styles.more} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.more}
+          onPress={() => navigation.navigate("contact")}
+        >
           <FormattedText style={styles.moreContent} id="contactus" />
         </TouchableOpacity>
       </View>
