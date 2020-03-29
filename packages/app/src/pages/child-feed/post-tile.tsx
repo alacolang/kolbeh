@@ -29,7 +29,6 @@ const PostTile = ({ post, onPress }: Props) => {
             style={{ width: 64, height: 64 }}
           />
         </View>
-        <View style={styles.outerCircle}></View>
         <View style={styles.circle}></View>
         <FormattedText style={styles.text}>{post.title}</FormattedText>
       </View>
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
     width: width - 50,
     borderRadius: 10,
     marginBottom: 15,
-    // borderWidth: 1,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -65,18 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 44,
-    // padding: 10,
     borderWidth: 2,
     borderColor: 'white',
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1,
-    // },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 1.41,
-
-    // elevation: 2,
   },
   icon: {},
   text: {
@@ -89,27 +77,17 @@ const styles = StyleSheet.create({
   arrow: {
     marginHorizontal: 25,
     width: 24,
-    // borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  outerCircle: {
-    position: "absolute",
-    left: -2,
-    top: -2,
-    borderRadius: 20 / 2,
-    width: 20 / 2,
-    height: 20 / 2,
-    backgroundColor: colors.background,
   },
   circle: {
     position: "absolute",
     left: 0,
     top: 0,
-    borderRadius: 16 / 2,
-    width: 16 / 2,
-    height: 16 / 2,
-    backgroundColor: '#b2b2b2',
+    borderRadius: 28 / 2,
+    width: 28 / 2,
+    height: 28 / 2,
+    backgroundColor: 'white',
   },
 });
 
