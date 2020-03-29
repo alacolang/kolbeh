@@ -4,6 +4,7 @@ const messages: Record<string, string> = {
   home: "کلبه",
   parent: "والدین",
   child: "فرزندان",
+  "contact.title": "خوشحال می‌شویم با ما در ارتباط باشید.",
 };
 
 export default messages;

@@ -7,6 +7,7 @@ import colors from "../colors";
 import { FormattedText } from "../components/formatted-text";
 import ParentNavigator from "./parent-stack-navigator";
 import ChildNavigator from "./child-stack-navigator";
+import HomeNavigator from "./home-stack-navigator";
 
 export type TabParamList = {
   home: undefined;
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="home"
       screenOptions={({ route }) => ({
         tabBarLabel: ({ color }) => {
           return (
@@ -51,7 +53,7 @@ const TabNavigator = () => {
       }}
     >
       <Tab.Screen name="parent" component={ParentNavigator} />
-      <Tab.Screen name="home" component={pages.Home} />
+      <Tab.Screen name="home" component={HomeNavigator} />
       <Tab.Screen name="child" component={ChildNavigator} />
     </Tab.Navigator>
   );

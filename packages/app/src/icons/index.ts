@@ -34,6 +34,9 @@ import KidIcon from './images/kid.png'
 import TeenIcon from './images/teen.png'
 import KidActiveIcon from './images/kid-active.png'
 import TeenActiveIcon from './images/teen-active.png'
+import InstagramIcon from "./images/instagram.png";
+import TwitterIcon from "./images/twitter.png";
+import TelegramIcon from "./images/telegram.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
