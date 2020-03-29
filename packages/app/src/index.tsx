@@ -6,6 +6,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import AppNavigator from "./navigation";
 import config from "./config";
 import "./utils/localize";
+import { codePushify } from './utils/codepush'
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -26,4 +27,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default codePushify(App);
