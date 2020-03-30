@@ -1,20 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import colors from "../../colors";
 
 const Loading = () => {
   return (
     <View style={styles.container}>
-      <Text>Loading...</Text>
+      {/* <Text>Loading...</Text> */}
+      <ActivityIndicator size="large" color={colors.orange} animating />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flow: 1,
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
   },
 });
 
