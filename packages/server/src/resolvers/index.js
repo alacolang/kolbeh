@@ -1,14 +1,14 @@
 const childPosts = [
   {
     name: "kid",
-    title: "کلبه کودک",
-    images: Array.from({ length: 4 }).map((_, i) => ({
+    title: "کودک آرام",
+    images: Array.from({ length: 7 }).map((_, i) => ({
       filename: `stress-kid-${i + 1}.png`,
     })),
   },
   {
     name: "teen",
-    title: "کلبه نوجوان",
+    title: "نوجوان آرام",
     images: Array.from({ length: 5 }).map((_, i) => ({
       filename: `emotion-teen-${i + 1}.png`,
     })),
