@@ -1,4 +1,4 @@
-package ir.alacolang.kolbeh;
+package com.app;
 
 import android.app.Application;
 import android.content.Context;
