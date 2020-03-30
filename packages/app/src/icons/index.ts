@@ -6,18 +6,7 @@ import HomeIcon from "./images/home.png";
 import HomeActiveIcon from "./images/home-active.png";
 import BackIcon from "./images/back.png";
 import LogoIcon from "./images/logo.png";
-import AnxietyIcon from "./images/empathy.png";
 import { ImageSourcePropType } from "react-native";
-import EmpathyIcon from "./images/empathy.png";
-import GriefIcon from "./images/grief.png";
-import StressIcon from "./images/stress.png";
-import DepressionIcon from "./images/depression.png";
-import ObsessionIcon from "./images/obsession.png";
-import EducationIcon from "./images/education.png";
-import AdhdIcon from "./images/adhd.png";
-import AutismIcon from "./images/autism.png";
-import BipolarIcon from "./images/bipolar.png";
-import ParentingIcon from "./images/parenting.png";
 import EmpathyActiveIcon from "./images/empathy-active.png";
 import GriefActiveIcon from "./images/grief-active.png";
 import StressActiveIcon from "./images/stress-active.png";
@@ -30,9 +19,6 @@ import BipolarActiveIcon from "./images/bipolar-active.png";
 import ParentingActiveIcon from "./images/parenting-active.png";
 import KidIcon from "./images/kid.png";
 import TeenIcon from "./images/teen.png";
-import KidActiveIcon from "./images/kid-active.png";
-import TeenActiveIcon from "./images/teen-active.png";
-import ContactIcon from "./images/contact-active.png";
 import InstagramIcon from "./images/instagram.png";
 import TwitterIcon from "./images/twitter.png";
 import TelegramIcon from "./images/telegram.png";
@@ -48,17 +34,6 @@ const icons: Icons = {
   homeActive: HomeActiveIcon,
   back: BackIcon,
   logo: LogoIcon,
-  anxiety: AnxietyIcon,
-  empathy: EmpathyIcon,
-  grief: GriefIcon,
-  stress: StressIcon,
-  depression: DepressionIcon,
-  obsession: ObsessionIcon,
-  education: EducationIcon,
-  adhd: AdhdIcon,
-  autism: AutismIcon,
-  bipolar: BipolarIcon,
-  parenting: ParentingIcon,
   empathyActive: EmpathyActiveIcon,
   griefActive: GriefActiveIcon,
   stressActive: StressActiveIcon,
@@ -71,9 +46,6 @@ const icons: Icons = {
   parentingActive: ParentingActiveIcon,
   kid: KidIcon,
   teen: TeenIcon,
-  kidActive: KidActiveIcon,
-  teenActive: TeenActiveIcon,
-  contact: ContactIcon,
   instagram: InstagramIcon,
   twitter: TwitterIcon,
   telegram: TelegramIcon,
