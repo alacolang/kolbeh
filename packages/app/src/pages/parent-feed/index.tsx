@@ -1,5 +1,10 @@
 import React from "react";
-import { StatusBar, StyleSheet, ScrollView } from "react-native";
+import {
+  RefreshControl,
+  StatusBar,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -44,14 +49,26 @@ type ParentFeedNavigationProp = NavigationProp<
 
 const ParentFeed = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
-  const { data, loading, error } = useQuery(GET_FEED);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const { data, loading, refetch, error } = useQuery(GET_FEED);
   if (loading) {
     return <Loading />;
   }
 
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refetch().then(() => setRefreshing(false));
+  }, [refreshing]);
+
   const feed: IPostEdge[] = data ? data.parentFeed.edges : [];
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
       {feed.map(({ node: post }, index) => (
         <PostTile
