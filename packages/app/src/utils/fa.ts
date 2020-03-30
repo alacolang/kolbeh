@@ -5,6 +5,7 @@ const messages: Record<string, string> = {
   parent: "والدین",
   child: "فرزندان",
   "contact.title": "خوشحال می‌شویم با ما در ارتباط باشید.",
+  "contact.phone": "تلفن: ۰۲۱ ۵۵۴۰۹۴۹۵",
 };
 
 export default messages;

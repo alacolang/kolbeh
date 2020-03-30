@@ -55,9 +55,7 @@ const Contact = () => {
         </View>
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
-            <FormattedText style={styles.content}>
-              تلفن: ۰۲۱ ۵۵۴۰۹۴۹۵
-            </FormattedText>
+            <FormattedText style={styles.content} id="contact.phone" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -110,7 +108,7 @@ const Contact = () => {
         </View> */}
       </View>
       <View style={styles.versionContainer}>
-        <Text style={styles.version}>api version: {info.version || '-'}</Text>
+        <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
           push version: {`${codepushVersion.label}--${codepushVersion.version}`}
         </Text>
