@@ -19,6 +19,8 @@ import BipolarActiveIcon from "./images/bipolar-active.png";
 import ParentingActiveIcon from "./images/parenting-active.png";
 import KidIcon from "./images/kid.png";
 import TeenIcon from "./images/teen.png";
+import KidActiveIcon from "./images/kid-active.png";
+import TeenActiveIcon from "./images/teen-active.png";
 import InstagramIcon from "./images/instagram.png";
 import TwitterIcon from "./images/twitter.png";
 import TelegramIcon from "./images/telegram.png";
@@ -46,6 +48,8 @@ const icons: Icons = {
   parentingActive: ParentingActiveIcon,
   kid: KidIcon,
   teen: TeenIcon,
+  kidActive: KidActiveIcon,
+  teenActive: TeenActiveIcon,
   instagram: InstagramIcon,
   twitter: TwitterIcon,
   telegram: TelegramIcon,
