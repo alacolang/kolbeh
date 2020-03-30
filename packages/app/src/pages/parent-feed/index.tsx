@@ -13,6 +13,7 @@ import Loading from "../../components/loading";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
 import { IPost } from "../../types";
+import { errorReport } from "../../utils/error-reporter";
 
 const GET_FEED = gql`
   query GetFeed {
@@ -51,10 +52,14 @@ const ParentFeed = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
   const [refreshing, setRefreshing] = React.useState(false);
   const { data, loading, refetch, error } = useQuery(GET_FEED);
+  if (error) {
+    errorReport(error, { origin: "parent-feed> get feed" });
+    return null;
+  }
+
   if (loading) {
     return <Loading />;
   }
-
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
