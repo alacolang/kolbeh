@@ -52,6 +52,12 @@ const ParentFeed = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
   const [refreshing, setRefreshing] = React.useState(false);
   const { data, loading, refetch, error } = useQuery(GET_FEED);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refetch().then(() => setRefreshing(false));
+  }, [refreshing]);
+
   if (error) {
     errorReport(error, { origin: "parent-feed> get feed" });
     return null;
@@ -60,11 +66,6 @@ const ParentFeed = () => {
   if (loading) {
     return <Loading />;
   }
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    refetch().then(() => setRefreshing(false));
-  }, [refreshing]);
 
   const feed: IPostEdge[] = data ? data.parentFeed.edges : [];
   return (
