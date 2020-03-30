@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import schema from "./schema";
 import resolvers from "./resolvers";
+// import logger from "./plugins/logger";
 
 const app = express();
 app.use(cors());
@@ -21,6 +22,7 @@ const server = new ApolloServer({
   resolvers,
   formatError: (error) => error,
   dataSources,
+  // plugins: [logger],
   context: (params) => () => {
     console.log("query---", params.req.body.query);
     // console.log(params.req.body.variables);
