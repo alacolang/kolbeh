@@ -55,7 +55,8 @@ const Contact = () => {
         </View>
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
-            <FormattedText style={styles.content} id="contact.phone" />
+            <FormattedText style={styles.content} id="contact.tel" />
+            <FormattedText style={styles.content} id="contact.telnumber" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
   versionContainer: {
     flexDirection: "column",
