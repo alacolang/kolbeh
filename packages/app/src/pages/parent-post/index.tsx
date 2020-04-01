@@ -14,6 +14,9 @@ import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { useRoute, RouteProp } from "@react-navigation/core";
 import config from "../../config";
 import colors from "../../colors";
+import unlike from "../../icons/images/unlike.png";
+import like from "../../icons/images/like.png";
+import share from "../../icons/images/share.png";
 
 type ParentFeedNavigationProp = RouteProp<ParentStackParamList, "parentPost">;
 
@@ -88,11 +91,21 @@ const TheImage = ({ image }: { image: { url: string } }) => {
   );
   return (
     <View style={styles.container}>
-      <Image
-        style={[styles.imageContainer, size]}
-        source={{ uri }}
-        resizeMode="cover"
-      />
+      <View style={styles.postContainer}>
+        <Image
+          style={[styles.imageContainer, size]}
+          source={{ uri }}
+          resizeMode="cover"
+        />
+      </View>
+      <View style={styles.engagementsContainer}>
+        <TouchableOpacity style={styles.shareButton}>
+          <Image source={share} style={styles.imageEngagements} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={unlike} style={styles.imageEngagements} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -116,12 +129,22 @@ const Post = () => {
       let video = item;
       return (
         <View style={styles.container}>
-          <View style={styles.outerCircle}></View>
-          <View style={styles.circle}></View>
-          <View style={styles.videoContainer}>
-            <TheVideo video={video} />
+          <View style={styles.postContainer}>
+            <View style={styles.outerCircle}></View>
+            <View style={styles.circle}></View>
+            <View style={styles.videoContainer}>
+              <TheVideo video={video} />
+            </View>
+            <View style={styles.footer}></View>
           </View>
-          <View style={styles.footer}></View>
+          <View style={styles.engagementsContainer}>
+            <TouchableOpacity style={styles.shareButton}>
+              <Image source={share} style={styles.imageEngagements} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image source={unlike} style={styles.imageEngagements} />
+            </TouchableOpacity>
+          </View>
         </View>
       );
     }
@@ -158,7 +181,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    marginVertical: 15,
+    marginVertical: 10,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+  },
+  postContainer: {
+    marginVertical: 1,
     // marginHorizontal: 60,
     borderRadius: 10,
     borderWidth: 10,
@@ -215,6 +249,12 @@ const styles = StyleSheet.create({
     height: 20 / 2,
     backgroundColor: colors.orange,
   },
+  engagementsContainer: {
+    justifyContent: "flex-end",
+    flexDirection: "row",
+  },
+  shareButton: { marginRight: "2%" },
+  imageEngagements: { width: 40, height: 40 },
 });
 
 export default Post;
