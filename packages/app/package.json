@@ -38,6 +38,7 @@
     "react-native": "0.61.5",
     "react-native-code-push": "^6.1.1",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.4.0",
