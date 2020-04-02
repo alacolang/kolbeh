@@ -1,10 +1,20 @@
 import { gql } from "apollo-server-express";
 
+// parent > category > post (pagination)
+// child > category > post (pagination)
+
 const schema = gql`
   type Query {
     info: Info
-    parentFeed: ParentFeedConnection!
-    childFeed: ParentFeedConnection!
+    parentCategories: [Category!]!
+    childCategories: [Category!]!
+  }
+
+  type Category {
+    id: ID!
+    title: String!
+    icon: String!
+    feed: FeedConnection!
   }
 
   type Info {
@@ -15,7 +25,7 @@ const schema = gql`
     node: Post
   }
 
-  type ParentFeedConnection {
+  type FeedConnection {
     edges: [PostEdge!]!
     pageInfo: PageInfo!
   }
@@ -26,20 +36,23 @@ const schema = gql`
   }
 
   type Image {
+    id: ID!
     url: String!
   }
 
   type Video {
+    id: ID!
     url: String!
     cover: String
   }
 
   type Post {
     id: ID!
+    description: String,
+    title: String!,
     category: String!
     images: [Image]!,
     videos: [Video]!,
-    title: String!
   }
 `;
 
