@@ -5,7 +5,7 @@ const options = {
   installMode: codePush.InstallMode.ON_NEXT_RESUME,
 };
 
-export const getVersion = () => {
+const getVersion = () => {
   return codePush
     .getUpdateMetadata()
     .then((metadata: { label: any; appVersion: any; description: any }) => {
@@ -24,4 +24,11 @@ export const getVersion = () => {
     });
 };
 
-export const codePushify = codePush(options);
+let codePushify;
+if (process.env.NODE_ENV == "production") {
+  codePushify = codePush(options);
+} else {
+  codePushify = (x: any) => x;
+}
+
+export { getVersion, codePushify };

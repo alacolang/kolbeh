@@ -8,50 +8,58 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import PostTile from "./post-tile";
+import CategoryTile from "./category-tile";
 import Loading from "../../components/loading";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
-import { IPost } from "../../types";
+import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
 
-const GET_FEED = gql`
-  query GetFeed {
-    parentFeed {
-      edges {
-        node {
-          id
-          category
-          title
-          videos {
-            url
-            cover
-          }
-          images {
-            url
+const GET_PARENT = gql`
+  query GetParent {
+    parentCategories {
+      id
+      title
+      icon
+      feed {
+        pageInfo {
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+            title
+            images {
+              id
+              url
+            }
+            videos {
+              id
+              url
+              cover
+            }
           }
         }
-      }
-      pageInfo {
-        hasNextPage
       }
     }
   }
 `;
 
-type IPostEdge = {
-  node: IPost;
-};
-
 type ParentFeedNavigationProp = NavigationProp<
   ParentStackParamList,
-  "parentPost"
+  "parentFeed"
 >;
 
-const ParentFeed = () => {
+type ParentCategoriesData = {
+  parentCategories: Types.ICategories;
+};
+
+const ParentScreen = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
   const [refreshing, setRefreshing] = React.useState(false);
-  const { data, loading, refetch, error } = useQuery(GET_FEED);
+  const { data, loading, refetch, error } = useQuery<ParentCategoriesData>(
+    GET_PARENT
+  );
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -59,7 +67,7 @@ const ParentFeed = () => {
   }, [refreshing]);
 
   if (error) {
-    errorReport(error, { origin: "parent-feed> get feed" });
+    errorReport(error, { origin: "parent> get feed" });
     return null;
   }
 
@@ -67,7 +75,8 @@ const ParentFeed = () => {
     return <Loading />;
   }
 
-  const feed: IPostEdge[] = data ? data.parentFeed.edges : [];
+  const categories: Types.ICategory[] = data ? data.parentCategories : [];
+
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -76,11 +85,11 @@ const ParentFeed = () => {
       }
     >
       <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
-      {feed.map(({ node: post }, index) => (
-        <PostTile
-          key={post.id}
-          post={post}
-          onPress={() => navigation.navigate("parentPost", post)}
+      {categories.map((category, index) => (
+        <CategoryTile
+          key={category.id}
+          category={category}
+          onPress={() => navigation.navigate("parentFeed", category)}
         />
       ))}
     </ScrollView>
@@ -98,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParentFeed;
+export default ParentScreen;

@@ -19,16 +19,17 @@ const dataSources = () => {
 
 const server = new ApolloServer({
   typeDefs: schema,
+  // mocks: true,
   resolvers,
-  formatError: (error) => error,
-  dataSources,
+  // formatError: (error) => error,
+  // dataSources,
   // plugins: [logger],
-  context: (params) => () => {
-    console.log("query---", params.req.body.query);
-    // console.log(params.req.body.variables);
-  },
+  // context: (params) => () => {
+  //   console.log("query---", params.req.body.query);
+  //   // console.log(params.req.body.variables);
+  // },
   //   introspection: true,
-  playground: false,
+  playground: true,
 });
 
 app.use(morgan("combined"));

@@ -11,7 +11,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { FormattedText } from "../../components/formatted-text";
 import { HomeStackParamList } from "../../navigation/home-stack-navigator";
 import colors from "../../colors";
-import icons from "../../icons";
+import icons from "../../components/icon";
 
 type HomeNavigationProp = NavigationProp<HomeStackParamList, "home">;
 

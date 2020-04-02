@@ -1,27 +1,28 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useRoute, RouteProp } from "@react-navigation/core";
-import ParentPost from "../pages/parent-post";
-import ParentFeed from "../pages/parent-feed";
-import { IPost } from "../types";
+import Feed from "../pages/feed";
+import ParentCategoryList from "../pages/parent-category-list";
+import { ICategory } from "../types";
 import colors from "../colors";
-import Icons from "../icons";
+import Icons from "../components/icon";
 
 export type ParentStackParamList = {
-  parentList: undefined;
-  parentPost: IPost;
+  parentCategoryList: undefined;
+  parentFeed: ICategory;
 };
+
 const Stack = createStackNavigator<ParentStackParamList>();
 
-type ParentFeedNavigationProp = RouteProp<ParentStackParamList, "parentPost">;
+type ParentFeedNavigationProp = RouteProp<ParentStackParamList, "parentFeed">;
 
-const HeaderTitle = () => {
+const FeedHeaderTitle = () => {
   const route = useRoute<ParentFeedNavigationProp>();
-  const post = route.params;
+  const categry = route.params;
   return (
     <Image
-      source={Icons[`${post.category}Active`]}
+      source={Icons[`${categry.icon}Active`]}
       style={{ width: 40, height: 40 }}
       resizeMode="cover"
     />
@@ -32,15 +33,15 @@ const ParentNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="parentList"
-        component={ParentFeed}
+        name="parentCategoryList"
+        component={ParentCategoryList}
         options={{ header: () => null }}
       />
       <Stack.Screen
-        name="parentPost"
-        component={ParentPost}
+        name="parentFeed"
+        component={Feed}
         options={{
-          headerTitle: (props) => <HeaderTitle />,
+          headerTitle: () => <FeedHeaderTitle />,
           headerTintColor: colors.orange,
           headerBackImage: () => (
             <Image
@@ -64,9 +65,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   back: {
-    width: 24, height: 24 ,
-    marginLeft:10 ,
-  }
+    width: 24,
+    height: 24,
+    marginLeft: 10,
+  },
 });
 
 export default ParentNavigator;
