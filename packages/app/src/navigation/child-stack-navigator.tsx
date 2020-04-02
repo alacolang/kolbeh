@@ -1,27 +1,28 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useRoute, RouteProp } from "@react-navigation/core";
-import ParentPost from "../pages/parent-post";
-import KidFeed from "../pages/child-feed";
-import { IPost } from "../types";
+import Feed from "../pages/feed";
+import ChildCategoryList from "../pages/child-category-list";
+import { ICategory } from "../types";
 import colors from "../colors";
 import Icons from "../components/icon";
 
 export type ChildStackParamList = {
-  childList: undefined;
-  childPost: IPost;
+  childCategoryList: undefined;
+  childFeed: ICategory;
 };
+
 const Stack = createStackNavigator<ChildStackParamList>();
 
-type KidFeedNavigationProp = RouteProp<ChildStackParamList, "childPost">;
+type KidFeedNavigationProp = RouteProp<ChildStackParamList, "childFeed">;
 
-const HeaderTitle = () => {
+const FeedHeaderTitle = () => {
   const route = useRoute<KidFeedNavigationProp>();
-  const post = route.params;
+  const category = route.params;
   return (
     <Image
-      source={Icons[`${post.category}Active`]}
+      source={Icons[`${category.icon}Active`]}
       style={{ width: 40, height: 40 }}
       resizeMode="cover"
     />
@@ -32,15 +33,15 @@ const ParentNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="childList"
-        component={KidFeed}
+        name="childCategoryList"
+        component={ChildCategoryList}
         options={{ header: () => null }}
       />
       <Stack.Screen
-        name="childPost"
-        component={ParentPost}
+        name="childFeed"
+        component={Feed}
         options={{
-          headerTitle: (props) => <HeaderTitle />,
+          headerTitle: () => <FeedHeaderTitle />,
           headerTintColor: colors.orange,
           headerBackImage: () => (
             <Image
@@ -64,9 +65,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   back: {
-    width: 24, height: 24 ,
-    marginLeft:10 ,
-  }
+    width: 24,
+    height: 24,
+    marginLeft: 10,
+  },
 });
 
 export default ParentNavigator;
