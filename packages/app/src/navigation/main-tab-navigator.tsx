@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image, Text } from "react-native";
 import pages from "../pages";
-import icons from "../icons";
+import icons from "../components/icon";
 import colors from "../colors";
 import { FormattedText } from "../components/formatted-text";
 import ParentNavigator from "./parent-stack-navigator";

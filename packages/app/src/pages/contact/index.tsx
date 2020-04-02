@@ -13,7 +13,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
-import icons from "../../icons";
+import icons from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
 
 const GET_INFO = gql`

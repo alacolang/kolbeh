@@ -6,7 +6,7 @@ import ParentPost from "../pages/parent-post";
 import ParentFeed from "../pages/parent-feed";
 import { IPost } from "../types";
 import colors from "../colors";
-import Icons from "../icons";
+import Icons from "../components/icon";
 
 export type ParentStackParamList = {
   parentList: undefined;
