@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node scripts/run.js",
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel-node src/index.js",
     "fmt": "prettier --write 'src/**/*.js'"
