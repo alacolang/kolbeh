@@ -8,6 +8,8 @@ const schema = gql`
     info: Info
     parentCategories: [Category!]!
     childCategories: [Category!]!
+    parentFeed: ParentFeedConnection! @deprecated(reason: "use parentCategories")
+    childFeed: ParentFeedConnection!  @deprecated(reason: "use childCategories")
   }
 
   type Category {
@@ -23,6 +25,11 @@ const schema = gql`
 
   type PostEdge {
     node: Post
+  }
+
+  type ParentFeedConnection {
+    edges: [PostEdge!]!
+    pageInfo: PageInfo!
   }
 
   type FeedConnection {
