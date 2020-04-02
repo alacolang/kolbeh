@@ -9,24 +9,25 @@ import {
   Image,
 } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { FormattedText } from "../../components/formatted-text";
+import { FormattedText } from "../formatted-text";
 import colors from "../../colors";
 import config from "../../config";
+import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
-const TheImage = ({ image }: { image: { url: string } }) => {
-  const [size, setSize] = React.useState<{ width?: number; height: number }>({
+type IProps = {
+  images: Types.IImage[];
+};
+type ISize = { width?: number; height: number };
+
+const TheImage = ({ images }: IProps) => {
+  const [size, setSize] = React.useState<ISize>({
     width: frameWidth,
     height: 200,
   });
   const [modalVisible, setModalVisible] = React.useState(false);
-  const uri = config.HOST + image.url;
-
-  console.log({
-    uri: uri,
-    size,
-  });
+  const uri = config.HOST + images[0].url;
 
   React.useEffect(() => {
     Image.getSize(
@@ -59,16 +60,7 @@ const TheImage = ({ image }: { image: { url: string } }) => {
             <Image {...props} style={[props.style, { borderRadius: 10 }]} />
           )}
           renderIndicator={(currentIndex, allSize) => (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                position: "absolute",
-                top: 10,
-                left: 0,
-                right: 0,
-              }}
-            >
+            <View style={styles.count}>
               <FormattedText
                 style={{
                   color: colors.primary,
@@ -80,7 +72,10 @@ const TheImage = ({ image }: { image: { url: string } }) => {
               </FormattedText>
             </View>
           )}
-          imageUrls={[{ url: uri }, { url: uri }]}
+          imageUrls={images.map((image) => ({
+            ...image,
+            url: config.HOST + image.url,
+          }))}
         />
       </Modal>
       <TouchableOpacity
@@ -109,6 +104,14 @@ const styles = StyleSheet.create({
     width: frameWidth,
     borderWidth: 5,
     borderColor: "white",
+  },
+  count: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 10,
+    left: 0,
+    right: 0,
   },
 });
 

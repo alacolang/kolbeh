@@ -10,11 +10,15 @@ import {
 import Video from "react-native-video";
 import colors from "../../colors";
 import config from "../../config";
+import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
-const TheVideo = ({ video }: { video: { url: string; cover: string } }) => {
+type Props = { videos: Types.IVideo[] };
+
+const TheVideo = ({ videos }: Props) => {
   const [modalVisible, setModalVisible] = React.useState(false);
+  const video = videos[0];
   const uri = config.HOST + video.url;
 
   console.log({
