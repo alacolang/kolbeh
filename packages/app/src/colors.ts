@@ -1,7 +1,22 @@
+const ORANGE = "#ffbf7d";
+const GREEN = "#3AA27A";
+const MINT = "#CBEDDD";
+
 const colors = {
-  primary: "#727272",
-  secondary: "#d86b67",
+  primary: GREEN,
+  primaryVarient: MINT,
+  secondary: "#a2a2a2",
   background: "#f6ede4",
-  orange: "#ffbf7d",
+  active: ORANGE,
+  activeVarient: "#FABAA1",
+  orange: ORANGE,
+  green: GREEN,
+  category1: MINT,
+  category2: "#7DAC9B",
+  category3: "#F9D291",
+  category4: "#F8E0C7",
+  category5: "#FABAA1",
+  childCategory1: "#ECE207",
+  childCategory2: "#FF9367",
 };
 export default colors;
