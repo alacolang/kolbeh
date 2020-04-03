@@ -19,7 +19,7 @@ const dataResolver = (data) => {
           if (/mp4/.test(items[0])) {
             videos = items.map((item, j) => ({
               id: categoryData.name + i + j,
-              url: `/static/vidoes/${item}`,
+              url: `/static/videos/${item}`,
               cover: `/static/images/${item.replace(".mp4", "-cover.png")}`,
             }));
           } else {
