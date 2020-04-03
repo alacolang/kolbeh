@@ -102,8 +102,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: frameWidth,
-    borderWidth: 5,
-    borderColor: "white",
   },
   count: {
     justifyContent: "center",

@@ -10,6 +10,7 @@ import {
 import Video from "react-native-video";
 import colors from "../../colors";
 import config from "../../config";
+import { Icon } from "../icon";
 import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
@@ -20,11 +21,6 @@ const TheVideo = ({ videos }: Props) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const video = videos[0];
   const uri = config.HOST + video.url;
-
-  console.log({
-    cover: config.HOST + video.cover,
-    uri: uri,
-  });
 
   return (
     <View style={styles.videoContainer}>
@@ -44,15 +40,15 @@ const TheVideo = ({ videos }: Props) => {
             style={styles.backgroundVideo}
             // paused={pause}
             onLoad={(d) => {
-              console.log("loaded", video, d);
+              // console.log("loaded", video, d);
             }}
             onError={(e) => {
-              console.log("error", e, video);
+              // console.log("error", e, video);
             }}
             resizeMode="contain"
             // minLoadRetryCount={4}
             controls={true}
-            // poster={video.cover ? config.HOST + video.cover : undefined}
+            poster={video.cover ? config.HOST + video.cover : undefined}
             // posterResizeMode="cover"
             hideShutterView={true}
           />
@@ -68,6 +64,9 @@ const TheVideo = ({ videos }: Props) => {
           source={{ uri: config.HOST + video.cover }}
           style={styles.backgroundVideo}
         />
+        <View style={styles.iconContainer}>
+          <Icon name="play" size="small" />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -91,6 +90,18 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  iconContainer: {
+    backgroundColor: "transparent",
+    borderRadius: 100,
+    // borderWidth: 1,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    left: 0,
+    top: 0,
   },
 });
 

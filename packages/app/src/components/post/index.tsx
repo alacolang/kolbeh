@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import TheVideo from "./video";
 import TheImage from "./image";
 import * as Types from "../../types";
 import colors from "../../colors";
+import Dot from "../post-dot";
 
 type Props = {
   post: Types.IPostEdge;
@@ -20,8 +21,7 @@ const Post = ({ post }: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.outerCircle}></View>
-      <View style={styles.circle}></View>
+      <Dot />
       {content}
       <View style={styles.footer}></View>
     </View>
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 15,
     borderRadius: 10,
-    borderWidth: 10,
-    borderColor: "white",
+    padding: 13,
+    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -45,24 +45,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 0,
-    backgroundColor: colors.orange,
-  },
-  outerCircle: {
-    position: "absolute",
-    left: -10,
-    top: -10,
-    borderRadius: 30 / 2,
-    width: 25 / 2,
-    height: 25 / 2,
-    backgroundColor: colors.background,
-  },
-  circle: {
-    position: "absolute",
-    left: -10,
-    top: -10,
-    borderRadius: 20 / 2,
-    width: 20 / 2,
-    height: 20 / 2,
     backgroundColor: colors.orange,
   },
 });
