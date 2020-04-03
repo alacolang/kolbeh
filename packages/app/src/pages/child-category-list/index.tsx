@@ -1,9 +1,7 @@
 import React from "react";
 import {
-  RefreshControl,
   StatusBar,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";

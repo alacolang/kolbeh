@@ -21,11 +21,6 @@ const TheVideo = ({ videos }: Props) => {
   const video = videos[0];
   const uri = config.HOST + video.url;
 
-  console.log({
-    cover: config.HOST + video.cover,
-    uri: uri,
-  });
-
   return (
     <View style={styles.videoContainer}>
       <Modal
@@ -44,10 +39,10 @@ const TheVideo = ({ videos }: Props) => {
             style={styles.backgroundVideo}
             // paused={pause}
             onLoad={(d) => {
-              console.log("loaded", video, d);
+              // console.log("loaded", video, d);
             }}
             onError={(e) => {
-              console.log("error", e, video);
+              // console.log("error", e, video);
             }}
             resizeMode="contain"
             // minLoadRetryCount={4}
