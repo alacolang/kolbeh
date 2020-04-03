@@ -16,7 +16,7 @@ const getVersion = () => {
       };
     })
     .catch((e: any) => {
-      console.log("codepush error:", e);
+      // console.log("codepush error:", e);
       return {
         label: "na",
         version: "na",

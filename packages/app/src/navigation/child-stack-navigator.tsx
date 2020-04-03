@@ -10,7 +10,13 @@ import Icons from "../components/icon";
 
 export type ChildStackParamList = {
   childCategoryList: undefined;
-  childFeed: ICategory;
+  childFeed: {
+    category: ICategory;
+    meta: {
+      backgroundColor: string;
+      color: string;
+    };
+  };
 };
 
 const Stack = createStackNavigator<ChildStackParamList>();
@@ -19,7 +25,7 @@ type KidFeedNavigationProp = RouteProp<ChildStackParamList, "childFeed">;
 
 const FeedHeaderTitle = () => {
   const route = useRoute<KidFeedNavigationProp>();
-  const category = route.params;
+  const { category } = route.params;
   return (
     <Image
       source={Icons[`${category.icon}Active`]}
@@ -29,7 +35,11 @@ const FeedHeaderTitle = () => {
   );
 };
 
-const ParentNavigator = () => {
+const ChildNavigator = ({ navigation, route }) => {
+  navigation.setOptions({
+    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
+  });
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -40,9 +50,11 @@ const ParentNavigator = () => {
       <Stack.Screen
         name="childFeed"
         component={Feed}
-        options={{
+        options={({ route }) => ({
+          // headerTransparent:true,
+          headerStyle: { backgroundColor: route.params.meta.backgroundColor },
           headerTitle: () => <FeedHeaderTitle />,
-          headerTintColor: colors.orange,
+          // headerTintColor: colors.orange,
           headerBackImage: () => (
             <Image
               source={Icons.back}
@@ -50,7 +62,7 @@ const ParentNavigator = () => {
               style={styles.back}
             />
           ),
-        }}
+        })}
       />
     </Stack.Navigator>
   );
@@ -71,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParentNavigator;
+export default ChildNavigator;

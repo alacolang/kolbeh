@@ -54,6 +54,18 @@ type ParentCategoriesData = {
   parentCategories: Types.ICategories;
 };
 
+
+const getCategoryColor = (index: number) => {
+  const rowColors = [
+    { backgroundColor: colors.category1, color: colors.primary },
+    { backgroundColor: colors.category2, color: colors.primaryVarient },
+    { backgroundColor: colors.category3, color: colors.primary },
+    { backgroundColor: colors.category4, color: colors.primary },
+    { backgroundColor: colors.category5, color: colors.primary },
+  ];
+  return rowColors[index % rowColors.length];
+};
+
 const ParentScreen = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
   const [refreshing, setRefreshing] = React.useState(false);
@@ -85,13 +97,19 @@ const ParentScreen = () => {
       }
     >
       <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
-      {categories.map((category, index) => (
-        <CategoryTile
-          key={category.id}
-          category={category}
-          onPress={() => navigation.navigate("parentFeed", category)}
-        />
-      ))}
+      {categories.map((category, index) => {
+        const color = getCategoryColor(index);
+        return (
+          <CategoryTile
+            meta={color}
+            key={category.id}
+            category={category}
+            onPress={() =>
+              navigation.navigate("parentFeed", { category, meta: color })
+            }
+          />
+        );
+      })}
     </ScrollView>
   );
 };
@@ -103,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1,
     backgroundColor: colors.background,
-    paddingTop: 30,
+    paddingTop: 50,
   },
 });
 
