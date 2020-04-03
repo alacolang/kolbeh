@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Image, Text } from "react-native";
-import pages from "../pages";
+import { StyleSheet, Image } from "react-native";
 import icons from "../components/icon";
 import colors from "../colors";
 import { FormattedText } from "../components/formatted-text";
@@ -46,10 +45,10 @@ const TabNavigator = () => {
           paddingBottom: 15,
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: colors.primaryVarient,
         },
-        activeTintColor: colors.orange,
-        // active
-        inactiveTintColor: "gray",
+        activeTintColor: colors.activeVarient,
+        inactiveTintColor: colors.primary,
       }}
     >
       <Tab.Screen name="parent" component={ParentNavigator} />
@@ -62,7 +61,6 @@ const TabNavigator = () => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 12,
-    color: colors.primary,
   },
 });
 

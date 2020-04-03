@@ -10,7 +10,7 @@ type ParentNavigationProp = RouteProp<ParentStackParamList, "parentFeed">;
 
 const Feed = () => {
   const route = useRoute<ParentNavigationProp>();
-  const category = route.params;
+  const { category, meta } = route.params;
   const feed = category.feed;
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
@@ -19,7 +19,11 @@ const Feed = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={"white"} barStyle="dark-content" />
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
       <FlatList
         contentContainerStyle={styles.outerContainer}
         data={feed.edges}
@@ -36,6 +40,7 @@ const Feed = () => {
 
 const styles = StyleSheet.create({
   outerContainer: {
+    paddingTop: 30,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",

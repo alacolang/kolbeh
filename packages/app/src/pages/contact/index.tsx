@@ -2,19 +2,23 @@ import React from "react";
 import {
   Image,
   Linking,
+  ImageBackground,
   Dimensions,
+  StyleSheet,
   StatusBar,
   TouchableOpacity,
   Text,
   View,
-  StyleSheet,
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
 import icons from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
+import frameImg from "../../assets/images/frame.png";
+import cloudImg from "../../assets/images/cloud.png";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -41,29 +45,35 @@ const Contact = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
+    <LinearGradient
+      colors={["#d0d0d0", colors.green, colors.green]}
+      style={styles.container}
+    >
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
 
-      <View style={styles.information}>
-        <View style={styles.outerCircle}></View>
-        <View style={styles.circle}></View>
+      <ImageBackground
+        source={frameImg}
+        style={[styles.frame]}
+        resizeMode="stretch"
+      >
         <View style={styles.row}>
-          <FormattedText
-            style={styles.content}
-            id="contact.title"
-          ></FormattedText>
+          <FormattedText style={styles.text} id="contact.title"></FormattedText>
         </View>
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
-            <FormattedText style={styles.content} id="contact.tel" />
-            <FormattedText style={styles.content} id="contact.telnumber" />
+            <FormattedText style={styles.text} id="contact.tel" />
+            <FormattedText style={styles.text} id="contact.telnumber" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.row}
           onPress={() => Linking.openURL("http://iacap.ir/")}
         >
-          <Text style={styles.content}>iacap.ir</Text>
+          <Text style={styles.text}>iacap.ir</Text>
         </TouchableOpacity>
         <View style={styles.socialContainer}>
           <TouchableOpacity
@@ -100,21 +110,16 @@ const Contact = () => {
             </View>
           </TouchableOpacity>
         </View>
-        {/* <View style={styles.logo}>
-          <Image
-            source={icons.contact}
-            resizeMode="contain"
-            style={{ width: 60, height: 60 }}
-          />
-        </View> */}
-      </View>
+      </ImageBackground>
+      <Image source={cloudImg} style={styles.cloud1} resizeMode="stretch" />
+      <Image source={cloudImg} style={styles.cloud2} resizeMode="stretch" />
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
           push version: {`${codepushVersion.label}--${codepushVersion.version}`}
         </Text>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -128,57 +133,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     backgroundColor: colors.background,
+    paddingTop: 30,
   },
-  information: {
-    backgroundColor: "white",
-    borderRadius: 10,
+  frame: {
+    backgroundColor: "transparent",
     width: width - 30 * 2,
-    // height: width - 30 * 2,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 30,
-    paddingVertical: 45,
+    paddingTop: 50,
   },
-  content: {
+  text: {
     fontSize: 18,
-    color: colors.primary,
-  },
-  logo: {
-    alignSelf: "flex-end",
-    // borderWidth: 1,
-    marginBottom: 30,
-  },
-  outerCircle: {
-    position: "absolute",
-    left: -2,
-    top: -2,
-    borderRadius: 20,
-    width: 20,
-    height: 20,
-    backgroundColor: colors.background,
-  },
-  circle: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    borderRadius: 16,
-    width: 16,
-    height: 16,
-    backgroundColor: colors.orange,
-  },
-  more: {
-    borderRadius: 30,
-    backgroundColor: colors.orange,
-    height: 30,
-    width: 200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  moreContent: {
-    color: "white",
+    color: colors.primaryVarient,
+    lineHeight: 2 * 18,
+    textAlign: "center",
   },
   socialContainer: {
-    marginTop: 10,
+    marginVertical: 20,
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-between",
@@ -208,8 +180,22 @@ const styles = StyleSheet.create({
     right: 10,
   },
   version: {
-    color: "#c0c0c0",
+    color: colors.primaryVarient,
     fontSize: 12,
+  },
+  cloud1: {
+    position: "absolute",
+    left: 30,
+    top: width / 2.5 / 2,
+    width: 120,
+    height: 40,
+  },
+  cloud2: {
+    position: "absolute",
+    right: 30,
+    top: width / 2.5 / 2 + 30,
+    width: 90,
+    height: 30,
   },
 });
 
