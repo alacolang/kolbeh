@@ -1,11 +1,13 @@
 module.exports = {
   apps : [{
     name: 'API',
-    script: 'packages/server/scripts/run.js',
-    // args: 'one two',
+    script: 'scripts/run.js',
+    // args: 'one',
+    cwd: './packages/server',
     instances: 1,
     autorestart: true,
     watch: false,
+    interpreter: 'babel-node',
     // max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development'
