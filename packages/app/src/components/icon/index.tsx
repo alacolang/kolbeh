@@ -20,7 +20,7 @@ export const Icon = ({ size, name, ...props }: Props) => {
   } else {
     _size = size;
   }
-  console.log({_size, size})
+  console.log({ _size, size });
   return (
     <Image
       style={{ width: _size, height: _size }}

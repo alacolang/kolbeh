@@ -24,6 +24,8 @@ import TeenActiveIcon from "./images/teen-active.png";
 import InstagramIcon from "./images/instagram.png";
 import TwitterIcon from "./images/twitter.png";
 import TelegramIcon from "./images/telegram.png";
+import InfoIcon from "./images/information.png";
+import PlayIcon from "./images/play.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
@@ -53,6 +55,8 @@ const icons: Icons = {
   instagram: InstagramIcon,
   twitter: TwitterIcon,
   telegram: TelegramIcon,
+  info: InfoIcon,
+  play: PlayIcon,
 };
 
 export default icons;
