@@ -52,7 +52,7 @@ const Card = styled(ImageBackground)`
   justify-content: center;
   align-items: center;
   height: ${width / 2.5}px;
-  width: ${width / 2.5}px;
+  width: ${width / 2.2}px;
   margin-bottom: 15px;
 `;
 
