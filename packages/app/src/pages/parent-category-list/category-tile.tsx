@@ -12,8 +12,8 @@ type Props = {
   category: ICategory;
   onPress: () => void;
   meta: {
-    backgroundColor: String;
-    color: String;
+    backgroundColor: string;
+    color: string;
   };
 };
 
