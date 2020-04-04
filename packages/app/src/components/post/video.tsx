@@ -63,6 +63,7 @@ const TheVideo = ({ videos }: Props) => {
         <Image
           source={{ uri: config.HOST + video.cover }}
           style={styles.backgroundVideo}
+          resizeMode="cover"
         />
         <View style={styles.iconContainer}>
           <Icon name="play" size="small" />
