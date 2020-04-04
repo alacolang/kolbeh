@@ -24,7 +24,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:yassermzh/yara.git',
       path : '/home/www/yara-pm2',
-      'post-deploy' : 'yarn && yarn optimize-images && pm2 reload ecosystem.config.js --env production'
+      'post-deploy' : 'yarn && yarn workspace server optimize-images && pm2 reload ecosystem.config.js --env production'
     }
   }
 };
