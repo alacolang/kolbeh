@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Dimensions,
-  Image,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { Dimensions, Image, StatusBar, StyleSheet } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -17,6 +12,8 @@ import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
 import cloudImg from "../../assets/images/cloud.png";
 import treeImg from "../../assets/images/tree.png";
+import cloudBlueImg from "../../assets/images/cloud-blue.png";
+import cloudYellowImg from "../../assets/images/cloud-yellow.png";
 
 const GET_CHILD = gql`
   query GetChild {
@@ -54,12 +51,20 @@ type ChildCategoriesData = {
   childCategories: Types.ICategories;
 };
 
-const getCategoryColor = (index: number) => {
-  const rowColors = [
-    { backgroundColor: colors.childCategory1, color: colors.primary },
-    { backgroundColor: colors.childCategory2, color: colors.primary },
+const getCategoryMeta = (index: number) => {
+  const rowsMeta = [
+    {
+      image: cloudYellowImg,
+      backgroundColor: colors.childCategory1,
+      color: colors.primary,
+    },
+    {
+      image: cloudBlueImg,
+      backgroundColor: colors.childCategory2,
+      color: 'white',
+    },
   ];
-  return rowColors[index % rowColors.length];
+  return rowsMeta[index % rowsMeta.length];
 };
 
 const ChildScreen = () => {
@@ -98,16 +103,16 @@ const ChildScreen = () => {
         backgroundColor="transparent"
       />
       {categories.map((category, index) => {
-        const color = getCategoryColor(index);
+        const meta = getCategoryMeta(index);
         return (
           <CategoryTile
-            meta={{ index, ...color }}
+            meta={{ index, ...meta }}
             key={category.id}
             category={category}
             onPress={() =>
               navigation.navigate("childFeed", {
                 category,
-                meta: color,
+                meta,
               })
             }
           />
