@@ -20,7 +20,7 @@ const dataResolver = (data) => {
             videos = items.map((item, j) => ({
               id: categoryData.name + i + j,
               url: `/static/videos/${item}`,
-              cover: `/static/images/${item.replace(".mp4", "-cover.png")}`,
+              cover: `/static/images/${item.replace(".mp4", "-cover.webp")}`,
             }));
           } else {
             images = items.map((item, j) => ({
