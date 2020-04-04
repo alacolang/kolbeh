@@ -3,19 +3,19 @@ export const childData = [
     name: "kid",
     title: "کودک آرام",
     feed: [
-      Array.from({ length: 7 }).map((_, i) => `stress-kid-${i + 1}.png`),
-      Array.from({ length: 9 }).map((_, i) => `kid-awareness-${i + 1}.png`),
+      Array.from({ length: 7 }).map((_, i) => `stress-kid-${i + 1}.webp`),
+      Array.from({ length: 9 }).map((_, i) => `kid-awareness-${i + 1}.webp`),
       "deep-breathing.mp4",
-      "baloon-breathing.png",
+      "baloon-breathing.webp",
     ],
   },
   {
     name: "teen",
     title: "نوجوان آرام",
     feed: [
-      ...Array.from({ length: 5 }).map((_, i) => `emotion-teen-${i + 1}.png`),
-      "relaxing-box.png",
-      Array.from({ length: 7 }).map((_, i) => `teen-sleep-${i + 1}.png`),
+      ...Array.from({ length: 5 }).map((_, i) => `emotion-teen-${i + 1}.webp`),
+      "relaxing-box.webp",
+      Array.from({ length: 7 }).map((_, i) => `teen-sleep-${i + 1}.webp`),
     ],
   },
 ];
@@ -29,8 +29,8 @@ export const parentData = [
       "stress1.mp4",
       "stress2.mp4",
       "stress3.mp4",
-      "anxiety.png",
-      Array.from({ length: 6 }).map((_, i) => `stress-t-${i + 1}.png`),
+      "anxiety.webp",
+      Array.from({ length: 6 }).map((_, i) => `stress-t-${i + 1}.webp`),
     ],
   },
   {
@@ -38,7 +38,7 @@ export const parentData = [
     title: "همدلی با کودکان",
     feed: [
       "empathy.mp4",
-      Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.png`),
+      Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
     ],
   },
   {
@@ -46,46 +46,46 @@ export const parentData = [
     title: "کودکان سوگوار",
     feed: [
       "grief.mp4",
-      "grief.jpeg",
-      Array.from({ length: 14 }).map((_, i) => `grief-a-${i + 1}.png`),
-      Array.from({ length: 14 }).map((_, i) => `grief-t-${i + 1}.png`),
+      "grief.webp",
+      Array.from({ length: 14 }).map((_, i) => `grief-a-${i + 1}.webp`),
+      Array.from({ length: 14 }).map((_, i) => `grief-t-${i + 1}.webp`),
     ],
   },
   {
     name: "depression",
     title: "افسردگی کودکان",
-    feed: ["depression.mp4", "depression.jpeg"],
+    feed: ["depression.mp4", "depression.webp"],
   },
   {
     name: "obsession",
     title: "وسواس کودکان",
-    feed: ["obsession.mp4", "obsession.jpeg"],
+    feed: ["obsession.mp4", "obsession.webp"],
   },
   {
     name: "adhd",
     title: "بیش‌فعالی و نقص توجه",
-    feed: ["adhd.mp4", "adhd.jpeg"],
+    feed: ["adhd.mp4", "adhd.webp"],
   },
   {
     name: "autism",
     title: "اختلال طیف اوتیسم",
-    feed: [Array.from({ length: 4 }).map((_, i) => `autism${i + 1}.png`)],
+    feed: [Array.from({ length: 4 }).map((_, i) => `autism${i + 1}.webp`)],
   },
   {
     name: "bipolar",
     title: "اختلال دوقطبی",
     feed: [
       "bipolar.mp4",
-      "bipolar.jpeg",
-      Array.from({ length: 8 }).map((_, i) => `bipolar-${i + 1}.png`),
+      "bipolar.webp",
+      Array.from({ length: 8 }).map((_, i) => `bipolar-${i + 1}.webp`),
     ],
   },
   {
     name: "education",
     title: "فعالیت‌های تحصیلی",
     feed: [
-      Array.from({ length: 6 }).map((_, i) => `education${i + 1}.png`),
-      Array.from({ length: 6 }).map((_, i) => `education${i + 7}.png`),
+      Array.from({ length: 6 }).map((_, i) => `education${i + 1}.webp`),
+      Array.from({ length: 6 }).map((_, i) => `education${i + 7}.webp`),
     ],
   },
   {
