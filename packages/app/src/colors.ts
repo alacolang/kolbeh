@@ -16,7 +16,7 @@ const colors = {
   category3: "#F9D291",
   category4: "#F8E0C7",
   category5: "#FABAA1",
-  childCategory1: "#ECE207",
-  childCategory2: "#FF9367",
+  childCategory1: "#FFF474",
+  childCategory2: "#6290C1",
 };
 export default colors;
