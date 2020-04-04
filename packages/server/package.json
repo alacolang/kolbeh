@@ -7,7 +7,8 @@
     "start": "node scripts/run.js",
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel-node src/index.js",
-    "fmt": "prettier --write 'src/**/*.js'"
+    "fmt": "prettier --write 'src/**/*.js'",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@babel/register": "^7.9.0",
