@@ -37,13 +37,6 @@ const Home = () => {
         style={[styles.frame]}
         resizeMode="stretch"
       >
-        <TouchableOpacity
-          style={styles.more}
-          onPress={() => navigation.navigate("contact")}
-        >
-          <Icon name="info" size="medium" />
-        </TouchableOpacity>
-        <FormattedText style={styles.text} id="home.information" />
         <View style={styles.logo}>
           <Image
             source={icons.logo}
@@ -51,7 +44,14 @@ const Home = () => {
             style={{ width: 35, height: 35 }}
           />
         </View>
-        {/* </View> */}
+        <FormattedText style={styles.text} id="home.information" />
+        <TouchableOpacity
+          style={styles.more}
+          onPress={() => navigation.navigate("contact")}
+        >
+          <Icon name="info" size="medium" />
+          <FormattedText style={styles.moreText} id="contactus" />
+        </TouchableOpacity>
       </ImageBackground>
       <Image source={cloudImg} style={styles.cloud1} resizeMode="stretch" />
       <Image source={cloudImg} style={styles.cloud2} resizeMode="stretch" />
@@ -85,12 +85,20 @@ const styles = StyleSheet.create({
     lineHeight: 2 * 18,
     textAlign: "center",
   },
-  logo: {
+  more: {
     alignSelf: "flex-end",
     marginTop: 15,
     marginBottom: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  more: {
+  moreText: {
+    fontSize: 12,
+    position: "relative",
+    top: -5,
+    color: colors.secondary,
+  },
+  logo: {
     position: "relative",
     alignSelf: "flex-start",
     borderRadius: 44,
@@ -99,6 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
   cloud1: {
     position: "absolute",
     left: 30,
