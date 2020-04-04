@@ -1,7 +1,7 @@
 export const childData = [
   {
     name: "kid",
-    title: "کودک آرام",
+    title: "کودک",
     feed: [
       Array.from({ length: 7 }).map((_, i) => `stress-kid-${i + 1}.webp`),
       Array.from({ length: 9 }).map((_, i) => `kid-awareness-${i + 1}.webp`),
@@ -11,7 +11,7 @@ export const childData = [
   },
   {
     name: "teen",
-    title: "نوجوان آرام",
+    title: "نوجوان",
     feed: [
       ...Array.from({ length: 5 }).map((_, i) => `emotion-teen-${i + 1}.webp`),
       "relaxing-box.webp",
@@ -26,11 +26,13 @@ export const parentData = [
     title: "مدیریت استرس",
     feed: [
       "stress.mp4",
+      "crisis.mp4",
       "stress1.mp4",
       "stress2.mp4",
       "stress3.mp4",
       "anxiety.webp",
       Array.from({ length: 6 }).map((_, i) => `stress-t-${i + 1}.webp`),
+      "thinking.mp4",
     ],
   },
   {
@@ -39,6 +41,7 @@ export const parentData = [
     feed: [
       "empathy.mp4",
       Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
+      Array.from({ length: 3 }).map((_, i) => `creative-${i + 1}.webp`),
     ],
   },
   {
@@ -90,7 +93,7 @@ export const parentData = [
   },
   {
     name: "parenting",
-    title: "خطاهای فرزندپروری",
+    title: "فرزندپروری",
     feed: [
       "parenting1.mp4",
       "parenting2.mp4",
