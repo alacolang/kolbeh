@@ -18,7 +18,7 @@ import colors from "../../colors";
 import icons from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
 import frameImg from "../../assets/images/frame.png";
-import cloudImg from "../../assets/images/cloud.png";
+import Cloads from "../../components/clouds";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -111,8 +111,7 @@ const Contact = () => {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <Image source={cloudImg} style={styles.cloud1} resizeMode="stretch" />
-      <Image source={cloudImg} style={styles.cloud2} resizeMode="stretch" />
+      <Cloads />
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
@@ -182,20 +181,6 @@ const styles = StyleSheet.create({
   version: {
     color: colors.primaryVarient,
     fontSize: 12,
-  },
-  cloud1: {
-    position: "absolute",
-    left: 30,
-    top: width / 2.5 / 2,
-    width: 120,
-    height: 40,
-  },
-  cloud2: {
-    position: "absolute",
-    right: 30,
-    top: width / 2.5 / 2 + 30,
-    width: 90,
-    height: 30,
   },
 });
 

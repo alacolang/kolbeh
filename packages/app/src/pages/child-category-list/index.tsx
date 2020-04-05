@@ -136,20 +136,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  cloud1: {
-    position: "absolute",
-    left: 30,
-    top: width / 2.5 / 2,
-    width: 120,
-    height: 40,
-  },
-  cloud2: {
-    position: "absolute",
-    right: 30,
-    top: width / 2.5 / 2 + 30,
-    width: 90,
-    height: 30,
-  },
   tree: {
     position: "absolute",
     right: (width / 2 - 90) / 2,
