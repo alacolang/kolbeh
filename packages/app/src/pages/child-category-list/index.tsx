@@ -1,5 +1,11 @@
 import React from "react";
-import { Dimensions, Image, StatusBar, StyleSheet } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Image,
+  StatusBar,
+  StyleSheet,
+} from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -10,10 +16,10 @@ import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
-import cloudImg from "../../assets/images/cloud.png";
 import treeImg from "../../assets/images/tree.png";
 import cloudBlueImg from "../../assets/images/cloud-blue.png";
 import cloudYellowImg from "../../assets/images/cloud-yellow.png";
+import Clouds from "../../components/clouds";
 
 const GET_CHILD = gql`
   query GetChild {
@@ -61,7 +67,7 @@ const getCategoryMeta = (index: number) => {
     {
       image: cloudBlueImg,
       backgroundColor: colors.childCategory2,
-      color: 'white',
+      color: "white",
     },
   ];
   return rowsMeta[index % rowsMeta.length];
@@ -73,11 +79,6 @@ const ChildScreen = () => {
   const { data, loading, refetch, error } = useQuery<ChildCategoriesData>(
     GET_CHILD
   );
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    refetch().then(() => setRefreshing(false));
-  }, [refreshing]);
 
   if (error) {
     errorReport(error, { origin: "parent> get feed" });
@@ -118,9 +119,7 @@ const ChildScreen = () => {
           />
         );
       })}
-      <Image source={cloudImg} style={styles.cloud1} resizeMode="stretch" />
-      <Image source={cloudImg} style={styles.cloud2} resizeMode="stretch" />
-      <Image source={treeImg} style={styles.tree} resizeMode="stretch" />
+      <Clouds />
     </LinearGradient>
   );
 };

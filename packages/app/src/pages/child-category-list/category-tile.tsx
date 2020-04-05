@@ -1,9 +1,11 @@
 import React from "react";
 import {
   View,
+  StyleSheet,
   ImageBackground,
   Dimensions,
   TouchableOpacity,
+  Animated,
 } from "react-native";
 import { ICategory } from "../../types";
 import { Icon } from "../../components/icon";
@@ -23,14 +25,42 @@ type Props = {
 };
 
 const CategoryTile = ({ category, onPress, meta }: Props) => {
-  console.log(meta.color)
+  const x = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    const animate = Animated.loop(
+      Animated.timing(x, {
+        toValue: 1,
+        duration: 6000,
+      })
+    );
+    animate.start();
+  }, []);
+
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={1}>
       <Card source={meta.image} index={meta.index} resizeMode="contain">
         <Title color={meta.color}>{category.title}</Title>
-        <IconContainer index={meta.index}>
+        <Animated.View
+          style={[
+            styles.iconContainer,
+            {
+              left: meta.index == 0 ? width / 2.5 / 2 : 48 / 2,
+              transform: [
+                {
+                  [meta.index === 0
+                    ? "translateY"
+                    : "translateX"]: x.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [0, -5, 0],
+                  }),
+                },
+              ],
+            },
+          ]}
+        >
           <Icon name={category.icon} size="medium" />
-        </IconContainer>
+        </Animated.View>
       </Card>
     </TouchableOpacity>
   );
@@ -56,10 +86,11 @@ const Card = styled(ImageBackground)`
   margin-bottom: 15px;
 `;
 
-const IconContainer = styled(View)`
-  left: ${(props) => (props.index == 0 ? width / 2.5 / 2 : 48 / 2)}px;
-  position: absolute;
-  top: 20px;
-`;
+const styles = StyleSheet.create({
+  iconContainer: {
+    position: "absolute",
+    top: 20,
+  },
+});
 
 export default CategoryTile;
