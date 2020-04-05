@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Image,
+  Animated,
   Dimensions,
   ImageBackground,
   StatusBar,
@@ -15,12 +16,25 @@ import { HomeStackParamList } from "../../navigation/home-stack-navigator";
 import colors from "../../colors";
 import icons, { Icon } from "../../components/icon";
 import frameImg from "../../assets/images/frame.png";
-import cloudImg from "../../assets/images/cloud.png";
+import Clouds from "../../components/clouds";
 
 type HomeNavigationProp = NavigationProp<HomeStackParamList, "home">;
 
 const Home = () => {
   const navigation = useNavigation<HomeNavigationProp>();
+  const x = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    const animate = Animated.loop(
+      Animated.timing(x, {
+        toValue: 1,
+        duration: 3000,
+      })
+    );
+
+    animate.start();
+  }, []);
+
   return (
     <LinearGradient
       colors={["#d0d0d0", "#474C5B", "#474C5B"]}
@@ -49,12 +63,24 @@ const Home = () => {
           style={styles.more}
           onPress={() => navigation.navigate("contact")}
         >
-          <Icon name="info" size="medium" />
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  rotateZ: x.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [-0.1, 0.1, -0.1],
+                  }),
+                },
+              ],
+            }}
+          >
+            <Icon name="info" size="medium" />
+          </Animated.View>
           <FormattedText style={styles.moreText} id="contactus" />
         </TouchableOpacity>
       </ImageBackground>
-      <Image source={cloudImg} style={styles.cloud1} resizeMode="stretch" />
-      <Image source={cloudImg} style={styles.cloud2} resizeMode="stretch" />
+      <Clouds />
     </LinearGradient>
   );
 };
@@ -106,21 +132,6 @@ const styles = StyleSheet.create({
     width: 44,
     justifyContent: "center",
     alignItems: "center",
-  },
-
-  cloud1: {
-    position: "absolute",
-    left: 30,
-    top: width / 2.5 / 2,
-    width: 120,
-    height: 40,
-  },
-  cloud2: {
-    position: "absolute",
-    right: 30,
-    top: width / 2.5 / 2 + 30,
-    width: 90,
-    height: 30,
   },
 });
 
