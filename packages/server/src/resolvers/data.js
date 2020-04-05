@@ -41,7 +41,7 @@ export const parentData = [
     feed: [
       "empathy.mp4",
       Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
-      Array.from({ length: 3 }).map((_, i) => `creative-${i + 1}.webp`),
+      ...Array.from({ length: 3 }).map((_, i) => `creative-${i + 1}.mp4`),
     ],
   },
   {
