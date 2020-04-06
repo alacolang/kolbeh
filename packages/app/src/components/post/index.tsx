@@ -5,18 +5,31 @@ import TheImage from "./image";
 import * as Types from "../../types";
 import colors from "../../colors";
 import Dot from "../post-dot";
+import Markdown from "./markdown";
 
 type Props = {
   post: Types.IPostEdge;
+  // navigate: Function;
 };
 
-const Post = ({ post }: Props) => {
+const Post = ({
+  post,
+}: // navigate
+Props) => {
   let content;
   const node = post.node;
   if (node.images && node.images.length > 0) {
     content = <TheImage images={node.images} />;
-  } else {
+  } else if (node.videos && node.videos.length > 0) {
     content = <TheVideo videos={node.videos} />;
+  } else {
+    content = (
+      <Markdown
+        post={post.node}
+        // navigate={navigate}
+      />
+    );
+    // content = null
   }
 
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed from "../pages/feed";
+import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
 import { ICategory } from "../types";
 
@@ -13,6 +14,7 @@ export type ParentStackParamList = {
       color: string;
     };
   };
+  post: PostRouteParam;
 };
 
 const Stack = createStackNavigator<ParentStackParamList>();
@@ -28,6 +30,10 @@ const ParentNavigator = ({ navigation, route }) => {
         name="parentCategoryList"
         component={ParentCategoryList}
         options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="post"
+        component={Post}
       />
       <Stack.Screen
         name="parentFeed"

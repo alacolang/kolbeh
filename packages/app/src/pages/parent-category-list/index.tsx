@@ -39,6 +39,10 @@ const GET_PARENT = gql`
               url
               cover
             }
+            markdown {
+              content
+              cover
+            }
           }
         }
       }
