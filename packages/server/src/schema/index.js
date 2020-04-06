@@ -6,10 +6,12 @@ import { gql } from "apollo-server-express";
 const schema = gql`
   type Query {
     info: Info
+    postById(id: ID!): Post!
     parentCategories: [Category!]!
     childCategories: [Category!]!
-    parentFeed: ParentFeedConnection! @deprecated(reason: "use parentCategories")
-    childFeed: ParentFeedConnection!  @deprecated(reason: "use childCategories")
+    parentFeed: ParentFeedConnection!
+      @deprecated(reason: "use parentCategories")
+    childFeed: ParentFeedConnection! @deprecated(reason: "use childCategories")
   }
 
   type Category {
@@ -54,13 +56,19 @@ const schema = gql`
     cover: String
   }
 
+  type Markdown {
+    content: String!
+    cover: String
+  }
+
   type Post {
     id: ID!
-    description: String,
-    title: String!,
+    description: String
+    title: String!
     category: String!
-    images: [Image]!,
-    videos: [Video]!,
+    images: [Image]!
+    videos: [Video]!
+    markdown: Markdown
   }
 `;
 
