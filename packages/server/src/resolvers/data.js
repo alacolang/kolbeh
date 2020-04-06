@@ -27,6 +27,8 @@ export const parentData = [
     feed: [
       "stress.mp4",
       "crisis.mp4",
+      "adolescent-coping-1.mp4",
+      "adolescent-coping-2.mp4",
       "stress1.mp4",
       "stress2.mp4",
       "stress3.mp4",
@@ -41,7 +43,12 @@ export const parentData = [
     feed: [
       "empathy.mp4",
       Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
-      ...Array.from({ length: 3 }).map((_, i) => `creative-${i + 1}.mp4`),
+      Array.from({ length: 6 }).map(
+        (_, i) => `empathy-corona-poem-${i + 1}.webp`
+      ),
+      `creative-1.mp4`,
+      `creative-2.mp4`,
+      `creative-3.mp4`,
     ],
   },
   {
