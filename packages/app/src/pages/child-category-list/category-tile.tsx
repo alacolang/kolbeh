@@ -32,6 +32,7 @@ const CategoryTile = ({ category, onPress, meta }: Props) => {
       Animated.timing(x, {
         toValue: 1,
         duration: 6000,
+        useNativeDriver: true,
       })
     );
     animate.start();

@@ -10,6 +10,7 @@ const Cloud = () => {
       Animated.timing(y, {
         toValue: 1,
         duration: 10000,
+        useNativeDriver: true,
       })
     );
     animate.start();

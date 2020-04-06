@@ -29,6 +29,7 @@ const Home = () => {
       Animated.timing(x, {
         toValue: 1,
         duration: 3000,
+        useNativeDriver: true,
       })
     );
 
