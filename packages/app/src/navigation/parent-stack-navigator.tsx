@@ -1,19 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Feed from "../pages/feed";
+import Feed, { FeedRouteParam } from "../pages/feed";
 import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
-import { ICategory } from "../types";
 
 export type ParentStackParamList = {
   parentCategoryList: undefined;
-  parentFeed: {
-    category: ICategory;
-    meta: {
-      backgroundColor: string;
-      color: string;
-    };
-  };
+  parentFeed: FeedRouteParam;
   post: PostRouteParam;
 };
 
