@@ -12,6 +12,7 @@ import GriefActiveIcon from "./images/grief-active.png";
 import StressActiveIcon from "./images/stress-active.png";
 import DepressionActiveIcon from "./images/depression-active.png";
 import ObsessionActiveIcon from "./images/obsession-active.png";
+import AnxietyActiveIcon from './images/anxiety.png';
 import EducationActiveIcon from "./images/education-active.png";
 import AdhdActiveIcon from "./images/adhd-active.png";
 import AutismActiveIcon from "./images/autism-active.png";
@@ -41,6 +42,7 @@ const icons: Icons = {
   empathyActive: EmpathyActiveIcon,
   griefActive: GriefActiveIcon,
   stressActive: StressActiveIcon,
+  axietyActive: AnxietyActiveIcon,
   depressionActive: DepressionActiveIcon,
   obsessionActive: ObsessionActiveIcon,
   educationActive: EducationActiveIcon,
