@@ -12,7 +12,7 @@ import GriefActiveIcon from "./images/grief-active.png";
 import StressActiveIcon from "./images/stress-active.png";
 import DepressionActiveIcon from "./images/depression-active.png";
 import ObsessionActiveIcon from "./images/obsession-active.png";
-import AnxietyActiveIcon from './images/anxiety.png';
+import AnxietyActiveIcon from "./images/anxiety.png";
 import EducationActiveIcon from "./images/education-active.png";
 import AdhdActiveIcon from "./images/adhd-active.png";
 import AutismActiveIcon from "./images/autism-active.png";
@@ -27,6 +27,7 @@ import TwitterIcon from "./images/twitter.png";
 import TelegramIcon from "./images/telegram.png";
 import InfoIcon from "./images/information.png";
 import PlayIcon from "./images/play.png";
+import LoadingIcon from "./images/loading.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
@@ -59,6 +60,7 @@ const icons: Icons = {
   telegram: TelegramIcon,
   info: InfoIcon,
   play: PlayIcon,
+  loading: LoadingIcon,
 };
 
 export default icons;
