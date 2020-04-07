@@ -15,6 +15,7 @@ const schema = gql`
   type Category {
     id: ID!
     title: String!
+    description: String!
     icon: String!
     feed: FeedConnection!
   }
