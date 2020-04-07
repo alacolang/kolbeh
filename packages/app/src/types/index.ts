@@ -9,12 +9,18 @@ export type IVideo = {
   cover: string;
 };
 
+export type IMarkdown = {
+  content: string;
+  cover: string;
+}
+
 export type IPost = {
   id: string;
   title: string;
   category: string;
   images: IImage[];
   videos: IVideo[];
+  markdown: IMarkdown;
 };
 
 export type ICategory = {

@@ -28,6 +28,7 @@ export const parentData = [
     title: "مدیریت هیجان",
     description: ` کودکان و نوجوانان نیز مانند بزرگسالان انواع هیجان‌های خوشایند و ناخوشایند را تجربه می‌کنند، مطالب این بخش به مدیریت هیجان‌های نا‌خوشایند فرزندتان ارتباط دارد.`,
     feed: [
+      "age-coping.md",
       "crisis.mp4",
       "adolescent-coping-1.mp4",
       "adolescent-coping-2.mp4",
