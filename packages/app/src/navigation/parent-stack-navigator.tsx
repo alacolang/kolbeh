@@ -1,8 +1,10 @@
 import React from "react";
+import { Image, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed, { FeedRouteParam } from "../pages/feed";
 import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
+import Icons from "../components/icon";
 
 export type ParentStackParamList = {
   parentCategoryList: undefined;
@@ -27,6 +29,19 @@ const ParentNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="post"
         component={Post}
+        options={({ route }) => ({
+          // headerTransparent:true,
+          headerStyle: { backgroundColor: "transparent", elevation: 0 },
+          headerTitle: () => null,
+          headerLeftContainerStyle: { paddingLeft: 10 },
+          headerBackImage: () => (
+            <Image
+              source={Icons.back}
+              resizeMode="contain"
+              style={styles.back}
+            />
+          ),
+        })}
       />
       <Stack.Screen
         name="parentFeed"
@@ -36,5 +51,12 @@ const ParentNavigator = ({ navigation, route }) => {
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  back: {
+    width: 24,
+    height: 24,
+  },
+});
 
 export default ParentNavigator;
