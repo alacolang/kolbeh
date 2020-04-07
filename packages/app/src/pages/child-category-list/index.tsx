@@ -26,6 +26,7 @@ const GET_CHILD = gql`
     childCategories {
       id
       title
+      description
       icon
       feed {
         pageInfo {

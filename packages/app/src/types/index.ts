@@ -20,6 +20,7 @@ export type IPost = {
 export type ICategory = {
   id: string;
   title: string;
+  description: string;
   icon: string;
   feed: IFeed;
 };
