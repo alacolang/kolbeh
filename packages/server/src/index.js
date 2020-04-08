@@ -34,9 +34,9 @@ const server = new ApolloServer({
   playground: true,
 });
 
-app.use(morgan("combined"));
-
 server.applyMiddleware({ app, path: "/graphql" });
+
+app.use(morgan("combined"));
 
 app.use(bodyParser.json());
 
