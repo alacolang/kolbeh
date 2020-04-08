@@ -115,7 +115,10 @@ const Contact = () => {
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
-          push version: {`${codepushVersion.label}--${codepushVersion.version}`}
+          push version: {codepushVersion.label}
+        </Text>
+        <Text style={styles.version}>
+          app version: {codepushVersion.version}
         </Text>
       </View>
     </LinearGradient>
