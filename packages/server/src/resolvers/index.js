@@ -60,7 +60,7 @@ const resolvers = {
   Query: {
     info: () => {
       return {
-        version: "0.0.1",
+        version: "0.0.2",
       };
     },
     postById: (obj, { id }) => {
