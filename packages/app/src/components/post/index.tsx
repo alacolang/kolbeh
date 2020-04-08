@@ -9,27 +9,22 @@ import Markdown from "./markdown";
 
 type Props = {
   post: Types.IPostEdge;
-  // navigate: Function;
 };
 
 const Post = ({
   post,
-}: // navigate
+}:
 Props) => {
   let content;
   const node = post.node;
-  if (node.images && node.images.length > 0) {
+  if (node.markdown && node.markdown.content) {
+    content = <Markdown post={post.node} />;
+  } else if (node.images && node.images.length > 0) {
     content = <TheImage images={node.images} />;
   } else if (node.videos && node.videos.length > 0) {
     content = <TheVideo videos={node.videos} />;
   } else {
-    content = (
-      <Markdown
-        post={post.node}
-        // navigate={navigate}
-      />
-    );
-    // content = null
+    content = null;
   }
 
   return (
