@@ -5,10 +5,10 @@ import { gql } from "apollo-server-express";
 
 const schema = gql`
   type Query {
-    info: Info
+    info: Info @cacheControl(maxAge: 1000)
     postById(id: ID!): Post!
-    parentCategories: [Category!]!
-    childCategories: [Category!]!
+    parentCategories: [Category!]! @cacheControl(maxAge: 240)
+    childCategories: [Category!]! @cacheControl(maxAge: 240)
     parentFeed: ParentFeedConnection!
       @deprecated(reason: "use parentCategories")
     childFeed: ParentFeedConnection! @deprecated(reason: "use childCategories")
