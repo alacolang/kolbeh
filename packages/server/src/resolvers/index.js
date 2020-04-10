@@ -32,10 +32,12 @@ const dataResolver = (data) => {
               content: fs.readFileSync(postFile, "utf8"),
               cover: `/static/images/${items[0].replace(".md", "-cover.webp")}`,
             };
-            images = [{
-              id: 'age-coping-id',
-              url: `/static/images/age-coping-cover.webp`,
-            }];
+            images = [
+              {
+                id: "age-coping-id",
+                url: `/static/images/age-coping-cover.webp`,
+              },
+            ];
           } else {
             images = items.map((item, j) => ({
               id: categoryData.name + i + j,
@@ -45,7 +47,7 @@ const dataResolver = (data) => {
 
           return {
             node: {
-              id: `id-${categoryData.name}-${i + 1}`,
+              id: `id-${categoryData.name}-${items[0]}`,
               category: categoryData.name,
               title: "a-title",
               description: "the-description",
