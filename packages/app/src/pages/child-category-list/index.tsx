@@ -16,7 +16,6 @@ import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
-import treeImg from "../../assets/images/tree.png";
 import cloudBlueImg from "../../assets/images/cloud-blue.png";
 import cloudYellowImg from "../../assets/images/cloud-yellow.png";
 import Clouds from "../../components/clouds";
@@ -36,6 +35,7 @@ const GET_CHILD = gql`
           node {
             id
             title
+            category
             images {
               id
               url

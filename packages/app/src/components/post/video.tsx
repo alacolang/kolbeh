@@ -15,9 +15,9 @@ import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
-type Props = { videos: Types.IVideo[] };
+type Props = { videos: Types.IVideo[]; track: () => void };
 
-const TheVideo = ({ videos }: Props) => {
+const TheVideo = ({ videos, track }: Props) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const video = videos[0];
   const uri = config.HOST + video.url;
@@ -57,6 +57,7 @@ const TheVideo = ({ videos }: Props) => {
       <TouchableOpacity
         style={styles.backgroundVideo}
         onPress={() => {
+          track();
           setModalVisible(true);
         }}
       >

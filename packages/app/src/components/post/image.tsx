@@ -18,10 +18,11 @@ const frameWidth = Dimensions.get("window").width - 30 * 2;
 
 type IProps = {
   images: Types.IImage[];
+  track: () => void;
 };
 type ISize = { width?: number; height: number };
 
-const TheImage = ({ images }: IProps) => {
+const TheImage = ({ images, track }: IProps) => {
   const [size, setSize] = React.useState<ISize>({
     width: frameWidth,
     height: 200,
@@ -80,6 +81,7 @@ const TheImage = ({ images }: IProps) => {
       </Modal>
       <TouchableOpacity
         onPress={() => {
+          track();
           setModalVisible(true);
         }}
       >

@@ -2,28 +2,20 @@ import React from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, Image } from "react-native";
 import config from "../../config";
 import * as Types from "../../types";
-import {
-  useRoute,
-  RouteProp,
-  useNavigation,
-  NavigationProp,
-} from "@react-navigation/core";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
-import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
 type ISize = { width?: number; height: number };
 type Props = {
   post: Types.IPost;
-  // navigate: Function
+  track: () => void;
 };
 
 type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
 
-const Markdown = ({ post,
-  // navigate
-}: Props) => {
+const Markdown = ({ post, track }: Props) => {
   const navigation = useNavigation<FeedNavigation>();
 
   const [size, setSize] = React.useState<ISize>({
@@ -46,7 +38,7 @@ const Markdown = ({ post,
     <>
       <TouchableOpacity
         onPress={() => {
-          // navigation.nagi
+          track();
           navigation.navigate("post", { post });
         }}
       >

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import Analytics from "appcenter-analytics";
 import TheVideo from "./video";
 import TheImage from "./image";
 import * as Types from "../../types";
@@ -11,18 +12,22 @@ type Props = {
   post: Types.IPostEdge;
 };
 
-const Post = ({
-  post,
-}:
-Props) => {
+const Post = ({ post }: Props) => {
   let content;
   const node = post.node;
+  const track = () => {
+    Analytics.trackEvent("Image clicked", {
+      category: post.node.category,
+      id: post.node.id,
+    });
+  };
+
   if (node.markdown && node.markdown.content) {
-    content = <Markdown post={post.node} />;
+    content = <Markdown post={post.node} track={track} />;
   } else if (node.images && node.images.length > 0) {
-    content = <TheImage images={node.images} />;
+    content = <TheImage images={node.images} track={track} />;
   } else if (node.videos && node.videos.length > 0) {
-    content = <TheVideo videos={node.videos} />;
+    content = <TheVideo videos={node.videos} track={track} />;
   } else {
     content = null;
   }
