@@ -172,13 +172,12 @@ const Feed = () => {
             </Animated.View>
             <Animated.View
               style={{
-                paddingLeft: 10,
-
+                paddingLeft: 0,
                 transform: [
                   {
                     scale: scrollAnimatedValue.interpolate({
                       inputRange: [0, HEADER_SCROLL_DISTANCE],
-                      outputRange: [2, 1],
+                      outputRange: [1, 0.5],
                       extrapolate: "clamp",
                     }),
 
@@ -187,7 +186,7 @@ const Feed = () => {
                         HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
                         HEADER_SCROLL_DISTANCE,
                       ],
-                      outputRange: [20, 0],
+                      outputRange: [40, 30],
                       extrapolate: "clamp",
                     }),
                     translateY: scrollAnimatedValue.interpolate({
@@ -195,7 +194,7 @@ const Feed = () => {
                         HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
                         HEADER_SCROLL_DISTANCE,
                       ],
-                      outputRange: [-5 + -ICON_SIZE / 4, 0],
+                      outputRange: [-15 + -ICON_SIZE / 4, 0],
                       extrapolate: "clamp",
                     }),
                   },
@@ -205,8 +204,8 @@ const Feed = () => {
               <Image
                 source={Icons[`${category.icon}Active`]}
                 style={{
-                  width: ICON_SIZE,
-                  height: ICON_SIZE,
+                  width: ICON_SIZE * 2,
+                  height: ICON_SIZE * 2,
                   // borderWidth: 1,
                   // borderColor: "black",
                 }}
