@@ -63,7 +63,7 @@ const Feed = () => {
     extrapolate: "clamp",
   });
 
-  let opacity = scrollAnimatedValue.interpolate({
+  let descriptionOpacity = scrollAnimatedValue.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
     outputRange: [1, 0],
     extrapolate: "clamp",
@@ -113,7 +113,7 @@ const Feed = () => {
 
       <Animated.View
         style={[
-          styles.header,
+          styles.headerContainer,
           {
             backgroundColor: meta.backgroundColor,
             translateY: translateTab,
@@ -122,42 +122,18 @@ const Feed = () => {
           },
         ]}
       >
-        <View
-          style={{
-            flexDirection: "column",
-            alignItems: "center",
-            // borderWidth: 1,
-            // borderColor: "blue",
-            flexGrow: 1,
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              // borderWidth: 2,
-              // borderColor: "yellow",
-              justifyContent: "center",
-            }}
-          >
+        <View style={styles.header}>
+          <View style={styles.descriptionContainer}>
             <Animated.Text
-              style={[styles.title, { color: meta.color, opacity: opacity }]}
+              style={[
+                styles.title,
+                { color: meta.color, opacity: descriptionOpacity },
+              ]}
             >
               {category.description}
             </Animated.Text>
           </View>
-          <View
-            style={{
-              width: fullWidth,
-              height: 70,
-              flexDirection: "row",
-              alignItems: "center",
-              // borderWidth: 1,
-              // borderColor: "cyan",
-              paddingLeft: 20,
-              paddingTop: 20,
-            }}
-          >
+          <View style={styles.topBarContainer}>
             <Animated.View style={{ opacity: backOpacity }}>
               <TouchableHighlight
                 style={styles.backContainer}
@@ -172,7 +148,7 @@ const Feed = () => {
             </Animated.View>
             <Animated.View
               style={{
-                paddingLeft: 0,
+                // paddingLeft: 0,
                 transform: [
                   {
                     scale: scrollAnimatedValue.interpolate({
@@ -203,12 +179,7 @@ const Feed = () => {
             >
               <Image
                 source={Icons[`${category.icon}Active`]}
-                style={{
-                  width: ICON_SIZE * 2,
-                  height: ICON_SIZE * 2,
-                  // borderWidth: 1,
-                  // borderColor: "black",
-                }}
+                style={styles.categoryIcon}
                 resizeMode="cover"
               />
             </Animated.View>
@@ -227,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
-  header: {
+  headerContainer: {
     position: "absolute",
     height: HEADER_MAX_HEIGHT,
     top: 0,
@@ -235,6 +206,13 @@ const styles = StyleSheet.create({
     right: 0,
     borderBottomLeftRadius: RADIUS_MAX,
     overflow: "hidden",
+  },
+  header: {
+    flexDirection: "column",
+    alignItems: "center",
+    // borderWidth: 1,
+    // borderColor: "blue",
+    flexGrow: 1,
   },
   title: {
     fontFamily: "IRANYekanRDMobile",
@@ -248,6 +226,23 @@ const styles = StyleSheet.create({
     width: ICON_SIZE,
     height: ICON_SIZE,
   },
+  descriptionContainer: {
+    flex: 1,
+    alignItems: "center",
+    // borderWidth: 2,
+    // borderColor: "yellow",
+    justifyContent: "center",
+  },
+  topBarContainer: {
+    width: fullWidth,
+    height: 70,
+    flexDirection: "row",
+    alignItems: "center",
+    // borderWidth: 1,
+    // borderColor: "cyan",
+    paddingLeft: 20,
+    paddingTop: 20,
+  },
   backContainer: {
     width: 44,
     height: 44,
@@ -260,6 +255,12 @@ const styles = StyleSheet.create({
   back: {
     width: 24,
     height: 24,
+  },
+  categoryIcon: {
+    width: ICON_SIZE * 2,
+    height: ICON_SIZE * 2,
+    // borderWidth: 1,
+    // borderColor: "black",
   },
 });
 

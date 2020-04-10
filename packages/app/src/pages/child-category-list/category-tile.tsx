@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  View,
   StyleSheet,
   ImageBackground,
   Dimensions,
@@ -36,6 +35,7 @@ const CategoryTile = ({ category, onPress, meta }: Props) => {
       })
     );
     animate.start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -46,7 +46,7 @@ const CategoryTile = ({ category, onPress, meta }: Props) => {
           style={[
             styles.iconContainer,
             {
-              left: meta.index == 0 ? width / 2.5 / 2 : 48 / 2,
+              left: meta.index === 0 ? width / 2.5 / 2 : 48 / 2,
               transform: [
                 {
                   [meta.index === 0
@@ -77,7 +77,7 @@ const Title = styled(FormattedText)`
 `;
 
 const Card = styled(ImageBackground)`
-  left: ${({ index }) => (index == 0 ? 50 : -50)}px;
+  left: ${({ index }) => (index === 0 ? 50 : -50)}px;
   position: relative;
   flex-direction: row;
   justify-content: center;

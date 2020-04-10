@@ -58,7 +58,7 @@ const TheImage = ({ images, track }: IProps) => {
         <ImageViewer
           backgroundColor={colors.background}
           renderImage={(props) => (
-            <Image {...props} style={[props.style, { borderRadius: 10 }]} />
+            <Image {...props} style={[props.style, styles.image]} />
           )}
           renderIndicator={(currentIndex, allSize) => (
             <View style={styles.count}>
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  image: { borderRadius: 10 },
 });
 
 export default TheImage;

@@ -60,7 +60,6 @@ type ParentCategoriesData = {
   parentCategories: Types.ICategories;
 };
 
-
 const getCategoryColor = (index: number) => {
   const rowColors = [
     { backgroundColor: colors.category1, color: colors.primary },
@@ -82,7 +81,7 @@ const ParentScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     refetch().then(() => setRefreshing(false));
-  }, [refreshing]);
+  }, [refetch]);
 
   if (error) {
     errorReport(error, { origin: "parent> get feed" });

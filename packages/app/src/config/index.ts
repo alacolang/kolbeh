@@ -3,8 +3,9 @@ export type Config = {
   API: string;
 };
 
-let config: Config = process.env.NODE_ENV == "production"
-  ? require("./production")
-  : require("./development");
+let config: Config =
+  process.env.NODE_ENV === "production"
+    ? require("./production")
+    : require("./development");
 
 export default config;

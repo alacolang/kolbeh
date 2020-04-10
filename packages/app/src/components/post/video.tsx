@@ -39,10 +39,10 @@ const TheVideo = ({ videos, track }: Props) => {
             source={{ uri }}
             style={styles.backgroundVideo}
             // paused={pause}
-            onLoad={(d) => {
+            onLoad={() => {
               // console.log("loaded", video, d);
             }}
-            onError={(e) => {
+            onError={() => {
               // console.log("error", e, video);
             }}
             resizeMode="contain"

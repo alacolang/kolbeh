@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Animated,
-  Dimensions,
-  Image,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -76,10 +70,8 @@ const getCategoryMeta = (index: number) => {
 
 const ChildScreen = () => {
   const navigation = useNavigation<ChildFeedNavigationProp>();
-  const [refreshing, setRefreshing] = React.useState(false);
-  const { data, loading, refetch, error } = useQuery<ChildCategoriesData>(
-    GET_CHILD
-  );
+  // const [refreshing, setRefreshing] = React.useState(false);
+  const { data, loading, error } = useQuery<ChildCategoriesData>(GET_CHILD);
 
   if (error) {
     errorReport(error, { origin: "parent> get feed" });

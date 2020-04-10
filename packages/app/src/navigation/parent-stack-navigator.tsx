@@ -29,7 +29,7 @@ const ParentNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="post"
         component={Post}
-        options={({ route }) => ({
+        options={() => ({
           // headerTransparent:true,
           headerStyle: { backgroundColor: "transparent", elevation: 0 },
           headerTitle: () => null,

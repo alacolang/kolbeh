@@ -20,11 +20,11 @@ const FormattedText: React.FC<TextProperties & Props> = ({
   id,
   ...props
 }) => {
-  const messages = React.useContext(MessagesContext);
+  const _messages = React.useContext(MessagesContext);
   if (id) {
     return (
       <Text style={[styles.persian, style]} {...props}>
-        {messages[id]}
+        {_messages[id]}
       </Text>
     );
   } else {

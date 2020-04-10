@@ -15,7 +15,7 @@ const getVersion = () => {
         description: metadata.description,
       };
     })
-    .catch((e: any) => {
+    .catch(() => {
       // console.log("codepush error:", e);
       return {
         label: "na",
@@ -24,8 +24,8 @@ const getVersion = () => {
     });
 };
 
-let codePushify;
-if (process.env.NODE_ENV == "production") {
+let codePushify: Function;
+if (process.env.NODE_ENV === "production") {
   codePushify = codePush(options);
 } else {
   codePushify = (x: any) => x;

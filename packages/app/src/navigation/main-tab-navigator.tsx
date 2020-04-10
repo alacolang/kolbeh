@@ -26,15 +26,11 @@ const TabNavigator = () => {
             <FormattedText style={[styles.text, { color }]} id={route.name} />
           );
         },
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused }) => {
           const icon = icons[route.name + (focused ? "Active" : "")];
 
           return (
-            <Image
-              source={icon}
-              style={{ width: 30, height: 30 }}
-              resizeMode="contain"
-            />
+            <Image source={icon} style={styles.icon} resizeMode="contain" />
           );
         },
       })}
@@ -62,6 +58,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
   },
+  icon: { width: 30, height: 30 },
 });
 
 export default TabNavigator;

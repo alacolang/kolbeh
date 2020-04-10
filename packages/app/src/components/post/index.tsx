@@ -36,7 +36,7 @@ const Post = ({ post }: Props) => {
     <View style={styles.container}>
       <Dot />
       {content}
-      <View style={styles.footer}></View>
+      <View style={styles.footer} />
     </View>
   );
 };

@@ -8,12 +8,11 @@ import {
 } from "react-native";
 import Markdown from "react-native-easy-markdown";
 import { RouteProp, useRoute } from "@react-navigation/core";
-import { FormattedText } from "../../components/formatted-text";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import AnimatedImage from "./animated-image";
-import config from '../../config'
+import config from "../../config";
 
 export type PostRouteParam = {
   post: Types.IPost;
@@ -109,33 +108,33 @@ const PostScreen = () => {
   );
 };
 
-const textRenderer = (
-  textType: string,
-  children: React.ReactNode,
-  _: any,
-  key: string
-) => {
-  // Possible textTypes: h1, h2, h3, h4, h5, h6, strong, del, em, u
-  switch (textType) {
-    case "h1":
-    case "h2":
-    case "h3":
-    case "h4":
-    case "h5":
-    case "h6":
-      return <FormattedText>{children}</FormattedText>;
-    case "strong":
-      return <FormattedText>{children}</FormattedText>;
-    case "del":
-      return <FormattedText>{children}</FormattedText>;
-    case "em":
-      return <FormattedText>{children}</FormattedText>;
-    case "u":
-      return <FormattedText>{children}</FormattedText>;
-    default:
-      return <FormattedText>{children}</FormattedText>;
-  }
-};
+// const textRenderer = (
+//   textType: string,
+//   children: React.ReactNode,
+//   _: any,
+//   key: string
+// ) => {
+//   // Possible textTypes: h1, h2, h3, h4, h5, h6, strong, del, em, u
+//   switch (textType) {
+//     case "h1":
+//     case "h2":
+//     case "h3":
+//     case "h4":
+//     case "h5":
+//     case "h6":
+//       return <FormattedText>{children}</FormattedText>;
+//     case "strong":
+//       return <FormattedText>{children}</FormattedText>;
+//     case "del":
+//       return <FormattedText>{children}</FormattedText>;
+//     case "em":
+//       return <FormattedText>{children}</FormattedText>;
+//     case "u":
+//       return <FormattedText>{children}</FormattedText>;
+//     default:
+//       return <FormattedText>{children}</FormattedText>;
+//   }
+// };
 
 const styles = StyleSheet.create({
   container: {

@@ -34,6 +34,7 @@ const Home = () => {
     );
 
     animate.start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -52,12 +53,8 @@ const Home = () => {
         style={[styles.frame]}
         resizeMode="stretch"
       >
-        <View style={styles.logo}>
-          <Image
-            source={icons.logo}
-            resizeMode="contain"
-            style={{ width: 35, height: 35 }}
-          />
+        <View style={styles.logoContainer}>
+          <Image source={icons.logo} resizeMode="contain" style={styles.logo} />
         </View>
         <FormattedText style={styles.text} id="home.information" />
         <TouchableOpacity
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
     top: -5,
     color: colors.secondary,
   },
-  logo: {
+  logoContainer: {
     position: "relative",
     alignSelf: "flex-start",
     borderRadius: 44,
@@ -134,6 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  logo: { width: 35, height: 35 },
 });
 
 export default Home;

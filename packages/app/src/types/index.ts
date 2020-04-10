@@ -12,7 +12,7 @@ export type IVideo = {
 export type IMarkdown = {
   content: string;
   cover: string;
-}
+};
 
 export type IPost = {
   id: string;
@@ -45,4 +45,4 @@ export type IPageInfo = {
   endCursor: string;
 };
 
-export type ICategories = ICategory[]
+export type ICategories = ICategory[];

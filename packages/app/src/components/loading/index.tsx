@@ -14,6 +14,7 @@ const Loading = () => {
         useNativeDriver: true,
       })
     ).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const spin = spinValue.interpolate({

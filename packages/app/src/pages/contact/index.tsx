@@ -29,7 +29,7 @@ const GET_INFO = gql`
 `;
 
 const Contact = () => {
-  const { data, loading, error } = useQuery(GET_INFO);
+  const { data } = useQuery(GET_INFO);
   const info = data ? data.info : {};
   const [codepushVersion, setCodepushVersion] = React.useState({
     label: "na",
@@ -38,8 +38,7 @@ const Contact = () => {
 
   React.useEffect(() => {
     async function helper() {
-      const codepushVersion = await getVersion();
-      setCodepushVersion(codepushVersion);
+      setCodepushVersion(await getVersion());
     }
     helper();
   }, []);
@@ -61,7 +60,7 @@ const Contact = () => {
         resizeMode="stretch"
       >
         <View style={styles.row}>
-          <FormattedText style={styles.text} id="contact.title"></FormattedText>
+          <FormattedText style={styles.text} id="contact.title" />
         </View>
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
