@@ -4,6 +4,8 @@ export const childData = [
     title: "اتاق کودک",
     description: `به اتاق کودک کلبه خوش آمدی. مطالب این اتاق به تو کمک می‌کنه که احساساتت رو بهتر بشناسی و حالت خوب باشه.`,
     feed: [
+      Array.from({ length: 23 }).map((_, i) => `kid-victory-chap1-${i + 1}.webp`),
+      Array.from({ length: 19 }).map((_, i) => `kid-victory-chap2-${i + 1}.webp`),
       Array.from({ length: 7 }).map((_, i) => `stress-kid-${i + 1}.webp`),
       Array.from({ length: 9 }).map((_, i) => `kid-awareness-${i + 1}.webp`),
       "deep-breathing.mp4",
