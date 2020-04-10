@@ -108,7 +108,7 @@ const Feed = () => {
         // initialNumToRender={1}
         // maxToRenderPerBatch={1}
         // windowSize={1}
-        keyExtractor={(item) => item.node.id}
+        keyExtractor={(item: Types.IPostEdge) => item.node.id}
       />
 
       <Animated.View

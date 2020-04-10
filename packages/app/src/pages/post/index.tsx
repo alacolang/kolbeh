@@ -17,10 +17,10 @@ import config from '../../config'
 
 export type PostRouteParam = {
   post: Types.IPost;
-  meta: {
-    backgroundColor: string;
-    color: string;
-  };
+  // meta: {
+  //   backgroundColor: string;
+  //   color: string;
+  // };
 };
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
