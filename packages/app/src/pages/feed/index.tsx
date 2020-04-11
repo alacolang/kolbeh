@@ -122,68 +122,66 @@ const Feed = () => {
           },
         ]}
       >
-        <View style={styles.header}>
-          <View style={styles.descriptionContainer}>
-            <Animated.Text
-              style={[
-                styles.title,
-                { color: meta.color, opacity: descriptionOpacity },
-              ]}
-            >
-              {category.description}
-            </Animated.Text>
-          </View>
-          <View style={styles.topBarContainer}>
-            <Animated.View style={{ opacity: backOpacity }}>
-              <TouchableHighlight
-                style={styles.backContainer}
-                onPress={() => navigation.goBack()}
-              >
-                <Image
-                  source={Icons.back}
-                  resizeMode="contain"
-                  style={styles.back}
-                />
-              </TouchableHighlight>
-            </Animated.View>
-            <Animated.View
-              style={{
-                // paddingLeft: 0,
-                transform: [
-                  {
-                    scale: scrollAnimatedValue.interpolate({
-                      inputRange: [0, HEADER_SCROLL_DISTANCE],
-                      outputRange: [1, 0.5],
-                      extrapolate: "clamp",
-                    }),
-
-                    translateX: scrollAnimatedValue.interpolate({
-                      inputRange: [
-                        HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
-                        HEADER_SCROLL_DISTANCE,
-                      ],
-                      outputRange: [40, 30],
-                      extrapolate: "clamp",
-                    }),
-                    translateY: scrollAnimatedValue.interpolate({
-                      inputRange: [
-                        HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
-                        HEADER_SCROLL_DISTANCE,
-                      ],
-                      outputRange: [-15 + -ICON_SIZE / 4, 0],
-                      extrapolate: "clamp",
-                    }),
-                  },
-                ],
-              }}
+        <View style={styles.descriptionContainer}>
+          <Animated.Text
+            style={[
+              styles.title,
+              { color: meta.color, opacity: descriptionOpacity },
+            ]}
+          >
+            {category.description}
+          </Animated.Text>
+        </View>
+        <View style={styles.topBarContainer}>
+          <Animated.View style={{ opacity: backOpacity }}>
+            <TouchableHighlight
+              style={styles.backContainer}
+              onPress={() => navigation.goBack()}
             >
               <Image
-                source={Icons[`${category.icon}Active`]}
-                style={styles.categoryIcon}
-                resizeMode="cover"
+                source={Icons.back}
+                resizeMode="contain"
+                style={styles.back}
               />
-            </Animated.View>
-          </View>
+            </TouchableHighlight>
+          </Animated.View>
+          <Animated.View
+            style={{
+              // paddingLeft: 0,
+              transform: [
+                {
+                  scale: scrollAnimatedValue.interpolate({
+                    inputRange: [0, HEADER_SCROLL_DISTANCE],
+                    outputRange: [1, 0.5],
+                    extrapolate: "clamp",
+                  }),
+
+                  translateX: scrollAnimatedValue.interpolate({
+                    inputRange: [
+                      HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                      HEADER_SCROLL_DISTANCE,
+                    ],
+                    outputRange: [40, 30],
+                    extrapolate: "clamp",
+                  }),
+                  translateY: scrollAnimatedValue.interpolate({
+                    inputRange: [
+                      HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                      HEADER_SCROLL_DISTANCE,
+                    ],
+                    outputRange: [-15 + -ICON_SIZE / 4, 0],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            }}
+          >
+            <Image
+              source={Icons[`${category.icon}Active`]}
+              style={styles.categoryIcon}
+              resizeMode="cover"
+            />
+          </Animated.View>
         </View>
       </Animated.View>
     </>
@@ -205,14 +203,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     borderBottomLeftRadius: RADIUS_MAX,
-    overflow: "hidden",
-  },
-  header: {
-    flexDirection: "column",
-    alignItems: "center",
-    // borderWidth: 1,
-    // borderColor: "blue",
-    flexGrow: 1,
+    // overflow: "hidden",
   },
   title: {
     fontFamily: "IRANYekanRDMobile",
