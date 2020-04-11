@@ -193,7 +193,7 @@ const Feed = () => {
 const styles = StyleSheet.create({
   scrollViewContent: {
     marginTop: HEADER_MAX_HEIGHT + 30,
-    paddingBottom: fullHeight,
+    paddingBottom: HEADER_MAX_HEIGHT + 30,
     marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
