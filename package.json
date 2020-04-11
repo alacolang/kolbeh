@@ -11,7 +11,7 @@
     "nohoist": []
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy-server": "pm2 deploy ecosystem.config.js production"
   },
   "author": "",
   "license": "ISC",
