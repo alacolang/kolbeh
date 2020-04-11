@@ -34,6 +34,7 @@ export const parentData = [
       "crisis.mp4",
       "adolescent-coping-1.mp4",
       "adolescent-coping-2.mp4",
+      Array.from({ length: 19 }).map((_, i) => `parental-aggression-${i + 1}.webp`),
       "stress1.mp4",
       "stress3.mp4",
       "thinking.mp4",
