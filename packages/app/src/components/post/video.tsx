@@ -1,16 +1,18 @@
 import React from "react";
 import {
   Dimensions,
+  StatusBar,
   View,
   StyleSheet,
   TouchableOpacity,
+  TouchableHighlight,
   Modal,
   Image,
 } from "react-native";
 import Video from "react-native-video";
 import colors from "../../colors";
 import config from "../../config";
-import { Icon } from "../icon";
+import icons, { Icon } from "../icon";
 import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
@@ -32,8 +34,14 @@ const TheVideo = ({ videos, track }: Props) => {
           setModalVisible(false);
         }}
         // statusBarTranslucent={true}
-        presentationStyle="overFullScreen"
+        // presentationStyle="overFullScreen"
       >
+         <StatusBar
+          // backgroundColor={colors.background}
+          backgroundColor='black'
+          // barStyle="light-content"
+          // translucent={true}
+        />
         <View style={styles.modalContainer}>
           <Video
             source={{ uri }}
@@ -53,6 +61,12 @@ const TheVideo = ({ videos, track }: Props) => {
             hideShutterView={true}
           />
         </View>
+        <TouchableHighlight
+          style={styles.backContainer}
+          onPress={() => setModalVisible(false)}
+        >
+          <Image source={icons.back} resizeMode="contain" style={styles.back} />
+        </TouchableHighlight>
       </Modal>
       <TouchableOpacity
         style={styles.backgroundVideo}
@@ -76,7 +90,8 @@ const TheVideo = ({ videos, track }: Props) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: colors.background,
+    // backgroundColor: colors.background,
+    backgroundColor: 'black',
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -86,7 +101,7 @@ const styles = StyleSheet.create({
     width: frameWidth,
   },
   backgroundVideo: {
-    backgroundColor: colors.background,
+    // backgroundColor: colors.background,
     position: "absolute",
     top: 0,
     left: 0,
@@ -104,6 +119,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     top: 0,
+  },
+  backContainer: {
+    position: 'absolute',
+    top: 4,
+    left: 18,
+    width: 44,
+    height: 44,
+    borderRadius: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  back: {
+    width: 24,
+    height: 24,
   },
 });
 

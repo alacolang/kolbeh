@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  TouchableHighlight,
   Dimensions,
   StyleSheet,
   StatusBar,
@@ -12,6 +13,7 @@ import ImageViewer from "react-native-image-zoom-viewer";
 import { FormattedText } from "../formatted-text";
 import colors from "../../colors";
 import config from "../../config";
+import Icons from "../../components/icon";
 import * as Types from "../../types";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
@@ -78,6 +80,12 @@ const TheImage = ({ images, track }: IProps) => {
             url: config.HOST + image.url,
           }))}
         />
+        <TouchableHighlight
+          style={styles.backContainer}
+          onPress={() => setModalVisible(false)}
+        >
+          <Image source={Icons.back} resizeMode="contain" style={styles.back} />
+        </TouchableHighlight>
       </Modal>
       <TouchableOpacity
         onPress={() => {
@@ -114,6 +122,20 @@ const styles = StyleSheet.create({
     right: 0,
   },
   image: { borderRadius: 10 },
+  backContainer: {
+    position: 'absolute',
+    top: 4,
+    left: 18,
+    width: 44,
+    height: 44,
+    borderRadius: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  back: {
+    width: 24,
+    height: 24,
+  },
 });
 
 export default TheImage;
