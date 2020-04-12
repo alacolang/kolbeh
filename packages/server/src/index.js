@@ -23,6 +23,11 @@ const server = new ApolloServer({
   // mocks: true,
   resolvers,
   plugins: [responseCachePlugin()],
+  onHealthCheck: () => {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  },
   // formatError: (error) => error,
   // dataSources,
   // plugins: [logger],
@@ -39,6 +44,10 @@ server.applyMiddleware({ app, path: "/graphql" });
 app.use(morgan("combined"));
 
 app.use(bodyParser.json());
+
+app.get("/health", (req, res) => {
+  res.send("ok");
+});
 
 app.post("/api/error", (req, res) => {
   console.log("error", req.body);
