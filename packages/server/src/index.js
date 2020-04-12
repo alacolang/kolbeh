@@ -36,7 +36,7 @@ const server = new ApolloServer({
   //   // console.log(params.req.body.variables);
   // },
   //   introspection: true,
-  playground: true,
+  playground: process.env.NODE_ENV !== "production",
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
