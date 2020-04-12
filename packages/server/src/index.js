@@ -3,7 +3,7 @@ import cors from "cors";
 import path from "path";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import responseCachePlugin from 'apollo-server-plugin-response-cache';
+import responseCachePlugin from "apollo-server-plugin-response-cache";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import schema from "./schema";

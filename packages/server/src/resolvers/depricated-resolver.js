@@ -98,7 +98,7 @@ const parentPosts = [
 const getVideos = (data, i) => {
   const meta = data[i].videos || [];
   return meta.map((meta) => ({
-    id: 'video-' + i,
+    id: "video-" + i,
     url: `/static/videos/${meta.filename}`,
     cover: `/static/images/${meta.filename.replace(".mp4", "-cover.png")}`,
   }));
@@ -108,13 +108,13 @@ const getImages = (data, i) => {
   if (!data[i].images) {
     return [
       {
-        id: 'image-' + i,
+        id: "image-" + i,
         url: `/static/images/${data[i].name}.jpeg`,
       },
     ];
   } else {
     return data[i].images.map((image, i) => ({
-      id: 'image-' + i,
+      id: "image-" + i,
       url: `/static/images/${image.filename}`,
     }));
   }
