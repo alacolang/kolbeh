@@ -96,12 +96,10 @@ const TheImage = ({ images, track }: IProps) => {
         <ImageViewer
           backgroundColor={colors.background}
           renderImage={(props) => {
-            // console.log(props.style.height);
             setHeight(props.style.height);
             return <Image {...props} style={[props.style, styles.image]} />;
           }}
           onChange={(currentIndex) => {
-            // console.log("onChange called", { currentIndex });
             setXY(handleDots(previousIndex, currentIndex, x, y));
           }}
           renderIndicator={(currentIndex, allSize = 0) =>
@@ -123,7 +121,8 @@ const TheImage = ({ images, track }: IProps) => {
                         {
                           width: x === "." ? 3 : 7,
                           height: x === "." ? 3 : 7,
-                          backgroundColor: x === "o" ? colors.primary : "lightgray",
+                          backgroundColor:
+                            x === "o" ? colors.primary : "lightgray",
                         },
                       ]}
                     />
@@ -202,10 +201,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   dot: {
-    width: 9,
-    height: 9,
     borderRadius: 9,
-    // backgroundColor: "lightgray",
     margin: 2,
   },
   indexContainer: {
@@ -218,7 +214,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
   index: {
-    // backgroundColor: "lightgray",
     borderRadius: 24,
     width: 60,
     fontSize: 18,
