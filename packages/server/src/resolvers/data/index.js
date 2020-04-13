@@ -25,6 +25,8 @@ export const childData = [
       "coping-sadness.mp4",
       "realistic.mp4",
       "goal-setting.mp4",
+      "negotiation.mp4",
+      "self-talking.mp4",
       "relaxing-box.webp",
       Array.from({ length: 7 }).map((_, i) => `teen-sleep-${i + 1}.webp`),
     ],
