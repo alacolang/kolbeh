@@ -93,7 +93,7 @@ export const parentData = [
     name: "depression",
     title: "افسردگی",
     description: ` خلق افسرده نه تنها باعث رنج فرزندان می‌شود، بلکه بر روحیه سایر اعضای خانواده‌ نیز تاثیر می‌گذارد. مطالب این بخش به بهبود خلق فرزندتان و بالا رفتن روحیه خانواده کمک می‌کند.`,
-    feed: ["depression.mp4", "depression.webp"],
+    feed: ["depression-parent.mp4", "depression.mp4", "depression.webp"],
   },
   {
     name: "obsession",
