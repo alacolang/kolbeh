@@ -2,6 +2,14 @@ import fs from "fs";
 import path from "path";
 import depricatedResolvers from "./depricated-resolver";
 import * as data from "./data";
+import parse from "../content/parse";
+let parsedData;
+
+async function init() {
+  parsedData = await parse();
+}
+
+init();
 
 const dataResolver = (data) => {
   return data.map((categoryData, i) => {
@@ -19,7 +27,7 @@ const dataResolver = (data) => {
           let markdown = null;
 
           const items = Array.isArray(post) ? post : [post];
-          if (/mp4/.test(items[0])) {
+          if (/\.mp4$/.test(items[0])) {
             videos = items.map((item, j) => ({
               id: categoryData.name + i + j,
               url: `/static/videos/${item}`,
@@ -30,7 +38,10 @@ const dataResolver = (data) => {
             markdown = {
               // TODO: add cache
               content: fs.readFileSync(postFile, "utf8"),
-              cover: `/static/images/${items[0].replace(".md", "-cover.webp")}`,
+              cover: `/static/images/${items[0].replace(
+                ".md",
+                "-co ver.webp"
+              )}`,
             };
             images = [
               {
@@ -62,6 +73,21 @@ const dataResolver = (data) => {
   });
 };
 
+const dataResolver2 = (data) => {
+  return data.map((d) => {
+    return {
+      ...d,
+      icon: d.name,
+      feed: {
+        edges: d.feed.map(post => ({node: post})),
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    };
+  });
+};
+
 const resolvers = {
   Query: {
     info: () => {
@@ -71,14 +97,16 @@ const resolvers = {
     },
     postById: (obj, { id }) => {
       return [...dataResolver(data.parentData), ...dataResolver(data.childData)]
-        .map((d) => d.feed.edges)
+        .map((d) => d.feed.edges.map((post) => ({ node: post })))
         .flat()
         .find((d) => {
           return d.node.id === id;
         }).node;
     },
     parentCategories: () => {
-      return dataResolver(data.parentData);
+      // console.log(JSON.stringify(dataResolver2(parsedData.parent), null, 2));
+      // return dataResolver(data.parentData);
+      return dataResolver2(parsedData.parent);
     },
     childCategories: () => {
       return dataResolver(data.childData);
