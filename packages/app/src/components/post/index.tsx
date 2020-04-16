@@ -15,18 +15,23 @@ type Props = {
 const Post = ({ post }: Props) => {
   let content;
   const node = post.node;
+  let postType : 'markdown' | 'image' | 'video';
   const track = () => {
-    Analytics.trackEvent("Image clicked", {
+    Analytics.trackEvent("Post clicked", {
       category: post.node.category,
+      type: postType,
       id: post.node.id,
     });
   };
 
   if (node.markdown && node.markdown.content) {
+    postType = "markdown";
     content = <Markdown post={post.node} track={track} />;
   } else if (node.images && node.images.length > 0) {
+    postType = "image";
     content = <TheImage images={node.images} track={track} />;
   } else if (node.videos && node.videos.length > 0) {
+    postType = "video";
     content = <TheVideo videos={node.videos} track={track} />;
   } else {
     content = null;
