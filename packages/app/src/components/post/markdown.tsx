@@ -1,9 +1,9 @@
 import React from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, Image } from "react-native";
-import config from "../../config";
 import * as Types from "../../types";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
+import { resolveURL } from "../../utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
@@ -22,7 +22,7 @@ const Markdown = ({ post, track }: Props) => {
     width: frameWidth,
     height: 200,
   });
-  const uri = config.HOST + post.markdown.cover;
+  const uri = resolveURL(post.markdown.cover);
 
   React.useEffect(() => {
     Image.getSize(

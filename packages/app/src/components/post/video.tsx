@@ -14,6 +14,7 @@ import colors from "../../colors";
 import config from "../../config";
 import icons, { Icon } from "../icon";
 import * as Types from "../../types";
+import { resolveURL } from "../../utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 
@@ -22,7 +23,7 @@ type Props = { videos: Types.IVideo[]; track: () => void };
 const TheVideo = ({ videos, track }: Props) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const video = videos[0];
-  const uri = config.HOST + video.url;
+  const uri = resolveURL(video.url);
 
   return (
     <View style={styles.videoContainer}>
@@ -36,9 +37,9 @@ const TheVideo = ({ videos, track }: Props) => {
         // statusBarTranslucent={true}
         // presentationStyle="overFullScreen"
       >
-         <StatusBar
+        <StatusBar
           // backgroundColor={colors.background}
-          backgroundColor='black'
+          backgroundColor="black"
           // barStyle="light-content"
           // translucent={true}
         />
@@ -56,7 +57,7 @@ const TheVideo = ({ videos, track }: Props) => {
             resizeMode="contain"
             // minLoadRetryCount={4}
             controls={true}
-            poster={video.cover ? config.HOST + video.cover : undefined}
+            poster={video.cover ? resolveURL(video.cover) : undefined}
             // posterResizeMode="cover"
             hideShutterView={true}
           />
@@ -76,7 +77,7 @@ const TheVideo = ({ videos, track }: Props) => {
         }}
       >
         <Image
-          source={{ uri: config.HOST + video.cover }}
+          source={{ uri: resolveURL(video.cover) }}
           style={styles.backgroundVideo}
           resizeMode="cover"
         />
@@ -91,7 +92,7 @@ const TheVideo = ({ videos, track }: Props) => {
 const styles = StyleSheet.create({
   modalContainer: {
     // backgroundColor: colors.background,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   backContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 4,
     left: 18,
     width: 44,

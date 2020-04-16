@@ -12,9 +12,9 @@ import {
 import ImageViewer from "react-native-image-zoom-viewer";
 import { FormattedText } from "../formatted-text";
 import colors from "../../colors";
-import config from "../../config";
 import Icons from "../../components/icon";
 import * as Types from "../../types";
+import { resolveURL } from "../../utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 const frameHeight = Dimensions.get("window").height - 30;
@@ -32,7 +32,7 @@ const TheImage = ({ images, track }: IProps) => {
   });
   const [height, setHeight] = React.useState<number>(200);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const uri = config.HOST + images[0].url;
+  const uri = resolveURL(images[0].url);
 
   React.useEffect(() => {
     Image.getSize(
@@ -140,7 +140,7 @@ const TheImage = ({ images, track }: IProps) => {
           }
           imageUrls={images.map((image) => ({
             ...image,
-            url: config.HOST + image.url,
+            url: resolveURL(image.url),
           }))}
         />
         <TouchableHighlight

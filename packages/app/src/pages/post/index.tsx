@@ -12,7 +12,7 @@ import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import AnimatedImage from "./animated-image";
-import config from "../../config";
+import { resolveURL } from "../../utils/resolve";
 
 export type PostRouteParam = {
   post: Types.IPost;
@@ -94,7 +94,7 @@ const PostScreen = () => {
                 key={key}
                 title={title}
                 alt={alt}
-                uri={config.HOST + src}
+                uri={resolveURL(src)}
                 scrollAnimatedValue={scrollAnimatedValue}
               />
             );
