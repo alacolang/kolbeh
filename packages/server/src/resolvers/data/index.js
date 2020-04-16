@@ -1,4 +1,4 @@
-export const childData = [
+const childData = [
   {
     name: "kid",
     title: "اتاق کودک",
@@ -33,7 +33,7 @@ export const childData = [
   },
 ];
 
-export const parentData = [
+const parentData = [
   {
     name: "stress",
     title: "مدیریت هیجان",
@@ -145,3 +145,8 @@ export const parentData = [
     ],
   },
 ];
+
+module.exports = {
+  childData,
+  parentData,
+};
