@@ -54,6 +54,7 @@ app.post("/api/error", (req, res) => {
   res.json({ status: "ok" });
 });
 
-app.listen({ port: 8000 }, () => {
-  console.log("Apollo Server on http://localhost:8000/graphql");
+const port = process.env.PORT || 8000;
+app.listen({ port }, () => {
+  console.log(`Apollo Server on http://localhost:${port}/graphql`);
 });
