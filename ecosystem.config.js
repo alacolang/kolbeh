@@ -12,9 +12,9 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: false,
-      interpreter: "babel-node",
+      //interpreter: "babel-node",
       // max_memory_restart: '1G',
-      env: {
+      env_staging: {
         PORT: 9000,
         NODE_ENV: "staging",
       },
@@ -30,7 +30,7 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: false,
-      interpreter: "babel-node",
+      //interpreter: "babel-node",
       env_staging: {
         PORT: 9010,
         HOST: "https://stg.alacolang.ir/kolbeh",
