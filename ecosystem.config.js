@@ -29,10 +29,12 @@ module.exports = {
       interpreter: "babel-node",
       env_staging: {
         PORT: 9010,
+        HOST: 'https://stg.alacolang.ir/kolbeh',
         NODE_ENV: "staging",
       },
       env_production: {
         PORT: 8010,
+        HOST: 'https://alacolang.ir/kolbeh',
         NODE_ENV: "production",
       },
     }
