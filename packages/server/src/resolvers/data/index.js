@@ -56,8 +56,10 @@ const parentData = [
     title: `همدلی و ارتباط`,
     description: ` اگر تمایل دارید با فرزندتان به صورت همدلانه‌تری گفتگو کنید و شنونده بهتری باشید، ‌مطالب این بخش می‌تواند برایتان مفید باشد.`,
     feed: [
+      Array.from({ length: 24 }).map((_, i) => `play-with-children-${i + 1}.webp`),
       "corona-news.mp4",
       "empathy.mp4",
+      Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
       Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
       Array.from({ length: 6 }).map(
         (_, i) => `empathy-corona-poem-${i + 1}.webp`
@@ -140,6 +142,7 @@ const parentData = [
     title: "فعالیت‌های تحصیلی",
     description: ` روش و محتوای آموزش‌های آکادمیک درعصر فن‌آوری، به سرعت در حال تغییر است و آگاهی از شیوه صحیح کنارآمدن با این تغییرات، فضا را برای یادگیری بهتر آماده می‌کند. در این بخش با شیوه‌ی سازگاری با این تغییرات آشنا می‌شوید.`,
     feed: [
+      Array.from({ length: 22 }).map((_, i) => `learning-disorder-first-${i + 1}.webp`),
       Array.from({ length: 6 }).map((_, i) => `education${i + 1}.webp`),
       Array.from({ length: 6 }).map((_, i) => `education${i + 7}.webp`),
     ],
