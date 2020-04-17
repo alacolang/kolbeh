@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from "../pages/home";
+import Home from "../pages/welcome";
 import Contact from "../pages/contact";
 
 export type HomeStackParamList = {
