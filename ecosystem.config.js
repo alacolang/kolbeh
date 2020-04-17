@@ -1,7 +1,11 @@
+function addEnvSuffix(name) {
+  return process.env.NODE_ENV + "_" + name;
+}
+
 module.exports = {
   apps: [
     {
-      name: "API",
+      name: addEnvSuffix("API"),
       script: "yarn start",
       // args: 'one',
       cwd: "./packages/server",
@@ -20,7 +24,7 @@ module.exports = {
       },
     },
     {
-      name: "IMAGE",
+      name: addEnvSuffix("IMAGE"),
       script: "yarn start",
       cwd: "./packages/image",
       instances: 1,
@@ -29,15 +33,15 @@ module.exports = {
       interpreter: "babel-node",
       env_staging: {
         PORT: 9010,
-        HOST: 'https://stg.alacolang.ir/kolbeh',
+        HOST: "https://stg.alacolang.ir/kolbeh",
         NODE_ENV: "staging",
       },
       env_production: {
         PORT: 8010,
-        HOST: 'https://alacolang.ir/kolbeh',
+        HOST: "https://alacolang.ir/kolbeh",
         NODE_ENV: "production",
       },
-    }
+    },
   ],
 
   deploy: {
@@ -46,7 +50,7 @@ module.exports = {
       host: "vps",
       ref: "origin/master",
       repo: "git@github.com:yassermzh/yara.git",
-      path: "/home/www/yara-staging",
+      path: "/home/www/yara",
       "post-deploy":
         "yarn && yarn workspace server optimize-images && pm2 reload ecosystem.config.js --env production",
     },
@@ -56,8 +60,7 @@ module.exports = {
       ref: `origin/${process.env.BRANCH}`,
       repo: "git@github.com:yassermzh/yara.git",
       path: "/home/www/yara-staging",
-      "post-deploy":
-        "yarn && pm2 reload ecosystem.config.js --env staging",
+      "post-deploy": "yarn && pm2 reload ecosystem.config.js --env staging",
     },
   },
 };
