@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Analytics from "appcenter-analytics";
 import TheVideo from "./video";
 import TheImage from "./image";
@@ -7,6 +7,7 @@ import * as Types from "../../types";
 import colors from "../../colors";
 import Dot from "../post-dot";
 import Markdown from "./markdown";
+import { Icon } from "../../components/icon";
 
 type Props = {
   post: Types.IPostEdge;
@@ -37,11 +38,26 @@ const Post = ({ post }: Props) => {
     content = null;
   }
 
+  const [saved, setSaved] = React.useState(false);
+
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.saveContainer}
+        onPress={() => {
+          setSaved(!saved);
+        }}
+      >
+        <View style={styles.save}>
+          <Icon
+            name={saved ? "saveActive" : "save"}
+            size={30}
+            resizeMode="contain"
+          />
+        </View>
+      </TouchableOpacity>
       <Dot />
       {content}
-      <View style={styles.footer} />
     </View>
   );
 };
@@ -61,9 +77,22 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  footer: {
-    height: 0,
-    backgroundColor: colors.orange,
+  saveContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    zIndex: 1000,
+    width: 50,
+    height: 50,
+    borderWidth: 0,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  save: {
+    backgroundColor: "white",
+    padding: 3,
+    borderTopLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });
 
