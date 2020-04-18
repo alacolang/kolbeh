@@ -41,13 +41,13 @@ const parentData = [
     feed: [
       "age-coping.md",
       "crisis.mp4",
-      "adolescent-coping-1.mp4",
-      "adolescent-coping-2.mp4",
+      "adolescent-coping-corona-one.mp4",
+      "adolescent-coping-corona-two.mp4",
       Array.from({ length: 19 }).map(
         (_, i) => `parental-aggression-${i + 1}.webp`
       ),
-      "stress1.mp4",
-      "stress3.mp4",
+      "mindfulness.mp4",
+      "stress-body-scan.mp4",
       "thinking.mp4",
     ],
   },
@@ -60,13 +60,12 @@ const parentData = [
       "corona-news.mp4",
       "empathy.mp4",
       Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
-      Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
       Array.from({ length: 6 }).map(
         (_, i) => `empathy-corona-poem-${i + 1}.webp`
       ),
-      `creative-1.mp4`,
-      `creative-2.mp4`,
-      `creative-3.mp4`,
+      `creativity-with-children-one.mp4`,
+      `creativity-with-children-two.mp4`,
+      `creativity-with-children-three.mp4`,
     ],
   },
   {
@@ -74,8 +73,8 @@ const parentData = [
     title: `ترس و اضطراب`,
     description: ` در این بخش راهکارهای مفیدی برای کاهش شدت هیجان نگرانی و افکار اضطرابی در کودکان و نوجوانان معرفی می‌شود.`,
     feed: [
-      "stress.mp4",
-      "stress2.mp4",
+      "stress-management-parent-guide.mp4",
+      "anxiety-corona.mp4",
       "anxiety.webp",
       Array.from({ length: 6 }).map((_, i) => `stress-t-${i + 1}.webp`),
     ],
@@ -85,8 +84,8 @@ const parentData = [
     title: "سوگواری",
     description: ` کودکان و نوجوانان به دلایلی مثل از دست دادن عزیزان،‌ بیماری یا جدایی والدین، ... ممکن است سوگوار شوند. در این بخش با ویژگی‌های سوگ در کودکان و نوجوانان و شیوه همراهی با آنان آشنا می‌شوید.`,
     feed: [
-      "grief.mp4",
-      "grief.webp",
+      "grief-corona.mp4",
+      "grief-corona-infograph.webp",
       Array.from({ length: 14 }).map((_, i) => `grief-a-${i + 1}.webp`),
       Array.from({ length: 14 }).map((_, i) => `grief-t-${i + 1}.webp`),
     ],
@@ -95,13 +94,13 @@ const parentData = [
     name: "depression",
     title: "افسردگی",
     description: ` خلق افسرده نه تنها باعث رنج فرزندان می‌شود، بلکه بر روحیه سایر اعضای خانواده‌ نیز تاثیر می‌گذارد. مطالب این بخش به بهبود خلق فرزندتان و بالا رفتن روحیه خانواده کمک می‌کند.`,
-    feed: ["depression-parent.mp4", "depression.mp4", "depression.webp"],
+    feed: ["depression-parent.mp4", "depression-corona.mp4", "depression-corona-infograph.webp"],
   },
   {
     name: "obsession",
     title: "وسواس و اجبار",
     description: ` وسواس در کودکان و نوجوانان، ‌در کنار مداخلات درمانی، به همراهی والدین نیازمند است. این بخش به شما کمک می‌کند والدین همراه‌تری باشید.`,
-    feed: ["obsession.mp4", "obsession.webp"],
+    feed: ["obsession-corona.mp4", "obsession-corona-infograph.webp"],
   },
   {
     name: "autism",
@@ -113,16 +112,16 @@ const parentData = [
     name: "adhd",
     title: "بیش‌فعالی و کمبود تمرکز",
     description: ` داشتن فرزند مبتلا به بیش‌فعالی و نقص توجه، ممکن است سوالات زیادی را در ذهن شما ایجاد کند. این بخش پاسخ‌گوی سوالات شما است.`,
-    feed: ["adhd.mp4", "adhd.webp"],
+    feed: ["adhd-corona.mp4", "adhd-corona-infograph.webp"],
   },
   {
     name: "bipolar",
     title: "اختلال دوقطبی",
     description: ` اختلال دوقطبی و مشکلات ناشی از بالا وپائین‌ شدن خلق برای والدین و فرزندانشان بسیار چالش برانگیز است. مطالب این بخش می‌تواند در سفر بهبودی فرزندتان همراهتان باشد.`,
     feed: [
-      "bipolar.mp4",
-      "bipolar.webp",
-      Array.from({ length: 8 }).map((_, i) => `bipolar-${i + 1}.webp`),
+      "bipolar-corona.mp4",
+      "bipolar-corona-infograph.webp",
+      Array.from({ length: 8 }).map((_, i) => `bipolar-empathy-${i + 1}.webp`),
     ],
   },
   {
