@@ -2,13 +2,10 @@ import React from "react";
 import {
   View,
   TouchableOpacity,
-  RefreshControl,
-  FlatList,
-  StatusBar,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
 import Home from "../pages/main-feed";
 import colors from "../colors";
 import { Icon } from "../components/icon";
@@ -20,8 +17,10 @@ export type HomeStackParamList = {
 };
 const Stack = createStackNavigator<HomeStackParamList>();
 
+type Navigation = NavigationProp<HomeStackParamList, "home">;
 const Header = () => {
-  const [header, setHeader] = React.useState(true);
+  const [header, setHeader] = React.useState(false);
+  const navigation = useNavigation<Navigation>();
   return <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
@@ -53,7 +52,7 @@ const Header = () => {
             <Icon name="shareActive" size="tiny" />
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate("contact");
+                navigation.navigate("contact");
               }}
             >
               <Icon name="info" size="tiny" />
