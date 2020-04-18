@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const data = require("../resolvers/data/index");
 
-const HOST = "https://alacolang.ir/kolbeh";
+const HOST = "../../static";
 const OUT_DIR = path.join(__dirname, "posts");
 
 data.parentData.map((d, categryIndex) => {
@@ -22,10 +22,10 @@ function createPage(root, d, categryIndex) {
       type = "video";
       content = items.map(
         (item) =>
-          `[![](${HOST}/static/images/${item.replace(
+          `[![](${HOST}/images/${item.replace(
             ".mp4",
             "-cover.webp"
-          )})](${HOST}/static/videos/${item})`
+          )})](${HOST}/videos/${item})`
       );
     } else if (/\.md$/.test(items[0])) {
       type = "markdown";
@@ -33,7 +33,7 @@ function createPage(root, d, categryIndex) {
       content = [fs.readFileSync(postFile, "utf8")];
     } else if (/\.(png|jpeg|webp)$/.test(items[0])) {
       type = "image";
-      content = items.map((item) => `![](${HOST}/static/images/${item})`);
+      content = items.map((item) => `![](${HOST}/images/${item})`);
     }
 
     content = content.reverse();
