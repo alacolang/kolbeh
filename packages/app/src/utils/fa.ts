@@ -12,6 +12,7 @@ const messages: Record<string, string> = {
   "contact.telnumber": "۰۲۱ ۵۵۴۰ ۹۴۹۵",
   "saved.title": "انتخاب شده‌ها",
   "invite-friends": "معرفی به دیگران",
+  "invite-others": " در کلبه انجمن روان‌‌پزشکی کودک و نوجوان ایران، می‌توانید اطلاعات مفیدی در مورد سلامت روان فرزندان‌تان کسب کنید."
 };
 
 export default messages;
