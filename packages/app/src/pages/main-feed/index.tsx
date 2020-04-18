@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   RefreshControl,
+  Share,
   Animated,
   FlatList,
   StatusBar,
@@ -21,6 +22,7 @@ import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
 import Post from "../../components/post";
 import { HomeStackParamList } from "../../navigation/home-stack-navigator";
+import messages from "../../utils/fa";
 
 const fullHeight = Dimensions.get("window").height;
 
@@ -115,13 +117,35 @@ const ParentScreen = () => {
     extrapolate: "clamp",
   });
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: messages["invite-others"] + "\n https://alacolang.ir/corona",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar hidden />
       <AnimatedFlatList
-        contentContainerStyle={[styles.scrollViewContent, {
-          marginTop: header ? HEADER_MAX_HEIGHT + 30 : HEADER_MIN_HEIGHT,
-        }]}
+        contentContainerStyle={[
+          styles.scrollViewContent,
+          {
+            marginTop: header ? HEADER_MAX_HEIGHT + 30 : HEADER_MIN_HEIGHT,
+          },
+        ]}
         data={posts.edges}
         renderItem={renderItem}
         // onScroll={Animated.event(
@@ -183,15 +207,13 @@ const ParentScreen = () => {
               <Icon name="save" size={40} />
               <FormattedText style={styles.iconTitle} id="saved.title" />
             </View>
-            <View style={styles.headerRow}>
-              <Icon name="shareActive" size={40} />
-              <FormattedText style={styles.iconTitle} id="invite-friends" />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("contact");
-              }}
-            >
+            <TouchableOpacity onPress={() => onShare()}>
+              <View style={styles.headerRow}>
+                <Icon name="shareActive" size={40} />
+                <FormattedText style={styles.iconTitle} id="invite-friends" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("contact")}>
               <View style={styles.headerRow}>
                 <Icon name="info" size={40} />
                 <FormattedText style={styles.iconTitle} id="contact-us" />
