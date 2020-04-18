@@ -37,9 +37,23 @@ const resolvers = {
       return [...dataResolver(data.parentData), ...dataResolver(data.childData)]
         .map((d) => d.feed.edges.map((post) => ({ node: post })))
         .flat()
-        .find((d) => {
+        .find(d => {
           return d.node.id === id;
         }).node;
+    },
+    posts: () => {
+      const edges = [
+        ...dataResolver(data.parentData),
+        ...dataResolver(data.childData),
+      ]
+        .map(d => d.feed.edges)
+        .flat();
+      return {
+        edges,
+        pageInfo: {
+          hasNextPage: false,
+        },
+      };
     },
     parentCategories: () => {
       return dataResolver(parsedData.parent);

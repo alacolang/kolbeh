@@ -8,6 +8,7 @@ const schema = gql`
     info: Info @cacheControl(maxAge: 1000)
     postById(id: ID!): Post!
     parentCategories: [Category!]! @cacheControl(maxAge: 240)
+    posts: ParentFeedConnection!
     childCategories: [Category!]! @cacheControl(maxAge: 240)
     parentFeed: ParentFeedConnection!
       @deprecated(reason: "use parentCategories")
