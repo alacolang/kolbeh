@@ -28,7 +28,6 @@ function parse() {
         const renderer = new marked.Renderer();
         renderer.image = (href, title, text) => {
           const url = href.replace('../../static/', '/static/')
-          // console.log({url})
           images.push({ url, id: md5(href) });
         };
 

@@ -1,7 +1,4 @@
-import fs from "fs";
-import path from "path";
 import depricatedResolvers from "./depricated-resolver";
-import * as data from "./data";
 import parse from "../content/parse";
 let parsedData;
 
@@ -11,13 +8,13 @@ async function init() {
 
 init();
 
-const dataResolver = (data) => {
-  return data.map((d) => {
+const dataResolver = data => {
+  return data.map(d => {
     return {
       ...d,
       icon: d.name,
       feed: {
-        edges: d.feed.map(post => ({node: post})),
+        edges: d.feed.map(post => ({ node: post })),
         pageInfo: {
           hasNextPage: false,
         },
@@ -34,8 +31,11 @@ const resolvers = {
       };
     },
     postById: (obj, { id }) => {
-      return [...dataResolver(data.parentData), ...dataResolver(data.childData)]
-        .map((d) => d.feed.edges.map((post) => ({ node: post })))
+      return [
+        ...dataResolver(parsedData.parent),
+        ...dataResolver(parsedData.child),
+      ]
+        .map(d => d.feed.edges.map(post => ({ node: post })))
         .flat()
         .find(d => {
           return d.node.id === id;
@@ -43,11 +43,12 @@ const resolvers = {
     },
     posts: () => {
       const edges = [
-        ...dataResolver(data.parentData),
-        ...dataResolver(data.childData),
+        ...dataResolver(parsedData.parent),
+        ...dataResolver(parsedData.child),
       ]
         .map(d => d.feed.edges)
         .flat();
+
       return {
         edges,
         pageInfo: {
