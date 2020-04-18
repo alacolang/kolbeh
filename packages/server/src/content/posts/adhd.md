@@ -5,4 +5,4 @@ category: parent/adhd
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/adhd.webp)
+![](../../static/images/adhd.webp)

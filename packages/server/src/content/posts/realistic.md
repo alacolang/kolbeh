@@ -5,4 +5,4 @@ category: child/teen
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/realistic-cover.webp)](https://alacolang.ir/kolbeh/static/videos/realistic.mp4)
+[![](../../static/images/realistic-cover.webp)](../../static/videos/realistic.mp4)

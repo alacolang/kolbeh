@@ -1,8 +1,8 @@
 ---
-order: 20
-title: title-1
+order: 30
+title: title-2
 category: parent/depression
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/depression.webp)
+![](../../static/images/depression.webp)

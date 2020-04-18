@@ -5,4 +5,4 @@ category: parent/parenting
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/parenting4-cover.webp)](https://alacolang.ir/kolbeh/static/videos/parenting4.mp4)
+[![](../../static/images/parenting4-cover.webp)](../../static/videos/parenting4.mp4)

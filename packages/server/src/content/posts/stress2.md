@@ -5,4 +5,4 @@ category: parent/axiety
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/stress2-cover.webp)](https://alacolang.ir/kolbeh/static/videos/stress2.mp4)
+[![](../../static/images/stress2-cover.webp)](../../static/videos/stress2.mp4)

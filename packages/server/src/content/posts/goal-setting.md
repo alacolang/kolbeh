@@ -5,4 +5,4 @@ category: child/teen
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/goal-setting-cover.webp)](https://alacolang.ir/kolbeh/static/videos/goal-setting.mp4)
+[![](../../static/images/goal-setting-cover.webp)](../../static/videos/goal-setting.mp4)

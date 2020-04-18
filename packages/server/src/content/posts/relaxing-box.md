@@ -5,4 +5,4 @@ category: child/teen
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/relaxing-box.webp)
+![](../../static/images/relaxing-box.webp)

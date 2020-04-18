@@ -5,4 +5,4 @@ category: child/kid
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/baloon-breathing.webp)
+![](../../static/images/baloon-breathing.webp)
