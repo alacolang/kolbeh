@@ -21,7 +21,6 @@ const childData = [
     title: "اتاق نوجوان",
     description: `به اتاق نوجوان کلبه خوش‌ آمدید. مطالب این اتاق کمک می‌کنه که با احساساتتون بیشتر آشنا بشید و برای دغدغه‌ها و نگرانی‌هایی که دارید پاسخ‌هایی بگیرید که یک مشاور پیشنهاد می‌کنه.`,
     feed: [
-      // ...Array.from({ length: 5 }).map((_, i) => `emotion-teen-${i + 1}.webp`),
       "coping-sadness.mp4",
       "realistic.mp4",
       "goal-setting.mp4",
