@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     borderBottomLeftRadius: RADIUS_MAX,
+    elevation: 4,
     // overflow: "hidden",
   },
   title: {
