@@ -52,7 +52,7 @@ module.exports = {
       repo: "git@github.com:yassermzh/yara.git",
       path: "/home/www/yara",
       "post-deploy":
-        "yarn && yarn workspace server optimize-images && pm2 reload ecosystem.config.js --env production",
+        "yarn && yarn workspace server optimize-images && NODE_ENV=production pm2 reload ecosystem.config.js --env production",
     },
     staging: {
       user: "www",
@@ -60,7 +60,7 @@ module.exports = {
       ref: `origin/${process.env.BRANCH}`,
       repo: "git@github.com:yassermzh/yara.git",
       path: "/home/www/yara-staging",
-      "post-deploy": "yarn && pm2 reload ecosystem.config.js --env staging",
+      "post-deploy": "yarn && NODE_ENV=staging pm2 reload ecosystem.config.js --env staging",
     },
   },
 };
