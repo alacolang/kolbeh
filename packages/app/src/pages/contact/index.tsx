@@ -56,12 +56,10 @@ const Contact = () => {
 
       <ImageBackground
         source={frameImg}
-        style={[styles.frame]}
+        style={styles.frame}
         resizeMode="stretch"
       >
-        <View style={styles.row}>
-          <FormattedText style={styles.text} id="contact.title" />
-        </View>
+        <FormattedText style={styles.text} id="contact.title" />
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
             <FormattedText style={styles.text} id="contact.tel" />
@@ -151,7 +149,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   socialContainer: {
-    marginVertical: 20,
+    marginBottom: 30,
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-between",
@@ -169,7 +167,6 @@ const styles = StyleSheet.create({
   },
   row: {
     height: 44,
-    // borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
