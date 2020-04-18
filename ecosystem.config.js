@@ -1,6 +1,9 @@
+const branchName = require('current-git-branch');
+
 function addEnvSuffix(name) {
   return process.env.NODE_ENV + "_" + name;
 }
+
 
 module.exports = {
   apps: [
@@ -57,7 +60,7 @@ module.exports = {
     staging: {
       user: "www",
       host: "vps",
-      ref: `origin/${process.env.BRANCH}`,
+      ref: `origin/${branchName()}`,
       repo: "git@github.com:yassermzh/yara.git",
       path: "/home/www/yara-staging",
       "post-deploy": "yarn && NODE_ENV=staging pm2 reload ecosystem.config.js --env staging",
