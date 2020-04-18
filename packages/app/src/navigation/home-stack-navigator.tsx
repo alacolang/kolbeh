@@ -5,7 +5,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useNavigation, NavigationProp } from "@react-navigation/core";
 import Home from "../pages/main-feed";
 import colors from "../colors";
 import { Icon } from "../components/icon";
@@ -17,58 +16,13 @@ export type HomeStackParamList = {
 };
 const Stack = createStackNavigator<HomeStackParamList>();
 
-type Navigation = NavigationProp<HomeStackParamList, "home">;
-const Header = () => {
-  const [header, setHeader] = React.useState(false);
-  const navigation = useNavigation<Navigation>();
-  return <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            setHeader(!header);
-          }}
-        >
-          {!header ? (
-            <View style={styles.iconContainer}>
-              <View style={styles.iconDot}></View>
-              <View style={styles.iconDot}></View>
-              <View style={styles.iconDot}></View>
-            </View>
-          ) : (
-            <View style={styles.iconContainer}>
-              <Icon name="backActive" size={20} resizeMode="contain" />
-            </View>
-          )}
-        </TouchableOpacity>
-        {header && (
-          <View
-            style={{
-              flexDirection: "row",
-              borderWidth: 0,
-              width: 180,
-              justifyContent: "space-evenly",
-            }}
-          >
-            <Icon name="save" size="tiny" />
-            <Icon name="shareActive" size="tiny" />
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("contact");
-              }}
-            >
-              <Icon name="info" size="tiny" />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-}
-
 const ParentNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="home"
         component={Home}
-        options={{ header: () => <Header /> }}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="contact"
