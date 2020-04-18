@@ -75,7 +75,7 @@ const Home = () => {
           >
             <Icon name="info" size="medium" />
           </Animated.View>
-          <FormattedText style={styles.moreText} id="contactus" />
+          <FormattedText style={styles.moreText} id="contact-us" />
         </TouchableOpacity>
       </ImageBackground>
       <Clouds />
