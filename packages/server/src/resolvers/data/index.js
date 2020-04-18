@@ -57,8 +57,8 @@ const parentData = [
     feed: [
       Array.from({ length: 24 }).map((_, i) => `play-with-children-${i + 1}.webp`),
       "corona-news.mp4",
-      "empathy.mp4",
-      Array.from({ length: 6 }).map((_, i) => `empathy-tt-${i + 1}.webp`),
+      "empathy-emotional-crisis.mp4",
+      Array.from({ length: 6 }).map((_, i) => `talk-children-corona-${i + 1}.webp`),
       Array.from({ length: 6 }).map(
         (_, i) => `empathy-corona-poem-${i + 1}.webp`
       ),
