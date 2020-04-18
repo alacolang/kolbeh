@@ -5,7 +5,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { resolveURL } from "../../utils/resolve";
 
-const frameWidth = Dimensions.get("window").width - 30 * 2;
+const frameWidth = Dimensions.get("window").width - 40 * 2;
 
 type ISize = { width?: number; height: number };
 type Props = {

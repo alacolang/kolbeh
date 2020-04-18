@@ -16,7 +16,7 @@ import icons, { Icon } from "../icon";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
 
-const frameWidth = Dimensions.get("window").width - 30 * 2;
+const frameWidth = Dimensions.get("window").width - 40 * 2;
 
 type Props = { videos: Types.IVideo[]; track: () => void };
 

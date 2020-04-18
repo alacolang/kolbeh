@@ -16,8 +16,8 @@ import Icons from "../../components/icon";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
 
-const frameWidth = Dimensions.get("window").width - 30 * 2;
-const frameHeight = Dimensions.get("window").height - 30;
+const frameWidth = Dimensions.get("window").width - 40 * 2;
+const frameHeight = Dimensions.get("window").height - 40;
 
 type IProps = {
   images: Types.IImage[];
