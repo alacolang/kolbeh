@@ -53,7 +53,7 @@ module.exports = {
       host: "vps",
       ref: "origin/master",
       repo: "git@github.com:yassermzh/yara.git",
-      path: "/home/www/yara",
+      path: "/home/www/yara-pm2",
       "post-deploy":
         "yarn && yarn workspace server optimize-images && NODE_ENV=production pm2 reload ecosystem.config.js --env production",
     },
