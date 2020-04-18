@@ -5,7 +5,7 @@ category: parent/stress
 type: markdown
 ---
 
-![no-animate](https://alacolang.ir/kolbeh/static/images/age-coping.png)
+![no-animate](/static/images/age-coping.png)
 
 # راهنمای والدین و مراقبین برای کمک به سازگاری کودکان و نوجوانان در بحران همه‌گیری ویروس کرونا
 
@@ -14,7 +14,7 @@ type: markdown
 داشتن اطلاعات حیاتی در مورد شرایط و آماده بودن برای هر گونه اتفاق می‌تواند به کاهش اضطراب، ایجاد آرامش و جلوگیری از هرگونه رفتار حساب نشده کمک کند.
 کودکان ممکن است بسته به سن‌شان واکنش‌های متفاوتی را به بحران نشان دهند. برای کمک به آنها برای انطباق بهتر روش‌های زیر پیشنهاد می‌شود.
 
-![pre-school](https://alacolang.ir/kolbeh/static/images/preschool.png "سنین پیش دبستان")
+![pre-school](/static/images/preschool.png "سنین پیش دبستان")
 
 ## سنین پیش دبستان
 
@@ -38,7 +38,7 @@ type: markdown
 - حفظ روال های روزانه (مثل غذا خوردن با یکدیگر).
 - جلوگیری از مواجهه با اخبار و اطلاعاتی که برای کودک قابل درک نیست.
 
-![](https://alacolang.ir/kolbeh/static/images/school.png "سن مدرسه (۶-۱۲ سال)")
+![](/static/images/school.png "سن مدرسه (۶-۱۲ سال)")
 
 ## سن مدرسه (۶-۱۲ سال)
 
@@ -66,7 +66,7 @@ type: markdown
 - مشارکت در کارهای خانه و محول کردن مسئولیت به کودکان و انجام کارهای منزل در قالب کار گروهی.
 - محدود کردن مواجهه با رسانه ها و اطلاعات غیر معتبر.
 
-![نوجوانی (۱۱-۱۸ سال)](https://alacolang.ir/kolbeh/static/images/highschool.png "نوجوانی (۱۱-۱۸ سال)")
+![نوجوانی (۱۱-۱۸ سال)](/static/images/highschool.png "نوجوانی (۱۱-۱۸ سال)")
 
 ## نوجوانی (۱۱-۱۸ سال)
 
