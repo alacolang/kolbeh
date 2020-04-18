@@ -19,6 +19,7 @@ import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import Icons from "../../components/icon";
 import * as Types from "../../types";
+import colors from "../../colors";
 import Post from "../../components/post";
 
 const fullHeight = Dimensions.get("window").height;
@@ -88,7 +89,7 @@ const Feed = () => {
   });
 
   return (
-    <>
+    <View style={styles.container}>
       <StatusBar
         barStyle="dark-content"
         translucent
@@ -184,11 +185,14 @@ const Feed = () => {
           </Animated.View>
         </View>
       </Animated.View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.background,
+  },
   scrollViewContent: {
     marginTop: HEADER_MAX_HEIGHT + 30,
     paddingBottom: HEADER_MAX_HEIGHT + 30,
