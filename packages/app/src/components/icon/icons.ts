@@ -5,6 +5,7 @@ import ChildActiveIcon from "./images/child-active.png";
 import HomeIcon from "./images/home.png";
 import HomeActiveIcon from "./images/home-active.png";
 import BackIcon from "./images/back.png";
+import BackActiveIcon from "./images/back-active.png";
 import LogoIcon from "./images/logo.png";
 import { ImageSourcePropType } from "react-native";
 import EmpathyActiveIcon from "./images/empathy-active.png";
@@ -28,6 +29,9 @@ import TelegramIcon from "./images/telegram.png";
 import InfoIcon from "./images/information.png";
 import PlayIcon from "./images/play.png";
 import LoadingIcon from "./images/loading.png";
+import SaveActiveIcon from "./images/saved-active.png";
+import SaveIcon from "./images/saved.png";
+import ShareActiveIcon from "./images/share-active.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
@@ -39,6 +43,7 @@ const icons: Icons = {
   home: HomeIcon,
   homeActive: HomeActiveIcon,
   back: BackIcon,
+  backActive: BackActiveIcon,
   logo: LogoIcon,
   empathyActive: EmpathyActiveIcon,
   griefActive: GriefActiveIcon,
@@ -61,6 +66,9 @@ const icons: Icons = {
   info: InfoIcon,
   play: PlayIcon,
   loading: LoadingIcon,
+  saveActive: SaveActiveIcon,
+  save: SaveIcon,
+  shareActive: ShareActiveIcon,
 };
 
 export default icons;
