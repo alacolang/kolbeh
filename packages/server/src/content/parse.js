@@ -33,7 +33,8 @@ function parse() {
         };
 
         renderer.link = (href, title, text) => {
-          videos.push({ url: href, id: md5(href), cover: images[0].url });
+          const url = href.replace('../../static/', '/static/')
+          videos.push({ url, id: md5(href), cover: images[0].url });
         };
 
         marked(parsedFileContent.body, { renderer });
