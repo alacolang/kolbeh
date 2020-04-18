@@ -3,8 +3,10 @@ import {
   View,
   TouchableOpacity,
   RefreshControl,
+  Animated,
   FlatList,
   StatusBar,
+  Dimensions,
   StyleSheet,
   ScrollView,
 } from "react-native";
@@ -12,12 +14,22 @@ import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Loading from "../../components/loading";
+import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
 import { Icon } from "../../components/icon";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
 import Post from "../../components/post";
 import { HomeStackParamList } from "../../navigation/home-stack-navigator";
+
+const fullHeight = Dimensions.get("window").height;
+
+const RADIUS_MAX = 60;
+const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
+const HEADER_MIN_HEIGHT = 75;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const GET_POSTS = gql`
   query {
@@ -57,6 +69,7 @@ type Navigation = NavigationProp<HomeStackParamList, "home">;
 
 const ParentScreen = () => {
   const navigation = useNavigation<Navigation>();
+  const scrollAnimatedValue = React.useRef(new Animated.Value(0)).current;
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [header, setHeader] = React.useState(true);
@@ -87,17 +100,65 @@ const ParentScreen = () => {
     return <Post post={item} />;
   };
 
+  let translateTab = scrollAnimatedValue.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [0, -HEADER_SCROLL_DISTANCE],
+    extrapolate: "clamp",
+  });
+
+  let radius = scrollAnimatedValue.interpolate({
+    inputRange: [
+      HEADER_SCROLL_DISTANCE / 2 - HEADER_MIN_HEIGHT,
+      HEADER_SCROLL_DISTANCE,
+    ],
+    outputRange: [RADIUS_MAX, 0],
+    extrapolate: "clamp",
+  });
+
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      {/* <View style={styles.header}>
+      <AnimatedFlatList
+        contentContainerStyle={[styles.scrollViewContent, {
+          marginTop: header ? HEADER_MAX_HEIGHT + 30 : HEADER_MIN_HEIGHT,
+        }]}
+        data={posts.edges}
+        renderItem={renderItem}
+        // onScroll={Animated.event(
+        //   [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue } } }],
+        //   { useNativeDriver: true }
+        // )}
+        scrollEventThrottle={16}
+        keyExtractor={(item: Types.IPostEdge) => item.node.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+      <Animated.View
+        style={[
+          styles.headerContainer,
+          {
+            elevation: header ? 4 : 0,
+            height: header ? HEADER_MAX_HEIGHT : HEADER_MIN_HEIGHT,
+            backgroundColor: header ? colors.primaryVarient : colors.background,
+            translateY: translateTab,
+            // borderBottomLeftRadius: radius,
+            borderBottomRightRadius: header ? radius : 0,
+          },
+        ]}
+      >
         <TouchableOpacity
           onPress={() => {
             setHeader(!header);
           }}
         >
-          {!header ? (
-            <View style={styles.iconContainer}>
+          {true || !header ? (
+            <View
+              style={[
+                styles.iconContainer,
+                { backgroundColor: header ? "white" : colors.primaryVarient },
+              ]}
+            >
               <View style={styles.iconDot}></View>
               <View style={styles.iconDot}></View>
               <View style={styles.iconDot}></View>
@@ -111,58 +172,60 @@ const ParentScreen = () => {
         {header && (
           <View
             style={{
-              flexDirection: "row",
-              borderWidth: 0,
-              width: 180,
+              flexDirection: "column",
+              // borderWidth: 1,
+              paddingLeft: 30,
+              flexGrow: 1,
               justifyContent: "space-evenly",
             }}
           >
-            <Icon name="save" size="tiny" />
-            <Icon name="shareActive" size="tiny" />
+            <View style={styles.headerRow}>
+              <Icon name="save" size={40} />
+              <FormattedText style={styles.iconTitle} id="saved.title" />
+            </View>
+            <View style={styles.headerRow}>
+              <Icon name="shareActive" size={40} />
+              <FormattedText style={styles.iconTitle} id="invite-friends" />
+            </View>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("contact");
               }}
             >
-              <Icon name="info" size="tiny" />
+              <View style={styles.headerRow}>
+                <Icon name="info" size={40} />
+                <FormattedText style={styles.iconTitle} id="contact-us" />
+              </View>
             </TouchableOpacity>
           </View>
         )}
-      </View> */}
-      <FlatList
-        contentContainerStyle={styles.scrollViewContent}
-        data={posts.edges}
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        keyExtractor={(item: Types.IPostEdge) => item.node.id}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
+      </Animated.View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    // position: "absolute",
-    // top: 0,
-    // left: 0,
-    // right: 0,
-    // marginTop: 10,
-    paddingHorizontal: 30,
-    height: 55,
-    // borderWidth: 1,
-    // borderColor: "red",
+  headerContainer: {
+    position: "absolute",
+    height: HEADER_MAX_HEIGHT,
+    top: 0,
+    left: 0,
+    right: 0,
+    borderBottomRightRadius: RADIUS_MAX,
+    backgroundColor: colors.primaryVarient,
+    // overflow: "hidden",
+  },
+  headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    elevation: 3,
   },
+  iconTitle: { paddingRight: 15, color: colors.primary, fontSize: 18 },
   iconContainer: {
-    backgroundColor: colors.primaryVarient,
     width: 40,
     height: 40,
     borderRadius: 40,
+    marginTop: 20,
+    marginLeft: 30,
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
@@ -184,8 +247,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   scrollViewContent: {
-    marginTop: 15,
-    paddingBottom: 30,
+    marginTop: HEADER_MAX_HEIGHT + 30,
+    paddingBottom: HEADER_MAX_HEIGHT + 30,
     marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
