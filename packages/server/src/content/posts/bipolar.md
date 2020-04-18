@@ -5,11 +5,11 @@ category: parent/bipolar
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/bipolar-1.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-2.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-3.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-4.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-5.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-6.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-7.webp)
-![](https://alacolang.ir/kolbeh/static/images/bipolar-8.webp)
+![](../../static/images/bipolar-1.webp)
+![](../../static/images/bipolar-2.webp)
+![](../../static/images/bipolar-3.webp)
+![](../../static/images/bipolar-4.webp)
+![](../../static/images/bipolar-5.webp)
+![](../../static/images/bipolar-6.webp)
+![](../../static/images/bipolar-7.webp)
+![](../../static/images/bipolar-8.webp)

@@ -5,4 +5,4 @@ category: parent/grief
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/grief.webp)
+![](../../static/images/grief.webp)

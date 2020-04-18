@@ -1,8 +1,8 @@
 ---
-order: 20
-title: title-1
+order: 30
+title: title-2
 category: parent/empathy
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/empathy-cover.webp)](https://alacolang.ir/kolbeh/static/videos/empathy.mp4)
+[![](../../static/images/empathy-cover.webp)](../../static/videos/empathy.mp4)

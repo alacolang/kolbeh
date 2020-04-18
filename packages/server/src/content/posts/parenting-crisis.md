@@ -5,4 +5,4 @@ category: parent/parenting
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/parenting-crisis-cover.webp)](https://alacolang.ir/kolbeh/static/videos/parenting-crisis.mp4)
+[![](../../static/images/parenting-crisis-cover.webp)](../../static/videos/parenting-crisis.mp4)

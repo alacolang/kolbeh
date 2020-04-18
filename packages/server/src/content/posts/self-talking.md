@@ -5,4 +5,4 @@ category: child/teen
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/self-talking-cover.webp)](https://alacolang.ir/kolbeh/static/videos/self-talking.mp4)
+[![](../../static/images/self-talking-cover.webp)](../../static/videos/self-talking.mp4)

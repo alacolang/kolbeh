@@ -1,8 +1,8 @@
 ---
-order: 10
-title: title-0
+order: 20
+title: title-1
 category: parent/empathy
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/corona-news-cover.webp)](https://alacolang.ir/kolbeh/static/videos/corona-news.mp4)
+[![](../../static/images/corona-news-cover.webp)](../../static/videos/corona-news.mp4)

@@ -5,4 +5,4 @@ category: parent/obsession
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/obsession.webp)
+![](../../static/images/obsession.webp)

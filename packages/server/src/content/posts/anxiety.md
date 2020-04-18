@@ -5,4 +5,4 @@ category: parent/axiety
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/anxiety.webp)
+![](../../static/images/anxiety.webp)

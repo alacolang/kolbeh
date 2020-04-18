@@ -5,10 +5,10 @@ category: child/kid
 type: image
 ---
 
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-1.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-2.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-3.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-4.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-5.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-6.webp)
-![](https://alacolang.ir/kolbeh/static/images/stress-kid-7.webp)
+![](../../static/images/stress-kid-1.webp)
+![](../../static/images/stress-kid-2.webp)
+![](../../static/images/stress-kid-3.webp)
+![](../../static/images/stress-kid-4.webp)
+![](../../static/images/stress-kid-5.webp)
+![](../../static/images/stress-kid-6.webp)
+![](../../static/images/stress-kid-7.webp)

@@ -5,4 +5,4 @@ category: parent/stress
 type: video
 ---
 
-[![](https://alacolang.ir/kolbeh/static/images/stress3-cover.webp)](https://alacolang.ir/kolbeh/static/videos/stress3.mp4)
+[![](../../static/images/stress3-cover.webp)](../../static/videos/stress3.mp4)
