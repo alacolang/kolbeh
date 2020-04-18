@@ -10,15 +10,13 @@ import {
   Text,
   View,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
-import icons from "../../components/icon";
+import icons, { Icon } from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
 import frameImg from "../../assets/images/frame.png";
-import Cloads from "../../components/clouds";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -44,16 +42,16 @@ const Contact = () => {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#d0d0d0", colors.green, colors.green]}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <StatusBar
         barStyle="dark-content"
         translucent
         backgroundColor="transparent"
       />
 
+      <View style={styles.logoContainer}>
+        <Icon name="info" size="large" />
+      </View>
       <ImageBackground
         source={frameImg}
         style={styles.frame}
@@ -108,7 +106,6 @@ const Contact = () => {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <Cloads />
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
@@ -118,7 +115,7 @@ const Contact = () => {
           app version: {codepushVersion.version}
         </Text>
       </View>
-    </LinearGradient>
+    </View>
   );
 };
 
@@ -144,7 +141,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: colors.primaryVarient,
+    color: colors.secondary,
     lineHeight: 2 * 18,
     textAlign: "center",
   },
@@ -178,8 +175,13 @@ const styles = StyleSheet.create({
     right: 10,
   },
   version: {
-    color: colors.primaryVarient,
+    color: colors.secondary,
     fontSize: 12,
+  },
+  logoContainer: {
+    position: "absolute",
+    top: 30,
+    left: 30,
   },
 });
 
