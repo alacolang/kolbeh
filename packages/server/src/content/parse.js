@@ -11,11 +11,23 @@ const x = __dirname + "/posts/**/*.md";
 const matches = glob.sync(x);
 const readFileAsync = util.promisify(readFile);
 
+function normalizeHref(href) {
+  const re = new RegExp("../../static/", "g");
+  return href.replace(re, "/static/");
+}
+
+function createImageFeild(href) {
+  return { url: normalizeHref(href), id: md5(href) };
+}
+
+function createVideoFeild(href, hrefCover) {
+  return { url: normalizeHref(href), id: md5(href), cover: hrefCover };
+}
 
 function parse() {
   let result = { parent: {}, child: {} };
   return Promise.all(
-    matches.map(async (match) => {
+    matches.map(async match => {
       const fileContent = await readFileAsync(match, "utf8");
 
       let images = [];
@@ -27,13 +39,11 @@ function parse() {
       function handleImageVideoPost() {
         const renderer = new marked.Renderer();
         renderer.image = (href, title, text) => {
-          const url = href.replace('../../static/', '/static/')
-          images.push({ url, id: md5(href) });
+          images.push(createImageFeild(href));
         };
 
         renderer.link = (href, title, text) => {
-          const url = href.replace('../../static/', '/static/')
-          videos.push({ url, id: md5(href), cover: images[0].url });
+          videos.push(createVideoFeild(href, images[0].url));
         };
 
         marked(parsedFileContent.body, { renderer });
@@ -45,8 +55,11 @@ function parse() {
       handleImageVideoPost();
       if (type === "image" || type == "video") {
       } else if (type === "markdown") {
-        markdown = { content: parsedFileContent.body, cover: images[0].url };
-        images = [images[0]];
+        markdown = {
+          content: normalizeHref(parsedFileContent.body),
+          cover: (createImageFeild(meta.cover) || images[0]).url,
+        };
+        images = [createImageFeild(meta.cover) || images[0]];
         videos = [];
       }
 
@@ -75,14 +88,14 @@ function parse() {
     result.parent = Object.values(result.parent).sort(
       (a, b) => a.order - b.order
     );
-    result.parent = result.parent.map((category) => {
+    result.parent = result.parent.map(category => {
       category.feed.sort((a, b) => a.order - b.order);
       return category;
     });
     result.child = Object.values(result.child).sort(
       (a, b) => a.order - b.order
     );
-    result.child = result.child.map((category) => {
+    result.child = result.child.map(category => {
       category.feed.sort((a, b) => a.order - b.order);
       return category;
     });
