@@ -131,8 +131,7 @@ const ParentScreen = () => {
       } else if (result.action === Share.dismissedAction) {
         // dismissed
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   return (

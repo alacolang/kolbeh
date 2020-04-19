@@ -50,7 +50,7 @@ const Contact = () => {
       />
 
       <View style={styles.logoContainer}>
-        <Icon name="info" size="large" />
+        <Icon name="info" size="medium" />
       </View>
       <ImageBackground
         source={frameImg}

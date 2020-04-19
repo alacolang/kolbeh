@@ -16,7 +16,7 @@ type Props = {
 const Post = ({ post }: Props) => {
   let content;
   const node = post.node;
-  let postType : 'markdown' | 'image' | 'video';
+  let postType: "markdown" | "image" | "video";
   const track = () => {
     Analytics.trackEvent("Post clicked", {
       category: post.node.category,
