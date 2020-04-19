@@ -42,7 +42,7 @@ const Post = ({ post }: Props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.saveContainer}
         onPress={() => {
           setSaved(!saved);
@@ -55,7 +55,7 @@ const Post = ({ post }: Props) => {
             resizeMode="contain"
           />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Dot />
       {content}
     </View>

@@ -132,7 +132,6 @@ const ParentScreen = () => {
         // dismissed
       }
     } catch (error) {
-      alert(error.message);
     }
   };
 
@@ -203,10 +202,10 @@ const ParentScreen = () => {
               justifyContent: "space-evenly",
             }}
           >
-            <View style={styles.headerRow}>
+            {/* <View style={styles.headerRow}>
               <Icon name="save" size={40} />
               <FormattedText style={styles.iconTitle} id="saved.title" />
-            </View>
+            </View> */}
             <TouchableOpacity onPress={() => onShare()}>
               <View style={styles.headerRow}>
                 <Icon name="shareActive" size={40} />
