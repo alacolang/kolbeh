@@ -3,6 +3,7 @@ order: 25
 title: title-1
 category: child/kid
 type: image
+date: 2020-04-19 10:34
 ---
 
 ![](../../static/images/kid-victory-chap3-1.webp)

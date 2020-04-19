@@ -3,6 +3,7 @@ order: 50
 title: title-4
 category: parent/stress
 type: image
+date: 2020-04-15 09:00
 ---
 
 ![](../../static/images/parental-aggression-1.webp)
