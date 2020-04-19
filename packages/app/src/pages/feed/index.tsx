@@ -117,7 +117,7 @@ const Feed = () => {
           styles.headerContainer,
           {
             backgroundColor: meta.backgroundColor,
-            translateY: translateTab,
+            transform: [{translateY: translateTab}],
             borderBottomLeftRadius: radius,
             // borderBottomRightRadius: radius,
           },

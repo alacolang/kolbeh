@@ -1,7 +1,9 @@
 import React from "react";
 import {
   View,
+  Easing,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   RefreshControl,
   Share,
   Animated,
@@ -71,10 +73,11 @@ type Navigation = NavigationProp<HomeStackParamList, "home">;
 
 const ParentScreen = () => {
   const navigation = useNavigation<Navigation>();
-  const scrollAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  // const scrollAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  const animateValue = React.useRef(new Animated.Value(0)).current;
 
   const [refreshing, setRefreshing] = React.useState(false);
-  const [header, setHeader] = React.useState(true);
+  const [header, setHeader] = React.useState(false);
   const { data, loading, refetch, error } = useQuery<ParentCategoriesData>(
     GET_POSTS
   );
@@ -102,18 +105,41 @@ const ParentScreen = () => {
     return <Post post={item} />;
   };
 
-  let translateTab = scrollAnimatedValue.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, -HEADER_SCROLL_DISTANCE],
+  let menuY = animateValue.interpolate({
+    inputRange: [0.3, 1],
+    outputRange: [
+      -HEADER_SCROLL_DISTANCE + HEADER_MIN_HEIGHT,
+      HEADER_MIN_HEIGHT,
+    ],
     extrapolate: "clamp",
   });
 
-  let radius = scrollAnimatedValue.interpolate({
-    inputRange: [
-      HEADER_SCROLL_DISTANCE / 2 - HEADER_MIN_HEIGHT,
-      HEADER_SCROLL_DISTANCE,
-    ],
-    outputRange: [RADIUS_MAX, 0],
+  let headerBackgroundColor = animateValue.interpolate({
+    inputRange: [0, 0.3],
+    outputRange: [colors.background, colors.primaryVarient],
+    extrapolate: "clamp",
+  });
+
+  let triggerButtonBackgroundColor = animateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [colors.primaryVarient, "white"],
+    extrapolate: "clamp",
+  });
+
+  let radius = animateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, RADIUS_MAX],
+    extrapolate: "clamp",
+  });
+
+  let listMarginTop = animateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [HEADER_MIN_HEIGHT, HEADER_MAX_HEIGHT + 30],
+  });
+
+  let menuElevation = animateValue.interpolate({
+    inputRange: [0.8, 1],
+    outputRange: [0, 4],
     extrapolate: "clamp",
   });
 
@@ -137,88 +163,106 @@ const ParentScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <AnimatedFlatList
-        contentContainerStyle={[
-          styles.scrollViewContent,
-          {
-            marginTop: header ? HEADER_MAX_HEIGHT + 30 : HEADER_MIN_HEIGHT,
-          },
-        ]}
-        data={posts.edges}
-        renderItem={renderItem}
-        // onScroll={Animated.event(
-        //   [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue } } }],
-        //   { useNativeDriver: true }
-        // )}
-        scrollEventThrottle={16}
-        keyExtractor={(item: Types.IPostEdge) => item.node.id}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
+      <Animated.View
+        style={{
+          marginTop: listMarginTop,
+        }}
+      >
+        <AnimatedFlatList
+          contentContainerStyle={styles.scrollViewContent}
+          data={posts.edges}
+          renderItem={renderItem}
+          // onScroll={Animated.event(
+          //   [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue } } }],
+          //   { useNativeDriver: true }
+          // )}
+          // scrollEventThrottle={16}
+          keyExtractor={(item: Types.IPostEdge) => item.node.id}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+      </Animated.View>
       <Animated.View
         style={[
           styles.headerContainer,
           {
-            elevation: header ? 4 : 0,
-            height: header ? HEADER_MAX_HEIGHT : HEADER_MIN_HEIGHT,
-            backgroundColor: header ? colors.primaryVarient : colors.background,
-            translateY: translateTab,
-            // borderBottomLeftRadius: radius,
-            borderBottomRightRadius: header ? radius : 0,
+            height: HEADER_MIN_HEIGHT,
+            backgroundColor: headerBackgroundColor,
+            // borderWidth: 1,
+            zIndex: 1,
           },
         ]}
       >
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           onPress={() => {
             setHeader(!header);
+            const [from, to] = !header ? [0, 1] : [1, 0];
+            animateValue.setValue(from);
+            Animated.timing(animateValue, {
+              toValue: to,
+              duration: 1000,
+              easing: Easing.bezier(0.76, 0, 0.24, 1),
+            }).start();
           }}
         >
           {true || !header ? (
-            <View
+            <Animated.View
               style={[
                 styles.iconContainer,
-                { backgroundColor: header ? "white" : colors.primaryVarient },
+                { backgroundColor: triggerButtonBackgroundColor },
               ]}
             >
               <View style={styles.iconDot}></View>
               <View style={styles.iconDot}></View>
               <View style={styles.iconDot}></View>
-            </View>
+            </Animated.View>
           ) : (
             <View style={styles.iconContainer}>
               <Icon name="backActive" size={20} resizeMode="contain" />
             </View>
           )}
-        </TouchableOpacity>
-        {header && (
-          <View
-            style={{
-              flexDirection: "column",
-              // borderWidth: 1,
-              paddingLeft: 30,
-              flexGrow: 1,
-              justifyContent: "space-evenly",
-            }}
-          >
-            {/* <View style={styles.headerRow}>
+        </TouchableWithoutFeedback>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.headerContainer,
+          {
+            zIndex: 0,
+            // elevation: menuElevation,
+            height: HEADER_SCROLL_DISTANCE,
+            backgroundColor: colors.primaryVarient,
+            transform: [{ translateY: menuY }],
+            borderBottomRightRadius: radius,
+          },
+        ]}
+      >
+        <View
+          style={{
+            flexDirection: "column",
+            // borderWidth: 1,
+            paddingLeft: 30,
+            flexGrow: 1,
+            justifyContent: "space-evenly",
+          }}
+        >
+          {/* <View style={styles.headerRow}>
               <Icon name="save" size={40} />
               <FormattedText style={styles.iconTitle} id="saved.title" />
             </View> */}
-            <TouchableOpacity onPress={() => onShare()}>
-              <View style={styles.headerRow}>
-                <Icon name="shareActive" size={40} />
-                <FormattedText style={styles.iconTitle} id="invite-friends" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("contact")}>
-              <View style={styles.headerRow}>
-                <Icon name="info" size={40} />
-                <FormattedText style={styles.iconTitle} id="contact-us" />
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
+          <TouchableOpacity onPress={() => onShare()}>
+            <View style={styles.headerRow}>
+              <Icon name="shareActive" size={40} />
+              <FormattedText style={styles.iconTitle} id="invite-friends" />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("contact")}>
+            <View style={styles.headerRow}>
+              <Icon name="info" size={40} />
+              <FormattedText style={styles.iconTitle} id="contact-us" />
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animated.View>
     </View>
   );
@@ -231,9 +275,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    borderBottomRightRadius: RADIUS_MAX,
     backgroundColor: colors.primaryVarient,
-    // overflow: "hidden",
   },
   headerRow: {
     flexDirection: "row",
@@ -249,15 +291,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 7,
-    // },
-    // shadowOpacity: 0.41,
-    // shadowRadius: 9.11,
-
-    // elevation: 7,
   },
   iconDot: {
     width: 5,
@@ -267,7 +300,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   scrollViewContent: {
-    marginTop: HEADER_MAX_HEIGHT + 30,
     paddingBottom: HEADER_MAX_HEIGHT + 30,
     marginHorizontal: 15,
     flexDirection: "column",
