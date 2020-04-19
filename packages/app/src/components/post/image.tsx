@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: frameWidth,
+    height: frameWidth,
   },
   image: { borderRadius: 10, marginHorizontal: 0 },
   backContainer: {

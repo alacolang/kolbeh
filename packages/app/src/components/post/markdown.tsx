@@ -18,21 +18,21 @@ type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
 const Markdown = ({ post, track }: Props) => {
   const navigation = useNavigation<FeedNavigation>();
 
-  const [size, setSize] = React.useState<ISize>({
-    width: frameWidth,
-    height: 200,
-  });
+  // const [size, setSize] = React.useState<ISize>({
+  //   width: frameWidth,
+  //   height: 200,
+  // });
   const uri = resolveURL(post.markdown.cover);
 
-  React.useEffect(() => {
-    Image.getSize(
-      uri,
-      (width, height) => {
-        setSize({ height: (frameWidth / width) * height });
-      },
-      () => {}
-    );
-  }, [uri]);
+  // React.useEffect(() => {
+  //   Image.getSize(
+  //     uri,
+  //     (width, height) => {
+  //       setSize({ height: (frameWidth / width) * height });
+  //     },
+  //     () => {}
+  //   );
+  // }, [uri]);
 
   return (
     <>
@@ -43,7 +43,8 @@ const Markdown = ({ post, track }: Props) => {
         }}
       >
         <Image
-          style={[styles.container, size]}
+          style={styles.container}
+          // style={[styles.container, size]}
           source={{ uri }}
           resizeMode="cover"
         />
@@ -55,7 +56,7 @@ const Markdown = ({ post, track }: Props) => {
 const styles = StyleSheet.create({
   container: {
     width: frameWidth,
-    height: 100,
+    height: frameWidth,
   },
   scrollViewContentContainer: {
     paddingHorizontal: 30,
