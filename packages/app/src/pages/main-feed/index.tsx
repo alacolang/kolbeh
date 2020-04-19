@@ -33,7 +33,7 @@ const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
 const HEADER_MIN_HEIGHT = 75;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+// const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const GET_POSTS = gql`
   query {
@@ -92,14 +92,7 @@ const ParentScreen = () => {
     return null;
   }
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!data) {
-    return null;
-  }
-  const posts = data.posts;
+  const posts = (data || { posts: { edges: []} }).posts;
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
@@ -164,11 +157,15 @@ const ParentScreen = () => {
     <View style={styles.container}>
       <StatusBar hidden />
       <Animated.View
-        style={{
-          marginTop: listMarginTop,
-        }}
+        style={
+          {
+            flexGrow: 1,
+            marginTop: listMarginTop,
+          }
+        }
       >
-        <AnimatedFlatList
+        {loading && <Loading />}
+        <FlatList
           contentContainerStyle={styles.scrollViewContent}
           data={posts.edges}
           renderItem={renderItem}
@@ -189,7 +186,6 @@ const ParentScreen = () => {
           {
             height: HEADER_MIN_HEIGHT,
             backgroundColor: headerBackgroundColor,
-            // borderWidth: 1,
             zIndex: 1,
           },
         ]}
@@ -246,7 +242,7 @@ const ParentScreen = () => {
             justifyContent: "space-evenly",
           }}
         >
-          {/* <View style={styles.headerRow}>
+           {/* <View style={styles.headerRow}>
               <Icon name="save" size={40} />
               <FormattedText style={styles.iconTitle} id="saved.title" />
             </View> */}
@@ -264,6 +260,7 @@ const ParentScreen = () => {
           </TouchableOpacity>
         </View>
       </Animated.View>
+
     </View>
   );
 };
@@ -300,12 +297,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   scrollViewContent: {
-    paddingBottom: HEADER_MAX_HEIGHT + 30,
+    // borderWidth: 10,
+    // borderColor: "red",
+    // paddingBottom: HEADER_MAX_HEIGHT + 30,
     marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
   },
   container: {
+    flexGrow: 1,
     backgroundColor: colors.background,
   },
 });
