@@ -16,7 +16,12 @@ type Props = {
 
 export const Icon = ({ size, name, ...props }: Props) => {
   let _size: number;
-  if (size === "small" || size === "medium" || size === "large" || size === "tiny") {
+  if (
+    size === "small" ||
+    size === "medium" ||
+    size === "large" ||
+    size === "tiny"
+  ) {
     _size = SIZE[size];
   } else {
     _size = size;
@@ -24,6 +29,7 @@ export const Icon = ({ size, name, ...props }: Props) => {
   return (
     <Image
       style={{ width: _size, height: _size }}
+      resizeMode="contain"
       source={icons[name]}
       {...props}
     />
