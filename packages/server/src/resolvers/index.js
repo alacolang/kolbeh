@@ -47,7 +47,8 @@ const resolvers = {
         ...dataResolver(parsedData.child),
       ]
         .map(d => d.feed.edges)
-        .flat();
+        .flat()
+        .sort((p1, p2) => p1.node.order - p2.node.order);
 
       return {
         edges,
