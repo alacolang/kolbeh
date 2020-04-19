@@ -3,6 +3,7 @@ order: 40
 title: title-3
 category: child/kid
 type: image
+date: 2020-04-10 8:00
 ---
 
 ![](../../static/images/kid-awareness-1.webp)
