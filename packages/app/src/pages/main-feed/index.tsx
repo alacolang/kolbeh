@@ -139,7 +139,7 @@ const ParentScreen = () => {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: messages["invite-others"] + "\n https://alacolang.ir/corona",
+        message: messages["invite-others"] + "\n https://cafebazaar.ir/app/ir.alacolang.kolbeh",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
