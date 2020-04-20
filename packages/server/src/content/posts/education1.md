@@ -3,6 +3,7 @@ order: 20
 title: title-1
 category: parent/education
 type: image
+date: 2020-04-05 9:00
 ---
 
 ![](../../static/images/education1.webp)
