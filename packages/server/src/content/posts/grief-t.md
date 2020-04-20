@@ -3,6 +3,7 @@ order: 40
 title: title-3
 category: parent/grief
 type: image
+date: 2020-04-08 8:00
 ---
 
 ![](../../static/images/grief-t-1.webp)
