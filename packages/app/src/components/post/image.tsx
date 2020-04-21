@@ -28,9 +28,9 @@ type ISize = { width?: number; height: number };
 const TheImage = ({ images, track }: IProps) => {
   const [size, setSize] = React.useState<ISize>({
     width: frameWidth,
-    height: 200,
+    height: frameWidth,
   });
-  const [height, setHeight] = React.useState<number>(200);
+  const [height, setHeight] = React.useState<number>(frameWidth);
   const [modalVisible, setModalVisible] = React.useState(false);
   const uri = resolveURL(images[0].url);
 
