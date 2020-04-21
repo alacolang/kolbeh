@@ -71,7 +71,7 @@ type ParentCategoriesData = {
 
 type Navigation = NavigationProp<HomeStackParamList, "home">;
 
-const ParentScreen = () => {
+const MainFeedScreen = () => {
   const navigation = useNavigation<Navigation>();
   // const scrollAnimatedValue = React.useRef(new Animated.Value(0)).current;
   const animateValue = React.useRef(new Animated.Value(0)).current;
@@ -310,4 +310,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParentScreen;
+export default MainFeedScreen;
