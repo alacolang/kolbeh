@@ -4,6 +4,7 @@ title: title-1
 category: child/kid
 type: image
 date: 2020-04-15 12:00
+tags: [کنترل استرس,مدیریت هیجان]
 ---
 
 ![](../../static/images/kid-victory-chap2-1.webp)

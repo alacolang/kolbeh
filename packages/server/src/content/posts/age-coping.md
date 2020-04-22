@@ -4,6 +4,7 @@ title: title-0
 category: parent/stress
 type: markdown
 cover: ../../static/images/age-coping-cover.png
+tags: [سازگاری,مقابله]
 ---
 
 ![no-animate](../../static/images/age-coping.png)

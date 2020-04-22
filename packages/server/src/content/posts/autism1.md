@@ -3,6 +3,7 @@ order: 10
 title: title-0
 category: parent/autism
 type: image
+tags: [اوتیسم,آسپرگر]
 ---
 
 ![](../../static/images/autism1.webp)

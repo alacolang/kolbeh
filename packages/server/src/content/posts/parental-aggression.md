@@ -4,6 +4,7 @@ title: title-4
 category: parent/stress
 type: image
 date: 2020-04-15 09:00
+tags: [پرخاشگری,خشم]
 ---
 
 ![](../../static/images/parental-aggression-1.webp)
