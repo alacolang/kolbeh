@@ -4,6 +4,7 @@ title: title-1
 category: parent/education
 type: image
 date: 2020-04-05 9:00
+tags: [آموزش,تحصیل]
 ---
 
 ![](../../static/images/education1.webp)

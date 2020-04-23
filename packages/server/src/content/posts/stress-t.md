@@ -3,6 +3,7 @@ order: 40
 title: title-3
 category: parent/axiety
 type: image
+tags: [استرس,آرامسازی]
 ---
 
 ![](../../static/images/stress-t-1.webp)

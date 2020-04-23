@@ -3,6 +3,7 @@ order: 30
 title: title-2
 category: parent/bipolar
 type: image
+tags: [دوقطبی,همدلی,خلق بالا,نوسان خلق]
 ---
 
 ![](../../static/images/bipolar-empathy-1.webp)
