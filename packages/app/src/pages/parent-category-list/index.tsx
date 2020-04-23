@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  View,
   RefreshControl,
   StatusBar,
   StyleSheet,
@@ -14,6 +15,7 @@ import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
+import Curve from "../../components/curve";
 
 const GET_PARENT = gql`
   query GetParent {
@@ -62,11 +64,11 @@ type ParentCategoriesData = {
 
 const getCategoryColor = (index: number) => {
   const rowColors = [
-    { backgroundColor: colors.category1, color: colors.primary },
-    { backgroundColor: colors.category2, color: colors.primaryVarient },
-    { backgroundColor: colors.category3, color: colors.primary },
-    { backgroundColor: colors.category4, color: colors.primary },
-    { backgroundColor: colors.category5, color: colors.primary },
+    { backgroundColor: colors.category1, color: colors.secondary },
+    { backgroundColor: colors.category2, color: colors.secondary },
+    { backgroundColor: colors.category3, color: colors.secondary },
+    // { backgroundColor: colors.category4, color: colors.secondary },
+    // { backgroundColor: colors.category5, color: colors.secondary },
   ];
   return rowColors[index % rowColors.length];
 };
@@ -88,34 +90,46 @@ const ParentScreen = () => {
     return null;
   }
 
-  if (loading) {
-    return <Loading />;
-  }
-
   const categories: Types.ICategory[] = data ? data.parentCategories : [];
+  // const categories = [];
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+    <View
+      style={{
+        backgroundColor: colors.backgroundVarient,
+        flex: 1,
+      }}
     >
-      <StatusBar backgroundColor={colors.background} barStyle="dark-content" />
-      {categories.map((category, index) => {
-        const color = getCategoryColor(index);
-        return (
-          <CategoryTile
-            meta={color}
-            key={category.id}
-            category={category}
-            onPress={() =>
-              navigation.navigate("parentFeed", { category, meta: color })
-            }
+      <StatusBar hidden />
+      {loading ? (
+        <Loading varient />
+      ) : (
+        <ScrollView
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <StatusBar
+            backgroundColor={colors.backgroundVarient}
+            barStyle="dark-content"
           />
-        );
-      })}
-    </ScrollView>
+          {categories.map((category, index) => {
+            const color = getCategoryColor(index);
+            return (
+              <CategoryTile
+                meta={color}
+                key={category.id}
+                category={category}
+                onPress={() =>
+                  navigation.navigate("parentFeed", { category, meta: color })
+                }
+              />
+            );
+          })}
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
@@ -125,8 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexGrow: 1,
-    backgroundColor: colors.background,
-    paddingTop: 50,
+    paddingTop: 60,
   },
 });
 

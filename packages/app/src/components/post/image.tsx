@@ -15,6 +15,7 @@ import colors from "../../colors";
 import Icons from "../../components/icon";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
+import Curve from "../../components/curve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 const frameHeight = Dimensions.get("window").height - 40;
@@ -81,7 +82,7 @@ const TheImage = ({ images, track }: IProps) => {
   return (
     <View style={{}}>
       <Modal
-        transparent={true}
+        transparent={false}
         animationType="fade"
         visible={modalVisible}
         onRequestClose={() => {
@@ -89,10 +90,10 @@ const TheImage = ({ images, track }: IProps) => {
         }}
         presentationStyle="overFullScreen"
       >
-        <StatusBar
+        {/* <StatusBar
           backgroundColor={colors.background}
           barStyle="light-content"
-        />
+        /> */}
         <ImageViewer
           backgroundColor={colors.background}
           renderImage={(props) => {
@@ -122,7 +123,7 @@ const TheImage = ({ images, track }: IProps) => {
                           width: x === "." ? 3 : 7,
                           height: x === "." ? 3 : 7,
                           backgroundColor:
-                            x === "o" ? colors.primary : "lightgray",
+                            x === "o" ? colors.inactive : "lightgray",
                         },
                       ]}
                     />
@@ -143,13 +144,31 @@ const TheImage = ({ images, track }: IProps) => {
             url: resolveURL(image.url),
           }))}
         />
-        <TouchableHighlight
-          style={styles.backContainer}
-          onPress={() => setModalVisible(false)}
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 75,
+            // backgroundColor: colors.active,
+          }}
         >
-          <Image source={Icons.back} resizeMode="contain" style={styles.back} />
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.backContainer}
+            onPress={() => setModalVisible(false)}
+          >
+            <Image
+              source={Icons.back}
+              resizeMode="contain"
+              style={styles.back}
+            />
+          </TouchableHighlight>
+          {/* <Curve position="top-left" />
+          <Curve position="top-right" /> */}
+        </View>
       </Modal>
+
       <TouchableOpacity
         onPress={() => {
           track();
@@ -175,9 +194,10 @@ const styles = StyleSheet.create({
   },
   container: {
     width: frameWidth,
+    borderRadius: 13,
     height: frameWidth,
   },
-  image: { borderRadius: 10, marginHorizontal: 0 },
+  image: { borderRadius: 10, marginHorizontal: 0, zIndex: 100 },
   backContainer: {
     position: "absolute",
     top: 4,

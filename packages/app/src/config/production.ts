@@ -3,9 +3,9 @@ import { Config } from "./index";
 
 const isAndroid4 = () => {
   return Platform.Version < 21;
-}
+};
 const getSchema = () => {
-  return isAndroid4() ? 'http' : 'https'
+  return isAndroid4() ? "http" : "https";
 };
 
 const config: Config = {

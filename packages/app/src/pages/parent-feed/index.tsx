@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Dimensions,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   View,
   Animated,
@@ -9,6 +9,7 @@ import {
   StatusBar,
   FlatList,
 } from "react-native";
+import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
 import {
   useRoute,
   RouteProp,
@@ -36,7 +37,7 @@ export type FeedRouteParam = {
 const ICON_SIZE = 40;
 const RADIUS_MAX = 60;
 const HEADER_MAX_HEIGHT = (fullHeight / 3) * 2;
-const HEADER_MIN_HEIGHT = 75;
+const HEADER_MIN_HEIGHT = (fullHeight / 3) * 0.8;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 type FeedRoute =
@@ -95,7 +96,6 @@ const Feed = () => {
         translucent
         backgroundColor="transparent"
       />
-
       <AnimatedFlatList
         contentContainerStyle={styles.scrollViewContent}
         data={feed.edges}
@@ -111,14 +111,13 @@ const Feed = () => {
         // windowSize={1}
         keyExtractor={(item: Types.IPostEdge) => item.node.id}
       />
-
       <Animated.View
         style={[
           styles.headerContainer,
           {
-            backgroundColor: meta.backgroundColor,
-            transform: [{translateY: translateTab}],
-            borderBottomLeftRadius: radius,
+            backgroundColor: colors.backgroundVarient,
+            transform: [{ translateY: translateTab }],
+            // borderBottomLeftRadius: radius,
             // borderBottomRightRadius: radius,
           },
         ]}
@@ -134,26 +133,62 @@ const Feed = () => {
           </Animated.Text>
         </View>
         <View style={styles.topBarContainer}>
-          <Animated.View style={{ opacity: backOpacity }}>
-            <TouchableHighlight
-              style={styles.backContainer}
+          <View style={{ position: "absolute", top: -70, left: 0, right: 0 }}>
+            <Svg
+              height={260}
+              width={fullWidth}
+              // viewBox="0 0 360 281"
+            >
+              <Defs>
+                <ClipPath id="cut-off-bottom">
+                  <Rect x="0" y="150" width={fullWidth} height="100" />
+                </ClipPath>
+              </Defs>
+
+              <Path
+                d="M-9.67017 28.4364C-8.95083 12.4419 4.2276 0 20.2383 0H330C346.569 0 360 13.4315 360 30V194.734C360 216.718 336.988 231.592 316.581 223.418C222.453 185.712 6.80574 114.062 -8.35947 241.982C-24.6133 379.084 -13.6891 117.798 -9.67017 28.4364Z"
+                fill={colors.backgroundVarient}
+                clipPath="url(#cut-off-bottom)"
+              />
+            </Svg>
+          </View>
+          <Animated.View
+            style={{
+              opacity: backOpacity,
+              // borderWidth: 1,
+              translateY: scrollAnimatedValue.interpolate({
+                inputRange: [
+                  HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                  HEADER_SCROLL_DISTANCE,
+                ],
+                outputRange: [-20, -HEADER_MIN_HEIGHT / 1.8],
+                extrapolate: "clamp",
+              }),
+              flexGrow: 1,
+            }}
+          >
+            <TouchableOpacity
+              // activeOpacity={0.5}
               onPress={() => navigation.goBack()}
             >
-              <Image
-                source={Icons.back}
-                resizeMode="contain"
-                style={styles.back}
-              />
-            </TouchableHighlight>
+              <View style={styles.backContainer}>
+                <Image
+                  source={Icons.back}
+                  resizeMode="contain"
+                  style={styles.back}
+                />
+              </View>
+            </TouchableOpacity>
           </Animated.View>
           <Animated.View
             style={{
               // paddingLeft: 0,
+              // borderWidth: 1,
               transform: [
                 {
                   scale: scrollAnimatedValue.interpolate({
                     inputRange: [0, HEADER_SCROLL_DISTANCE],
-                    outputRange: [1, 0.5],
+                    outputRange: [1.3, 1],
                     extrapolate: "clamp",
                   }),
 
@@ -170,7 +205,7 @@ const Feed = () => {
                       HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
                       HEADER_SCROLL_DISTANCE,
                     ],
-                    outputRange: [-15 + -ICON_SIZE / 4, 0],
+                    outputRange: [-20, -HEADER_MIN_HEIGHT / 4],
                     extrapolate: "clamp",
                   }),
                 },
@@ -194,8 +229,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollViewContent: {
-    marginTop: HEADER_MAX_HEIGHT + 30,
-    paddingBottom: HEADER_MAX_HEIGHT + 30,
+    marginTop: HEADER_MAX_HEIGHT + 70,
+    paddingBottom: HEADER_MAX_HEIGHT + 70,
     marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
@@ -206,7 +241,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    borderBottomLeftRadius: RADIUS_MAX,
+    // borderBottomLeftRadius: RADIUS_MAX,
     elevation: 4,
     // overflow: "hidden",
   },
@@ -231,13 +266,13 @@ const styles = StyleSheet.create({
   },
   topBarContainer: {
     width: fullWidth,
-    height: 70,
+    // height: 280,
     flexDirection: "row",
     alignItems: "center",
     // borderWidth: 1,
     // borderColor: "cyan",
     paddingLeft: 20,
-    paddingTop: 20,
+    // paddingTop: 20,
   },
   backContainer: {
     width: 44,
@@ -245,8 +280,8 @@ const styles = StyleSheet.create({
     borderRadius: 44,
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 1,
-    // borderColor: "red",
+    // borderWidth: 2,
+    borderColor: "red",
   },
   back: {
     width: 24,

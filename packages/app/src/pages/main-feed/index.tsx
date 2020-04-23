@@ -3,9 +3,7 @@ import {
   View,
   Easing,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   RefreshControl,
-  Share,
   Animated,
   FlatList,
   StatusBar,
@@ -14,6 +12,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Loading from "../../components/loading";
@@ -24,16 +24,14 @@ import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
 import Post from "../../components/post";
 import { HomeStackParamList } from "../../navigation/home-stack-navigator";
-import messages from "../../utils/fa";
+import { onShare } from "../../utils/share";
+import Curve from "../../components/curve";
 
 const fullHeight = Dimensions.get("window").height;
 
-const RADIUS_MAX = 60;
 const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
 const HEADER_MIN_HEIGHT = 75;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-
-// const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const GET_POSTS = gql`
   query {
@@ -73,11 +71,21 @@ type Navigation = NavigationProp<HomeStackParamList, "home">;
 
 const MainFeedScreen = () => {
   const navigation = useNavigation<Navigation>();
-  // const scrollAnimatedValue = React.useRef(new Animated.Value(0)).current;
   const animateValue = React.useRef(new Animated.Value(0)).current;
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
+
+  //     setMenuOpen(false)
+  //     return () => {
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //     };
+  //   }, [])
+
   const [refreshing, setRefreshing] = React.useState(false);
-  const [header, setHeader] = React.useState(false);
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
   const { data, loading, refetch, error } = useQuery<ParentCategoriesData>(
     GET_POSTS
   );
@@ -92,7 +100,7 @@ const MainFeedScreen = () => {
     return null;
   }
 
-  const posts = (data || { posts: { edges: []} }).posts;
+  const posts = (data || { posts: { edges: [] } }).posts;
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
@@ -107,131 +115,61 @@ const MainFeedScreen = () => {
     extrapolate: "clamp",
   });
 
-  let headerBackgroundColor = animateValue.interpolate({
-    inputRange: [0, 0.3],
-    outputRange: [colors.background, colors.primaryVarient],
-    extrapolate: "clamp",
-  });
-
-  let triggerButtonBackgroundColor = animateValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.primaryVarient, "white"],
-    extrapolate: "clamp",
-  });
-
-  let radius = animateValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, RADIUS_MAX],
-    extrapolate: "clamp",
-  });
-
   let listMarginTop = animateValue.interpolate({
     inputRange: [0, 1],
     outputRange: [HEADER_MIN_HEIGHT, HEADER_MAX_HEIGHT + 30],
   });
 
-  let menuElevation = animateValue.interpolate({
-    inputRange: [0.8, 1],
-    outputRange: [0, 4],
-    extrapolate: "clamp",
-  });
-
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: messages["invite-others"] + "\n https://cafebazaar.ir/app/ir.alacolang.kolbeh",
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {}
+  const toggleMenu = (cb = () => {}) => {
+    setMenuOpen(!isMenuOpen);
+    const [from, to] = !isMenuOpen ? [0, 1] : [1, 0];
+    animateValue.setValue(from);
+    Animated.timing(animateValue, {
+      toValue: to,
+      duration: 1000,
+      easing: Easing.bezier(0.76, 0, 0.24, 1),
+    }).start(cb);
   };
 
   return (
     <View style={styles.container}>
       <StatusBar hidden />
       <Animated.View
-        style={
-          {
-            flexGrow: 1,
-            marginTop: listMarginTop,
-          }
-        }
+        style={{
+          flexGrow: 1,
+          marginTop: listMarginTop,
+        }}
       >
-        {loading && <Loading />}
-        <FlatList
-          contentContainerStyle={styles.scrollViewContent}
-          data={posts.edges}
-          renderItem={renderItem}
-          // onScroll={Animated.event(
-          //   [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue } } }],
-          //   { useNativeDriver: true }
-          // )}
-          // scrollEventThrottle={16}
-          keyExtractor={(item: Types.IPostEdge) => item.node.id}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            contentContainerStyle={styles.scrollViewContent}
+            data={posts.edges}
+            renderItem={renderItem}
+            keyExtractor={(item: Types.IPostEdge) => item.node.id}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        )}
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.headerContainer,
-          {
-            height: HEADER_MIN_HEIGHT,
-            backgroundColor: headerBackgroundColor,
-            zIndex: 1,
-          },
-        ]}
-      >
-        <TouchableWithoutFeedback
+
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.menuTrigger}
           onPress={() => {
-            setHeader(!header);
-            const [from, to] = !header ? [0, 1] : [1, 0];
-            animateValue.setValue(from);
-            Animated.timing(animateValue, {
-              toValue: to,
-              duration: 1000,
-              easing: Easing.bezier(0.76, 0, 0.24, 1),
-            }).start();
+            toggleMenu();
           }}
         >
-          {true || !header ? (
-            <Animated.View
-              style={[
-                styles.iconContainer,
-                { backgroundColor: triggerButtonBackgroundColor },
-              ]}
-            >
-              <View style={styles.iconDot}></View>
-              <View style={styles.iconDot}></View>
-              <View style={styles.iconDot}></View>
-            </Animated.View>
-          ) : (
-            <View style={styles.iconContainer}>
-              <Icon name="backActive" size={20} resizeMode="contain" />
-            </View>
-          )}
-        </TouchableWithoutFeedback>
-      </Animated.View>
+          <View style={styles.dotContainer}>
+            <View style={styles.dot}></View>
+            <View style={styles.dot}></View>
+          </View>
+        </TouchableOpacity>
+      </View>
       <Animated.View
-        style={[
-          styles.headerContainer,
-          {
-            zIndex: 0,
-            // elevation: menuElevation,
-            height: HEADER_SCROLL_DISTANCE,
-            backgroundColor: colors.primaryVarient,
-            transform: [{ translateY: menuY }],
-            borderBottomRightRadius: radius,
-          },
-        ]}
+        style={[styles.menuContainer, { transform: [{ translateY: menuY }] }]}
       >
         <View
           style={{
@@ -242,25 +180,32 @@ const MainFeedScreen = () => {
             justifyContent: "space-evenly",
           }}
         >
-           {/* <View style={styles.headerRow}>
+          {/* <View style={styles.menuItem}>
               <Icon name="save" size={40} />
-              <FormattedText style={styles.iconTitle} id="saved.title" />
+              <FormattedText style={styles.menuItemTitle} id="saved.title" />
             </View> */}
           <TouchableOpacity onPress={() => onShare()}>
-            <View style={styles.headerRow}>
+            <View style={styles.menuItem}>
               <Icon name="shareActive" size={40} />
-              <FormattedText style={styles.iconTitle} id="invite-friends" />
+              <FormattedText style={styles.menuItemTitle} id="invite-friends" />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("contact")}>
-            <View style={styles.headerRow}>
+          <TouchableOpacity
+            onPress={() => {
+              toggleMenu(() => {
+                navigation.navigate("contact");
+              });
+            }}
+          >
+            <View style={styles.menuItem}>
               <Icon name="info" size={40} />
-              <FormattedText style={styles.iconTitle} id="contact-us" />
+              <FormattedText style={styles.menuItemTitle} id="contact-us" />
             </View>
           </TouchableOpacity>
         </View>
+        <Curve position="bottom-right" negative />
+        <Curve position="bottom-left" negative />
       </Animated.View>
-
     </View>
   );
 };
@@ -268,38 +213,53 @@ const MainFeedScreen = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     position: "absolute",
-    height: HEADER_MAX_HEIGHT,
+    zIndex: 1,
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: colors.primaryVarient,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    paddingHorizontal: 30,
+    height: HEADER_MIN_HEIGHT,
+    backgroundColor: colors.backgroundVarient,
   },
-  headerRow: {
+  menuContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    paddingHorizontal: 0,
+    zIndex: 0,
+    height: HEADER_SCROLL_DISTANCE,
+    backgroundColor: colors.backgroundVarient,
+  },
+  menuItem: {
     flexDirection: "row",
     alignItems: "center",
   },
-  iconTitle: { paddingRight: 15, color: colors.primary, fontSize: 18 },
-  iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    marginTop: 20,
-    marginLeft: 30,
+  menuItemTitle: { paddingRight: 15, color: colors.secondary, fontSize: 18 },
+  menuTrigger: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
+  dotContainer: {
+    flex: 1,
+    // borderWidth: 1,
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
   },
-  iconDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    margin: 1.5,
-    backgroundColor: colors.primary,
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 6,
+    margin: 2,
+    backgroundColor: colors.background,
   },
   scrollViewContent: {
-    // borderWidth: 10,
-    // borderColor: "red",
-    // paddingBottom: HEADER_MAX_HEIGHT + 30,
+    marginTop: 30,
     marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",

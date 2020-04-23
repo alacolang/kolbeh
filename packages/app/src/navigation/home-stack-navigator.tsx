@@ -14,7 +14,13 @@ const Stack = createStackNavigator<HomeStackParamList>();
 
 const ParentNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName="home"
+      headerMode="none"
+      screenOptions={({ route, navigation }) => ({
+        animationEnabled: false,
+      })}
+    >
       <Stack.Screen
         name="home"
         component={Home}

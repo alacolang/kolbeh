@@ -119,7 +119,7 @@ const Splash = () => {
           <TouchableOpacity
             onPress={() => {
               // navigation.navigate("main");
-              navigation.reset({ index: 0, routes: [{name: 'main'}] });
+              navigation.reset({ index: 0, routes: [{ name: "main" }] });
             }}
             activeOpacity={0.5}
             style={{

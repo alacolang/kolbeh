@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, StatusBar, StyleSheet } from "react-native";
+import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -10,9 +10,12 @@ import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
-import cloudBlueImg from "../../assets/images/cloud-blue.png";
-import cloudYellowImg from "../../assets/images/cloud-yellow.png";
+// import cloudBlueImg from "../../assets/images/cloud-blue.png";
+// import cloudYellowImg from "../../assets/images/cloud-yellow.png";
 import Clouds from "../../components/clouds";
+
+const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
 
 const GET_CHILD = gql`
   query GetChild {
@@ -55,14 +58,16 @@ type ChildCategoriesData = {
 const getCategoryMeta = (index: number) => {
   const rowsMeta = [
     {
-      image: cloudYellowImg,
       backgroundColor: colors.childCategory1,
       color: colors.primary,
     },
     {
-      image: cloudBlueImg,
       backgroundColor: colors.childCategory2,
-      color: "white",
+      color: colors.primary,
+    },
+    {
+      backgroundColor: colors.childCategory3,
+      color: colors.primary,
     },
   ];
   return rowsMeta[index % rowsMeta.length];
@@ -74,28 +79,37 @@ const ChildScreen = () => {
   const { data, loading, error } = useQuery<ChildCategoriesData>(GET_CHILD);
 
   if (error) {
-    errorReport(error, { origin: "parent> get feed" });
+    errorReport(error, { origin: "child> get feed" });
     return null;
-  }
-
-  if (loading) {
-    return <Loading />;
   }
 
   const categories: Types.ICategory[] = data ? data.childCategories : [];
 
   return (
-    <LinearGradient
-      start={{ x: -0.5, y: -0.5 }}
-      end={{ x: 1, y: 1.0 }}
-      colors={["#FFFFFF", "#ABDDD2"]}
-      style={styles.container}
-    >
-      <StatusBar
-        barStyle="dark-content"
-        translucent
-        backgroundColor="transparent"
+    <View style={styles.container}>
+      <StatusBar hidden />
+      <View
+        style={{
+          width: (fullHeight / 3) * 2.2,
+          height: (fullHeight / 3) * 2.2,
+          position: "absolute",
+          right: (-fullHeight / 3) * 1.5,
+          top: (fullHeight - (fullHeight / 3) * 2 - 80) / 2,
+          borderRadius: fullHeight / 2,
+          backgroundColor: colors.backgroundVarient,
+        }}
       />
+      <View
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: 6,
+          height: fullHeight,
+          backgroundColor: colors.background,
+        }}
+      />
+      {loading && <Loading />}
       {categories.map((category, index) => {
         const meta = getCategoryMeta(index);
         return (
@@ -112,8 +126,7 @@ const ChildScreen = () => {
           />
         );
       })}
-      <Clouds />
-    </LinearGradient>
+    </View>
   );
 };
 
@@ -121,13 +134,15 @@ const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.background,
     flex: 1,
-    paddingTop: 30,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop: 50,
+    paddingRight: 45,
+    // borderWidth: 1,
+    // borderColor: 'red',
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    // alignItems: "center",
   },
   tree: {
     position: "absolute",

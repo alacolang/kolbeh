@@ -32,8 +32,8 @@ import LoadingIcon from "./images/loading.png";
 import SaveActiveIcon from "./images/saved-active.png";
 import SaveIcon from "./images/saved.png";
 import ShareActiveIcon from "./images/share-active.png";
-import ToolboxIcon from './images/toolbox.png'
-import LoadingVarientIcon from './images/loading-light.png'
+import ToolboxIcon from "./images/toolbox.png";
+import LoadingVarientIcon from "./images/loading-light.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 

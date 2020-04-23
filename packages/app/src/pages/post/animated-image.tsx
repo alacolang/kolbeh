@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   title: {
     // borderWidth: 1,
-    color: colors.secondary,
+    color: colors.primary,
     textAlign: "center",
   },
 });
