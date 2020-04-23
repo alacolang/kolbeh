@@ -4,7 +4,7 @@ title: title-3
 category: parent/empathy
 type: image
 date: 2020-04-9 10:00
-
+tags: [گفتگو,همدلی]
 ---
 
 ![](../../static/images/talk-children-corona-1.webp)

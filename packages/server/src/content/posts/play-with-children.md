@@ -4,6 +4,8 @@ title: title-0
 category: parent/empathy
 type: image
 date: "2020-04-19 9:34"
+tags: [ بازی,همدلی]
+
 ---
 
 ![](../../static/images/play-with-children-1.webp)

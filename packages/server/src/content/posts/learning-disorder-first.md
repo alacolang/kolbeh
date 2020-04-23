@@ -4,6 +4,7 @@ title: title-0
 category: parent/education
 type: image
 date: 2020-04-19 10:29
+tags: [تحصیل ,اختلال یادگیری ]
 ---
 
 ![](../../static/images/learning-disorder-first-1.webp)

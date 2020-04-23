@@ -4,6 +4,7 @@ title: title-5
 category: parent/stress
 type: video
 date: 2020-04-06 11:00
+tags: [استرس ,آرام سازی ]
 ---
 
 [![](../../static/images/mindfulness-cover.webp)](../../static/videos/mindfulness.mp4)
