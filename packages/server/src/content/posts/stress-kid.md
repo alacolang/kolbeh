@@ -7,10 +7,10 @@ date: 2020-04-9 11:30
 tags: [استرس,آرامسازی]
 ---
 
-![](../../static/images/stress-kid-1.webp)
-![](../../static/images/stress-kid-2.webp)
-![](../../static/images/stress-kid-3.webp)
-![](../../static/images/stress-kid-4.webp)
-![](../../static/images/stress-kid-5.webp)
-![](../../static/images/stress-kid-6.webp)
-![](../../static/images/stress-kid-7.webp)
+![](../../static/images/stress-kid-1.png)
+![](../../static/images/stress-kid-2.png)
+![](../../static/images/stress-kid-3.png)
+![](../../static/images/stress-kid-4.png)
+![](../../static/images/stress-kid-5.png)
+![](../../static/images/stress-kid-6.png)
+![](../../static/images/stress-kid-7.png)

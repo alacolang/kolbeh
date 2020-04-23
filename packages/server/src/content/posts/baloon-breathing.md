@@ -6,4 +6,4 @@ type: image
 tags: [آرام سازی,ریلکسیشن,تنفس عمیق,استرس]
 ---
 
-![](../../static/images/baloon-breathing.webp)
+![](../../static/images/baloon-breathing.png)

@@ -6,7 +6,7 @@ type: image
 tags: [اوتیسم,آسپرگر]
 ---
 
-![](../../static/images/autism1.webp)
-![](../../static/images/autism2.webp)
-![](../../static/images/autism3.webp)
-![](../../static/images/autism4.webp)
+![](../../static/images/autism1.png)
+![](../../static/images/autism2.png)
+![](../../static/images/autism3.png)
+![](../../static/images/autism4.png)

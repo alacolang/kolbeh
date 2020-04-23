@@ -6,4 +6,4 @@ type: image
 tags: [بیش‌ فعالی,نقص‌ توجه,تمرکز]
 ---
 
-![](../../static/images/adhd-corona-infograph.webp)
+![](../../static/images/adhd-corona-infograph.png)
