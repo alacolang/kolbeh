@@ -124,8 +124,8 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     position: "absolute",
-    top: 4,
-    left: 18,
+    top: 14,
+    left: 20,
     width: 44,
     height: 44,
     borderRadius: 44,

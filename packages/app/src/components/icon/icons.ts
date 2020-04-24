@@ -5,7 +5,7 @@ import ChildActiveIcon from "./images/child-active.png";
 import HomeIcon from "./images/home.png";
 import HomeActiveIcon from "./images/home-active.png";
 import BackIcon from "./images/back.png";
-import BackActiveIcon from "./images/back-active.png";
+import BackDarkIcon from "./images/back-dark.png";
 import LogoIcon from "./images/logo.png";
 import { ImageSourcePropType } from "react-native";
 import EmpathyActiveIcon from "./images/empathy-active.png";
@@ -45,7 +45,7 @@ const icons: Icons = {
   home: HomeIcon,
   homeActive: HomeActiveIcon,
   back: BackIcon,
-  backActive: BackActiveIcon,
+  backDark: BackDarkIcon,
   logo: LogoIcon,
   empathyActive: EmpathyActiveIcon,
   griefActive: GriefActiveIcon,

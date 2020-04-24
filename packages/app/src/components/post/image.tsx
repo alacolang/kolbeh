@@ -144,29 +144,16 @@ const TheImage = ({ images, track }: IProps) => {
             url: resolveURL(image.url),
           }))}
         />
-        <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 75,
-            // backgroundColor: colors.active,
-          }}
+        <TouchableHighlight
+          style={styles.backContainer}
+          onPress={() => setModalVisible(false)}
         >
-          <TouchableHighlight
-            style={styles.backContainer}
-            onPress={() => setModalVisible(false)}
-          >
-            <Image
-              source={Icons.back}
-              resizeMode="contain"
-              style={styles.back}
-            />
-          </TouchableHighlight>
-          {/* <Curve position="top-left" />
-          <Curve position="top-right" /> */}
-        </View>
+          <Image
+            source={Icons.backDark}
+            resizeMode="contain"
+            style={styles.back}
+          />
+        </TouchableHighlight>
       </Modal>
 
       <TouchableOpacity
@@ -197,11 +184,11 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     height: frameWidth,
   },
-  image: { borderRadius: 10, marginHorizontal: 0, zIndex: 100 },
+  image: { borderRadius: 10, marginHorizontal: 0 },
   backContainer: {
     position: "absolute",
-    top: 4,
-    left: 18,
+    top: 14,
+    left: 20,
     width: 44,
     height: 44,
     borderRadius: 44,

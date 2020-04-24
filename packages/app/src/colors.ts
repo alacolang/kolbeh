@@ -4,7 +4,7 @@ const MINT = "#CBEDDD";
 const BLUE = "#0BA3B5";
 
 const colors = {
-  primary: "a2a2a2",
+  primary: "#a2a2a2",
   primaryVarient: "white",
   secondary: "white",
   // background: "#f6ede4",
