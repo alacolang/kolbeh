@@ -5,7 +5,7 @@ category: parent/empathy
 type: image
 date: "2020-04-19 9:34"
 tags: [ بازی,همدلی]
-
+description: "بازی با فرزندان باعث بهبود روابط و کاهش استرس می‌شود"
 ---
 
 ![](../../static/images/play-with-children-1.webp)

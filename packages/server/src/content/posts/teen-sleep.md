@@ -4,6 +4,7 @@ title: title-6
 category: child/teen
 type: image
 tags: [استرس,خواب]
+description: "خواب منظم و با کیفیت بر روی آرامش و تمرکزمان تاثیر می‌گذارد"
 ---
 
 ![](../../static/images/teen-sleep-1.webp)

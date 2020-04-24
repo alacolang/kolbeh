@@ -5,6 +5,7 @@ category: parent/education
 type: image
 date: 2020-04-19 10:29
 tags: [تحصیل ,اختلال یادگیری ]
+description: "والدین می‌توانند به افزایش توانمندی فرزندان مبتلا به اختلال یادگیری کمک کنند"
 ---
 
 ![](../../static/images/learning-disorder-first-1.webp)

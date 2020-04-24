@@ -5,8 +5,6 @@ category: parent/empathy
 type: image
 date: 2020-04-06 11:00
 tags: [بحران,همدلی]
-
-
 ---
 
 ![](../../static/images/empathy-corona-poem-1.webp)

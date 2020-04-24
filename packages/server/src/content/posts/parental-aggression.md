@@ -5,6 +5,7 @@ category: parent/stress
 type: image
 date: 2020-04-15 09:00
 tags: [پرخاشگری,خشم]
+description: "مهارت کنترل خشم، برای مراقبت از فرزندان در بحران‌ها ضروری است"
 ---
 
 ![](../../static/images/parental-aggression-1.webp)
