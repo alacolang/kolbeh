@@ -8,4 +8,4 @@ tags: [رسانه , اخبار]
 description: "انتخاب آگاهانه اخبار و اطلاعات درست می‌تواند در مدیریت هیجان‌ها نقش داشته‌باشد "
 ---
 
-[![](../../static/images/corona-news-cover.png)](../../static/videos/corona-news.mp4)
+[![](../../static/images/corona-news-cover.webp)](../../static/videos/corona-news.mp4)

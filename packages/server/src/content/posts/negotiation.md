@@ -8,4 +8,4 @@ tags: [ارتباط ,مذاکره ]
 description: "اختلاف نظر، بخش اجتناب ناپذیر روابط والدین و فرزندان است، با هم کفتگو کنیم"
 ---
 
-[![](../../static/images/negotiation-cover.png)](../../static/videos/negotiation.mp4)
+[![](../../static/images/negotiation-cover.webp)](../../static/videos/negotiation.mp4)

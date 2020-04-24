@@ -8,4 +8,4 @@ tags: [استرس ,آرام سازی ]
 description: "تکنیک آگاهی از لحظه حال، به افزایش آرامش والدین و فرزندان کمک می‌کند"
 ---
 
-[![](../../static/images/mindfulness-cover.png)](../../static/videos/mindfulness.mp4)
+[![](../../static/images/mindfulness-cover.webp)](../../static/videos/mindfulness.mp4)

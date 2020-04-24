@@ -8,4 +8,4 @@ tags: [افسردگی,غم]
 description: "نشانه‌های افسردگی در کودکان و نوجوانان، می‌تواند متفاوت از بزرگسالان باشد"
 ---
 
-[![](../../static/images/depression-parent-cover.png)](../../static/videos/depression-parent.mp4)
+[![](../../static/images/depression-parent-cover.webp)](../../static/videos/depression-parent.mp4)

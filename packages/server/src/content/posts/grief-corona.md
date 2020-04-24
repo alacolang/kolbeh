@@ -7,4 +7,4 @@ tags: [سوگ,سوگواری]
 description: ""
 ---
 
-[![](../../static/images/grief-corona-cover.png)](../../static/videos/grief-corona.mp4)
+[![](../../static/images/grief-corona-cover.webp)](../../static/videos/grief-corona.mp4)

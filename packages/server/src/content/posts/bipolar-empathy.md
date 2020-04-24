@@ -7,11 +7,11 @@ tags: [دوقطبی,همدلی,خلق بالا,نوسان خلق]
 description: "کودکان و نوجوانان مبتلا به اختلال دوقطبی، نیاز به همدلی و حمایت اطرافیان دارند"
 ---
 
-![](../../static/images/bipolar-empathy-1.png)
-![](../../static/images/bipolar-empathy-2.png)
-![](../../static/images/bipolar-empathy-3.png)
-![](../../static/images/bipolar-empathy-4.png)
-![](../../static/images/bipolar-empathy-5.png)
-![](../../static/images/bipolar-empathy-6.png)
-![](../../static/images/bipolar-empathy-7.png)
-![](../../static/images/bipolar-empathy-8.png)
+![](../../static/images/bipolar-empathy-1.webp)
+![](../../static/images/bipolar-empathy-2.webp)
+![](../../static/images/bipolar-empathy-3.webp)
+![](../../static/images/bipolar-empathy-4.webp)
+![](../../static/images/bipolar-empathy-5.webp)
+![](../../static/images/bipolar-empathy-6.webp)
+![](../../static/images/bipolar-empathy-7.webp)
+![](../../static/images/bipolar-empathy-8.webp)

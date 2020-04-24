@@ -8,4 +8,4 @@ tags: [غم,اندوه ]
 description: "انجام فعالیت می‌تواند احساس اندوه را در نوجوانان کاهش دهد"
 ---
 
-[![](../../static/images/coping-sadness-cover.png)](../../static/videos/coping-sadness.mp4)
+[![](../../static/images/coping-sadness-cover.webp)](../../static/videos/coping-sadness.mp4)

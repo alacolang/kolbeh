@@ -8,4 +8,4 @@ tags: [نوجوان,هدفمندی]
 description: "احساس سردرگمی در نوجوانان با ایجاد هدف‌گذاری کاهش می‌یابد"
 ---
 
-[![](../../static/images/goal-setting-cover.png)](../../static/videos/goal-setting.mp4)
+[![](../../static/images/goal-setting-cover.webp)](../../static/videos/goal-setting.mp4)

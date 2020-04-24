@@ -6,4 +6,4 @@ type: video
 tags: [ بحران,فرزندپروری]
 ---
 
-[![](../../static/images/parenting2-cover.png)](../../static/videos/parenting2.mp4)
+[![](../../static/images/parenting2-cover.webp)](../../static/videos/parenting2.mp4)

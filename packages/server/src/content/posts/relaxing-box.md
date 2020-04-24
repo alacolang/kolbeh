@@ -6,4 +6,4 @@ type: image
 tags: [آرامش,استرس,ابزار]
 ---
 
-![](../../static/images/relaxing-box.png)
+![](../../static/images/relaxing-box.webp)

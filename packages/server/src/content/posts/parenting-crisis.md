@@ -7,4 +7,4 @@ date: 2020-04-14 10:00
 tags: [ بحران,فرزندپروری]
 ---
 
-[![](../../static/images/parenting-crisis-cover.png)](../../static/videos/parenting-crisis.mp4)
+[![](../../static/images/parenting-crisis-cover.webp)](../../static/videos/parenting-crisis.mp4)

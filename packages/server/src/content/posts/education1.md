@@ -7,9 +7,9 @@ date: 2020-04-05 9:00
 tags: [آموزش,تحصیل]
 ---
 
-![](../../static/images/education1.png)
-![](../../static/images/education2.png)
-![](../../static/images/education3.png)
-![](../../static/images/education4.png)
-![](../../static/images/education5.png)
-![](../../static/images/education6.png)
+![](../../static/images/education1.webp)
+![](../../static/images/education2.webp)
+![](../../static/images/education3.webp)
+![](../../static/images/education4.webp)
+![](../../static/images/education5.webp)
+![](../../static/images/education6.webp)

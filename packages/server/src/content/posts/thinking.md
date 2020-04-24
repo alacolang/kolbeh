@@ -6,4 +6,4 @@ type: video
 tags: [بحران,همدلی]
 ---
 
-[![](../../static/images/thinking-cover.png)](../../static/videos/thinking.mp4)
+[![](../../static/images/thinking-cover.webp)](../../static/videos/thinking.mp4)
