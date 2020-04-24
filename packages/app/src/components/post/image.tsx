@@ -15,6 +15,7 @@ import colors from "../../colors";
 import Icons from "../../components/icon";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
+import Curve from "../../components/curve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 const frameHeight = Dimensions.get("window").height - 40;
@@ -81,7 +82,7 @@ const TheImage = ({ images, track }: IProps) => {
   return (
     <View style={{}}>
       <Modal
-        transparent={true}
+        transparent={false}
         animationType="fade"
         visible={modalVisible}
         onRequestClose={() => {
@@ -89,10 +90,10 @@ const TheImage = ({ images, track }: IProps) => {
         }}
         presentationStyle="overFullScreen"
       >
-        <StatusBar
+        {/* <StatusBar
           backgroundColor={colors.background}
           barStyle="light-content"
-        />
+        /> */}
         <ImageViewer
           backgroundColor={colors.background}
           renderImage={(props) => {
@@ -122,7 +123,7 @@ const TheImage = ({ images, track }: IProps) => {
                           width: x === "." ? 3 : 7,
                           height: x === "." ? 3 : 7,
                           backgroundColor:
-                            x === "o" ? colors.primary : "lightgray",
+                            x === "o" ? colors.inactive : "lightgray",
                         },
                       ]}
                     />
@@ -147,9 +148,14 @@ const TheImage = ({ images, track }: IProps) => {
           style={styles.backContainer}
           onPress={() => setModalVisible(false)}
         >
-          <Image source={Icons.back} resizeMode="contain" style={styles.back} />
+          <Image
+            source={Icons.backDark}
+            resizeMode="contain"
+            style={styles.back}
+          />
         </TouchableHighlight>
       </Modal>
+
       <TouchableOpacity
         onPress={() => {
           track();
@@ -175,13 +181,14 @@ const styles = StyleSheet.create({
   },
   container: {
     width: frameWidth,
+    borderRadius: 13,
     height: frameWidth,
   },
   image: { borderRadius: 10, marginHorizontal: 0 },
   backContainer: {
     position: "absolute",
-    top: 4,
-    left: 18,
+    top: 14,
+    left: 20,
     width: 44,
     height: 44,
     borderRadius: 44,

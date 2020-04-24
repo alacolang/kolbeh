@@ -2,7 +2,9 @@ import React from "react";
 import { View, Animated, StyleSheet, Easing } from "react-native";
 import icons from "../icon";
 
-const Loading = () => {
+type Props = { varient?: boolean };
+
+const Loading = ({ varient = false }: Props) => {
   const spinValue = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -25,7 +27,7 @@ const Loading = () => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={icons.loading}
+        source={varient ? icons.loadingVarient : icons.loading}
         style={[
           styles.size,
           {

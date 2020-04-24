@@ -5,7 +5,6 @@ import TheVideo from "./video";
 import TheImage from "./image";
 import * as Types from "../../types";
 import colors from "../../colors";
-import Dot from "../post-dot";
 import Markdown from "./markdown";
 import { Icon } from "../../components/icon";
 
@@ -56,7 +55,6 @@ const Post = ({ post }: Props) => {
           />
         </View>
       </TouchableOpacity> */}
-      <Dot />
       {content}
     </View>
   );
@@ -64,9 +62,9 @@ const Post = ({ post }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 15,
+    marginVertical: 30,
     borderRadius: 10,
-    padding: 13,
+    // padding: 13,
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

@@ -1,24 +1,26 @@
-const ORANGE = "#ffbf7d";
-const GREEN = "#3AA27A";
+const PINK = "#D879A7";
+const GREEN = "#0BA3B5";
 const MINT = "#CBEDDD";
+const BLUE = "#0BA3B5";
 
 const colors = {
-  primary: GREEN,
-  primaryVarient: MINT,
-  secondary: "#a2a2a2",
+  primary: "#a2a2a2",
+  primaryVarient: "white",
+  secondary: "white",
   // background: "#f6ede4",
-  background: "#f0f0f0",
-  active: ORANGE,
+  background: "white",
+  backgroundVarient: "#44C4A4",
+  active: PINK,
+  inactive: BLUE,
   activeVarient: "#FABAA1",
-  orange: ORANGE,
+  pink: PINK,
   green: GREEN,
-  category1: MINT,
-  category2: "#7DAC9B",
-  category3: "#F9D291",
-  category4: "#F8E0C7",
-  category5: "#FABAA1",
-  childCategory1: "#FFF474",
-  childCategory2: "#6290C1",
+  category1: "#A5E35E",
+  category2: "#0BA3B5",
+  category3: "#33DACC",
+  childCategory1: "#A5E35E",
+  childCategory2: "#D879A7",
+  childCategory3: "#33DACC",
   h1: "#747695",
   h2: "#747695",
   h3: "#ABDDD2",

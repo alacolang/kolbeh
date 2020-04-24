@@ -38,7 +38,7 @@ const TheVideo = ({ videos, track }: Props) => {
         // presentationStyle="overFullScreen"
       >
         <StatusBar
-          // backgroundColor={colors.background}
+          // backgroundColor={colors.backgroundVarient}
           backgroundColor="black"
           // barStyle="light-content"
           // translucent={true}
@@ -91,7 +91,7 @@ const TheVideo = ({ videos, track }: Props) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    // backgroundColor: colors.background,
+    // backgroundColor: colors.backgroundVarient,
     backgroundColor: "black",
     flex: 1,
     justifyContent: "center",
@@ -102,9 +102,10 @@ const styles = StyleSheet.create({
     width: frameWidth,
   },
   backgroundVideo: {
-    // backgroundColor: colors.background,
+    // backgroundColor: colors.backgroundVarient,
     position: "absolute",
     top: 0,
+    borderRadius: 13,
     left: 0,
     bottom: 0,
     right: 0,
@@ -123,8 +124,8 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     position: "absolute",
-    top: 4,
-    left: 18,
+    top: 14,
+    left: 20,
     width: 44,
     height: 44,
     borderRadius: 44,

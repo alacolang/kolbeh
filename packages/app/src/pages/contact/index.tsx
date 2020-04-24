@@ -2,7 +2,6 @@ import React from "react";
 import {
   Image,
   Linking,
-  ImageBackground,
   Dimensions,
   StyleSheet,
   StatusBar,
@@ -16,7 +15,7 @@ import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
 import icons, { Icon } from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
-import frameImg from "../../assets/images/frame.png";
+import Curve from "../../components/curve";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -26,7 +25,10 @@ const GET_INFO = gql`
   }
 `;
 
-const Contact = () => {
+const HEADER_MIN_HEIGHT = 75;
+
+const Contact = ({ navigation }) => {
+  // const navigation = useNavigation<FeedNavigation>();
   const { data } = useQuery(GET_INFO);
   const info = data ? data.info : {};
   const [codepushVersion, setCodepushVersion] = React.useState({
@@ -43,20 +45,24 @@ const Contact = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        translucent
-        backgroundColor="transparent"
-      />
+      <StatusBar hidden />
 
-      <View style={styles.logoContainer}>
-        <Icon name="info" size="medium" />
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          // activeOpacity={0.5}
+          onPress={() => navigation.goBack()}
+        >
+          <View style={styles.backContainer}>
+            <Icon name="back" size="tiny" />
+          </View>
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+        <Icon name="info" size="small" />
+        <Curve position="bottom-right" negative />
+        <Curve position="bottom-left" negative />
       </View>
-      <ImageBackground
-        source={frameImg}
-        style={styles.frame}
-        resizeMode="stretch"
-      >
+
+      <View style={{ paddingHorizontal: 40 }}>
         <FormattedText style={styles.text} id="contact.title" />
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
@@ -105,7 +111,7 @@ const Contact = () => {
             </View>
           </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </View>
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
@@ -119,8 +125,6 @@ const Contact = () => {
   );
 };
 
-const width = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -131,17 +135,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     paddingTop: 30,
   },
-  frame: {
-    backgroundColor: "transparent",
-    width: width - 30 * 2,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 30,
-    paddingTop: 50,
-  },
   text: {
     fontSize: 18,
-    color: colors.secondary,
+    color: colors.primary,
     lineHeight: 2 * 18,
     textAlign: "center",
   },
@@ -149,9 +145,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     flexDirection: "row",
     alignContent: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   socialIconContainer: {
+    paddingTop: 20,
     marginHorizontal: 10,
     width: 40,
     height: 40,
@@ -175,13 +172,32 @@ const styles = StyleSheet.create({
     right: 10,
   },
   version: {
-    color: colors.secondary,
+    color: colors.primary,
     fontSize: 12,
   },
   logoContainer: {
+    borderWidth: 1,
+  },
+  headerContainer: {
     position: "absolute",
-    top: 30,
-    left: 30,
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 30,
+    height: HEADER_MIN_HEIGHT,
+    backgroundColor: colors.backgroundVarient,
+  },
+  backContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    // borderWidth: 2,
+    borderColor: "red",
   },
 });
 

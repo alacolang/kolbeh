@@ -19,12 +19,15 @@ type Props = {
 
 const CategoryTile = ({ category, onPress, meta }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={1}>
-      <Card backgroundColor={meta.backgroundColor}>
-        <View style={styles.iconContainer}>
+    <TouchableOpacity
+      onPress={onPress}
+      // activeOpacity={0.5}
+    >
+      <Card>
+        <IconContainer backgroundColor={meta.backgroundColor}>
           <Icon name={category.icon + "Active"} size="medium" />
-        </View>
-        <Dot />
+        </IconContainer>
+        {/* <Dot /> */}
         <Title color={meta.color}>{category.title}</Title>
       </Card>
     </TouchableOpacity>
@@ -40,31 +43,30 @@ const Title = styled(FormattedText)`
 `;
 
 const Card = styled.View`
-  background-color: ${(props) => props.backgroundColor};
+  /* background-color: ${(props) => props.backgroundColor}; */
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  height: 80px;
+  height: 125px;
   padding: 0 25px;
   width: ${width - 50}px;
-  border-radius: 10px;
+  /* border-radius: 10px;
   margin-bottom: 30px;
   shadow-color: #000;
   shadow-offset: 0 2px;
   shadow-opacity: 0.23;
   shadow-radius: 2.62px;
 
-  elevation: 4;
+  elevation: 4; */
 `;
 
-const styles = StyleSheet.create({
-  iconContainer: {
-    width: 44 * 2,
-    height: 44 * 2,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 44,
-  },
-});
+const IconContainer = styled.View`
+  background-color: ${(props) => props.backgroundColor};
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+`;
 
 export default CategoryTile;

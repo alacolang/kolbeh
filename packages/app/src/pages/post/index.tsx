@@ -78,7 +78,7 @@ const PostScreen = () => {
             text: {
               fontFamily: "IRANYekanRDMobile",
               textAlign: "left",
-              color: colors.secondary,
+              color: colors.primary,
               fontSize: 16,
               lineHeight: 2 * 16,
             },

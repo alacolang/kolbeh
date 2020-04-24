@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Feed, { FeedRouteParam } from "../pages/feed";
+import Feed, { FeedRouteParam } from "../pages/parent-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
 import { Icon } from "../components/icon";
@@ -19,7 +19,7 @@ const ParentNavigator = ({ navigation, route }) => {
   });
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen
         name="parentCategoryList"
         component={ParentCategoryList}
@@ -39,7 +39,10 @@ const ParentNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="parentFeed"
         component={Feed}
-        options={{ header: () => null }}
+        options={{
+          header: () => null,
+          animationEnabled: false,
+        }}
       />
     </Stack.Navigator>
   );
