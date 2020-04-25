@@ -34,6 +34,7 @@ import SaveIcon from "./images/saved.png";
 import ShareActiveIcon from "./images/share-active.png";
 import ToolboxIcon from "./images/toolbox.png";
 import LoadingVarientIcon from "./images/loading-light.png";
+import SearchIcon from "./images/search.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
@@ -73,6 +74,7 @@ const icons: Icons = {
   save: SaveIcon,
   shareActive: ShareActiveIcon,
   toolbox: ToolboxIcon,
+  search: SearchIcon,
 };
 
 export default icons;

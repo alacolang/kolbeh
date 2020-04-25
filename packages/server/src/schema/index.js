@@ -13,6 +13,7 @@ const schema = gql`
     parentFeed: ParentFeedConnection!
       @deprecated(reason: "use parentCategories")
     childFeed: ParentFeedConnection! @deprecated(reason: "use childCategories")
+    promotions: [Promotion!]!
   }
 
   type Category {
@@ -70,6 +71,11 @@ const schema = gql`
     images: [Image]!
     videos: [Video]!
     markdown: Markdown
+  }
+
+  type Promotion {
+    id: ID!
+    description: String!
   }
 `;
 

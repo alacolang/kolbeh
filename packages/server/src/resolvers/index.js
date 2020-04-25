@@ -51,13 +51,16 @@ const resolvers = {
         .sort((p1, p2) => {
           try {
             if (p2.node.date && p1.node.date) {
-              return new Date(p2.node.date).getTime() - new Date(p1.node.date).getTime();
+              return (
+                new Date(p2.node.date).getTime() -
+                new Date(p1.node.date).getTime()
+              );
             } else if (p2.node.date && !p1.node.date) {
-              return 1
+              return 1;
             } else if (p1.node.date && !p2.node.date) {
-              return -1
+              return -1;
             } else {
-              return  p1.node.order - p2.node.order;
+              return p1.node.order - p2.node.order;
             }
           } catch (e) {
             return p1.node.order - p2.node.order;
@@ -76,6 +79,16 @@ const resolvers = {
     },
     childCategories: () => {
       return dataResolver(parsedData.child);
+    },
+    promotions: () => {
+      return [
+        ...dataResolver(parsedData.parent),
+        ...dataResolver(parsedData.child),
+      ]
+        .map(d => d.feed.edges)
+        .flat()
+        .filter(({ node }) => !!node.description)
+        .map(({ node: { id, description } }) => ({ id, description }));
     },
     ...depricatedResolvers,
   },
