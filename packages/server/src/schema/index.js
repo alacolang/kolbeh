@@ -71,6 +71,7 @@ const schema = gql`
     images: [Image]!
     videos: [Video]!
     markdown: Markdown
+    tags: [String]
   }
 
   type Promotion {

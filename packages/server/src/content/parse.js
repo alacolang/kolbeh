@@ -106,6 +106,5 @@ function parse() {
 }
 
 parse();
-console.log("done");
 
 module.exports = parse;
