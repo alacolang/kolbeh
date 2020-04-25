@@ -20,8 +20,11 @@ export type IPost = {
   category: string;
   images: IImage[];
   videos: IVideo[];
+  tags: ITag[];
   markdown: IMarkdown;
 };
+
+export type ITag = string;
 
 export type ICategory = {
   id: string;
