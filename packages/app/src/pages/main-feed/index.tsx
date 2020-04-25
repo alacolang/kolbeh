@@ -144,6 +144,7 @@ const MainFeedScreen = () => {
       (command === "close" && !isMenuOpen) ||
       (command === "open" && isMenuOpen)
     ) {
+      cb();
       return;
     }
     const [from, to] = !isMenuOpen ? [0, 1] : [1, 0];
