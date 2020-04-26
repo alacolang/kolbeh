@@ -14,7 +14,6 @@ type Props = {
 };
 
 const ImagePost = ({ post }: Props) => {
-  console.log("image-post", { post });
   const { images } = post;
 
   const [height, setHeight] = React.useState<number>(frameWidth);
@@ -54,56 +53,54 @@ const ImagePost = ({ post }: Props) => {
   );
 
   return (
-      <ImageViewer
-        backgroundColor={colors.background}
-        renderImage={(props) => {
-          setHeight(props.style.height);
-          return <Image {...props} style={[props.style, styles.image]} />;
-        }}
-        onChange={(currentIndex) => {
-          setXY(handleDots(previousIndex, currentIndex, x, y));
-        }}
-        renderIndicator={(currentIndex, allSize = 0) =>
-          allSize <= 1 ? (
-            <View />
-          ) : (
-            <>
-              <View
-                style={[
-                  styles.dotsContainer,
-                  { bottom: (frameHeight - height) / 2 - 30 },
-                ]}
-              >
-                {result.map((x, i) => (
-                  <View
-                    key={i}
-                    style={[
-                      styles.dot,
-                      {
-                        width: x === "." ? 3 : 7,
-                        height: x === "." ? 3 : 7,
-                        backgroundColor:
-                          x === "o" ? colors.inactive : "lightgray",
-                      },
-                    ]}
-                  />
-                ))}
-              </View>
-              <View style={styles.indexContainer}>
-                <FormattedText style={styles.index}>
-                  {toLocaleNumber(allSize) +
-                    " / " +
-                    toLocaleNumber(currentIndex)}
-                </FormattedText>
-              </View>
-            </>
-          )
-        }
-        imageUrls={images.map((image) => ({
-          ...image,
-          url: resolveURL(image.url),
-        }))}
-      />
+    <ImageViewer
+      backgroundColor={colors.background}
+      renderImage={(props) => {
+        setHeight(props.style.height);
+        return <Image {...props} style={[props.style, styles.image]} />;
+      }}
+      onChange={(currentIndex) => {
+        setXY(handleDots(previousIndex, currentIndex, x, y));
+      }}
+      renderIndicator={(currentIndex, allSize = 0) =>
+        allSize <= 1 ? (
+          <View />
+        ) : (
+          <>
+            <View
+              style={[
+                styles.dotsContainer,
+                { bottom: (frameHeight - height) / 2 - 30 },
+              ]}
+            >
+              {result.map((x, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.dot,
+                    {
+                      width: x === "." ? 3 : 7,
+                      height: x === "." ? 3 : 7,
+                      backgroundColor:
+                        x === "o" ? colors.inactive : "lightgray",
+                    },
+                  ]}
+                />
+              ))}
+            </View>
+            <View style={styles.indexContainer}>
+              <FormattedText style={styles.index}>
+                {toLocaleNumber(allSize) + " / " + toLocaleNumber(currentIndex)}
+              </FormattedText>
+            </View>
+          </>
+        )
+      }
+      imageUrls={images.map((image) => ({
+        ...image,
+        url: resolveURL(image.url),
+      }))}
+    />
   );
 };
 

@@ -1,15 +1,14 @@
 import React from "react";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { View, StatusBar } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/core";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import * as Types from "../../types";
-import { FormattedText } from "../../components/formatted-text";
 import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
+import colors from "../../colors";
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -43,8 +42,8 @@ const GET_POST = gql`
 type PostRoute = RouteProp<ParentStackParamList, "post">;
 
 type PostData = {
-  postById: Types.IPost
-}
+  postById: Types.IPost;
+};
 
 const PostScreen = () => {
   const route = useRoute<PostRoute>();
@@ -62,8 +61,6 @@ const PostScreen = () => {
     skip: !id || !!(post && post.id),
   });
 
-  console.log("post-screen", { id, post, error, loading });
-
   if (id && data) {
     stuff = data.postById;
   }
@@ -76,15 +73,16 @@ const PostScreen = () => {
     markdown: MarkdownPost,
   }[stuff.type];
 
-  console.log("postscreen:", { type: stuff.type, stuff, data, id, post });
   return (
-    <View style={{flex: 1,}}>
-      <StatusBar
-        barStyle="dark-content"
-        // translucent
-        // backgroundColor="transparent"
-      />
-      {/* <FormattedText>{JSON.stringify(stuff, null, 2)}</FormattedText> */}
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 15,
+        backgroundColor: stuff.type === "video" ? "black" : colors.background,
+        borderColor: "red",
+      }}
+    >
+      <StatusBar hidden />
       <Component post={stuff} />
     </View>
   );
