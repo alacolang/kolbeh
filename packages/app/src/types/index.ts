@@ -49,6 +49,11 @@ export type IPageInfo = {
   endCursor: string;
 };
 
+export type IPromotion = {
+  id: string;
+  description: string;
+};
+
 export enum IPostType {
   image = "image",
   video = "video",
