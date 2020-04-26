@@ -35,11 +35,11 @@ const resolvers = {
         ...dataResolver(parsedData.parent),
         ...dataResolver(parsedData.child),
       ]
-        .map(d => d.feed.edges.map(post => ({ node: post })))
+        .map(d => d.feed.edges.map(post => post.node))
         .flat()
         .find(d => {
-          return d.node.id === id;
-        }).node;
+          return d.id === id;
+        });
     },
     posts: () => {
       const edges = [
