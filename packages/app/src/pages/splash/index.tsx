@@ -14,14 +14,12 @@ import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
 import { StackParamList } from "../../navigation/splash-stack-navigator";
-// import { StackParamList } from "../../navigation/home-stack-navigator";
 import colors from "../../colors";
-import icons, { Icon } from "../../components/icon";
+import { Icon } from "../../components/icon";
 import * as Types from "../../types";
 
 import AsyncStorage from "@react-native-community/async-storage";
 // import { persistCache } from "apollo-cache-persist";
-import { cache } from "../../index";
 
 const GET_PROMOTIONS = gql`
   query {
@@ -66,7 +64,6 @@ const Splash = () => {
       if (!raw) return;
       try {
         const promotions = JSON.parse(raw);
-        // console.log(promotions[0]);
         setPromotions(promotions);
       } catch (e) {}
     }
@@ -74,157 +71,119 @@ const Splash = () => {
   }, []);
 
   React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (!loading && data && data.promotions) {
-      // console.log({ loading, data: JSON.stringify(data, null, 2) });
       AsyncStorage.setItem("promotions", JSON.stringify(data.promotions));
     }
   }, [data, loading]);
 
-  return (
+  const handlePromotionClick = () => {
+    navigation.dispatch((state) => {
+      // console.log(JSON.stringify(state));
+      const action = CommonActions.navigate({
+        name: "main",
+        params: {
+          screen: "home",
+          params: {
+            screen: "post",
+            params: {
+              id: data.promotions[0].id,
+            },
+          },
+        },
+      });
+
+      console.log({ action });
+      return action;
+    });
+
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [
+    //       {
+    //         name: "main",
+    //       },
+    //     ],
+    //   })
+    // );
+  };
+
+  const handleEnter = () => {
+    navigation.reset({ index: 0, routes: [{ name: "main" }] });
+  };
+
+  const borderRendered = (
     <View
       style={{
-        backgroundColor: "black",
-        flex: 1,
-        borderColor: "black",
+        // borderWidth: 1,
+        position: "relative",
+        top: -35,
       }}
     >
-      <StatusBar hidden />
-
-      <View
-        style={{
-          flex: 1,
-          borderWidth: 1,
-          // zIndex: 0,
-          backgroundColor: colors.background,
-          borderBottomStartRadius: 40,
-          borderBottomEndRadius: 40,
-          borderTopStartRadius: 40,
-          borderTopEndRadius: 40,
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+      <Svg
+        height={120}
+        width={fullWidth}
+        // viewBox="0 0 360 281"
       >
-        <View style={styles.container}>
-          {promotions.length > 0 && (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.dispatch((state) => {
-                  // console.log(JSON.stringify(state));
-                  const action =  CommonActions.navigate({
-                    name: 'main',
-                    params: {
-                      screen: 'home',
-                      params: {
-                        screen: 'post',
-                        params: {
-                          id: data.promotions[0].id
-                        }
-                      }
-                    }
-                  })
+        <Defs>
+          <ClipPath id="cut-off-bottom">
+            <Rect x="0" y="35" width={fullWidth} height="120" />
+          </ClipPath>
+        </Defs>
 
-                  console.log({action})
-                  return action
+        <Path
+          d="M-10.1111 1.78645H349.889C349.889 1.78645 422.889 -19.2135 349.889 82.7865C276.889 184.786 108.889 -51.2135 -10.1111 82.7865C-129.111 216.786 -10.1111 1.78645 -10.1111 1.78645Z"
+          fill={colors.backgroundVarient}
+          clipPath="url(#cut-off-bottom)"
+        />
+      </Svg>
+    </View>
+  );
 
-                });
-                // navigation.navigate("main", {
-                //   screen: "home",
-                //   id: promotions[0].id,
-                // });
-                // navigation.dispatch(
-                //   CommonActions.reset({
-                //     index: 0,
-                //     routes: [
-                //       {
-                //         name: "main",
-                //       },
-                //     ],
-                //   })
-                // );
-              }}
-            >
-              <View style={styles.textContainer}>
-                <FormattedText style={styles.promotionText}>
-                  {promotions[0].description}
-                </FormattedText>
+  const logoRendered = (
+    <View style={styles.logoContainer}>
+      <Icon name="logo" size="large" />
+    </View>
+  );
 
-                <View
-                  style={{ alignContent: "flex-end", alignSelf: "flex-end" }}
-                >
-                  <Icon name="leftArrow" size="tiny" />
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-          {!loading && promotions.length === 0 && (
-            <View style={styles.textContainer}>
-              <FormattedText style={styles.text} id="home.information" />
-            </View>
-          )}
-          <View style={styles.logoContainer}>
-            <Image
-              source={icons.logo}
-              resizeMode="contain"
-              style={styles.logo}
-            />
+  let content;
+
+  if (promotions.length > 0) {
+    content = (
+      <TouchableOpacity onPress={() => handlePromotionClick()}>
+        <>
+          <FormattedText style={styles.promotionText}>
+            {promotions[0].description}
+          </FormattedText>
+
+          <View style={{ alignContent: "flex-end", alignSelf: "flex-end" }}>
+            <Icon name="leftArrow" size="tiny" />
           </View>
-        </View>
-        <View
-          style={{
-            // borderWidth: 1,
-            position: "relative",
-            top: -35,
-          }}
-        >
-          <Svg
-            height={120}
-            width={fullWidth}
-            // viewBox="0 0 360 281"
-          >
-            <Defs>
-              <ClipPath id="cut-off-bottom">
-                <Rect x="0" y="35" width={fullWidth} height="120" />
-              </ClipPath>
-            </Defs>
+        </>
+      </TouchableOpacity>
+    );
+  } else {
+    if (!loading) {
+      content = <FormattedText style={styles.text} id="home.information" />;
+    }
+  }
 
-            <Path
-              d="M-10.1111 1.78645H349.889C349.889 1.78645 422.889 -19.2135 349.889 82.7865C276.889 184.786 108.889 -51.2135 -10.1111 82.7865C-129.111 216.786 -10.1111 1.78645 -10.1111 1.78645Z"
-              fill={colors.inactive}
-              clipPath="url(#cut-off-bottom)"
-            />
-          </Svg>
+  return (
+    <View style={styles.blackBackground}>
+      <StatusBar hidden />
+      <View style={styles.roundedContainer}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>{content}</View>
+          {logoRendered}
         </View>
-        <View
-          style={{
-            paddingBottom: 50,
-            // borderWidth: 1
-          }}
+        {borderRendered}
+        <TouchableOpacity
+          onPress={() => handleEnter()}
+          activeOpacity={0.5}
+          style={styles.enterContainer}
         >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.reset({ index: 0, routes: [{ name: "main" }] });
-            }}
-            activeOpacity={0.5}
-            style={{
-              width: 60,
-              position: "relative",
-              top: -20,
-              height: 60,
-              borderRadius: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              // borderWidth: 3,
-              borderColor: "red",
-              backgroundColor: colors.childCategory2,
-            }}
-          >
-            <FormattedText
-              id="enter"
-              style={{ color: "white", fontSize: 18 }}
-            />
-          </TouchableOpacity>
-        </View>
+          <FormattedText id="enter" style={styles.enterButton} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -234,22 +193,33 @@ const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+  blackBackground: {
+    flex: 1,
+    backgroundColor: "black",
+  },
+  roundedContainer: {
+    flex: 1,
+    backgroundColor: colors.background,
+    borderBottomStartRadius: 40,
+    borderBottomEndRadius: 40,
+    borderTopStartRadius: 40,
+    borderTopEndRadius: 40,
+    flexDirection: "column",
+    alignItems: "center",
+  },
   container: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     height: (fullHeight / 3) * 2,
-    backgroundColor: colors.inactive,
+    backgroundColor: colors.backgroundVarient,
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
-    // borderWidth: 5,
     paddingHorizontal: 40,
-    borderColor: "blue",
-    // paddingTop: 30,
     zIndex: 100,
   },
-  textContainer: {
+  contentContainer: {
     paddingTop: 120 - 35,
     flex: 1,
     // borderWidth: 1,
@@ -280,7 +250,22 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
   },
-  logo: { width: 60, height: 60 },
+  enterOuterContainer: {
+    paddingBottom: 50,
+  },
+  enterContainer: {
+    width: 60,
+    position: "relative",
+    top: -20,
+    height: 60,
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 3,
+    borderColor: "red",
+    backgroundColor: colors.childCategory2,
+  },
+  enterButton: { color: "white", fontSize: 18 },
 });
 
 export default Splash;
