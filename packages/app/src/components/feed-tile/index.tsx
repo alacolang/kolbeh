@@ -68,8 +68,7 @@ const Post = ({ post }: Props) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 30,
-    borderRadius: 10,
-    // padding: 13,
+    borderRadius: 13,
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

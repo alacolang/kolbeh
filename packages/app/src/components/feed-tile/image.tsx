@@ -19,6 +19,16 @@ const TheImage = ({ post }: IProps) => {
   if (!(post && post.images && post.images[0])) return null;
   const uri = resolveURL(post.images[0].url);
 
+  React.useEffect(() => {
+    Image.getSize(
+      uri,
+      (width, height) => {
+        setSize({ height: (frameWidth / width) * height });
+      },
+      () => {}
+    );
+  }, [uri]);
+
   return (
     <Image
       style={[styles.container, size]}
