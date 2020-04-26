@@ -230,7 +230,7 @@ const MainFeedScreen = () => {
         // borderWidth: 1,
       }}
     >
-      {filteredTags.length > 1 &&
+      {(filteredTags.length > 0) &&
         filteredTags.slice(0, 10).map((tag) => (
           <TouchableOpacity
             key={tag}
@@ -317,7 +317,6 @@ const MainFeedScreen = () => {
         <TextInput
           // autoFocus={true}
           onFocus={() => {
-            console.log("focused");
             handleMenu("open");
           }}
           style={{
