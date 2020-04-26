@@ -7,6 +7,7 @@ enum SIZE {
   small = 32,
   medium = 48,
   large = 65,
+  huge = 80,
 }
 
 type Props = {
@@ -20,7 +21,8 @@ export const Icon = ({ size, name, ...props }: Props) => {
     size === "small" ||
     size === "medium" ||
     size === "large" ||
-    size === "tiny"
+    size === "tiny" ||
+    size === "huge"
   ) {
     _size = SIZE[size];
   } else {

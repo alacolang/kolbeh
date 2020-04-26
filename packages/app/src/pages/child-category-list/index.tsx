@@ -32,6 +32,7 @@ const GET_CHILD = gql`
           node {
             id
             title
+            type
             category
             images {
               id

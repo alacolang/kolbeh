@@ -15,7 +15,6 @@ import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import colors from "../../colors";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
-import Curve from "../../components/curve";
 
 const GET_PARENT = gql`
   query GetParent {
@@ -32,6 +31,7 @@ const GET_PARENT = gql`
           node {
             id
             title
+            type
             category
             images {
               id
@@ -67,8 +67,6 @@ const getCategoryColor = (index: number) => {
     { backgroundColor: colors.category1, color: colors.secondary },
     { backgroundColor: colors.category2, color: colors.secondary },
     { backgroundColor: colors.category3, color: colors.secondary },
-    // { backgroundColor: colors.category4, color: colors.secondary },
-    // { backgroundColor: colors.category5, color: colors.secondary },
   ];
   return rowColors[index % rowColors.length];
 };
@@ -91,7 +89,6 @@ const ParentScreen = () => {
   }
 
   const categories: Types.ICategory[] = data ? data.parentCategories : [];
-  // const categories = [];
 
   return (
     <View

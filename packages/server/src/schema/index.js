@@ -6,7 +6,7 @@ import { gql } from "apollo-server-express";
 const schema = gql`
   type Query {
     info: Info @cacheControl(maxAge: 1000)
-    postById(id: ID!): Post!
+    postById(id: ID!): Post
     parentCategories: [Category!]! @cacheControl(maxAge: 240)
     posts: ParentFeedConnection!
     childCategories: [Category!]! @cacheControl(maxAge: 240)
@@ -72,6 +72,13 @@ const schema = gql`
     videos: [Video]!
     markdown: Markdown
     tags: [String]
+    type: PostType!
+  }
+
+  enum PostType {
+    image
+    video
+    markdown
   }
 
   type Promotion {

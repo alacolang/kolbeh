@@ -1,20 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-} from "react-native";
 import MainNavigator from "./main-tab-navigator";
 import SplashScreen from "../pages/splash";
-
-export type TabParamList = {
-  home: undefined;
-  parent: undefined;
-  child: undefined;
-};
 
 export type StackParamList = {
   splash: undefined;
@@ -23,7 +10,7 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator initialRouteName="splash">
     <Stack.Screen
       name="splash"
       component={SplashScreen}

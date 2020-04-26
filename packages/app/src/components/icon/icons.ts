@@ -35,6 +35,7 @@ import ShareActiveIcon from "./images/share-active.png";
 import ToolboxIcon from "./images/toolbox.png";
 import LoadingVarientIcon from "./images/loading-light.png";
 import SearchIcon from "./images/search.png";
+import LeftArrowIcon from "./images/left-arrow.png";
 
 type Icons = Record<string, ImageSourcePropType>;
 
@@ -75,6 +76,7 @@ const icons: Icons = {
   shareActive: ShareActiveIcon,
   toolbox: ToolboxIcon,
   search: SearchIcon,
+  leftArrow: LeftArrowIcon,
 };
 
 export default icons;
