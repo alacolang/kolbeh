@@ -22,6 +22,7 @@ export type IPost = {
   videos: IVideo[];
   tags: ITag[];
   markdown: IMarkdown;
+  type: IPostType;
 };
 
 export type ITag = string;
@@ -47,5 +48,11 @@ export type IPageInfo = {
   hasNextPage: boolean;
   endCursor: string;
 };
+
+export enum IPostType {
+  image = "image",
+  video = "video",
+  markdown = "markdown",
+}
 
 export type ICategories = ICategory[];

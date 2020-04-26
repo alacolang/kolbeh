@@ -1,65 +1,24 @@
 import React from "react";
-import { Dimensions, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Dimensions, StyleSheet, Image } from "react-native";
 import * as Types from "../../types";
-import { useNavigation, NavigationProp } from "@react-navigation/core";
-import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { resolveURL } from "../../utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 
-type ISize = { width?: number; height: number };
 type Props = {
   post: Types.IPost;
-  track: () => void;
 };
 
-type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
-
-const Markdown = ({ post, track }: Props) => {
-  const navigation = useNavigation<FeedNavigation>();
-
-  // const [size, setSize] = React.useState<ISize>({
-  //   width: frameWidth,
-  //   height: 200,
-  // });
+const Markdown = ({ post }: Props) => {
   const uri = resolveURL(post.markdown.cover);
 
-  // React.useEffect(() => {
-  //   Image.getSize(
-  //     uri,
-  //     (width, height) => {
-  //       setSize({ height: (frameWidth / width) * height });
-  //     },
-  //     () => {}
-  //   );
-  // }, [uri]);
-
-  return (
-    <>
-      <TouchableOpacity
-        onPress={() => {
-          track();
-          navigation.navigate("post", { post });
-        }}
-      >
-        <Image
-          style={styles.container}
-          // style={[styles.container, size]}
-          source={{ uri }}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-    </>
-  );
+  return <Image style={styles.container} source={{ uri }} resizeMode="cover" />;
 };
 
 const styles = StyleSheet.create({
   container: {
     width: frameWidth,
     height: frameWidth,
-  },
-  scrollViewContentContainer: {
-    paddingHorizontal: 30,
   },
 });
 

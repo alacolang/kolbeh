@@ -48,6 +48,7 @@ const GET_POSTS = gql`
           id
           category
           tags
+          type
           images {
             id
             url

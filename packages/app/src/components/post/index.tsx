@@ -1,43 +1,38 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Analytics from "appcenter-analytics";
-import TheVideo from "./video";
-import TheImage from "./image";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
+import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
+import VideoCover from "./video";
+import ImageCover from "./image";
 import * as Types from "../../types";
 import colors from "../../colors";
-import Markdown from "./markdown";
-import { Icon } from "../../components/icon";
+import MarkdownCover from "./markdown";
+import { Icon } from "../icon";
+
+type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
 
 type Props = {
   post: Types.IPostEdge;
 };
 
 const Post = ({ post }: Props) => {
-  let content;
-  const node = post.node;
-  let postType: "markdown" | "image" | "video";
+  const Cover = {
+    image: ImageCover,
+    video: VideoCover,
+    markdown: MarkdownCover,
+  }[post.node.type];
+
+  // const [saved, setSaved] = React.useState(false);
+  const navigation = useNavigation<FeedNavigation>();
+
   const track = () => {
     Analytics.trackEvent("Post clicked", {
       category: post.node.category,
-      type: postType,
+      type: post.node.type,
       id: post.node.id,
     });
   };
-
-  if (node.markdown && node.markdown.content) {
-    postType = "markdown";
-    content = <Markdown post={post.node} track={track} />;
-  } else if (node.images && node.images.length > 0) {
-    postType = "image";
-    content = <TheImage images={node.images} track={track} />;
-  } else if (node.videos && node.videos.length > 0) {
-    postType = "video";
-    content = <TheVideo videos={node.videos} track={track} />;
-  } else {
-    content = null;
-  }
-
-  const [saved, setSaved] = React.useState(false);
 
   return (
     <View style={styles.container}>
@@ -55,7 +50,17 @@ const Post = ({ post }: Props) => {
           />
         </View>
       </TouchableOpacity> */}
-      {content}
+      <TouchableOpacity
+        onPress={() => {
+          track();
+          navigation.navigate("post", {
+            post: post.node,
+            id: post.node.id,
+          });
+        }}
+      >
+        <Cover post={post.node} />
+      </TouchableOpacity>
     </View>
   );
 };

@@ -32,6 +32,7 @@ const GET_PARENT = gql`
           node {
             id
             title
+            type
             category
             images {
               id
