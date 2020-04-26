@@ -12,11 +12,8 @@ import {
   StatusBar,
   Dimensions,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
-import { useFocusEffect } from "@react-navigation/native";
-
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Loading from "../../components/loading";
@@ -25,8 +22,8 @@ import colors from "../../colors";
 import { Icon } from "../../components/icon";
 import * as Types from "../../types";
 import { errorReport } from "../../utils/error-reporter";
-import Post from "../../components/post";
-import { HomeStackParamList } from "../../navigation/home-stack-navigator";
+import Post from "../../components/feed-tile";
+import { StackParamList } from "../../navigation/home-stack-navigator";
 import { onShare } from "../../utils/share";
 import Curve from "../../components/curve";
 
@@ -72,22 +69,11 @@ type FeedData = {
   posts: Types.IFeed;
 };
 
-type Navigation = NavigationProp<HomeStackParamList, "home">;
+type Navigation = NavigationProp<StackParamList, "feed">;
 
 const MainFeedScreen = () => {
   const navigation = useNavigation<Navigation>();
   const animateValue = React.useRef(new Animated.Value(0)).current;
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     // Do something when the screen is focused
-
-  //     setMenuOpen(false)
-  //     return () => {
-  //       // Do something when the screen is unfocused
-  //       // Useful for cleanup functions
-  //     };
-  //   }, [])
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);

@@ -1,29 +1,32 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from "../pages/main-feed";
+import Feed from "../pages/main-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import { Icon } from "../components/icon";
 import Contact from "../pages/contact";
 
-export type HomeStackParamList = {
-  home: undefined;
+export type StackParamList = {
+  feed: undefined;
   contact: undefined;
   post: PostRouteParam;
 };
-const Stack = createStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<StackParamList>();
 
-const ParentNavigator = () => {
+const HomeNavigator = ({ navigation, route }) => {
+  navigation.setOptions({
+    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
+  });
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="feed"
       headerMode="none"
       screenOptions={({ route, navigation }) => ({
         animationEnabled: false,
       })}
     >
       <Stack.Screen
-        name="home"
-        component={Home}
+        name="feed"
+        component={Feed}
         options={{ header: () => null }}
       />
       <Stack.Screen
@@ -46,4 +49,4 @@ const ParentNavigator = () => {
   );
 };
 
-export default ParentNavigator;
+export default HomeNavigator;

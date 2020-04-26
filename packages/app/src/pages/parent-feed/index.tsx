@@ -21,7 +21,7 @@ import { ChildStackParamList } from "../../navigation/child-stack-navigator";
 import Icons from "../../components/icon";
 import * as Types from "../../types";
 import colors from "../../colors";
-import Post from "../../components/post";
+import FeedTile from "../../components/feed-tile";
 
 const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;
@@ -56,7 +56,7 @@ const Feed = () => {
   const feed = category.feed;
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
-    return <Post post={item} />;
+    return <FeedTile post={item} />;
   };
 
   let translateTab = scrollAnimatedValue.interpolate({
