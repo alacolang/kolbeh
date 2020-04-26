@@ -1,51 +1,90 @@
 import React from "react";
 import {
   Image,
-  Animated,
   Dimensions,
-  ImageBackground,
   StatusBar,
   TouchableOpacity,
   View,
   StyleSheet,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
+import { useQuery } from "@apollo/react-hooks";
+import { CommonActions } from "@react-navigation/native";
+import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
 import { StackParamList } from "../../navigation/splash-stack-navigator";
+// import { StackParamList } from "../../navigation/home-stack-navigator";
 import colors from "../../colors";
 import icons, { Icon } from "../../components/icon";
-import frameImg from "../../assets/images/frame.png";
-// import Clouds from "../../components/clouds";
+import * as Types from "../../types";
+
+import AsyncStorage from "@react-native-community/async-storage";
+// import { persistCache } from "apollo-cache-persist";
+import { cache } from "../../index";
+
+const GET_PROMOTIONS = gql`
+  query {
+    promotions {
+      id
+      description
+    }
+  }
+`;
 
 type Navigation = NavigationProp<StackParamList, "splash">;
 
+/*
+splash
+main
+  home
+    home
+    contact
+    post
+  parent
+    parentCategoryList
+    parentFeed
+    post
+  child
+*/
+
+type PromotionsData = {
+  promotions: Types.IPromotion[];
+};
+
 const Splash = () => {
   const navigation = useNavigation<Navigation>();
-  const x = React.useRef(new Animated.Value(0)).current;
+  const { data, loading, refetch, error } = useQuery<PromotionsData>(
+    GET_PROMOTIONS
+  );
+
+  const [promotions, setPromotions] = React.useState<Types.IPromotion[]>([]);
 
   React.useEffect(() => {
-    const animate = Animated.loop(
-      Animated.timing(x, {
-        toValue: 1,
-        duration: 3000,
-        useNativeDriver: true,
-      })
-    );
-
-    animate.start();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    async function restorePromotions() {
+      const raw = await AsyncStorage.getItem("promotions");
+      if (!raw) return;
+      try {
+        const promotions = JSON.parse(raw);
+        // console.log(promotions[0]);
+        setPromotions(promotions);
+      } catch (e) {}
+    }
+    restorePromotions();
   }, []);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!loading && data && data.promotions) {
+      // console.log({ loading, data: JSON.stringify(data, null, 2) });
+      AsyncStorage.setItem("promotions", JSON.stringify(data.promotions));
+    }
+  }, [data, loading]);
 
   return (
     <View
       style={{
-        // backgroundColor: colors.background,
         backgroundColor: "black",
-        // borderTopStartRadius: 40,
-        // borderTopEndRadius: 40,
-        // borderWidth: 10,
         flex: 1,
         borderColor: "black",
       }}
@@ -66,16 +105,63 @@ const Splash = () => {
           alignItems: "center",
         }}
       >
-        <View
-          // start={{ x: -2, y: -1 }}
-          // end={{ x: 1, y: 1 }}
-          // colors={[colors.category1, colors.category3]}
-          // locations={[0, 1]}
-          style={styles.container}
-        >
-          <View style={styles.textContainer}>
-            <FormattedText style={styles.text} id="home.information" />
-          </View>
+        <View style={styles.container}>
+          {promotions.length > 0 && (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.dispatch((state) => {
+                  // console.log(JSON.stringify(state));
+                  const action =  CommonActions.navigate({
+                    name: 'main',
+                    params: {
+                      screen: 'home',
+                      params: {
+                        screen: 'post',
+                        params: {
+                          id: data.promotions[0].id
+                        }
+                      }
+                    }
+                  })
+
+                  console.log({action})
+                  return action
+
+                });
+                // navigation.navigate("main", {
+                //   screen: "home",
+                //   id: promotions[0].id,
+                // });
+                // navigation.dispatch(
+                //   CommonActions.reset({
+                //     index: 0,
+                //     routes: [
+                //       {
+                //         name: "main",
+                //       },
+                //     ],
+                //   })
+                // );
+              }}
+            >
+              <View style={styles.textContainer}>
+                <FormattedText style={styles.promotionText}>
+                  {promotions[0].description}
+                </FormattedText>
+
+                <View
+                  style={{ alignContent: "flex-end", alignSelf: "flex-end" }}
+                >
+                  <Icon name="leftArrow" size="tiny" />
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          {!loading && promotions.length === 0 && (
+            <View style={styles.textContainer}>
+              <FormattedText style={styles.text} id="home.information" />
+            </View>
+          )}
           <View style={styles.logoContainer}>
             <Image
               source={icons.logo}
@@ -104,7 +190,6 @@ const Splash = () => {
 
             <Path
               d="M-10.1111 1.78645H349.889C349.889 1.78645 422.889 -19.2135 349.889 82.7865C276.889 184.786 108.889 -51.2135 -10.1111 82.7865C-129.111 216.786 -10.1111 1.78645 -10.1111 1.78645Z"
-              // fill={colors.category3}
               fill={colors.inactive}
               clipPath="url(#cut-off-bottom)"
             />
@@ -118,7 +203,6 @@ const Splash = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              // navigation.navigate("main");
               navigation.reset({ index: 0, routes: [{ name: "main" }] });
             }}
             activeOpacity={0.5}
@@ -157,10 +241,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: (fullHeight / 3) * 2,
     backgroundColor: colors.inactive,
-    // backgroundColor: 'black',
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
-
     // borderWidth: 5,
     paddingHorizontal: 40,
     borderColor: "blue",
@@ -171,13 +253,20 @@ const styles = StyleSheet.create({
     paddingTop: 120 - 35,
     flex: 1,
     // borderWidth: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 30,
+  },
+  promotionText: {
+    fontSize: 18,
+    color: colors.secondary,
+    lineHeight: 2 * 18,
+    textAlign: "center",
   },
   text: {
     fontSize: 24,
     color: colors.secondary,
-    paddingHorizontal: 30,
     lineHeight: 2 * 24,
     textAlign: "center",
   },
