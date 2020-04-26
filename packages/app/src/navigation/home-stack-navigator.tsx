@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed from "../pages/main-feed";
 import Post, { PostRouteParam } from "../pages/post";
@@ -16,10 +17,10 @@ const HomeNavigator = ({ navigation, route }) => {
   navigation.setOptions({
     tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
   });
+
   return (
     <Stack.Navigator
       initialRouteName="feed"
-      headerMode="none"
       screenOptions={({ route, navigation }) => ({
         animationEnabled: false,
       })}
@@ -38,11 +39,10 @@ const HomeNavigator = ({ navigation, route }) => {
         name="post"
         component={Post}
         options={() => ({
-          // headerTransparent:true,
-          headerStyle: { backgroundColor: "transparent", elevation: 0 },
-          headerTitle: () => null,
-          headerLeftContainerStyle: { paddingLeft: 10 },
-          headerBackImage: () => <Icon name="back" size="tiny" />,
+          headerTransparent: true,
+          title: "",
+          headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
+          headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
       />
     </Stack.Navigator>

@@ -32,20 +32,6 @@ const GET_PROMOTIONS = gql`
 
 type Navigation = NavigationProp<StackParamList, "splash">;
 
-/*
-splash
-main
-  home
-    home
-    contact
-    post
-  parent
-    parentCategoryList
-    parentFeed
-    post
-  child
-*/
-
 type PromotionsData = {
   promotions: Types.IPromotion[];
 };
@@ -56,15 +42,17 @@ const Splash = () => {
     GET_PROMOTIONS
   );
 
-  const [promotions, setPromotions] = React.useState<Types.IPromotion[]>([]);
+  const [promotion, setPromotion] = React.useState<
+    Types.IPromotion | undefined
+  >(undefined);
 
   React.useEffect(() => {
     async function restorePromotions() {
       const raw = await AsyncStorage.getItem("promotions");
       if (!raw) return;
       try {
-        const promotions = JSON.parse(raw);
-        setPromotions(promotions);
+        const promotion = getRandomPromotion(JSON.parse(raw));
+        setPromotion(promotion);
       } catch (e) {}
     }
     restorePromotions();
@@ -73,39 +61,39 @@ const Splash = () => {
   React.useEffect(() => {
     if (!loading && data && data.promotions) {
       AsyncStorage.setItem("promotions", JSON.stringify(data.promotions));
+      // AsyncStorage.removeItem("promotions")
     }
   }, [data, loading]);
 
+  const getRandomPromotion = (promotions: Types.IPromotion[]) => {
+    return promotions[Math.floor(Math.random() * promotions.length)];
+  };
+
   const handlePromotionClick = () => {
-    navigation.dispatch((state) => {
-      // console.log(JSON.stringify(state));
-      const action = CommonActions.navigate({
-        name: "main",
-        params: {
-          screen: "home",
-          params: {
-            screen: "post",
-            params: {
-              id: data.promotions[0].id,
+    if (!data) return;
+    navigation.dispatch(
+      CommonActions.reset({
+        routes: [
+          {
+            name: "main",
+            state: {
+              routes: [
+                {
+                  name: "home",
+                  state: {
+                    index: 1,
+                    routes: [
+                      { name: "feed" },
+                      { name: "post", params: { id: promotion!.id } },
+                    ],
+                  },
+                },
+              ],
             },
           },
-        },
-      });
-
-      console.log({ action });
-      return action;
-    });
-
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [
-    //       {
-    //         name: "main",
-    //       },
-    //     ],
-    //   })
-    // );
+        ],
+      })
+    );
   };
 
   const handleEnter = () => {
@@ -146,14 +134,14 @@ const Splash = () => {
     </View>
   );
 
-  let content;
+  let content = null;
 
-  if (promotions.length > 0) {
+  if (promotion) {
     content = (
       <TouchableOpacity onPress={() => handlePromotionClick()}>
         <>
           <FormattedText style={styles.promotionText}>
-            {promotions[0].description}
+            {promotion.description + '...'}
           </FormattedText>
 
           <View style={{ alignContent: "flex-end", alignSelf: "flex-end" }}>
@@ -169,23 +157,25 @@ const Splash = () => {
   }
 
   return (
-    <View style={styles.blackBackground}>
+    <>
       <StatusBar hidden />
-      <View style={styles.roundedContainer}>
-        <View style={styles.container}>
-          <View style={styles.contentContainer}>{content}</View>
-          {logoRendered}
+      <View style={styles.blackBackground}>
+        <View style={styles.roundedContainer}>
+          <View style={styles.container}>
+            <View style={styles.contentContainer}>{content}</View>
+            {logoRendered}
+          </View>
+          {borderRendered}
+          <TouchableOpacity
+            onPress={() => handleEnter()}
+            activeOpacity={0.5}
+            style={styles.enterContainer}
+          >
+            <FormattedText id="enter" style={styles.enterButton} />
+          </TouchableOpacity>
         </View>
-        {borderRendered}
-        <TouchableOpacity
-          onPress={() => handleEnter()}
-          activeOpacity={0.5}
-          style={styles.enterContainer}
-        >
-          <FormattedText id="enter" style={styles.enterButton} />
-        </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -213,6 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: (fullHeight / 3) * 2,
+    width: fullWidth,
     backgroundColor: colors.backgroundVarient,
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
@@ -247,25 +238,20 @@ const styles = StyleSheet.create({
     // borderRadius: 44,
     height: 60,
     width: 60,
-    // justifyContent: "center",
-    // alignItems: "center",
-  },
-  enterOuterContainer: {
-    paddingBottom: 50,
   },
   enterContainer: {
-    width: 60,
     position: "relative",
     top: -20,
-    height: 60,
-    borderRadius: 60,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
     // borderWidth: 3,
     borderColor: "red",
     backgroundColor: colors.childCategory2,
   },
-  enterButton: { color: "white", fontSize: 18 },
+  enterButton: { color: "white", position: "relative", top: -2, fontSize: 18 },
 });
 
 export default Splash;
