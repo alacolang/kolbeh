@@ -1,14 +1,16 @@
 import React from "react";
 import {
   createStackNavigator,
-  TransitionPresets,
 } from "@react-navigation/stack";
 import Feed, { FeedRouteParam } from "../pages/child-feed";
+import Post, { PostRouteParam } from "../pages/post";
 import ChildCategoryList from "../pages/child-category-list";
+import { Icon } from "../components/icon";
 
 export type ChildStackParamList = {
   childCategoryList: undefined;
   childFeed: FeedRouteParam;
+  post: PostRouteParam;
 };
 
 const Stack = createStackNavigator<ChildStackParamList>();
@@ -47,6 +49,16 @@ const ChildNavigator = ({ navigation, route }) => {
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
         }}
+      />
+      <Stack.Screen
+        name="post"
+        component={Post}
+        options={() => ({
+          headerTransparent: true,
+          title: "",
+          headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
+          headerBackImage: () => <Icon name="backDark" size="tiny" />,
+        })}
       />
     </Stack.Navigator>
   );

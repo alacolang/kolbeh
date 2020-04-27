@@ -23,6 +23,7 @@ const HomeNavigator = ({ navigation, route }) => {
       initialRouteName="feed"
       screenOptions={({ route, navigation }) => ({
         animationEnabled: false,
+        headerTransparent: true,
       })}
     >
       <Stack.Screen

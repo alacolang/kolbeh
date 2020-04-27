@@ -19,7 +19,13 @@ const ParentNavigator = ({ navigation, route }) => {
   });
 
   return (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator
+      // headerMode="none"
+      screenOptions={() => ({
+        animationEnabled: false,
+        headerTransparent: true,
+      })}
+    >
       <Stack.Screen
         name="parentCategoryList"
         component={ParentCategoryList}
@@ -29,11 +35,10 @@ const ParentNavigator = ({ navigation, route }) => {
         name="post"
         component={Post}
         options={() => ({
-          // headerTransparent:true,
-          headerStyle: { backgroundColor: "transparent", elevation: 0 },
-          headerTitle: () => null,
-          headerLeftContainerStyle: { paddingLeft: 10 },
-          headerBackImage: () => <Icon name="back" size="tiny" />,
+          headerTransparent: true,
+          title: "",
+          headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
+          headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
       />
       <Stack.Screen
