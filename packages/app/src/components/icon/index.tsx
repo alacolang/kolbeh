@@ -4,6 +4,7 @@ import { Image, ImageProps } from "react-native";
 import images from "./images";
 
 enum SIZE {
+  nano = 16,
   tiny = 24,
   small = 32,
   medium = 48,
@@ -18,16 +19,10 @@ type Props = {
 
 export const Icon = ({ size, name, ...props }: Props) => {
   let _size: number;
-  if (
-    size === "small" ||
-    size === "medium" ||
-    size === "large" ||
-    size === "tiny" ||
-    size === "huge"
-  ) {
-    _size = SIZE[size];
-  } else {
+  if (typeof size === 'number') {
     _size = size;
+  } else {
+    _size = SIZE[size];
   }
   return (
     <Image
