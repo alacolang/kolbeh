@@ -240,23 +240,28 @@ const MainFeedScreen = () => {
               handleMenu("close");
             }}
           >
-            <FormattedText
+            <View
               style={{
                 marginHorizontal: 2,
                 marginVertical: 2,
                 borderRadius: 10,
                 backgroundColor: colors.background,
-                color: colors.primary,
-                fontSize: 16,
-                height: 30,
-                justifyContent: "center",
-
-                paddingTop: 3,
-                paddingHorizontal: 10,
               }}
             >
-              {tag}
-            </FormattedText>
+              <FormattedText
+                style={{
+                  color: colors.primary,
+                  fontSize: 16,
+                  height: 30,
+                  justifyContent: "center",
+
+                  paddingTop: 3,
+                  paddingHorizontal: 10,
+                }}
+              >
+                {tag}
+              </FormattedText>
+            </View>
           </TouchableOpacity>
         ))}
     </View>
