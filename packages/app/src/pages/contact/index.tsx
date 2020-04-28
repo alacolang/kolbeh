@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  Image,
   Linking,
-  Dimensions,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
@@ -13,7 +11,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FormattedText } from "../../components/formatted-text";
 import colors from "../../colors";
-import icons, { Icon } from "../../components/icon";
+import { Icon } from "../../components/icon";
 import { getVersion } from "../../utils/codepush";
 import Curve from "../../components/curve";
 
@@ -81,33 +79,21 @@ const Contact = ({ navigation }) => {
             onPress={() => Linking.openURL("https://twitter.com/iacap_ir")}
           >
             <View style={styles.socialIconContainer}>
-              <Image
-                source={icons.twitter}
-                resizeMode="contain"
-                style={styles.socialIcon}
-              />
+              <Icon name="twitter" size="tiny" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => Linking.openURL("https://www.instagram.com/iacap2")}
           >
             <View style={styles.socialIconContainer}>
-              <Image
-                source={icons.instagram}
-                resizeMode="contain"
-                style={styles.socialIcon}
-              />
+              <Icon name="instagram" size="tiny" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => Linking.openURL("https://t.me/IACAP")}
           >
             <View style={styles.socialIconContainer}>
-              <Image
-                source={icons.telegram}
-                resizeMode="contain"
-                style={styles.socialIcon}
-              />
+              <Icon name="telegram" size="tiny" />
             </View>
           </TouchableOpacity>
         </View>
@@ -154,10 +140,6 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-  },
-  socialIcon: {
-    width: 24,
-    height: 24,
   },
   row: {
     height: 44,

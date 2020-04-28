@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Animated, StyleSheet, Easing } from "react-native";
-import icons from "../icon";
+import icons from "../icon/images";
 
 type Props = { varient?: boolean };
 

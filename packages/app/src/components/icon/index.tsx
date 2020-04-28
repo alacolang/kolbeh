@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, ImageProps } from "react-native";
-import icons from "./icons";
+
+import images from "./images";
 
 enum SIZE {
   tiny = 24,
@@ -11,7 +12,7 @@ enum SIZE {
 }
 
 type Props = {
-  name: keyof typeof icons;
+  name: keyof typeof images;
   size: keyof typeof SIZE | number;
 } & Omit<ImageProps, "source">;
 
@@ -32,10 +33,9 @@ export const Icon = ({ size, name, ...props }: Props) => {
     <Image
       style={{ width: _size, height: _size }}
       resizeMode="contain"
-      source={icons[name]}
+      source={images[name]}
       {...props}
     />
   );
 };
 
-export default icons;

@@ -2,7 +2,6 @@ import React from "react";
 import {
   Dimensions,
   TouchableOpacity,
-  Image,
   View,
   Animated,
   StyleSheet,
@@ -18,7 +17,7 @@ import {
 } from "@react-navigation/core";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { ChildStackParamList } from "../../navigation/child-stack-navigator";
-import Icons from "../../components/icon";
+import { Icon } from "../../components/icon";
 import * as Types from "../../types";
 import colors from "../../colors";
 import FeedTile from "../../components/feed-tile";
@@ -172,11 +171,7 @@ const Feed = () => {
               onPress={() => navigation.goBack()}
             >
               <View style={styles.backContainer}>
-                <Image
-                  source={Icons.back}
-                  resizeMode="contain"
-                  style={styles.back}
-                />
+                <Icon name="twitter" size="tiny" />
               </View>
             </TouchableOpacity>
           </Animated.View>
@@ -212,11 +207,7 @@ const Feed = () => {
               ],
             }}
           >
-            <Image
-              source={Icons[`${category.icon}Active`]}
-              style={styles.categoryIcon}
-              resizeMode="cover"
-            />
+            <Icon name={`${category.icon}Active`} size="medium" />
           </Animated.View>
         </View>
       </Animated.View>
@@ -266,13 +257,10 @@ const styles = StyleSheet.create({
   },
   topBarContainer: {
     width: fullWidth,
-    // height: 280,
     flexDirection: "row",
     alignItems: "center",
     // borderWidth: 1,
-    // borderColor: "cyan",
     paddingLeft: 20,
-    // paddingTop: 20,
   },
   backContainer: {
     width: 44,
@@ -282,16 +270,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // borderWidth: 2,
     borderColor: "red",
-  },
-  back: {
-    width: 24,
-    height: 24,
-  },
-  categoryIcon: {
-    width: ICON_SIZE * 2,
-    height: ICON_SIZE * 2,
-    // borderWidth: 1,
-    // borderColor: "black",
   },
 });
 

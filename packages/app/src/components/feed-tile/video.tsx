@@ -1,6 +1,6 @@
 import React from "react";
 import { Dimensions, View, StyleSheet, Image } from "react-native";
-import icons, { Icon } from "../icon";
+import { Icon } from "../icon";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
 
