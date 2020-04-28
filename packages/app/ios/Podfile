@@ -36,6 +36,8 @@ target 'app' do
 
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
 
   target 'appTests' do
     inherit! :search_paths
