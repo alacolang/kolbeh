@@ -35,6 +35,7 @@ import ToolboxIcon from "./toolbox.png";
 import LoadingVarientIcon from "./loading-light.png";
 import SearchIcon from "./search.png";
 import LeftArrowIcon from "./left-arrow.png";
+import TimesIcon from "./times.png";
 
 const icons = {
   parent: ParentIcon,
@@ -74,6 +75,7 @@ const icons = {
   toolbox: ToolboxIcon,
   search: SearchIcon,
   leftArrow: LeftArrowIcon,
+  times: TimesIcon,
 };
 
 export default icons;

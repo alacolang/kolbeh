@@ -361,9 +361,7 @@ const MainFeedScreen = () => {
                 alignItems: "center",
               }}
             >
-              <Text style={{ color: "white", fontSize: 20, lineHeight: 25 }}>
-                ×
-              </Text>
+              <Icon name="times" size="nano" />
             </View>
           </TouchableOpacity>
         )}
