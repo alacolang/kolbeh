@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TextProperties } from "react-native";
+import { StyleSheet, Text, TextProperties, Platform } from "react-native";
 import messages from "../../utils/fa";
 
 const MessagesContext = React.createContext(messages);
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   persian: {
     fontFamily: "IRANYekanRDMobile",
     textAlign: "left",
+    paddingTop: Platform.OS === 'ios' ? 7 : 2
   },
 });
 

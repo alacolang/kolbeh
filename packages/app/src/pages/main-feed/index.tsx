@@ -254,8 +254,6 @@ const MainFeedScreen = () => {
                   fontSize: 16,
                   height: 30,
                   justifyContent: "center",
-
-                  paddingTop: 3,
                   paddingHorizontal: 10,
                 }}
               >
