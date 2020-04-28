@@ -34,3 +34,4 @@ description: "فعالیت آنلاین به یادگیری روابط اجتم�
 ![](../../static/images/teen-online-activity-25.webp)
 ![](../../static/images/teen-online-activity-26.webp)
 ![](../../static/images/teen-online-activity-27.webp)
+![](../../static/images/teen-online-activity-28.webp)
