@@ -53,5 +53,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>IRANYekanRDMobile-Bold.ttf</string>
+		<string>IRANYekanRDMobile-Light.ttf</string>
+		<string>IRANYekanRDMobile.ttf</string>
+	</array>
 </dict>
 </plist>
