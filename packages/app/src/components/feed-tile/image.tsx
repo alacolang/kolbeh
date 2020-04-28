@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Dimensions, StyleSheet, Image } from "react-native";
 import * as Types from "../../types";
 import { resolveURL } from "../../utils/resolve";
 
