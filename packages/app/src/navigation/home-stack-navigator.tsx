@@ -41,7 +41,8 @@ const HomeNavigator = ({ navigation, route }) => {
         component={Post}
         options={() => ({
           headerTransparent: true,
-          title: "",
+          title: () => null,
+          headerBackTitle: () => null,
           headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
           headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
