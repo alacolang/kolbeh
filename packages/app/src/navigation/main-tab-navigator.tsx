@@ -49,7 +49,7 @@ const TabBar = ({ state, navigation }) => {
         {state.routes.map((route, index) => {
           const focused = state.index === index;
           return (
-            <TouchableOpacity onPress={() => navigation.navigate(route.name)}>
+            <TouchableOpacity key={index} onPress={() => navigation.navigate(route.name)}>
               <View
                 style={{
                   borderWidth: 0,
