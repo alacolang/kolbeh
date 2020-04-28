@@ -230,7 +230,7 @@ const MainFeedScreen = () => {
         // borderWidth: 1,
       }}
     >
-      {(filteredTags.length > 0) &&
+      {filteredTags.length > 0 &&
         filteredTags.slice(0, 10).map((tag) => (
           <TouchableOpacity
             key={tag}
@@ -372,7 +372,6 @@ const MainFeedScreen = () => {
     <Animated.View
       style={{
         flexGrow: 1,
-        // marginTop: listMarginTop,
         transform: [{ translateY: listMarginTop }],
       }}
     >
@@ -466,7 +465,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     marginTop: 30,
-    marginHorizontal: 15,
+    // marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
   },
