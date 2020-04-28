@@ -79,6 +79,10 @@ const MainFeedScreen = () => {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS);
 
+  const searchAnimateValue = React.useRef(new Animated.Value(0)).current;
+  const [query, setQuery] = React.useState("");
+  const [isSearchVisible, setSearchVisibility] = React.useState(false);
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     refetch().then(() => setRefreshing(false));
@@ -162,10 +166,6 @@ const MainFeedScreen = () => {
       useNativeDriver: true,
     }).start();
   };
-
-  const searchAnimateValue = React.useRef(new Animated.Value(0)).current;
-  const [query, setQuery] = React.useState("");
-  const [isSearchVisible, setSearchVisibility] = React.useState(false);
 
   const filteredTags = tags.filter((tag) =>
     query.length > 0 ? new RegExp(query).test(tag) : true
