@@ -8,11 +8,16 @@ async function init() {
 
 init();
 
+function fixIconTypo(name) {
+  if (name === 'anxiety') return 'axiety';
+  return name;
+}
+
 const dataResolver = data => {
   return data.map(d => {
     return {
       ...d,
-      icon: d.name,
+      icon: fixIconTypo(d.name),
       feed: {
         edges: d.feed.map(post => ({ node: post })),
         pageInfo: {

@@ -1,6 +1,6 @@
 ---
 title: "شعری در رابطه با اضطراب فرزندان"
-category: parent/stress
+category: parent/anxiety
 type: image
 tags: [همدلی,اضطراب]
 date: 2020.04.26 12:12

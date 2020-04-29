@@ -1,7 +1,7 @@
 ---
 order: 40
 title: title-3
-category: parent/axiety
+category: parent/anxiety
 type: image
 tags: [استرس,آرامسازی]
 ---

@@ -1,7 +1,7 @@
 ---
 order: 20
 title: title-1
-category: parent/axiety
+category: parent/anxiety
 type: video
 tags: [اضطراب,آرام سازی,استرس]
 description: "عدم پیش‌بینی پذیری شرایط می‌تواند باعث افزایش اضطراب در فرزندان شود، احساس کنترل را در فرزندانمان افزایش دهیم"

@@ -50,6 +50,7 @@ const icons = {
   empathyActive: EmpathyActiveIcon,
   griefActive: GriefActiveIcon,
   stressActive: StressActiveIcon,
+  // todo: typo in anxiety!
   axietyActive: AnxietyActiveIcon,
   depressionActive: DepressionActiveIcon,
   obsessionActive: ObsessionActiveIcon,
