@@ -3,6 +3,7 @@ import {
   Dimensions,
   TouchableOpacity,
   View,
+  Image,
   Animated,
   StyleSheet,
   StatusBar,
@@ -17,7 +18,8 @@ import {
 } from "@react-navigation/core";
 import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
 import { ChildStackParamList } from "../../navigation/child-stack-navigator";
-import { Icon } from "../../components/icon";
+import { Icon, IconName } from "../../components/icon";
+import icons from "../../components/icon/images";
 import * as Types from "../../types";
 import colors from "../../colors";
 import FeedTile from "../../components/feed-tile";
@@ -132,20 +134,37 @@ const Feed = () => {
           </Animated.Text>
         </View>
         <View style={styles.topBarContainer}>
-          <View style={{ position: "absolute", top: -70, left: 0, right: 0 }}>
+           <View
+            style={{
+              position: "absolute",
+              top: -70,
+              left: 0,
+              right: 0,
+              // zIndex: 2000,
+              // borderWidth: 3,
+              // borderColor: "blue",
+              width: fullWidth,
+              // justifyContent: "center",
+              // alignItems: "center",
+            }}
+          >
             <Svg
               height={260}
               width={fullWidth}
-              // viewBox="0 0 360 281"
+              viewBox="-36 0 370 281"
+              preserveAspectRatio="none"
+              // style={{
+              //   borderWidth: 5,
+              //   borderColor: "gray",
+              // }}
             >
               <Defs>
                 <ClipPath id="cut-off-bottom">
-                  <Rect x="0" y="150" width={fullWidth} height="100" />
+                  <Rect x="-40" y="150" width="374" height="100" />
                 </ClipPath>
               </Defs>
-
               <Path
-                d="M-9.67017 28.4364C-8.95083 12.4419 4.2276 0 20.2383 0H330C346.569 0 360 13.4315 360 30V194.734C360 216.718 336.988 231.592 316.581 223.418C222.453 185.712 6.80574 114.062 -8.35947 241.982C-24.6133 379.084 -13.6891 117.798 -9.67017 28.4364Z"
+                d="m -35.773602,29.252132 c 0.71934,-15.9945 13.89777,-28.43639976 29.9084703,-28.43639976 H 303.89657 c 16.569,0 30,13.43149976 30,29.99999976 V 195.54973 c 0,21.984 -23.012,36.858 -43.419,28.684 -94.128,-37.706 -309.775262,-109.356 -324.940472,18.564 -16.25383,137.102 -5.32963,-124.184 -1.3107,-213.545598 z"
                 fill={colors.backgroundVarient}
                 clipPath="url(#cut-off-bottom)"
               />
@@ -155,14 +174,18 @@ const Feed = () => {
             style={{
               opacity: backOpacity,
               // borderWidth: 1,
-              translateY: scrollAnimatedValue.interpolate({
-                inputRange: [
-                  HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
-                  HEADER_SCROLL_DISTANCE,
-                ],
-                outputRange: [-20, -HEADER_MIN_HEIGHT / 1.8],
-                extrapolate: "clamp",
-              }),
+              transform: [
+                {
+                  translateY: scrollAnimatedValue.interpolate({
+                    inputRange: [
+                      HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                      HEADER_SCROLL_DISTANCE,
+                    ],
+                    outputRange: [0, -HEADER_MIN_HEIGHT + ICON_SIZE + 10],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
               flexGrow: 1,
             }}
           >
@@ -171,14 +194,12 @@ const Feed = () => {
               onPress={() => navigation.goBack()}
             >
               <View style={styles.backContainer}>
-                <Icon name="twitter" size="tiny" />
+                <Icon name="back" size="tiny" />
               </View>
             </TouchableOpacity>
           </Animated.View>
           <Animated.View
             style={{
-              // paddingLeft: 0,
-              // borderWidth: 1,
               transform: [
                 {
                   scale: scrollAnimatedValue.interpolate({
@@ -186,29 +207,56 @@ const Feed = () => {
                     outputRange: [1.3, 1],
                     extrapolate: "clamp",
                   }),
-
-                  translateX: scrollAnimatedValue.interpolate({
-                    inputRange: [
-                      HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
-                      HEADER_SCROLL_DISTANCE,
-                    ],
-                    outputRange: [40, 30],
-                    extrapolate: "clamp",
-                  }),
-                  translateY: scrollAnimatedValue.interpolate({
-                    inputRange: [
-                      HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
-                      HEADER_SCROLL_DISTANCE,
-                    ],
-                    outputRange: [-20, -HEADER_MIN_HEIGHT / 4],
-                    extrapolate: "clamp",
-                  }),
                 },
               ],
             }}
           >
-            <Icon name={`${category.icon}Active`} size="medium" />
+            <Animated.View
+              style={{
+                transform: [
+                  {
+                    translateX: scrollAnimatedValue.interpolate({
+                      inputRange: [
+                        HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                        HEADER_SCROLL_DISTANCE,
+                      ],
+                      outputRange: [40, 30],
+                      extrapolate: "clamp",
+                    }),
+                  },
+                ],
+              }}
+            >
+              <Animated.View
+                style={{
+                  // paddingLeft: 0,
+                  // borderWidth: 1,
+                  transform: [
+                    {
+                      translateY: scrollAnimatedValue.interpolate({
+                        inputRange: [
+                          HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
+                          HEADER_SCROLL_DISTANCE,
+                        ],
+                        outputRange: [
+                          -ICON_SIZE * 0.3 * 2,
+                          -HEADER_MIN_HEIGHT / 4,
+                        ],
+                        extrapolate: "clamp",
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Image
+                  source={icons[`${category.icon}Active` as IconName]}
+                  style={styles.categoryIcon}
+                  resizeMode="cover"
+                />
+              </Animated.View>
+            </Animated.View>
           </Animated.View>
+         
         </View>
       </Animated.View>
     </View>
@@ -222,7 +270,6 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     marginTop: HEADER_MAX_HEIGHT + 70,
     paddingBottom: HEADER_MAX_HEIGHT + 70,
-    marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
   },
@@ -232,8 +279,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    // borderBottomLeftRadius: RADIUS_MAX,
     elevation: 4,
+    // borderWidth: 5,
+    borderColor: "blue",
     // overflow: "hidden",
   },
   title: {
@@ -256,11 +304,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   topBarContainer: {
-    width: fullWidth,
+    // height: HEADER_MIN_HEIGHT,
+    // width: fullWidth,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
     // borderWidth: 1,
-    paddingLeft: 20,
+    borderColor: "red",
+    // backgroundColor: 'grey'
+    paddingLeft: 5,
   },
   backContainer: {
     width: 44,
@@ -269,7 +320,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     // borderWidth: 2,
-    borderColor: "red",
+    // borderColor: "red",
+  },
+  categoryIcon: {
+    width: ICON_SIZE * 2,
+    height: ICON_SIZE * 2,
+    // borderWidth: 1,
+    // borderColor: "black",
   },
 });
 

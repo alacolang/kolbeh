@@ -12,8 +12,10 @@ enum SIZE {
   huge = 80,
 }
 
+export type IconName = keyof typeof images;
+
 type Props = {
-  name: keyof typeof images;
+  name: IconName;
   size: keyof typeof SIZE | number;
 } & Omit<ImageProps, "source">;
 

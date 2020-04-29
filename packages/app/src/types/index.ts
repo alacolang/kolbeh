@@ -1,3 +1,5 @@
+import { IconName } from '../components/icon'
+
 export type IImage = {
   id: string;
   url: string;
@@ -31,7 +33,7 @@ export type ICategory = {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon: IconName;
   feed: IFeed;
 };
 
