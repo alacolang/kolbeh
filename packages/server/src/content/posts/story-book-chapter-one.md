@@ -1,5 +1,5 @@
 ---
-title:"همخانه‌ی پرستوها"
+title: "همخانه‌ی پرستوها"
 category: parent/stress
 type: image
 date: 2020-04-29 16:00
