@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  createStackNavigator,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Feed, { FeedRouteParam } from "../pages/child-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import ChildCategoryList from "../pages/child-category-list";
@@ -37,6 +35,7 @@ const ChildNavigator = ({ navigation, route }) => {
         name="childCategoryList"
         component={ChildCategoryList}
         options={{
+          headerTransparent: true,
           header: () => null,
           animationEnabled: false,
         }}
@@ -45,6 +44,7 @@ const ChildNavigator = ({ navigation, route }) => {
         name="childFeed"
         component={Feed}
         options={{
+          headerTransparent: true,
           header: () => null,
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
@@ -56,6 +56,7 @@ const ChildNavigator = ({ navigation, route }) => {
         options={() => ({
           headerTransparent: true,
           title: "",
+          headerBackTitle: () => null,
           headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
           headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
