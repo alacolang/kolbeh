@@ -117,6 +117,7 @@ const Feed = () => {
           styles.headerContainer,
           {
             backgroundColor: colors.backgroundVarient,
+            // opacity: 0.5,
             transform: [{ translateY: translateTab }],
             // borderBottomLeftRadius: radius,
             // borderBottomRightRadius: radius,
@@ -127,52 +128,20 @@ const Feed = () => {
           <Animated.Text
             style={[
               styles.title,
-              { color: meta.color, opacity: descriptionOpacity },
+              {
+                color: meta.color,
+                opacity: descriptionOpacity
+              },
             ]}
           >
             {category.description}
           </Animated.Text>
         </View>
         <View style={styles.topBarContainer}>
-           <View
-            style={{
-              position: "absolute",
-              top: -70,
-              left: 0,
-              right: 0,
-              // zIndex: 2000,
-              // borderWidth: 3,
-              // borderColor: "blue",
-              width: fullWidth,
-              // justifyContent: "center",
-              // alignItems: "center",
-            }}
-          >
-            <Svg
-              height={260}
-              width={fullWidth}
-              viewBox="-36 0 370 281"
-              preserveAspectRatio="none"
-              // style={{
-              //   borderWidth: 5,
-              //   borderColor: "gray",
-              // }}
-            >
-              <Defs>
-                <ClipPath id="cut-off-bottom">
-                  <Rect x="-40" y="150" width="374" height="100" />
-                </ClipPath>
-              </Defs>
-              <Path
-                d="m -35.773602,29.252132 c 0.71934,-15.9945 13.89777,-28.43639976 29.9084703,-28.43639976 H 303.89657 c 16.569,0 30,13.43149976 30,29.99999976 V 195.54973 c 0,21.984 -23.012,36.858 -43.419,28.684 -94.128,-37.706 -309.775262,-109.356 -324.940472,18.564 -16.25383,137.102 -5.32963,-124.184 -1.3107,-213.545598 z"
-                fill={colors.backgroundVarient}
-                clipPath="url(#cut-off-bottom)"
-              />
-            </Svg>
-          </View>
           <Animated.View
             style={{
               opacity: backOpacity,
+              // zIndex: 2000,
               // borderWidth: 1,
               transform: [
                 {
@@ -181,7 +150,7 @@ const Feed = () => {
                       HEADER_SCROLL_DISTANCE - HEADER_MIN_HEIGHT,
                       HEADER_SCROLL_DISTANCE,
                     ],
-                    outputRange: [0, -HEADER_MIN_HEIGHT + ICON_SIZE + 10],
+                    outputRange: [0, -HEADER_MIN_HEIGHT + 1 * ICON_SIZE + 20],
                     extrapolate: "clamp",
                   }),
                 },
@@ -190,6 +159,13 @@ const Feed = () => {
             }}
           >
             <TouchableOpacity
+              style={{
+                borderColor: "red",
+                // borderWidth: 1,
+                width: 44,
+                height: 44,
+                // zIndex: 2001,
+              }}
               // activeOpacity={0.5}
               onPress={() => navigation.goBack()}
             >
@@ -256,7 +232,42 @@ const Feed = () => {
               </Animated.View>
             </Animated.View>
           </Animated.View>
-         
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            bottom: -120,
+            // left: 0,
+            // right: 0,
+            // zIndex: 2000,
+            // borderWidth: 3,
+            borderColor: "blue",
+            width: fullWidth,
+            // justifyContent: "center",
+            // alignItems: "center",
+          }}
+        >
+          <Svg
+            height={260}
+            width={fullWidth}
+            viewBox="-36 0 370 281"
+            preserveAspectRatio="none"
+            // style={{
+            //   borderWidth: 5,
+            //   borderColor: "gray",
+            // }}
+          >
+            <Defs>
+              <ClipPath id="cut-off-bottom">
+                <Rect x="-40" y="150" width="374" height="100" />
+              </ClipPath>
+            </Defs>
+            <Path
+              d="m -35.773602,29.252132 c 0.71934,-15.9945 13.89777,-28.43639976 29.9084703,-28.43639976 H 303.89657 c 16.569,0 30,13.43149976 30,29.99999976 V 195.54973 c 0,21.984 -23.012,36.858 -43.419,28.684 -94.128,-37.706 -309.775262,-109.356 -324.940472,18.564 -16.25383,137.102 -5.32963,-124.184 -1.3107,-213.545598 z"
+              fill={colors.backgroundVarient}
+              clipPath="url(#cut-off-bottom)"
+            />
+          </Svg>
         </View>
       </Animated.View>
     </View>
@@ -301,17 +312,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "yellow",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   topBarContainer: {
-    // height: HEADER_MIN_HEIGHT,
+    height: HEADER_MIN_HEIGHT,
     // width: fullWidth,
     flexDirection: "row",
     alignItems: "flex-end",
     // borderWidth: 1,
+    // opacity: 0.5,
     borderColor: "red",
-    // backgroundColor: 'grey'
-    paddingLeft: 5,
+    zIndex: 10,
+    // backgroundColor: "lightgrey",
+    paddingLeft: 15,
   },
   backContainer: {
     width: 44,
@@ -321,6 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // borderWidth: 2,
     // borderColor: "red",
+    // zIndex: 2000,
   },
   categoryIcon: {
     width: ICON_SIZE * 2,
