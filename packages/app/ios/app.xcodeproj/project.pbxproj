@@ -16,6 +16,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* appTests.m */; };
+		3B5C497D245A353D00AE3FF1 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */; };
 		3C4F70A714A4A987DAC59024 /* libPods-app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1A0D805D177BE6F6A3A4C5A /* libPods-app-tvOS.a */; };
 		7AF052753507416E8DB119A2 /* IRANYekanRDMobile.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F96ABA295A64DFCB763F4C9 /* IRANYekanRDMobile.ttf */; };
 		7F35A028C5FB49A19DAF1D62 /* IRANYekanRDMobile-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC6893D95B65489386DB0899 /* IRANYekanRDMobile-Bold.ttf */; };
@@ -61,6 +62,7 @@
 		2D02E47B1E0B4A5D006451C7 /* app-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2840A6AFCE5E6CC6A7924E /* Pods-app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "app/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		5234AD97EC74016A5E99880C /* Pods-app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		75F064B2490C472D9F74DBAC /* IRANYekanRDMobile-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IRANYekanRDMobile-Light.ttf"; path = "../assets/fonts/IRANYekanRDMobile-Light.ttf"; sourceTree = "<group>"; };
 		7F96ABA295A64DFCB763F4C9 /* IRANYekanRDMobile.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IRANYekanRDMobile.ttf; path = ../assets/fonts/IRANYekanRDMobile.ttf; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
+				3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -358,6 +361,7 @@
 				7F35A028C5FB49A19DAF1D62 /* IRANYekanRDMobile-Bold.ttf in Resources */,
 				E9B40DAB82A84ED9A9B5C822 /* IRANYekanRDMobile-Light.ttf in Resources */,
 				7AF052753507416E8DB119A2 /* IRANYekanRDMobile.ttf in Resources */,
+				3B5C497D245A353D00AE3FF1 /* AppCenter-Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
