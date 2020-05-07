@@ -39,6 +39,8 @@ target 'app' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
 
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
   target 'appTests' do
     inherit! :search_paths
     # Pods for testing
