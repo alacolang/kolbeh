@@ -141,7 +141,6 @@ const Feed = () => {
           <Animated.View
             style={{
               opacity: backOpacity,
-              // zIndex: 2000,
               // borderWidth: 1,
               transform: [
                 {
@@ -164,7 +163,6 @@ const Feed = () => {
                 // borderWidth: 1,
                 width: 44,
                 height: 44,
-                // zIndex: 2001,
               }}
               // activeOpacity={0.5}
               onPress={() => navigation.goBack()}
