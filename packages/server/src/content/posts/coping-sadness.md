@@ -1,5 +1,4 @@
 ---
-order: 10
 title: title-0
 category: child/teen
 type: video

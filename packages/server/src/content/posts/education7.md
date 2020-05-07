@@ -1,5 +1,4 @@
 ---
-order: 30
 title: title-2
 category: parent/education
 type: image
