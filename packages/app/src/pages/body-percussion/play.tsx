@@ -61,6 +61,7 @@ const PlayStep = (props: Props) => {
       const animation = Animated.timing(animatedValue, {
         toValue: 1,
         duration: 300,
+        useNativeDriver: true
       });
       animation.start(() => {
         times = times - 1;
@@ -167,8 +168,6 @@ const PlayStep = (props: Props) => {
     <View
       style={{
         //  borderWidth: 2,
-        borderColor: "red",
-        height: 220,
       }}
     >
       <Image
@@ -179,11 +178,6 @@ const PlayStep = (props: Props) => {
           top: 30,
           height: 200,
           width: 220,
-          // position: "absolute",
-          transform: [{ rotate: "-5deg" }],
-          // top: 30,
-          // right: 0,
-          // borderWidth: 1,
           zIndex: 10,
         }}
         resizeMode="contain"
@@ -195,9 +189,9 @@ const PlayStep = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      {/* {stuff} */}
+      {stuff}
       {/* {movements} */}
-      {/* <View>
+      <View>
         <TouchableOpacity
           onPress={() => {
             setPlay(!play);
@@ -205,7 +199,7 @@ const PlayStep = (props: Props) => {
         >
           <Text>{play ? "stop" : "play"}</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };
@@ -213,10 +207,6 @@ const PlayStep = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 15,
-    height: 100,
-    width: 100,
-    backgroundColor: "red",
     // paddingHorizontal: 25,
     paddingTop: 30,
     // alignItems: "center",
