@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 import IntroStep from "./intro";
 import ExplainStep from "./explain";
 import StartStep from "./start";
@@ -33,8 +32,7 @@ const BodyPercussionScreen = () => {
   };
 
   console.log('herelo')
-  // return <Component next={handleNextPage} />;
-  return <View style={{ flex: 1, backgroundColor: "red" }}></View>;
+  return <Component next={handleNextPage} />;
 };
 
 export default BodyPercussionScreen;

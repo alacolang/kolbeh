@@ -12,7 +12,7 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
-  <Stack.Navigator initialRouteName="splash">
+  <Stack.Navigator initialRouteName="bodyPercussion">
     <Stack.Screen
       name="splash"
       component={SplashScreen}
