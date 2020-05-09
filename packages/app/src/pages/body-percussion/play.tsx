@@ -20,6 +20,9 @@ const w = fullWidth / 3;
 const movementColors = [colors.yellow, colors.violet, colors.green, colors.red];
 const gap = 15;
 const tonbakSize = 220;
+const DELAY_MIN = 600;
+const DELAY_MAX = 1500;
+const DELAY_STEP = 200
 
 type Props = { next: () => void };
 
@@ -28,10 +31,10 @@ const PlayStep = (props: Props) => {
   const animatedValue = React.useRef(new Animated.Value(0)).current;
   const [active, setActive] = React.useState<Rhythm>(rhythm[0]);
   const [count, setCounter] = React.useState(0);
-  const [speed, setSpeed] = React.useState(2000);
+  const [delay, setDelay] = React.useState(1500);
   const [play, setPlay] = React.useState(false);
 
-  // useSound(active);
+  useSound(active);
 
   // change active movement
   React.useEffect(() => {
@@ -47,17 +50,17 @@ const PlayStep = (props: Props) => {
           console.log("done, reseting");
           setActive(rhythm[0]);
           setCounter(count + 1);
-          if (speed > 400) {
-            setSpeed(speed - 200);
+          if (delay > DELAY_MIN) {
+            setDelay(Math.max(DELAY_MIN, delay - DELAY_STEP));
           }
           // setActive(undefined);
         } else {
           setActive(rhythm[currentIndex + 1]);
         }
       }
-    }, speed);
+    }, delay);
     return () => clearTimeout(timeout);
-  }, [active, speed, play]);
+  }, [active, delay, play]);
 
   // animate active movement
   React.useEffect(() => {
@@ -106,11 +109,11 @@ const PlayStep = (props: Props) => {
       >
         <Animated.View
           style={{
-            flexDirection: "row",
+            // flexDirection: "row",
             transform: [
               {
                 translateY:
-                  active.effect === "stomp"
+                  active.effect === "stomp" && item.id === active.id
                     ? animatedValue.interpolate({
                         inputRange: [0, 0.5, 1],
                         outputRange: [0, -10, 0],
@@ -187,14 +190,14 @@ const PlayStep = (props: Props) => {
   const sliderRendered = (
     <View style={styles.sliderContainer}>
       <Slider
-        step={200}
-        value={speed}
+        step={DELAY_STEP}
+        value={delay}
         onValueChange={(value) => {
           console.log({ value });
-          setSpeed(value);
+          setDelay(value);
         }}
-        minimumValue={400}
-        maximumValue={1000}
+        minimumValue={DELAY_MIN}
+        maximumValue={DELAY_MAX}
         minimumTrackTintColor={colors.green}
         maximumTrackTintColor={colors.pink}
       />
@@ -269,7 +272,8 @@ const styles = StyleSheet.create({
     color: "#828282",
   },
   actionsContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
+    paddingBottom: 30,
     flexDirection: "row",
     // borderWidth: 2,
     // borderColor: "red",

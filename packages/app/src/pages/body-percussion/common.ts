@@ -8,10 +8,10 @@ import StompImg from "../../assets/images/stomp.png";
 // import StompImg from "../../assets/images/stomping.png";
 
 export const resources = {
-  clap: { image: ClapImg, sound: "stomp.mp3", title: "دست زدن" },
-  snap: { image: SnapImg, sound: "stomp.mp3", title: "بشکن زدن" },
-  pat: { image: PatImg, sound: "stomp.mp3", title: "ضربه به زانو" },
-  stomp: { image: StompImg, sound: "stomp.mp3", title: "پا کوبیدن" },
+  clap: { image: ClapImg, sound: "clap.wav", title: "دست زدن" },
+  snap: { image: SnapImg, sound: "snap.wav", title: "بشکن زدن" },
+  pat: { image: PatImg, sound: "pat.m4a", title: "ضربه به زانو" },
+  stomp: { image: StompImg, sound: "stomp.wav", title: "پا کوبیدن" },
   blank: { image: null, sound: null, title: "سکوت" },
 };
 
@@ -27,9 +27,9 @@ type RhythmNoId = Omit<Rhythm, "id">;
 export const getRhythm = () => {
   const set1: RhythmNoId[] = [
     { effect: "clap", times: 2 },
-    { effect: "blank", times: 1 },
-    { effect: "blank", times: 1 },
-    { effect: "blank", times: 1 },
+    { effect: "snap", times: 1 },
+    { effect: "pat", times: 1 },
+    { effect: "stomp", times: 1 },
   ];
 
   const rhythm: Rhythm[] = injectID(flatten([times(4, set1)]));
