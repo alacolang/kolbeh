@@ -8,24 +8,32 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import Svg, { Path, Rect, Defs, Pattern, Circle } from "react-native-svg";
+import Slider from "@react-native-community/slider";
 import { useSound } from "./sound";
+import { Icon } from "../../components/icon";
 import { getRhythm, Rhythm, resources, colors } from "./common";
 import TonbakImg from "../../assets/images/tonbak.png";
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
+const w = fullWidth / 3;
+const movementColors = [colors.yellow, colors.violet, colors.green, colors.red];
+const gap = 15;
+const tonbakSize = 220;
 
 type Props = { next: () => void };
+
 const PlayStep = (props: Props) => {
   const rhythm = getRhythm();
   const animatedValue = React.useRef(new Animated.Value(0)).current;
   const [active, setActive] = React.useState<Rhythm>(rhythm[0]);
   const [count, setCounter] = React.useState(0);
-  const [speed, setSpeed] = React.useState(1000);
+  const [speed, setSpeed] = React.useState(2000);
   const [play, setPlay] = React.useState(false);
 
-  useSound(active);
+  // useSound(active);
+
+  // change active movement
   React.useEffect(() => {
     if (!play) return;
     const timeout = setTimeout(() => {
@@ -51,6 +59,7 @@ const PlayStep = (props: Props) => {
     return () => clearTimeout(timeout);
   }, [active, speed, play]);
 
+  // animate active movement
   React.useEffect(() => {
     if (!active) return;
 
@@ -61,7 +70,7 @@ const PlayStep = (props: Props) => {
       const animation = Animated.timing(animatedValue, {
         toValue: 1,
         duration: 300,
-        useNativeDriver: true
+        useNativeDriver: true,
       });
       animation.start(() => {
         times = times - 1;
@@ -72,15 +81,29 @@ const PlayStep = (props: Props) => {
   }, [active]);
 
   const getMovement = (index: number) => {
-    // const item: Rhythm = rhythm[index];
-    const item = rhythm[index];
+    const item: Rhythm = rhythm[index];
 
     if (!item) {
       console.log("getMovement item not found", { index, activeId: active.id });
       return null;
     }
+
+    const tops = [0, w * 0.5, w + gap, w * 1.5 + gap];
+    const lefts = [0, w + gap, 0, w + gap];
+
     return (
-      <View style={styles.movementContainer} key={index}>
+      <View
+        style={[
+          styles.movementContainer,
+          {
+            position: "absolute",
+            top: tops[index % 4],
+            left: lefts[index % 4],
+            backgroundColor: movementColors[index % 4],
+          },
+        ]}
+        key={index}
+      >
         <Animated.View
           style={{
             flexDirection: "row",
@@ -118,31 +141,6 @@ const PlayStep = (props: Props) => {
             ]}
             resizeMode="contain"
           />
-          {item.times === 2 && (
-            <Animated.Image
-              source={resources[item.effect].image}
-              style={[
-                styles.movement,
-                {
-                  transform: [
-                    {
-                      scale:
-                        item.id === active.id
-                          ? animatedValue.interpolate({
-                              inputRange: [0, 0.5, 1],
-                              outputRange:
-                                item.effect === "pat"
-                                  ? [1, 0.9, 1]
-                                  : [1, 1.2, 1],
-                            })
-                          : 1,
-                    },
-                  ],
-                },
-              ]}
-              resizeMode="contain"
-            />
-          )}
         </Animated.View>
       </View>
     );
@@ -155,18 +153,19 @@ const PlayStep = (props: Props) => {
     const startIndex = Math.floor(currentIndex / 4) * 4;
 
     movements = [
-      getMovement(startIndex),
+      getMovement(startIndex ),
       getMovement(startIndex + 1),
       getMovement(startIndex + 2),
       getMovement(startIndex + 3),
     ];
   }
 
-  const w = fullWidth / 3;
-
-  const stuff = (
+  const decorationsRendered = (
     <View
       style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
         //  borderWidth: 2,
       }}
     >
@@ -175,30 +174,54 @@ const PlayStep = (props: Props) => {
         style={{
           alignSelf: "flex-end",
           // justifyContent:'flex-end',
-          top: 30,
-          height: 200,
-          width: 220,
+          // top: 30,
+          height: tonbakSize,
+          width: tonbakSize,
           zIndex: 10,
         }}
-        resizeMode="contain"
+        resizeMode="cover"
       />
     </View>
   );
 
-  console.log("here");
+  const sliderRendered = (
+    <View style={styles.sliderContainer}>
+      <Slider
+        step={200}
+        value={speed}
+        onValueChange={(value) => {
+          console.log({ value });
+          setSpeed(value);
+        }}
+        minimumValue={400}
+        maximumValue={1000}
+        minimumTrackTintColor={colors.green}
+        maximumTrackTintColor={colors.pink}
+      />
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      {stuff}
-      {/* {movements} */}
-      <View>
+      {decorationsRendered}
+      <View style={styles.movementsOuterContainer}>
+        <View style={styles.movementsContainer}>{movements}</View>
+      </View>
+      <View style={styles.actionsContainer}>
         <TouchableOpacity
           onPress={() => {
             setPlay(!play);
           }}
         >
-          <Text>{play ? "stop" : "play"}</Text>
+          <View style={styles.pauseContainer}>
+            {play ? (
+              <Icon name="pause" size="medium" />
+            ) : (
+              <Icon name="play" size="medium" />
+            )}
+          </View>
         </TouchableOpacity>
+        {sliderRendered}
       </View>
     </View>
   );
@@ -207,51 +230,57 @@ const PlayStep = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 25,
-    paddingTop: 30,
-    // alignItems: "center",
-    // justifyContent: "center",
+    backgroundColor: "white",
+  },
+  movementsOuterContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 100,
+    // borderWidth: 2,
+    borderColor: "blue",
+    marginTop: tonbakSize - 40,
   },
   movementsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    zIndex: 10,
-    flexDirection: "column",
-    // borderWidth: 1,
-    // paddingTop: 50,
-  },
-  movements: {
-    justifyContent: "center",
-    alignItems: "center",
+    height: 2.5 * w + 2 * gap,
+    width: 2 * w,
+    // borderWidth: 2,
+    borderColor: "red",
   },
   movementContainer: {
     paddingHorizontal: 15,
     paddingVertical: 15,
     marginVertical: 5,
-    height: fullWidth / 2.7,
-    width: fullWidth / 2.7,
-    borderRadius: fullWidth / 2.7,
+    height: w,
+    width: w,
+    borderRadius: w,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
   movement: {
-    height: fullWidth / 2.7 - 20,
-    width: fullWidth / 2.7 - 20,
-    borderRadius: fullWidth / 2.7 - 20,
-  },
-  background: {
-    position: "absolute",
-    bottom: -20,
-    height: fullHeight - 70,
-    width: fullWidth,
+    height: w - 20,
+    width: w - 20,
+    borderRadius: w - 20,
   },
   text: {
     justifyContent: "center",
     fontSize: 24,
     lineHeight: 24 * 1.3,
     color: "#828282",
+  },
+  actionsContainer: {
+    paddingTop: 30,
+    flexDirection: "row",
+    // borderWidth: 2,
+    // borderColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sliderContainer: { width: 200 },
+  pauseContainer: {
+    // borderWidth: 2,
+    // borderColor: "red",
+    marginRight: 15,
   },
 });
 

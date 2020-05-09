@@ -1,4 +1,5 @@
 import React from "react";
+import { StatusBar } from "react-native";
 import IntroStep from "./intro";
 import ExplainStep from "./explain";
 import StartStep from "./start";
@@ -31,8 +32,12 @@ const BodyPercussionScreen = () => {
     setPage(next);
   };
 
-  console.log('herelo')
-  return <Component next={handleNextPage} />;
+  return (
+    <>
+      <StatusBar hidden />
+      <Component next={handleNextPage} />
+    </>
+  );
 };
 
 export default BodyPercussionScreen;

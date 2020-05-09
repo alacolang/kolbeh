@@ -97,7 +97,7 @@ const ExplainStep = ({ next }: Props) => {
     play();
   }, [active]);
 
-  const renderEffect = ({ id, effect }: Rhythm) => {
+  const renderMovement = ({ id, effect }: Rhythm) => {
     return (
       <View key={id} style={styles.movementContainer}>
         <View
@@ -137,7 +137,7 @@ const ExplainStep = ({ next }: Props) => {
     );
   };
 
-  const movementsRendered = rhythm.map(renderEffect);
+  const movementsRendered = rhythm.map(renderMovement);
 
   return (
     <View style={styles.container}>
