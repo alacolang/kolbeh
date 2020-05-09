@@ -10,12 +10,16 @@ import StompImg from "../../assets/images/stomp.png";
 export const resources = {
   clap: { image: ClapImg, sound: "clap.wav", title: "دست زدن" },
   snap: { image: SnapImg, sound: "snap.wav", title: "بشکن زدن" },
-  pat: { image: PatImg, sound: "pat.m4a", title: "ضربه به زانو" },
+  pat: { image: PatImg, sound: "pat.wav", title: "ضربه به زانو" },
   stomp: { image: StompImg, sound: "stomp.wav", title: "پا کوبیدن" },
   blank: { image: null, sound: null, title: "سکوت" },
 };
 
 export type Effect = keyof typeof resources;
+
+const getRandomNumber = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 export type Rhythm = {
   id: number;
@@ -24,17 +28,58 @@ export type Rhythm = {
 };
 type RhythmNoId = Omit<Rhythm, "id">;
 
-export const getRhythm = () => {
+export const getRhythm = (count: number) => {
   const set1: RhythmNoId[] = [
-    { effect: "clap", times: 2 },
+    { effect: "clap", times: 1 },
+    { effect: "clap", times: 1 },
+    { effect: "snap", times: 1 },
+    { effect: "snap", times: 1 },
+  ];
+
+  const set2: RhythmNoId[] = [
+    { effect: "clap", times: 1 },
+    { effect: "pat", times: 1 },
     { effect: "snap", times: 1 },
     { effect: "pat", times: 1 },
+  ];
+
+  const set3: RhythmNoId[] = [
+    { effect: "snap", times: 1 },
+    { effect: "stomp", times: 1 },
+    { effect: "clap", times: 1 },
     { effect: "stomp", times: 1 },
   ];
 
-  const rhythm: Rhythm[] = injectID(flatten([times(4, set1)]));
+  const set4: RhythmNoId[] = [
+    { effect: "pat", times: 1 },
+    { effect: "pat", times: 1 },
+    { effect: "blank", times: 1 },
+    { effect: "clap", times: 1 },
+  ];
 
-  // console.log("rhythm", rhythm);
+  const set5: RhythmNoId[] = [
+    { effect: "snap", times: 1 },
+    { effect: "clap", times: 2 },
+    { effect: "snap", times: 1 },
+    { effect: "clap", times: 1 },
+  ];
+
+  const sets = [set1, set2, set3, set4, set5];
+
+  const REPEAT_SET = 10;
+  const SET_LENGTH = set1.length;
+
+  let set = [...sets[count % sets.length]];
+  if (count > sets.length) {
+    const index = getRandomNumber(0, SET_LENGTH - 1);
+    const effects = ['clap', 'snap', 'pat', 'stomp'];
+    const randomEffect = effects[getRandomNumber(0, effects.length - 1)];
+    set[index] = { effect: randomEffect, times: getRandomNumber(1, 2) };
+  }
+
+
+
+  const rhythm: Rhythm[] = injectID(flatten(times(REPEAT_SET, set)));
   return rhythm;
 };
 

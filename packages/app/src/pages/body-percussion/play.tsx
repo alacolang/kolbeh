@@ -20,47 +20,69 @@ const w = fullWidth / 3;
 const movementColors = [colors.yellow, colors.violet, colors.green, colors.red];
 const gap = 15;
 const tonbakSize = 220;
-const DELAY_MIN = 600;
-const DELAY_MAX = 1500;
-const DELAY_STEP = 200
+const DELAY_MIN = 80;
+const DELAY_MAX = 800;
+const DELAY_STEP = 100;
 
 type Props = { next: () => void };
 
 const PlayStep = (props: Props) => {
-  const rhythm = getRhythm();
   const animatedValue = React.useRef(new Animated.Value(0)).current;
-  const [active, setActive] = React.useState<Rhythm>(rhythm[0]);
+  const [rhythm, setRhythm] = React.useState<Rhythm[]>(getRhythm(0));
+  const [active, setActive] = React.useState<Rhythm>();
   const [count, setCounter] = React.useState(0);
-  const [delay, setDelay] = React.useState(1500);
+  const [delay, setDelay] = React.useState(DELAY_MAX);
+  const [delayMax, setDelayMax] = React.useState(DELAY_MAX);
   const [play, setPlay] = React.useState(false);
 
   useSound(active);
 
+  // console.log("root", { play, active, count, delay });
+
   // change active movement
-  React.useEffect(() => {
+  function processNext() {
     if (!play) return;
-    const timeout = setTimeout(() => {
-      if (count == 0) {
-        setCounter(count + 1);
-        setActive(rhythm[0]);
-      } else {
-        if (!active) return;
-        const currentIndex = rhythm.findIndex((item) => item.id === active.id);
-        if (currentIndex + 1 === rhythm.length) {
-          console.log("done, reseting");
-          setActive(rhythm[0]);
-          setCounter(count + 1);
-          if (delay > DELAY_MIN) {
-            setDelay(Math.max(DELAY_MIN, delay - DELAY_STEP));
-          }
-          // setActive(undefined);
-        } else {
-          setActive(rhythm[currentIndex + 1]);
-        }
+    if (!active) {
+      setActive(rhythm[0]);
+      return;
+    }
+    // console.log({ play, id: active.id, count, delay, delayMax });
+    const currentIndex = rhythm.findIndex(
+      (item: Rhythm) => item.id === active.id
+    );
+    if (currentIndex + 1 === rhythm.length) {
+      setDelay(delayMax);
+      // console.log("setting delay to max", { delayMax });
+      const nextRhythm = getRhythm(count + 1);
+      if (nextRhythm.length === 0) {
+        setPlay(false);
+        // console.log("all done");
+        setCounter(0);
+        return;
       }
-    }, delay);
+      setRhythm(nextRhythm);
+      // console.log("done, reseting");
+
+      setActive(nextRhythm[0]);
+      setCounter(count + 1);
+    } else {
+      setActive(rhythm[currentIndex + 1]);
+    }
+    if (currentIndex % 4 === 3 && currentIndex + 1 !== rhythm.length) {
+      // console.log({ currentIndex });
+      setDelay(Math.min(delayMax,  Math.max(DELAY_MIN, delay - (delayMax - DELAY_MIN) / 2.5)));
+    }
+  }
+
+  React.useEffect(() => {
+    const timeout = setTimeout(
+      processNext,
+      delay + (active ? active.times * 500 : 0)
+    );
+    // console.log({ delay, total: delay + (active ? active.times * 500 : 0) });
+
     return () => clearTimeout(timeout);
-  }, [active, delay, play]);
+  }, [active, play]);
 
   // animate active movement
   React.useEffect(() => {
@@ -73,6 +95,7 @@ const PlayStep = (props: Props) => {
       const animation = Animated.timing(animatedValue, {
         toValue: 1,
         duration: 300,
+        delay: 200,
         useNativeDriver: true,
       });
       animation.start(() => {
@@ -83,11 +106,17 @@ const PlayStep = (props: Props) => {
     play();
   }, [active]);
 
-  const getMovement = (index: number) => {
+  const getMovement = (index: number): React.ReactElement | null => {
     const item: Rhythm = rhythm[index];
 
+    // if (!active) {
+    //   return null;
+    // }
     if (!item) {
-      console.log("getMovement item not found", { index, activeId: active.id });
+      // console.log("getMovement item not found", {
+      //   index,
+      //   activeId: active?.id,
+      // });
       return null;
     }
 
@@ -95,33 +124,35 @@ const PlayStep = (props: Props) => {
     const lefts = [0, w + gap, 0, w + gap];
 
     return (
-      <View
-        style={[
-          styles.movementContainer,
-          {
-            position: "absolute",
-            top: tops[index % 4],
-            left: lefts[index % 4],
-            backgroundColor: movementColors[index % 4],
-          },
-        ]}
-        key={index}
-      >
+      <View style={[]} key={index}>
         <Animated.View
-          style={{
-            // flexDirection: "row",
-            transform: [
-              {
-                translateY:
-                  active.effect === "stomp" && item.id === active.id
-                    ? animatedValue.interpolate({
-                        inputRange: [0, 0.5, 1],
-                        outputRange: [0, -10, 0],
-                      })
-                    : 0,
-              },
-            ],
-          }}
+          style={[
+            styles.movementContainer,
+            {
+              position: "absolute",
+              top: tops[index % 4],
+              left: lefts[index % 4],
+              backgroundColor: movementColors[index % 4],
+              opacity:
+                active?.effect === "blank" && item.id === active?.id
+                  ? animatedValue.interpolate({
+                      inputRange: [0, 0.5, 1],
+                      outputRange: [1, 0.5, 1],
+                    })
+                  : 1,
+              transform: [
+                {
+                  translateY:
+                    active?.effect === "stomp" && item.id === active?.id
+                      ? animatedValue.interpolate({
+                          inputRange: [0, 0.5, 1],
+                          outputRange: [0, -10, 0],
+                        })
+                      : 0,
+                },
+              ],
+            },
+          ]}
         >
           <Animated.Image
             source={resources[item.effect].image}
@@ -131,7 +162,7 @@ const PlayStep = (props: Props) => {
                 transform: [
                   {
                     scale:
-                      item.id === active.id
+                      item.id === active?.id
                         ? animatedValue.interpolate({
                             inputRange: [0, 0.5, 1],
                             outputRange:
@@ -149,14 +180,14 @@ const PlayStep = (props: Props) => {
     );
   };
 
-  let movements = [];
+  let movements: React.ReactElement[] = [];
 
   if (active) {
     const currentIndex = rhythm.findIndex((item) => item.id === active.id);
     const startIndex = Math.floor(currentIndex / 4) * 4;
 
     movements = [
-      getMovement(startIndex ),
+      getMovement(startIndex),
       getMovement(startIndex + 1),
       getMovement(startIndex + 2),
       getMovement(startIndex + 3),
@@ -193,8 +224,8 @@ const PlayStep = (props: Props) => {
         step={DELAY_STEP}
         value={delay}
         onValueChange={(value) => {
-          console.log({ value });
-          setDelay(value);
+          setDelayMax(value);
+          // setDelay(value);
         }}
         minimumValue={DELAY_MIN}
         maximumValue={DELAY_MAX}
@@ -261,9 +292,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   movement: {
-    height: w - 20,
-    width: w - 20,
-    borderRadius: w - 20,
+    height: w - 40,
+    width: w - 40,
+    borderRadius: w - 40,
   },
   text: {
     justifyContent: "center",
