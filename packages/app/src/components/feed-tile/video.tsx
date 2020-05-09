@@ -21,7 +21,7 @@ const TheVideo = ({ post }: Props) => {
         resizeMode="cover"
       />
       <View style={styles.iconContainer}>
-        <Icon name="play" size="small" />
+        <Icon name="video" size="small" />
       </View>
     </View>
   );

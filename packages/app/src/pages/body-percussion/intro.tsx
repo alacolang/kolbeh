@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Dimensions, StatusBar, StyleSheet } from "react-native";
+import { View, Image, Dimensions, StyleSheet } from "react-native";
 import Svg, { Path, Rect, Defs, Pattern, Circle } from "react-native-svg";
 import IntroImg from "../../assets/images/body-percussion.jpg";
 import colors from "../../colors";
@@ -19,8 +19,7 @@ const IntroStep = ({ next }: Props) => {
         flexDirection: "column",
         flex: 1,
       }}
-    >
-      <StatusBar hidden />
+    >      
 
       <View
         style={{ alignSelf: "flex-end", paddingTop: 10, paddingHorizontal: 15 }}

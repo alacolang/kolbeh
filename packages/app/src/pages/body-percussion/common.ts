@@ -8,10 +8,10 @@ import StompImg from "../../assets/images/stomp.png";
 // import StompImg from "../../assets/images/stomping.png";
 
 export const resources = {
-  clap: { image: ClapImg, sound: "clap.m4a", title: "دست زدن" },
-  snap: { image: SnapImg, sound: "snap.m4a", title: "بشکن زدن" },
-  pat: { image: PatImg, sound: "pat.m4a", title: "ضربه به زانو" },
-  stomp: { image: StompImg, sound: "stomp.m4a", title: "پا کوبیدن" },
+  clap: { image: ClapImg, sound: "stomp.mp3", title: "دست زدن" },
+  snap: { image: SnapImg, sound: "stomp.mp3", title: "بشکن زدن" },
+  pat: { image: PatImg, sound: "stomp.mp3", title: "ضربه به زانو" },
+  stomp: { image: StompImg, sound: "stomp.mp3", title: "پا کوبیدن" },
   blank: { image: null, sound: null, title: "سکوت" },
 };
 
@@ -27,9 +27,9 @@ type RhythmNoId = Omit<Rhythm, "id">;
 export const getRhythm = () => {
   const set1: RhythmNoId[] = [
     { effect: "clap", times: 2 },
-    { effect: "clap", times: 1 },
-    { effect: "clap", times: 1 },
-    { effect: "snap", times: 1 },
+    { effect: "blank", times: 1 },
+    { effect: "blank", times: 1 },
+    { effect: "blank", times: 1 },
   ];
 
   const rhythm: Rhythm[] = injectID(flatten([times(4, set1)]));
@@ -43,6 +43,9 @@ export const colors = {
   green: "#8de6d4",
   brown: "#433d43",
   white: "white",
+  yellow: "#ffeb6b",
+  violet: "#c09cd0",
+  red: "#ef86a6",
 };
 
 export const shuffle = <T>([...a]: T[]) => {

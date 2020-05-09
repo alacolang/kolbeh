@@ -26,7 +26,7 @@ import InstagramIcon from "./instagram.png";
 import TwitterIcon from "./twitter.png";
 import TelegramIcon from "./telegram.png";
 import InfoIcon from "./information.png";
-import PlayIcon from "./play.png";
+import VideoIcon from "./video.png";
 import LoadingIcon from "./loading.png";
 import SaveActiveIcon from "./saved-active.png";
 import SaveIcon from "./saved.png";
@@ -36,7 +36,8 @@ import LoadingVarientIcon from "./loading-light.png";
 import SearchIcon from "./search.png";
 import LeftArrowIcon from "./left-arrow.png";
 import TimesIcon from "./times.png";
-import pauseIcon from "./pause.png";
+import PauseIcon from "./pause.png";
+import PlayIcon from "./play.png";
 
 const icons = {
   parent: ParentIcon,
@@ -68,7 +69,7 @@ const icons = {
   twitter: TwitterIcon,
   telegram: TelegramIcon,
   info: InfoIcon,
-  play: PlayIcon,
+  video: VideoIcon,
   loading: LoadingIcon,
   loadingVarient: LoadingVarientIcon,
   saveActive: SaveActiveIcon,
@@ -78,7 +79,8 @@ const icons = {
   search: SearchIcon,
   leftArrow: LeftArrowIcon,
   times: TimesIcon,
-  pause: pauseIcon,
+  pause: PauseIcon,
+  play: PlayIcon,
 };
 
 export default icons;
