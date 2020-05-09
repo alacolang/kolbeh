@@ -6,7 +6,7 @@ import StartStep from "./start";
 import PlayStep from "./play";
 
 const BodyPercussionScreen = () => {
-  const [page, setPage] = React.useState("play");
+  const [page, setPage] = React.useState("intro");
   let Component;
   if (page === "explain") {
     Component = ExplainStep;

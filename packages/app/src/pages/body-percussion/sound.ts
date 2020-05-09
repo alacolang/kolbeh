@@ -27,7 +27,7 @@ export const useSound = (active?: Rhythm) => {
   React.useEffect(() => {
     if (!active) return;
     let times = active.times;
-    console.log("useSound", { active });
+    // console.log("useSound", { active });
     if (!sounds[active.effect]) {
       console.log("no sounds for ", active);
       return;
@@ -36,7 +36,7 @@ export const useSound = (active?: Rhythm) => {
     function play() {
       sounds[active.effect].play((success) => {
         if (success) {
-          console.log("sound played");
+          // console.log("sound played");
         } else {
           console.log("sound play failed");
         }

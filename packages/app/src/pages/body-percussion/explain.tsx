@@ -62,7 +62,7 @@ const ExplainStep = ({ next }: Props) => {
       next();
     }
   };
-  // useSound(active);
+  useSound(active);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -73,8 +73,8 @@ const ExplainStep = ({ next }: Props) => {
         if (currentIndex + 1 === 4) return setActive(rhythm[0]);
         setActive(rhythm[currentIndex + 1]);
       }
-    }, 1000);
-    // return () => clearTimeout(timeout);
+    }, active.times * 500 + 200);
+    return () => clearTimeout(timeout);
   }, [active]);
 
   React.useEffect(() => {
@@ -87,6 +87,7 @@ const ExplainStep = ({ next }: Props) => {
       const animation = Animated.timing(animatedValue, {
         toValue: 1,
         duration: 300,
+        delay: 200,
         useNativeDriver: true,
       });
       animation.start(() => {
@@ -100,10 +101,18 @@ const ExplainStep = ({ next }: Props) => {
   const renderMovement = ({ id, effect }: Rhythm) => {
     return (
       <View key={id} style={styles.movementContainer}>
-        <View
+        <Animated.View
           style={[
             styles.movementIconContainer,
-            { backgroundColor: id % 2 === 0 ? colors.pink : colors.green },
+            { backgroundColor: id % 2 === 0 ? colors.pink : colors.green, 
+              opacity:
+              active?.effect === "blank" && id === active?.id
+                ? animatedValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [1, 0.5, 1],
+                  })
+                : 1,
+            },
           ]}
         >
           <Animated.Image
@@ -127,7 +136,7 @@ const ExplainStep = ({ next }: Props) => {
             ]}
             resizeMode="contain"
           />
-        </View>
+        </Animated.View>
         {step === 1 && (
           <FormattedText style={styles.movementTitle}>
             {resources[effect].title}
@@ -184,9 +193,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   movementIcon: {
-    height: w - 10,
-    width: w - 10,
-    borderRadius: w - 10,
+    height: w - 20,
+    width: w - 20,
+    borderRadius: w - 20,
   },
   title: {
     fontSize: 36,

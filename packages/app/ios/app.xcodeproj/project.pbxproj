@@ -17,10 +17,10 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* appTests.m */; };
 		3B5C497D245A353D00AE3FF1 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */; };
-		3BCC97812466D43100D6C271 /* snap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC977D2466D43100D6C271 /* snap.wav */; };
-		3BCC97822466D43100D6C271 /* pat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC977E2466D43100D6C271 /* pat.wav */; };
-		3BCC97832466D43200D6C271 /* stomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC977F2466D43100D6C271 /* stomp.wav */; };
-		3BCC97842466D43200D6C271 /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC97802466D43100D6C271 /* clap.wav */; };
+		3BCC978924675BD800D6C271 /* snap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC978524675BD800D6C271 /* snap.wav */; };
+		3BCC978A24675BD800D6C271 /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC978624675BD800D6C271 /* clap.wav */; };
+		3BCC978B24675BD800D6C271 /* stomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC978724675BD800D6C271 /* stomp.wav */; };
+		3BCC978C24675BD800D6C271 /* pat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BCC978824675BD800D6C271 /* pat.wav */; };
 		3C4F70A714A4A987DAC59024 /* libPods-app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1A0D805D177BE6F6A3A4C5A /* libPods-app-tvOS.a */; };
 		7AF052753507416E8DB119A2 /* IRANYekanRDMobile.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F96ABA295A64DFCB763F4C9 /* IRANYekanRDMobile.ttf */; };
 		7F35A028C5FB49A19DAF1D62 /* IRANYekanRDMobile-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC6893D95B65489386DB0899 /* IRANYekanRDMobile-Bold.ttf */; };
@@ -67,10 +67,10 @@
 		2D02E4901E0B4A5D006451C7 /* app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2840A6AFCE5E6CC6A7924E /* Pods-app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "app/AppCenter-Config.plist"; sourceTree = "<group>"; };
-		3BCC977D2466D43100D6C271 /* snap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = snap.wav; path = ../assets/sounds/snap.wav; sourceTree = "<group>"; };
-		3BCC977E2466D43100D6C271 /* pat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = pat.wav; path = ../assets/sounds/pat.wav; sourceTree = "<group>"; };
-		3BCC977F2466D43100D6C271 /* stomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = stomp.wav; path = ../assets/sounds/stomp.wav; sourceTree = "<group>"; };
-		3BCC97802466D43100D6C271 /* clap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = clap.wav; path = ../assets/sounds/clap.wav; sourceTree = "<group>"; };
+		3BCC978524675BD800D6C271 /* snap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = snap.wav; path = ../assets/sounds/snap.wav; sourceTree = "<group>"; };
+		3BCC978624675BD800D6C271 /* clap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = clap.wav; path = ../assets/sounds/clap.wav; sourceTree = "<group>"; };
+		3BCC978724675BD800D6C271 /* stomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = stomp.wav; path = ../assets/sounds/stomp.wav; sourceTree = "<group>"; };
+		3BCC978824675BD800D6C271 /* pat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = pat.wav; path = ../assets/sounds/pat.wav; sourceTree = "<group>"; };
 		5234AD97EC74016A5E99880C /* Pods-app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		75F064B2490C472D9F74DBAC /* IRANYekanRDMobile-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IRANYekanRDMobile-Light.ttf"; path = "../assets/fonts/IRANYekanRDMobile-Light.ttf"; sourceTree = "<group>"; };
 		7F96ABA295A64DFCB763F4C9 /* IRANYekanRDMobile.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IRANYekanRDMobile.ttf; path = ../assets/fonts/IRANYekanRDMobile.ttf; sourceTree = "<group>"; };
@@ -141,10 +141,10 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
-				3BCC97802466D43100D6C271 /* clap.wav */,
-				3BCC977E2466D43100D6C271 /* pat.wav */,
-				3BCC977D2466D43100D6C271 /* snap.wav */,
-				3BCC977F2466D43100D6C271 /* stomp.wav */,
+				3BCC978624675BD800D6C271 /* clap.wav */,
+				3BCC978824675BD800D6C271 /* pat.wav */,
+				3BCC978524675BD800D6C271 /* snap.wav */,
+				3BCC978724675BD800D6C271 /* stomp.wav */,
 				3B5C497C245A353D00AE3FF1 /* AppCenter-Config.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -374,13 +374,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BCC97842466D43200D6C271 /* clap.wav in Resources */,
-				3BCC97822466D43100D6C271 /* pat.wav in Resources */,
-				3BCC97832466D43200D6C271 /* stomp.wav in Resources */,
-				3BCC97812466D43100D6C271 /* snap.wav in Resources */,
+				3BCC978924675BD800D6C271 /* snap.wav in Resources */,
+				3BCC978B24675BD800D6C271 /* stomp.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				7F35A028C5FB49A19DAF1D62 /* IRANYekanRDMobile-Bold.ttf in Resources */,
+				3BCC978A24675BD800D6C271 /* clap.wav in Resources */,
+				3BCC978C24675BD800D6C271 /* pat.wav in Resources */,
 				E9B40DAB82A84ED9A9B5C822 /* IRANYekanRDMobile-Light.ttf in Resources */,
 				7AF052753507416E8DB119A2 /* IRANYekanRDMobile.ttf in Resources */,
 				3B5C497D245A353D00AE3FF1 /* AppCenter-Config.plist in Resources */,
