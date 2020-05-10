@@ -9,17 +9,17 @@ async function init() {
 init();
 
 function fixIconTypo(name) {
-  if (name === 'anxiety') return 'axiety';
+  if (name === "anxiety") return "axiety";
   return name;
 }
 
-const dataResolver = data => {
-  return data.map(d => {
+const dataResolver = (data) => {
+  return data.map((d) => {
     return {
       ...d,
       icon: fixIconTypo(d.name),
       feed: {
-        edges: d.feed.map(post => ({ node: post })),
+        edges: d.feed.map((post) => ({ node: post })),
         pageInfo: {
           hasNextPage: false,
         },
@@ -40,19 +40,23 @@ const resolvers = {
         ...dataResolver(parsedData.parent),
         ...dataResolver(parsedData.child),
       ]
-        .map(d => d.feed.edges.map(post => post.node))
+        .map((d) => d.feed.edges.map((post) => post.node))
         .flat()
-        .find(d => {
+        .find((d) => {
           return d.id === id;
         });
     },
-    posts: () => {
+    posts: (obj, { types }) => {
+      const _types = types || ["image", "video", "markdown"];
       const edges = [
         ...dataResolver(parsedData.parent),
         ...dataResolver(parsedData.child),
       ]
-        .map(d => d.feed.edges)
+        .map((d) => d.feed.edges)
         .flat()
+        .filter((p) => {
+          return _types.includes(p.node.type);
+        })
         .sort((p1, p2) => {
           try {
             if (p2.node.date && p1.node.date) {
@@ -90,7 +94,7 @@ const resolvers = {
         ...dataResolver(parsedData.parent),
         ...dataResolver(parsedData.child),
       ]
-        .map(d => d.feed.edges)
+        .map((d) => d.feed.edges)
         .flat()
         .filter(({ node }) => !!node.description)
         .map(({ node: { id, description } }) => ({ id, description }));
