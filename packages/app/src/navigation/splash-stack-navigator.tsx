@@ -2,7 +2,6 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main-tab-navigator";
 import SplashScreen from "../pages/splash";
-import BodyPercussionScreen from "../pages/body-percussion";
 
 export type StackParamList = {
   splash: undefined;
@@ -12,7 +11,7 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
-  <Stack.Navigator initialRouteName="bodyPercussion">
+  <Stack.Navigator initialRouteName="splash">
     <Stack.Screen
       name="splash"
       component={SplashScreen}
@@ -21,11 +20,6 @@ const SplashNavigator = () => (
     <Stack.Screen
       name="main"
       component={MainNavigator}
-      options={{ header: () => null }}
-    />
-    <Stack.Screen
-      name="bodyPercussion"
-      component={BodyPercussionScreen}
       options={{ header: () => null }}
     />
   </Stack.Navigator>
