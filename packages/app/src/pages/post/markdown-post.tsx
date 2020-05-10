@@ -25,41 +25,7 @@ const MarkdownPost = ({ post }: Props) => {
       contentContainerStyle={styles.scrollViewContentContainer}
     >
       <Markdown
-        markdownStyles={{
-          listItemBullet: {
-            width: 6,
-            height: 6,
-            backgroundColor: colors.green,
-            borderRadius: 3,
-            marginRight: 10,
-          },
-          h1: {
-            color: colors.h1,
-            textAlign: "center",
-            paddingVertical: 20,
-            fontWeight: "bold",
-            fontSize: 24,
-          },
-          h2: {
-            color: colors.h2,
-            paddingVertical: 20,
-            fontWeight: "bold",
-            fontSize: 24,
-          },
-          h3: {
-            color: colors.h3,
-            paddingVertical: 20,
-            fontWeight: "bold",
-            fontSize: 24,
-          },
-          text: {
-            fontFamily: "IRANYekanRDMobile",
-            textAlign: "left",
-            color: colors.primary,
-            fontSize: 16,
-            lineHeight: 2 * 16,
-          },
-        }}
+        markdownStyles={markdownStyles}
         renderImage={(src: string, alt: string, title: string, key: string) => {
           return (
             <AnimatedImage
@@ -114,7 +80,44 @@ const styles = StyleSheet.create({
   },
   scrollViewContentContainer: {
     paddingHorizontal: 30,
+    backgroundColor: colors.background,
   },
 });
+
+const markdownStyles = {
+  listItemBullet: {
+    width: 6,
+    height: 6,
+    backgroundColor: colors.green,
+    borderRadius: 3,
+    marginRight: 10,
+  },
+  h1: {
+    color: colors.h1,
+    textAlign: "center",
+    paddingVertical: 20,
+    fontWeight: "bold",
+    fontSize: 24,
+  },
+  h2: {
+    color: colors.h2,
+    paddingVertical: 20,
+    fontWeight: "bold",
+    fontSize: 24,
+  },
+  h3: {
+    color: colors.h3,
+    paddingVertical: 20,
+    fontWeight: "bold",
+    fontSize: 24,
+  },
+  text: {
+    fontFamily: "IRANYekanRDMobile",
+    textAlign: "left",
+    color: colors.primary,
+    fontSize: 16,
+    lineHeight: 2 * 16,
+  },
+};
 
 export default MarkdownPost;

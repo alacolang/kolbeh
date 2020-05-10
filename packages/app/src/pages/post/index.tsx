@@ -79,9 +79,8 @@ const PostScreen = () => {
     <View
       style={{
         flex: 1,
-        paddingHorizontal: 15,
-        backgroundColor: stuff.type === "video" ? "black" : colors.background,
-        borderColor: "red",
+        // paddingHorizontal: 15,
+        // backgroundColor: stuff.type === "video" ? "black" : colors.background,
       }}
     >
       <StatusBar hidden />
