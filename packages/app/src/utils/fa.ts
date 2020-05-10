@@ -18,7 +18,7 @@ const messages: Record<string, string> = {
   "body-percussion.intro": " بازی ریتم‌های بدنی",
   "body-percussion.explain.title": "راهنمای بازی",
   "body-percussion.explain.tip1":
-    "این بازی باعث کاهش استرس، افزایش هماهنگی حرکتی و تعادل میشه. چهار حرکت دست یا پا داریم که با فاصله‌های ثابت اجرا می‌شن",
+      "این بازی باعث کاهش استرس، افزایش هماهنگی حرکتی و تعادل میشه. چهار حرکت دست یا پا داریم که با فاصله‌های ثابت اجرا می‌شن",
   "body-percussion.explain.tip2":
     "مهم اینه که تلاش کنی با این ضرب‌آهنگ همراهی کنی.",
   "body-percussion.explain.tip3":
