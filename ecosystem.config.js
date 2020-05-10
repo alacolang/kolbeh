@@ -52,7 +52,7 @@ module.exports = {
       user: "www",
       host: "vps",
       ref: "origin/master",
-      repo: "git@github.com:yassermzh/yara.git",
+      repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/yara-pm2",
       "post-deploy":
         "yarn && yarn workspace server optimize-images && NODE_ENV=production pm2 reload ecosystem.config.js --env production",
@@ -61,7 +61,7 @@ module.exports = {
       user: "www",
       host: "vps",
       ref: `origin/${branchName()}`,
-      repo: "git@github.com:yassermzh/yara.git",
+      repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/yara-staging",
       "post-deploy": "yarn && NODE_ENV=staging pm2 reload ecosystem.config.js --env staging",
     },
