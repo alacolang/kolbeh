@@ -1,1 +1,1 @@
-scp android/app/release/app-release.apk  www@vps:~/ir.alacolang.kolbeh/kolbeh.apk
+scp android/build/apk/release/app-armeabi-v7a-release.apk www@vps:~/ir.alacolang.kolbeh/kolbeh.apk
