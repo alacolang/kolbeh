@@ -32,6 +32,7 @@ const messages: Record<string, string> = {
   "body-percussion.start.tip2": "یا اگه خسته شدی متوقفش کنی",
   "body-percussion.play":
     "اول به ضرب‌آهنگ‌ها گوش کن و بعد سعی کن با همان سرعت تکرار کنی.",
+    "unknown-post": " متاسفانه، این پست قابل مشاهده نیست. احتمالا باید برنامه خود را بروزرسانی کنید.",
 };
 
 export default messages;

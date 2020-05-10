@@ -8,6 +8,7 @@ import * as Types from "../../types";
 import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
+import Unknown from "./unkown-post";
 import colors from "../../colors";
 import InAppPost from "../../components/body-percussion";
 
@@ -75,12 +76,14 @@ const PostScreen = () => {
     markdown: MarkdownPost,
   }[stuff.type];
 
+  if (!Component) {
+    return <Unknown />;
+  }
+
   return (
     <View
       style={{
         flex: 1,
-        // paddingHorizontal: 15,
-        // backgroundColor: stuff.type === "video" ? "black" : colors.background,
       }}
     >
       <StatusBar hidden />
