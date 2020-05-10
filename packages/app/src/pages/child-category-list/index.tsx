@@ -18,8 +18,8 @@ const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 const GET_CHILD = gql`
-  query GetChild {
-    childCategories {
+  query GetChild($types: [PostType]) {
+    childCategories(types: $types) {
       id
       title
       description
@@ -77,7 +77,9 @@ const getCategoryMeta = (index: number) => {
 const ChildScreen = () => {
   const navigation = useNavigation<ChildFeedNavigationProp>();
   // const [refreshing, setRefreshing] = React.useState(false);
-  const { data, loading, error } = useQuery<ChildCategoriesData>(GET_CHILD);
+  const { data, loading, error } = useQuery<ChildCategoriesData>(GET_CHILD, {
+    variables: { types: ["image", "markdown", "video", "inapp"] },
+  });
 
   if (error) {
     errorReport(error, { origin: "child> get feed" });
