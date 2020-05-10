@@ -7,13 +7,13 @@ const schema = gql`
   type Query {
     info: Info @cacheControl(maxAge: 1000)
     postById(id: ID!): Post
-    parentCategories: [Category!]! @cacheControl(maxAge: 240)
+    parentCategories(types: [PostType]): [Category!]! @cacheControl(maxAge: 240)
     posts(types: [PostType]): ParentFeedConnection!
-    childCategories: [Category!]! @cacheControl(maxAge: 240)
+    childCategories(types: [PostType]): [Category!]! @cacheControl(maxAge: 240)
     parentFeed: ParentFeedConnection!
       @deprecated(reason: "use parentCategories")
     childFeed: ParentFeedConnection! @deprecated(reason: "use childCategories")
-    promotions: [Promotion!]!
+    promotions(types: [PostType]): [Promotion!]!
   }
 
   type Category {

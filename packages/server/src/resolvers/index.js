@@ -2,6 +2,9 @@ import depricatedResolvers from "./depricated-resolver";
 import parse from "../content/parse";
 let parsedData;
 
+const ALL_TYPES = ["image", "video", "markdown", "inapp"];
+const OLD_TYPES = ["image", "video", "markdown"];
+
 async function init() {
   parsedData = await parse();
 }
@@ -13,13 +16,17 @@ function fixIconTypo(name) {
   return name;
 }
 
-const dataResolver = (data) => {
+const dataResolver = (data, types = OLD_TYPES) => {
   return data.map((d) => {
     return {
       ...d,
       icon: fixIconTypo(d.name),
       feed: {
-        edges: d.feed.map((post) => ({ node: post })),
+        edges: d.feed
+          .filter((p) => {
+            return types.includes(p.type);
+          })
+          .map((post) => ({ node: post })),
         pageInfo: {
           hasNextPage: false,
         },
@@ -35,10 +42,10 @@ const resolvers = {
         version: "0.0.2",
       };
     },
-    postById: (obj, { id }) => {
+    postById: (_, { id }) => {
       return [
-        ...dataResolver(parsedData.parent),
-        ...dataResolver(parsedData.child),
+        ...dataResolver(parsedData.parent, ALL_TYPES),
+        ...dataResolver(parsedData.child, ALL_TYPES),
       ]
         .map((d) => d.feed.edges.map((post) => post.node))
         .flat()
@@ -46,17 +53,13 @@ const resolvers = {
           return d.id === id;
         });
     },
-    posts: (obj, { types }) => {
-      const _types = types || ["image", "video", "markdown"];
+    posts: (_, { types }) => {
       const edges = [
-        ...dataResolver(parsedData.parent),
-        ...dataResolver(parsedData.child),
+        ...dataResolver(parsedData.parent, types),
+        ...dataResolver(parsedData.child, types),
       ]
         .map((d) => d.feed.edges)
         .flat()
-        .filter((p) => {
-          return _types.includes(p.node.type);
-        })
         .sort((p1, p2) => {
           try {
             if (p2.node.date && p1.node.date) {
@@ -83,16 +86,16 @@ const resolvers = {
         },
       };
     },
-    parentCategories: () => {
-      return dataResolver(parsedData.parent);
+    parentCategories: (_, { types }) => {
+      return dataResolver(parsedData.parent, types);
     },
-    childCategories: () => {
-      return dataResolver(parsedData.child);
+    childCategories: (_, { types }) => {
+      return dataResolver(parsedData.child, types);
     },
-    promotions: () => {
+    promotions: (_, { types }) => {
       return [
-        ...dataResolver(parsedData.parent),
-        ...dataResolver(parsedData.child),
+        ...dataResolver(parsedData.parent, types),
+        ...dataResolver(parsedData.child, types),
       ]
         .map((d) => d.feed.edges)
         .flat()
