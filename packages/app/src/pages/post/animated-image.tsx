@@ -53,6 +53,15 @@ const LovelyImage = ({
                       ],
                       extrapolate: "clamp",
                     }),
+              },
+            ],
+          },
+        ]}
+      >
+        <Animated.View
+          style={{
+            transform: [
+              {
                 translateX: noAnimate
                   ? 0
                   : scrollAnimatedValue.interpolate({
@@ -60,39 +69,49 @@ const LovelyImage = ({
                       outputRange: [0, (-1.5 * frameWidth) / 4],
                       extrapolate: "clamp",
                     }),
-                scale: noAnimate
-                  ? 0
-                  : scrollAnimatedValue.interpolate({
-                      inputRange: [yLocal, yLocal + frameHeight / 3],
-                      outputRange: [1, 0.4],
-                      extrapolate: "clamp",
-                    }),
               },
             ],
-          },
-        ]}
-      >
-        <Image
-          onLoadEnd={() => {
-            ref.current.measure(
-              (
-                _x: number,
-                _y: number,
-                _width: number,
-                _height: number,
-                _pageX: number,
-                pageY: number
-              ) => {
-                // console.log("onLoadEnd", y, imageKey, yLocal, pageY);
-                setYLocal(pageY);
-              }
-            );
           }}
-          source={{ uri }}
-          style={styles.image}
-          resizeMode="contain"
-        />
-        <FormattedText style={styles.title}>{title}</FormattedText>
+        >
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  scale: noAnimate
+                    ? 1
+                    : scrollAnimatedValue.interpolate({
+                        inputRange: [yLocal, yLocal + frameHeight / 3],
+                        outputRange: [1, 0.4],
+                        extrapolate: "clamp",
+                      }),
+                },
+              ],
+            }}
+          >
+            <Image
+              onLoadEnd={() => {
+                ref.current.measure(
+                  (
+                    _x: number,
+                    _y: number,
+                    _width: number,
+                    _height: number,
+                    _pageX: number,
+                    pageY: number
+                  ) => {
+                    // console.log("onLoadEnd", y, imageKey, yLocal, pageY);
+                    setYLocal(pageY);
+                  }
+                );
+              }}
+              source={{ uri }}
+              style={styles.image}
+              resizeMode="contain"
+            />
+
+            <FormattedText style={styles.title}>{title}</FormattedText>
+          </Animated.View>
+        </Animated.View>
       </Animated.View>
     </View>
   );
