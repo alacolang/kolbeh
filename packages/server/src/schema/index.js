@@ -79,6 +79,7 @@ const schema = gql`
     image
     video
     markdown
+    inapp
   }
 
   type Promotion {
