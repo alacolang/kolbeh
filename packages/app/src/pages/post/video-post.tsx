@@ -40,6 +40,7 @@ const VideoPost = ({ post }: Props) => {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: "black",
+    paddingHorizontal: 15,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

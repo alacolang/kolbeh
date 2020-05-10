@@ -53,54 +53,58 @@ const ImagePost = ({ post }: Props) => {
   );
 
   return (
-    <ImageViewer
-      backgroundColor={colors.background}
-      renderImage={(props) => {
-        setHeight(props.style.height);
-        return <Image {...props} style={[props.style, styles.image]} />;
-      }}
-      onChange={(currentIndex) => {
-        setXY(handleDots(previousIndex, currentIndex, x, y));
-      }}
-      renderIndicator={(currentIndex, allSize = 0) =>
-        allSize <= 1 ? (
-          <View />
-        ) : (
-          <>
-            <View
-              style={[
-                styles.dotsContainer,
-                { bottom: (frameHeight - height) / 2 - 30 },
-              ]}
-            >
-              {result.map((x, i) => (
-                <View
-                  key={i}
-                  style={[
-                    styles.dot,
-                    {
-                      width: x === "." ? 3 : 7,
-                      height: x === "." ? 3 : 7,
-                      backgroundColor:
-                        x === "o" ? colors.inactive : "lightgray",
-                    },
-                  ]}
-                />
-              ))}
-            </View>
-            <View style={styles.indexContainer}>
-              <FormattedText style={styles.index}>
-                {toLocaleNumber(allSize) + " / " + toLocaleNumber(currentIndex)}
-              </FormattedText>
-            </View>
-          </>
-        )
-      }
-      imageUrls={images.map((image) => ({
-        ...image,
-        url: resolveURL(image.url),
-      }))}
-    />
+    <View style={styles.outerContainer}>
+      <ImageViewer
+        backgroundColor={colors.background}
+        renderImage={(props) => {
+          setHeight(props.style.height);
+          return <Image {...props} style={[props.style, styles.image]} />;
+        }}
+        onChange={(currentIndex) => {
+          setXY(handleDots(previousIndex, currentIndex, x, y));
+        }}
+        renderIndicator={(currentIndex, allSize = 0) =>
+          allSize <= 1 ? (
+            <View />
+          ) : (
+            <>
+              <View
+                style={[
+                  styles.dotsContainer,
+                  { bottom: (frameHeight - height) / 2 - 30 },
+                ]}
+              >
+                {result.map((x, i) => (
+                  <View
+                    key={i}
+                    style={[
+                      styles.dot,
+                      {
+                        width: x === "." ? 3 : 7,
+                        height: x === "." ? 3 : 7,
+                        backgroundColor:
+                          x === "o" ? colors.inactive : "lightgray",
+                      },
+                    ]}
+                  />
+                ))}
+              </View>
+              <View style={styles.indexContainer}>
+                <FormattedText style={styles.index}>
+                  {toLocaleNumber(allSize) +
+                    " / " +
+                    toLocaleNumber(currentIndex)}
+                </FormattedText>
+              </View>
+            </>
+          )
+        }
+        imageUrls={images.map((image) => ({
+          ...image,
+          url: resolveURL(image.url),
+        }))}
+      />
+    </View>
   );
 };
 
@@ -113,6 +117,11 @@ const toChar = (x: string) =>
   String.fromCharCode(x.charCodeAt(0) - "0".charCodeAt(0) + "۰".charCodeAt(0));
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+    backgroundColor: colors.background,
+  },
   container: {
     width: frameWidth,
     borderRadius: 13,
