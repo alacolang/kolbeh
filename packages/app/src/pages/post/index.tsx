@@ -9,6 +9,7 @@ import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
 import colors from "../../colors";
+import InAppPost from "../../components/body-percussion";
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -68,6 +69,7 @@ const PostScreen = () => {
   if (!stuff) return null;
 
   const Component = {
+    inapp: InAppPost,
     image: ImagePost,
     video: VideoPost,
     markdown: MarkdownPost,

@@ -1,4 +1,4 @@
-import { IconName } from '../components/icon'
+import { IconName } from "../components/icon";
 
 export type IImage = {
   id: string;
@@ -60,6 +60,7 @@ export enum IPostType {
   image = "image",
   video = "video",
   markdown = "markdown",
+  inapp = "inapp",
 }
 
 export type ICategories = ICategory[];

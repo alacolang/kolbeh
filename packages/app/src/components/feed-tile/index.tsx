@@ -19,6 +19,7 @@ type Props = {
 const Post = ({ post }: Props) => {
   const Cover = {
     image: ImageCover,
+    inapp: ImageCover,
     video: VideoCover,
     markdown: MarkdownCover,
   }[post.node.type];
