@@ -6,13 +6,13 @@ type Props = {
   position: "top-left" | "top-right" | "bottom-right" | "bottom-left";
   size?: number;
   negative?: boolean;
-  same?: boolean;
+  backgroundColor?: string;
 };
 const Curve = ({
   position,
   size = 40,
   negative = false,
-  same = false,
+  backgroundColor,
 }: Props) => {
   const top = position.startsWith("top");
   const right = position.endsWith("right");
@@ -28,7 +28,6 @@ const Curve = ({
         backgroundColor: negative
           ? colors.backgroundVarient
           : colors.background,
-        // backgroundColor: colors.active,
         height: size,
         width: size,
         // borderWidth: 1,
@@ -36,12 +35,11 @@ const Curve = ({
     >
       <View
         style={{
-          backgroundColor: !negative
-            ? colors.backgroundVarient
-            : same
-            ? colors.backgroundVarient
-            : colors.background,
-          // backgroundColor: 'white',
+          backgroundColor: backgroundColor
+            ? backgroundColor
+            : negative
+            ? colors.background
+            : colors.backgroundVarient,
           [`border${!top ? "Top" : "Bottom"}${
             right ? "Right" : "Left"
           }Radius`]: size,

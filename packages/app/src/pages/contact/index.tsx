@@ -23,7 +23,7 @@ const GET_INFO = gql`
   }
 `;
 
-const HEADER_MIN_HEIGHT = 75;
+const HEADER_MIN_HEIGHT = 60;
 
 const Contact = ({ navigation }) => {
   // const navigation = useNavigation<FeedNavigation>();

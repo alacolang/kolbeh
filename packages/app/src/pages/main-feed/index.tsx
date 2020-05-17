@@ -30,7 +30,7 @@ const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;
 
 const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
-const HEADER_MIN_HEIGHT = 60;
+const HEADER_MIN_HEIGHT = 65;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const GET_POSTS = gql`
@@ -479,6 +479,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
+    paddingBottom: 80,
   },
   container: {
     flexGrow: 1,
