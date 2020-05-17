@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { FormattedText } from "../../components/formatted-text";
-import colors from "../../colors";
-import { Icon } from "../../components/icon";
-import { getVersion } from "../../utils/codepush";
-import Curve from "../../components/curve";
+import { FormattedText } from "components/formatted-text";
+import colors from "colors";
+import { Icon } from "components/icon";
+import { getVersion } from "utils/codepush";
+import Curve from "components/curve";
 
 const GET_INFO = gql`
   query GetInfo {

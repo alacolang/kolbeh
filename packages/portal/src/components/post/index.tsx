@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import * as Types from "../../types";
+import * as Types from "types";
 
 type Props = { post: Types.IPost };
 function Post({ post }: Props) {

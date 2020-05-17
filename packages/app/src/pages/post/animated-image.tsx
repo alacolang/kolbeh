@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, Dimensions, View, Animated } from "react-native";
-import { FormattedText } from "../../components/formatted-text";
-import colors from "../../colors";
+import { FormattedText } from "components/formatted-text";
+import colors from "colors";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 const frameHeight = Dimensions.get("window").height;

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { FormattedText } from "../../components/formatted-text";
-import colors from "../../colors";
+import { FormattedText } from "components/formatted-text";
+import colors from "colors";
 
 const UnknownPost = () => {
   return (

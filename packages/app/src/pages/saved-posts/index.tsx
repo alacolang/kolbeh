@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
-import { StackParamList } from "../../navigation/home-stack-navigator";
+import { StackParamList } from "navigation/home-stack-navigator";
 import gql from "graphql-tag";
 import Loading from "components/loading";
 import colors from "colors";
@@ -17,7 +17,7 @@ import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
 import { useSavedPosts } from "context/saved-posts";
 import { Icon } from "components/icon";
-import Curve from "../../components/curve";
+import Curve from "components/curve";
 
 const HEADER_HEIGHT = 180;
 

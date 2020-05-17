@@ -1,8 +1,8 @@
 import React from "react";
 import { Dimensions, View, StyleSheet } from "react-native";
 import Video from "react-native-video";
-import * as Types from "../../types";
-import { resolveURL } from "../../utils/resolve";
+import * as Types from "types";
+import { resolveURL } from "utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 

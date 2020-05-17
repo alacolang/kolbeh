@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import { useSound } from "./sound";
-import { Icon } from "../../components/icon";
+import { Icon } from "components/icon";
 import { getRhythm, Rhythm, resources, colors } from "./common";
-import TonbakImg from "../../assets/images/tonbak.png";
+import TonbakImg from "assets/images/tonbak.png";
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;

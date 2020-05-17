@@ -10,11 +10,11 @@ import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import CategoryTile from "./category-tile";
-import Loading from "../../components/loading";
-import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
-import colors from "../../colors";
-import * as Types from "../../types";
-import { errorReport } from "../../utils/error-reporter";
+import Loading from "components/loading";
+import { ParentStackParamList } from "navigation/parent-stack-navigator";
+import colors from "colors";
+import * as Types from "types";
+import { errorReport } from "utils/error-reporter";
 
 const GET_PARENT = gql`
   query GetParent {

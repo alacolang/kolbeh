@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Image, Dimensions, StyleSheet } from "react-native";
 import Svg, { Path, Rect, Defs, Pattern, Circle } from "react-native-svg";
-import IntroImg from "../../assets/images/body-percussion.jpg";
-import colors from "../../colors";
-import { FormattedText } from "../../components/formatted-text";
+import IntroImg from "assets/images/body-percussion.jpg";
+import colors from "colors";
+import { FormattedText } from "components/formatted-text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const fullWidth = Dimensions.get("window").width;

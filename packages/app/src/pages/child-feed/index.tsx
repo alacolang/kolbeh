@@ -14,11 +14,11 @@ import {
   useNavigation,
   NavigationProp,
 } from "@react-navigation/core";
-import { ChildStackParamList } from "../../navigation/child-stack-navigator";
-import { Icon } from "../../components/icon";
-import * as Types from "../../types";
-import colors from "../../colors";
-import FeedTile from "../../components/feed-tile";
+import { ChildStackParamList } from "navigation/child-stack-navigator";
+import { Icon } from "components/icon";
+import * as Types from "types";
+import colors from "colors";
+import FeedTile from "components/feed-tile";
 
 const fullWidth = Dimensions.get("window").width;
 

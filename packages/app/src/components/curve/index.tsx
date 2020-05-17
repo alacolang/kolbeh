@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import colors from "../../colors";
+import colors from "colors";
 
 type Props = {
   position: "top-left" | "top-right" | "bottom-right" | "bottom-left";

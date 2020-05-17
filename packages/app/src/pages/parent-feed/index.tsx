@@ -16,13 +16,13 @@ import {
   useNavigation,
   NavigationProp,
 } from "@react-navigation/core";
-import { ParentStackParamList } from "../../navigation/parent-stack-navigator";
-import { ChildStackParamList } from "../../navigation/child-stack-navigator";
-import { Icon, IconName } from "../../components/icon";
-import icons from "../../components/icon/images";
-import * as Types from "../../types";
-import colors from "../../colors";
-import FeedTile from "../../components/feed-tile";
+import { ParentStackParamList } from "navigation/parent-stack-navigator";
+import { ChildStackParamList } from "navigation/child-stack-navigator";
+import { Icon, IconName } from "components/icon";
+import icons from "components/icon/images";
+import * as Types from "types";
+import colors from "colors";
+import FeedTile from "components/feed-tile";
 
 const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;

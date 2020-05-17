@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, StyleSheet, Image } from "react-native";
-import * as Types from "../../types";
-import { resolveURL } from "../../utils/resolve";
+import * as Types from "types";
+import { resolveURL } from "utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 

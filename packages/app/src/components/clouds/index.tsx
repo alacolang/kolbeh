@@ -1,6 +1,6 @@
 import React from "react";
 import { Dimensions, Animated, StyleSheet } from "react-native";
-import cloudImg from "../../assets/images/cloud.png";
+import cloudImg from "assets/images/cloud.png";
 const width = Dimensions.get("window").width;
 
 const Cloud = () => {

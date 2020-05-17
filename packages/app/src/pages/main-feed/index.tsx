@@ -15,16 +15,16 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import Loading from "../../components/loading";
-import { FormattedText } from "../../components/formatted-text";
-import colors from "../../colors";
-import { Icon } from "../../components/icon";
-import * as Types from "../../types";
-import { errorReport } from "../../utils/error-reporter";
-import Post from "../../components/feed-tile";
-import { StackParamList } from "../../navigation/home-stack-navigator";
-import { onShare } from "../../utils/share";
-import Curve from "../../components/curve";
+import Loading from "components/loading";
+import { FormattedText } from "components/formatted-text";
+import colors from "colors";
+import { Icon } from "components/icon";
+import * as Types from "types";
+import { errorReport } from "utils/error-reporter";
+import Post from "components/feed-tile";
+import { StackParamList } from "navigation/home-stack-navigator";
+import { onShare } from "utils/share";
+import Curve from "components/curve";
 
 const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;

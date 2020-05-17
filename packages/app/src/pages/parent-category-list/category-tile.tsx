@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import { ICategory } from "../../types";
-import { Icon } from "../../components/icon";
+import { ICategory } from "types";
+import { Icon } from "components/icon";
 import styled from "styled-components/native";
-import { FormattedText } from "../../components/formatted-text";
-import Dot from "../../components/post-dot";
+import { FormattedText } from "components/formatted-text";
+import Dot from "components/post-dot";
 
 const width = Dimensions.get("window").width;
 

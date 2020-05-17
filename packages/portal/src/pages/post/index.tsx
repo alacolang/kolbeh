@@ -3,8 +3,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import styled from "styled-components";
-import Loading from "../../components/loading";
-import * as Types from "../../types";
+import Loading from "components/loading";
+import * as Types from "types";
 
 function Images({ images }: { images: Types.IImage[] }) {
   return (

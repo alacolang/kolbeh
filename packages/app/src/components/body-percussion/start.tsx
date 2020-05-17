@@ -10,8 +10,8 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
-import { Icon } from "../../components/icon";
-import { FormattedText } from "../../components/formatted-text";
+import { Icon } from "components/icon";
+import { FormattedText } from "components/formatted-text";
 import { useSound } from "./sound";
 import {
   Rhythm,

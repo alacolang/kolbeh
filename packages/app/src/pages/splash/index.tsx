@@ -11,12 +11,12 @@ import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import { CommonActions } from "@react-navigation/native";
 import gql from "graphql-tag";
-import { FormattedText } from "../../components/formatted-text";
+import { FormattedText } from "components/formatted-text";
 import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
-import { StackParamList } from "../../navigation/splash-stack-navigator";
-import colors from "../../colors";
-import { Icon } from "../../components/icon";
-import * as Types from "../../types";
+import { StackParamList } from "navigation/splash-stack-navigator";
+import colors from "colors";
+import { Icon } from "components/icon";
+import * as Types from "types";
 
 import AsyncStorage from "@react-native-community/async-storage";
 // import { persistCache } from "apollo-cache-persist";

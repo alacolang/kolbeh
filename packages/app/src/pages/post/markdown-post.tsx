@@ -1,10 +1,10 @@
 import React from "react";
 import { Dimensions, StyleSheet, Animated } from "react-native";
 import Markdown from "react-native-easy-markdown";
-import colors from "../../colors";
-import * as Types from "../../types";
+import colors from "colors";
+import * as Types from "types";
 import AnimatedImage from "./animated-image";
-import { resolveURL } from "../../utils/resolve";
+import { resolveURL } from "utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 30 * 2;
 

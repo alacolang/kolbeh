@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextProperties, Platform } from "react-native";
-import messages from "../../utils/fa";
+import messages from "utils/fa";
 
 const MessagesContext = React.createContext(messages);
 

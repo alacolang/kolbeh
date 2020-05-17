@@ -1,10 +1,10 @@
 import React from "react";
 import { Dimensions, StyleSheet, View, Image } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { FormattedText } from "../../components/formatted-text";
-import colors from "../../colors";
-import * as Types from "../../types";
-import { resolveURL } from "../../utils/resolve";
+import { FormattedText } from "components/formatted-text";
+import colors from "colors";
+import * as Types from "types";
+import { resolveURL } from "utils/resolve";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 const frameHeight = Dimensions.get("window").height - 40;

@@ -20,7 +20,7 @@ import colors from "colors";
 import { Icon } from "components/icon";
 import { useSavedPosts } from "context/saved-posts";
 import InAppPost from "components/body-percussion";
-import Curve from "../../components/curve";
+import Curve from "components/curve";
 
 const fullWidth = Dimensions.get("window").width;
 

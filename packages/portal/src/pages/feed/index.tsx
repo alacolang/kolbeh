@@ -3,10 +3,10 @@ import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { useParams } from "react-router-dom";
-import Loading from "../../components/loading";
-import Post from "../../components/post";
+import Loading from "components/loading";
+import Post from "components/post";
 
-import * as Types from "../../types";
+import * as Types from "types";
 
 const GET_CATEGORY = gql`
   query GetFeed($ID: ID!) {

@@ -1,11 +1,11 @@
-import ClapImg from "../../assets/images/clap.png";
-import SnapImg from "../../assets/images/snap.png";
-import PatImg from "../../assets/images/pat.png";
-import StompImg from "../../assets/images/stomp.png";
-// import ClapImg from "../../assets/images/clapping.png";
-// import SnapImg from "../../assets/images/snapping.png";
-// import PatImg from "../../assets/images/patting.png";
-// import StompImg from "../../assets/images/stomping.png";
+import ClapImg from "assets/images/clap.png";
+import SnapImg from "assets/images/snap.png";
+import PatImg from "assets/images/pat.png";
+import StompImg from "assets/images/stomp.png";
+// import ClapImg from "assets/images/clapping.png";
+// import SnapImg from "assets/images/snapping.png";
+// import PatImg from "assets/images/patting.png";
+// import StompImg from "assets/images/stomping.png";
 
 export const resources = {
   clap: { image: ClapImg, sound: "clap.wav", title: "دست زدن" },

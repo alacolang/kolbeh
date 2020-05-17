@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 
-import * as Types from "../../types";
+import * as Types from "types";
 
 const GET_PARENT = gql`
   query GetParent {
