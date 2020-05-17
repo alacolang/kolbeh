@@ -28,8 +28,9 @@ import TelegramIcon from "./telegram.png";
 import InfoIcon from "./information.png";
 import VideoIcon from "./video.png";
 import LoadingIcon from "./loading.png";
-import SaveActiveIcon from "./saved-active.png";
-import SaveIcon from "./saved.png";
+import SaveActiveIcon from "./save-active.png";
+import SaveIcon from "./save.png";
+import SavedIcon from "./saved.png";
 import ShareActiveIcon from "./share-active.png";
 import ToolboxIcon from "./toolbox.png";
 import LoadingVarientIcon from "./loading-light.png";
@@ -74,6 +75,7 @@ const icons = {
   loadingVarient: LoadingVarientIcon,
   saveActive: SaveActiveIcon,
   save: SaveIcon,
+  saved: SavedIcon,
   shareActive: ShareActiveIcon,
   toolbox: ToolboxIcon,
   search: SearchIcon,

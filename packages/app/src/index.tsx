@@ -4,9 +4,10 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import AppNavigator from "./navigation";
-import config from "./config";
-import "./utils/localize";
-import { codePushify } from "./utils/codepush";
+import config from "config";
+import "utils/localize";
+import { codePushify } from "utils/codepush";
+import { SavedPostsProvider } from "context/saved-posts";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -22,7 +23,9 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <AppNavigator />
+      <SavedPostsProvider>
+        <AppNavigator />
+      </SavedPostsProvider>
     </ApolloProvider>
   );
 };

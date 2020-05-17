@@ -16,8 +16,10 @@ export type IMarkdown = {
   cover: string;
 };
 
+type ID = string & { _type: "PostID" }; // type branding!
+
 export type IPost = {
-  id: string;
+  id: ID;
   title: string;
   category: string;
   images: IImage[];

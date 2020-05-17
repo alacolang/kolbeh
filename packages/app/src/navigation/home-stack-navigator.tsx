@@ -1,14 +1,14 @@
 import React from "react";
-import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed from "../pages/main-feed";
 import Post, { PostRouteParam } from "../pages/post";
-import { Icon } from "../components/icon";
 import Contact from "../pages/contact";
+import SavedPostsScreen from "../pages/saved-posts";
 
 export type StackParamList = {
   feed: undefined;
   contact: undefined;
+  saved: undefined;
   post: PostRouteParam;
 };
 const Stack = createStackNavigator<StackParamList>();
@@ -21,7 +21,7 @@ const HomeNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator
       initialRouteName="feed"
-      screenOptions={({ route, navigation }) => ({
+      screenOptions={() => ({
         animationEnabled: false,
         headerTransparent: true,
       })}
@@ -37,15 +37,14 @@ const HomeNavigator = ({ navigation, route }) => {
         options={{ header: () => null }}
       />
       <Stack.Screen
+        name="saved"
+        component={SavedPostsScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
         name="post"
         component={Post}
-        options={() => ({
-          headerTransparent: true,
-          title: () => null,
-          headerBackTitle: () => null,
-          headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
-          headerBackImage: () => <Icon name="backDark" size="tiny" />,
-        })}
+        options={{ header: () => null }}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Text,
   View,
   TextInput,
   Easing,
@@ -31,7 +30,7 @@ const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;
 
 const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
-const HEADER_MIN_HEIGHT = 75;
+const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const GET_POSTS = gql`
@@ -181,10 +180,17 @@ const MainFeedScreen = () => {
         justifyContent: "space-evenly",
       }}
     >
-      {/* <View style={styles.menuItem}>
-        <Icon name="save" size={40} />
-        <FormattedText style={styles.menuItemTitle} id="saved.title" />
-      </View> */}
+      <TouchableOpacity
+        onPress={() => {
+          handleMenu("close");
+          navigation.navigate("saved");
+        }}
+      >
+        <View style={styles.menuItem}>
+          <Icon name="saved" size={40} />
+          <FormattedText style={styles.menuItemTitle} id="saved.title" />
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => onShare()}>
         <View style={styles.menuItem}>
           <Icon name="shareActive" size={40} />
@@ -444,7 +450,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  menuItemTitle: { paddingRight: 15, color: colors.secondary, fontSize: 18 },
+  menuItemTitle: {
+    paddingHorizontal: 15,
+    color: colors.secondary,
+    fontSize: 18,
+  },
   menuTrigger: {
     width: 50,
     height: 50,
