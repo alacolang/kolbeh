@@ -2,7 +2,7 @@
 title: اطلاع‌رسانی در بحران‌ها
 category: parent/empathy
 type: image
-date: 2020-05-11 11:00
+date: 2020-04-29 11:00
 tags: [بحران,همدلی]
 ---
 
