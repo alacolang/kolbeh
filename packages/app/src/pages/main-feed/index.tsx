@@ -34,8 +34,8 @@ const HEADER_MIN_HEIGHT = 65;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const GET_POSTS = gql`
-  query {
-    posts {
+  query GetPosts($types: [PostType]) {
+    posts(types: $types) {
       pageInfo {
         hasNextPage
       }
@@ -76,7 +76,9 @@ const MainFeedScreen = () => {
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-  const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS);
+  const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS, {
+    variables: { types: ["image", "markdown", "video", "inapp"] },
+  });
 
   const searchAnimateValue = React.useRef(new Animated.Value(0)).current;
   const [query, setQuery] = React.useState("");
