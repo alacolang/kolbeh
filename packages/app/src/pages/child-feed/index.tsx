@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     marginTop: 45,
     paddingBottom: 200,
-    marginHorizontal: 15,
+    // marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
   },

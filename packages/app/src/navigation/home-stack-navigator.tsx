@@ -4,6 +4,7 @@ import Feed from "../pages/main-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import Contact from "../pages/contact";
 import SavedPostsScreen from "../pages/saved-posts";
+import { Icon } from "../components/icon";
 
 export type StackParamList = {
   feed: undefined;
@@ -44,7 +45,13 @@ const HomeNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="post"
         component={Post}
-        options={{ header: () => null }}
+        options={() => ({
+          headerTransparent: true,
+          title: "",
+          headerBackTitle: () => null,
+          headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
+          headerBackImage: () => <Icon name="backDark" size="tiny" />,
+        })}
       />
     </Stack.Navigator>
   );

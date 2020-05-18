@@ -109,24 +109,12 @@ const PostScreen = ({ navigation }) => {
         }
       }}
     >
-      <Icon name={isSaved ? "saveActive" : "saved"} size="small" />
+      <Icon name={isSaved ? "saveActive" : "save"} size="small" />
     </TouchableOpacity>
   );
 
-  const curvesRendered = (
-    <>
-      <Curve
-        position="bottom-right"
-        negative
-        backgroundColor={stuff.type === "video" ? "black" : undefined}
-      />
-      <Curve
-        position="bottom-left"
-        negative
-        backgroundColor={stuff.type === "video" ? "black" : undefined}
-      />
-    </>
-  );
+  const NO_SAVE_TYPES = [];
+  const canSave = !NO_SAVE_TYPES.includes(stuff.type);
 
   return (
     <View
@@ -134,17 +122,8 @@ const PostScreen = ({ navigation }) => {
         flex: 1,
       }}
     >
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <View style={styles.backContainer}>
-            <Icon name="back" size="tiny" />
-          </View>
-        </TouchableOpacity>
-        <View style={{ flex: 1 }} />
-        {saveButtonRendered}
-        {curvesRendered}
-      </View>
       <StatusBar hidden />
+      {canSave && <View style={styles.saveWrapper}>{saveButtonRendered}</View>}
       <Component post={stuff} />
     </View>
   );
@@ -158,25 +137,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  headerContainer: {
-    // position: "absolute",
+  saveWrapper: {
+    position: "absolute",
     alignItems: "center",
-    // top: 0,
-    flexDirection: "row",
+    top: 0,
+    right: 0,
     zIndex: 10,
-    // paddingTop: 20,
+    paddingTop: 10,
     paddingHorizontal: 30,
     // borderWidth: 1,
-    // borderColor: "black",
-    height: 60,
-    backgroundColor: colors.backgroundVarient,
-  },
-  backContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 44,
-    alignItems: "center",
-    justifyContent: "center",
+    // borderColor: "red",
+    // height: 60,
   },
   saveContainer: {
     justifyContent: "center",

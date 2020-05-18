@@ -57,7 +57,7 @@ const ChildNavigator = ({ navigation, route }) => {
           headerTransparent: true,
           title: "",
           headerBackTitle: () => null,
-          headerLeftContainerStyle: { paddingLeft: 15, paddingTop: 15 },
+          headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
           headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
       />
