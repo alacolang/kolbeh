@@ -5,9 +5,9 @@ type: image
 date: 2020-04-05 10:00
 ---
 
-![](../../static/images/education7.webp)
-![](../../static/images/education8.webp)
-![](../../static/images/education9.webp)
-![](../../static/images/education10.webp)
-![](../../static/images/education11.webp)
-![](../../static/images/education12.webp)
+![](../../static/images/education7.png)
+![](../../static/images/education8.png)
+![](../../static/images/education9.png)
+![](../../static/images/education10.png)
+![](../../static/images/education11.png)
+![](../../static/images/education12.png)

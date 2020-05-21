@@ -7,4 +7,4 @@ tags: [بحران,همدلی]
 description: "شنونده احساسات فرزندانمان باشیم و به آن‌ها اعتبار دهیم"
 ---
 
-[![](../../static/images/empathy-emotional-crisis-cover.webp)](../../static/videos/empathy-emotional-crisis.mp4)
+[![](../../static/images/empathy-emotional-crisis-cover.png)](../../static/videos/empathy-emotional-crisis.mp4)

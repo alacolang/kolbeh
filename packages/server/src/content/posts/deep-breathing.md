@@ -6,4 +6,4 @@ tags: [استرس,آرامسازی,تنفس عمیق,کنترل اضطراب]
 description: "تنفس عمیق باعث افزایش آرامش می‌شود"
 ---
 
-[![](../../static/images/deep-breathing-cover.webp)](../../static/videos/deep-breathing.mp4)
+[![](../../static/images/deep-breathing-cover.png)](../../static/videos/deep-breathing.mp4)

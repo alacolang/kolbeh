@@ -6,4 +6,4 @@ type: image
 tags: [سوگ,سوگواری]
 ---
 
-![](../../static/images/grief-corona-infograph.webp)
+![](../../static/images/grief-corona-infograph.png)

@@ -7,4 +7,4 @@ tags: [سازگاری,مقابله]
 description: "در شرایط بحرانی، مدیریت احساسات می‌تواند به والدین و فرزندان کمک کند که بهتر با شرایط سازگار شوند"
 ---
 
-[![](../../static/images/adolescent-coping-corona-two-cover.webp)](../../static/videos/adolescent-coping-corona-two.mp4)
+[![](../../static/images/adolescent-coping-corona-two-cover.png)](../../static/videos/adolescent-coping-corona-two.mp4)

@@ -5,4 +5,4 @@ type: video
 tags: [بیش فعالی,نقص توجه,تمرکز]
 ---
 
-[![](../../static/images/adhd-corona-cover.webp)](../../static/videos/adhd-corona.mp4)
+[![](../../static/images/adhd-corona-cover.png)](../../static/videos/adhd-corona.mp4)

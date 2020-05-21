@@ -5,4 +5,4 @@ type: image
 tags: [اضطراب,آرام سازی,استرس]
 ---
 
-![](../../static/images/anxiety.webp)
+![](../../static/images/anxiety.png)

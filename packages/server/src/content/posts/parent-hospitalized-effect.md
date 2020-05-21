@@ -7,4 +7,4 @@ tags: [سازگاری,مقابله]
 description: "بستری شدن والدین یا دور شدن از فرزندان می‌تواند برای آنان استرس‌زا باشد"
 ---
 
-[![](../../static/images/parent-hospitalized-effect-cover.webp)](../../static/videos/parent-hospitalized-effect.mp4)
+[![](../../static/images/parent-hospitalized-effect-cover.png)](../../static/videos/parent-hospitalized-effect.mp4)

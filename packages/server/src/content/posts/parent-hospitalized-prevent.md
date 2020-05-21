@@ -6,4 +6,4 @@ date: 2020-04-28 17:00
 tags: [سازگاری,مقابله]
 ---
 
-[![](../../static/images/parent-hospitalized-prevent-cover.webp)](../../static/videos/parent-hospitalized-prevent.mp4)
+[![](../../static/images/parent-hospitalized-prevent-cover.png)](../../static/videos/parent-hospitalized-prevent.mp4)

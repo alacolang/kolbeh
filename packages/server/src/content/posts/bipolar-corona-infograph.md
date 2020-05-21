@@ -6,4 +6,4 @@ type: image
 tags: [دوقطبی,شیدایی,خلق بالا,نوسان خلق]
 ---
 
-![](../../static/images/bipolar-corona-infograph.webp)
+![](../../static/images/bipolar-corona-infograph.png)

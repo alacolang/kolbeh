@@ -8,4 +8,4 @@ tags: [ نوجوان,واقع بینی]
 description: "واقع‌بینی، مهارتی است که باعث تصمیم‌گیری و مدیریت هیجان بهتر در نوجوانان می‌شود"
 ---
 
-[![](../../static/images/realistic-cover.webp)](../../static/videos/realistic.mp4)
+[![](../../static/images/realistic-cover.png)](../../static/videos/realistic.mp4)

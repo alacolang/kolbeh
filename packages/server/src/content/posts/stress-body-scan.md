@@ -7,4 +7,4 @@ tags: [استرس,آرامسازی]
 description: "تکنیک اسکن کردن بدن یکی از روش‌های آرام‌سازی است. به همراه فرزندانمان امتحانش کنیم"
 ---
 
-[![](../../static/images/stress-body-scan-cover.webp)](../../static/videos/stress-body-scan.mp4)
+[![](../../static/images/stress-body-scan-cover.png)](../../static/videos/stress-body-scan.mp4)

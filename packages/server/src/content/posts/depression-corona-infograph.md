@@ -5,4 +5,4 @@ type: image
 tags: [افسردگی,غم]
 ---
 
-![](../../static/images/depression-corona-infograph.webp)
+![](../../static/images/depression-corona-infograph.png)

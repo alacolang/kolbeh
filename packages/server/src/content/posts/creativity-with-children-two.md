@@ -6,4 +6,4 @@ date: 2020-04-9 10:00
 tags: [همدلی,فرزندپروری,بازی ]
 ---
 
-[![](../../static/images/creativity-with-children-two-cover.webp)](../../static/videos/creativity-with-children-two.mp4)
+[![](../../static/images/creativity-with-children-two-cover.png)](../../static/videos/creativity-with-children-two.mp4)

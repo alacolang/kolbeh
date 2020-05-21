@@ -8,4 +8,4 @@ tags: [توانمندسازی,فرزندپروری]
 description: هیچ پدر یا مادری کامل نیست، سعی کنیم والدینی کافی برای فرزندانمان باشیم
 ---
 
-[![](../../static/images/capable-parents-cover.webp)](../../static/videos/capable-parents.mp4)
+[![](../../static/images/capable-parents-cover.png)](../../static/videos/capable-parents.mp4)

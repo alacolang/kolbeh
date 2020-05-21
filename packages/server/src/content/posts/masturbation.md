@@ -7,4 +7,4 @@ tags: [رفتارهای عادتی,خودارضایی]
 description: "خودارضایی در کودکان، بخصوص در سنین پیش‌دبستان، متفاوت از بزرگسالان است و رفتار جنسی محسوب نمی‌شود"
 ---
 
-[![](../../static/images/masturbation-cover.webp)](../../static/videos/masturbation.mp4)
+[![](../../static/images/masturbation-cover.png)](../../static/videos/masturbation.mp4)

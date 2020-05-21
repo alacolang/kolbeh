@@ -6,4 +6,4 @@ type: image
 tags: [وسواس,اضطراب]
 ---
 
-![](../../static/images/obsession-corona-infograph.webp)
+![](../../static/images/obsession-corona-infograph.png)
