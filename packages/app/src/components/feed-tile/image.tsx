@@ -1,49 +1,21 @@
 import React from "react";
-import { Dimensions, StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
-
-const frameWidth = Dimensions.get("window").width - 40 * 2;
+import ProgressiveImage from "components/progressive-image";
 
 type IProps = {
   post: Types.IPost;
 };
-type ISize = { width?: number; height: number };
 
 const TheImage = ({ post }: IProps) => {
-  const [size, setSize] = React.useState<ISize>({
-    width: frameWidth,
-    height: frameWidth,
-  });
-
   if (!(post && post.images && post.images[0])) return null;
   const uri = resolveURL(post.images[0].url);
 
-  React.useEffect(() => {
-    Image.getSize(
-      uri,
-      (width, height) => {
-        setSize({ height: (frameWidth / width) * height });
-      },
-      () => {}
-    );
-  }, [uri]);
-
-  return (
-    <Image
-      style={[styles.container, size]}
-      source={{ uri }}
-      resizeMode="cover"
-    />
-  );
+  return <ProgressiveImage uri={uri} />;
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: frameWidth,
-    borderRadius: 13,
-    height: frameWidth,
-  },
   image: { borderRadius: 10, marginHorizontal: 0 },
   backContainer: {
     position: "absolute",

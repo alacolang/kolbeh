@@ -1,8 +1,9 @@
 import React from "react";
-import { Dimensions, View, StyleSheet, Image } from "react-native";
+import { Dimensions, View, StyleSheet, Animated, Image } from "react-native";
 import { Icon } from "../icon";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
+import ProgressiveImage from "components/progressive-image";
 
 const frameWidth = Dimensions.get("window").width - 40 * 2;
 
@@ -13,33 +14,23 @@ type Props = {
 const TheVideo = ({ post }: Props) => {
   const video = post.videos[0];
 
+  const uri = resolveURL(video.cover);
+
   return (
-    <View style={styles.videoContainer}>
-      <Image
-        source={{ uri: resolveURL(video.cover) }}
-        style={styles.backgroundVideo}
-        resizeMode="cover"
-      />
+    <>
+      <ProgressiveImage uri={uri} />
       <View style={styles.iconContainer}>
         <Icon name="video" size="small" />
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  videoContainer: {
-    height: frameWidth,
-    width: frameWidth,
-  },
-  backgroundVideo: {
-    position: "absolute",
-    top: 0,
-    borderRadius: 13,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
+  // videoContainer: {
+  //   height: frameWidth,
+  //   width: frameWidth,
+  // },
   iconContainer: {
     backgroundColor: "transparent",
     borderRadius: 100,
