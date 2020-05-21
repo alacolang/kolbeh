@@ -12,8 +12,9 @@ const matches = glob.sync(x);
 const readFileAsync = util.promisify(readFile);
 
 function normalizeHref(href) {
-  const re = new RegExp("../../static/", "g");
-  return href.replace(re, "/static/");
+  const adjustPathRE = new RegExp("../../static/", "g");
+  const adjustExtensionRE = /\.png$/g;
+  return href.replace(adjustPathRE, "/static/").replace(adjustExtensionRE, '.webp')
 }
 
 function createImageFeild(href) {
