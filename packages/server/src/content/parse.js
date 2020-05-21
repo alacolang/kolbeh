@@ -27,7 +27,7 @@ function createVideoFeild(href, hrefCover) {
 function parse() {
   let result = { parent: {}, child: {} };
   return Promise.all(
-    matches.map(async match => {
+    matches.map(async (match) => {
       const fileContent = await readFileAsync(match, "utf8");
 
       let images = [];
@@ -85,18 +85,14 @@ function parse() {
       }
     })
   ).then(() => {
-    result.parent = Object.values(result.parent).sort(
-      (a, b) => a.order - b.order
-    );
-    result.parent = result.parent.map(category => {
-      category.feed.sort((a, b) => a.order - b.order);
+    result.parent = Object.values(result.parent).sort(sortByOrder);
+    result.parent = result.parent.map((category) => {
+      category.feed.sort(sortByDateThenOrder);
       return category;
     });
-    result.child = Object.values(result.child).sort(
-      (a, b) => a.order - b.order
-    );
-    result.child = result.child.map(category => {
-      category.feed.sort((a, b) => a.order - b.order);
+    result.child = Object.values(result.child).sort(sortByOrder);
+    result.child = result.child.map((category) => {
+      category.feed.sort(sortByDateThenOrder);
       return category;
     });
     // console.log("result=", JSON.stringify(result, null, 2));
@@ -104,6 +100,23 @@ function parse() {
     return result;
   });
 }
+
+const sortByOrder = (a, b) => a.order - b.order;
+const sortByDateThenOrder = (p1, p2) => {
+  try {
+    if (p2.date && p1.date) {
+      return new Date(p2.date).getTime() - new Date(p1.date).getTime();
+    } else if (p2.date && !p1.date) {
+      return 1;
+    } else if (p1.date && !p2.date) {
+      return -1;
+    } else {
+      return p1.order - p2.order;
+    }
+  } catch (e) {
+    return p1.order - p2.order;
+  }
+};
 
 parse();
 

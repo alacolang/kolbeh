@@ -16,6 +16,24 @@ function fixIconTypo(name) {
   return name;
 }
 
+const sortByDateThenOrder = (p1, p2) => {
+  try {
+    if (p2.node.date && p1.node.date) {
+      return (
+        new Date(p2.node.date).getTime() - new Date(p1.node.date).getTime()
+      );
+    } else if (p2.node.date && !p1.node.date) {
+      return 1;
+    } else if (p1.node.date && !p2.node.date) {
+      return -1;
+    } else {
+      return p1.node.order - p2.node.order;
+    }
+  } catch (e) {
+    return p1.node.order - p2.node.order;
+  }
+};
+
 const dataResolver = (data, types = OLD_TYPES) => {
   return data.map((d) => {
     return {
@@ -60,24 +78,7 @@ const resolvers = {
       ]
         .map((d) => d.feed.edges)
         .flat()
-        .sort((p1, p2) => {
-          try {
-            if (p2.node.date && p1.node.date) {
-              return (
-                new Date(p2.node.date).getTime() -
-                new Date(p1.node.date).getTime()
-              );
-            } else if (p2.node.date && !p1.node.date) {
-              return 1;
-            } else if (p1.node.date && !p2.node.date) {
-              return -1;
-            } else {
-              return p1.node.order - p2.node.order;
-            }
-          } catch (e) {
-            return p1.node.order - p2.node.order;
-          }
-        });
+        .sort(sortByDateThenOrder);
 
       return {
         edges,

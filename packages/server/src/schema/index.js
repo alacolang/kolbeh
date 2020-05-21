@@ -22,6 +22,7 @@ const schema = gql`
     description: String!
     icon: String!
     feed: FeedConnection!
+    order: Int
   }
 
   type Info {
@@ -73,7 +74,11 @@ const schema = gql`
     markdown: Markdown
     tags: [String]
     type: PostType!
+    date: Date
+    order: Int
   }
+
+  scalar Date
 
   enum PostType {
     image
