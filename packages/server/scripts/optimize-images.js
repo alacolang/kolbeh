@@ -17,7 +17,7 @@ const newExt = ".webp";
 async function doProcess() {
   console.log("optimizing images...");
   await Promise.all(
-    matches.slice(0, 10).map(async (match) => {
+    matches.map(async (match) => {
       const stream = sharp(match);
       // const info = await stream.metadata();
       // if (info.width < MAX_WIDTH) {
