@@ -9,11 +9,7 @@ import {
 } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
-import {
-  Rhythm,
-  colors,
-  injectID,
-} from "./common";
+import { Rhythm, colors, injectID } from "./common";
 
 const fullWidth = Dimensions.get("window").width;
 

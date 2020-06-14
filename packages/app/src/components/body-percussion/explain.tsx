@@ -62,7 +62,7 @@ const ExplainStep = ({ next }: Props) => {
       }
     }, active.times * 500 + 200);
     return () => clearTimeout(timeout);
-  }, [active, rhythm]);
+  }, [active]);
 
   React.useEffect(() => {
     if (!active) {
