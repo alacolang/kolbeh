@@ -21,7 +21,7 @@ const ChildNavigator = ({ navigation, route }) => {
   return (
     <Stack.Navigator
       // headerMode="none"
-      screenOptions={({ route, navigation }) => ({
+      screenOptions={({}) => ({
         // gestureEnabled: true,
         // cardOverlayEnabled: true,
         // headerStatusBarHeight:

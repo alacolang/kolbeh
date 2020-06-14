@@ -10,7 +10,7 @@ type ISize = { width?: number; height: number };
 
 const ProgressiveImage = ({ uri }: Props) => {
   const animatedValue = React.useRef(new Animated.Value(0)).current;
-  const [size, setSize] = React.useState<ISize>({
+  const [, setSize] = React.useState<ISize>({
     width: frameWidth,
     height: frameWidth,
   });

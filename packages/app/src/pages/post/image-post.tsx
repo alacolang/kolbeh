@@ -43,8 +43,12 @@ const ImagePost = ({ post }: Props) => {
         _y = Math.max(0, y - 1);
       }
     }
-    if (imagesNumber - 1 > y) result.push(".");
-    if (x > 0) result.unshift(".");
+    if (imagesNumber - 1 > y) {
+      result.push(".");
+    }
+    if (x > 0) {
+      result.unshift(".");
+    }
     return { previousIndex: currentIndex, x: _x, y: _y, result };
   };
 
@@ -109,7 +113,9 @@ const ImagePost = ({ post }: Props) => {
 };
 
 const toLocaleNumber = (number?: number) => {
-  if (!number) return "";
+  if (!number) {
+    return "";
+  }
   return number.toString().split("").map(toChar).join("");
 };
 

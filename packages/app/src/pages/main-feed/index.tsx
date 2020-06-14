@@ -157,7 +157,9 @@ const MainFeedScreen = () => {
       return;
     }
 
-    if (isSearchVisible) Keyboard.dismiss();
+    if (isSearchVisible) {
+      Keyboard.dismiss();
+    }
     const [from, to] = !isSearchVisible ? [0, 1] : [1, 0];
     searchAnimateValue.setValue(from);
     Animated.timing(searchAnimateValue, {
@@ -221,8 +223,8 @@ const MainFeedScreen = () => {
       }}
     >
       <View style={styles.dotContainer}>
-        <View style={styles.dot}></View>
-        <View style={styles.dot}></View>
+        <View style={styles.dot} />
+        <View style={styles.dot} />
       </View>
     </TouchableOpacity>
   );

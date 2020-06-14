@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  View,
-  StatusBar,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, StatusBar, StyleSheet, TouchableOpacity } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/core";
-import Svg, { Path } from "react-native-svg";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { ParentStackParamList } from "navigation/parent-stack-navigator";
@@ -20,9 +13,6 @@ import colors from "colors";
 import { Icon } from "components/icon";
 import { useSavedPosts } from "context/saved-posts";
 import InAppPost from "components/body-percussion";
-import Curve from "components/curve";
-
-const fullWidth = Dimensions.get("window").width;
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -59,7 +49,7 @@ type PostData = {
   postById: Types.IPost;
 };
 
-const PostScreen = ({ navigation }) => {
+const PostScreen = () => {
   const [
     savedPosts,
     { addToSavedPosts, removeFromSavedPosts },
@@ -72,7 +62,7 @@ const PostScreen = ({ navigation }) => {
     stuff = post;
   }
 
-  const { data, error, loading } = useQuery<PostData>(GET_POST, {
+  const { data } = useQuery<PostData>(GET_POST, {
     variables: {
       kooft: id,
     },
@@ -83,7 +73,9 @@ const PostScreen = ({ navigation }) => {
     stuff = data.postById;
   }
 
-  if (!stuff) return null;
+  if (!stuff) {
+    return null;
+  }
 
   const Component = {
     inapp: InAppPost,

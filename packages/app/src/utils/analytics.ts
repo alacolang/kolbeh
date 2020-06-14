@@ -4,6 +4,8 @@ export const trackEvents = (
   eventName: string,
   properties?: { [name: string]: string }
 ) => {
-  if (process.env.NODE_ENV !== "production") return;
+  if (process.env.NODE_ENV !== "production") {
+    return;
+  }
   Analytics.trackEvent(eventName, properties);
 };

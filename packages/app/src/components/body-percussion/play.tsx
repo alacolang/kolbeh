@@ -41,7 +41,9 @@ const PlayStep = (props: Props) => {
 
   // change active movement
   function processNext() {
-    if (!play) return;
+    if (!play) {
+      return;
+    }
     if (!active) {
       setActive(rhythm[0]);
       return;
@@ -87,11 +89,13 @@ const PlayStep = (props: Props) => {
     // console.log({ delay, total: delay + (active ? active.times * 500 : 0) });
 
     return () => clearTimeout(timeout);
-  }, [active, play]);
+  }, [active, delay, play, processNext]);
 
   // animate active movement
   React.useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      return;
+    }
 
     let times = active.times;
 
@@ -105,11 +109,13 @@ const PlayStep = (props: Props) => {
       });
       animation.start(() => {
         times = times - 1;
-        if (times > 0) play();
+        if (times > 0) {
+          play();
+        }
       });
     }
     play();
-  }, [active]);
+  }, [active, animatedValue]);
 
   const getMovement = (index: number): React.ReactElement | null => {
     const item: Rhythm = rhythm[index];

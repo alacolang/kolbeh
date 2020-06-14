@@ -115,7 +115,9 @@ const flatten = <T extends {}>(arr: (T | T[])[]): T[] => {
     if (!Array.isArray(obj)) {
       acc.push(obj);
       return acc;
-    } else return acc.concat(obj);
+    } else {
+      return acc.concat(obj);
+    }
   }, []);
 };
 
@@ -124,7 +126,9 @@ export const memoizeOne = (fn) => {
   let last: string;
   return (...args) => {
     const key = JSON.stringify(args);
-    if (key == last) return cache;
+    if (key == last) {
+      return cache;
+    }
     cache = fn(...args);
     return cache;
   };

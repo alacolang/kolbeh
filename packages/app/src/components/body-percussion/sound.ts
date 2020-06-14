@@ -25,7 +25,9 @@ export const useSound = (active?: Rhythm) => {
   }, []);
 
   React.useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      return;
+    }
     let times = active.times;
     // console.log("useSound", { active });
     if (!sounds[active.effect]) {

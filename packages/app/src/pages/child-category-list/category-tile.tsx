@@ -1,17 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ICategory } from "types";
 import { Icon } from "components/icon";
-import styled from "styled-components/native";
 import { FormattedText } from "components/formatted-text";
-
-const width = Dimensions.get("window").width;
 
 type Props = {
   category: ICategory;

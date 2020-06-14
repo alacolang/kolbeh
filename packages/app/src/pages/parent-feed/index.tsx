@@ -36,7 +36,6 @@ export type FeedRouteParam = {
 };
 
 const ICON_SIZE = 40;
-const RADIUS_MAX = 60;
 const HEADER_MAX_HEIGHT = (fullHeight / 3) * 2;
 const HEADER_MIN_HEIGHT = (fullHeight / 3) * 0.8;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -78,15 +77,6 @@ const Feed = () => {
       HEADER_SCROLL_DISTANCE,
     ],
     outputRange: [0, 1],
-    extrapolate: "clamp",
-  });
-
-  let radius = scrollAnimatedValue.interpolate({
-    inputRange: [
-      HEADER_SCROLL_DISTANCE / 2 - HEADER_MIN_HEIGHT,
-      HEADER_SCROLL_DISTANCE,
-    ],
-    outputRange: [RADIUS_MAX, 0],
     extrapolate: "clamp",
   });
 

@@ -1,11 +1,9 @@
 import React from "react";
-import { Dimensions, View, StyleSheet, Animated, Image } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Icon } from "../icon";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
 import ProgressiveImage from "components/progressive-image";
-
-const frameWidth = Dimensions.get("window").width - 40 * 2;
 
 type Props = {
   post: Types.IPost;
@@ -27,10 +25,6 @@ const TheVideo = ({ post }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  // videoContainer: {
-  //   height: frameWidth,
-  //   width: frameWidth,
-  // },
   iconContainer: {
     backgroundColor: "transparent",
     borderRadius: 100,

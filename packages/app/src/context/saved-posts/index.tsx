@@ -16,8 +16,8 @@ type ISavedPostsContext = [
 const SavedPostsContext = React.createContext<ISavedPostsContext>([
   [],
   {
-    addToSavedPosts: (id: ID) => Promise.resolve([]),
-    removeFromSavedPosts: (id: ID) => Promise.resolve([]),
+    addToSavedPosts: () => Promise.resolve([]),
+    removeFromSavedPosts: () => Promise.resolve([]),
   },
 ]);
 
@@ -31,7 +31,6 @@ export const SavedPostsProvider = <T extends {}>(props: T) => {
   };
 
   const addToSavedPosts = (id: ID) => {
-    console.log("addToSavedPosts", { id, posts });
     const updatedSavedPosts = Array.from(new Set([id, ...posts]));
     updateSavedPosts(updatedSavedPosts);
   };
@@ -49,17 +48,15 @@ export const SavedPostsProvider = <T extends {}>(props: T) => {
   React.useEffect(() => {
     async function readFromStorage() {
       const raw = await AsyncStorage.getItem(KEY);
-      console.log({ raw, posts });
       try {
-        if (!!raw) {
+        if (raw) {
           setPosts(JSON.parse(raw));
         }
       } catch (e) {}
     }
     readFromStorage();
-  }, []);
+  }, [posts]);
 
-  console.log("save provider:", { posts });
   return (
     <SavedPostsContext.Provider
       {...props}

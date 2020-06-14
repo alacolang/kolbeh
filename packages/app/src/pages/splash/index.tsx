@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Image,
   Dimensions,
   StatusBar,
   TouchableOpacity,
@@ -38,9 +37,7 @@ type PromotionsData = {
 
 const Splash = () => {
   const navigation = useNavigation<Navigation>();
-  const { data, loading, refetch, error } = useQuery<PromotionsData>(
-    GET_PROMOTIONS
-  );
+  const { data, loading } = useQuery<PromotionsData>(GET_PROMOTIONS);
 
   const [promotion, setPromotion] = React.useState<
     Types.IPromotion | undefined
@@ -49,7 +46,9 @@ const Splash = () => {
   React.useEffect(() => {
     async function restorePromotions() {
       const raw = await AsyncStorage.getItem("promotions");
-      if (!raw) return;
+      if (!raw) {
+        return;
+      }
       try {
         const promotion = getRandomPromotion(JSON.parse(raw));
         setPromotion(promotion);
@@ -70,7 +69,9 @@ const Splash = () => {
   };
 
   const handlePromotionClick = () => {
-    if (!data) return;
+    if (!data) {
+      return;
+    }
     navigation.dispatch(
       CommonActions.reset({
         routes: [

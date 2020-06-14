@@ -2,33 +2,22 @@ import React from "react";
 import Slider from "@react-native-community/slider";
 import {
   View,
-  Text,
   Animated,
-  Image,
   TouchableOpacity,
   Dimensions,
-  StatusBar,
   StyleSheet,
 } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
-import { useSound } from "./sound";
 import {
   Rhythm,
-  resources,
   colors,
-  Effect,
-  shuffle,
   injectID,
-  memoizeOne,
 } from "./common";
 
 const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 
 type Props = { next: () => void };
-
-const extendedRhythm = [];
 
 const getRhythm = (step: number) => {
   let result = [
@@ -50,19 +39,7 @@ const getRhythm = (step: number) => {
 };
 
 const ExplainStep = ({ next }: Props) => {
-  const animatedValue = React.useRef(new Animated.Value(0)).current;
   const [step, setStep] = React.useState(1);
-  let rhythm = getRhythm(step);
-  const [active, setActive] = React.useState<Rhythm>(rhythm[0]);
-
-  const handleNext = () => {
-    if (step < 5) {
-      setStep(step + 1);
-    } else {
-      next();
-    }
-  };
-  // useSound(active);
 
   return (
     <View style={styles.container}>

@@ -1,34 +1,19 @@
 import React from "react";
-import Sound from "react-native-sound";
 import {
   View,
-  Text,
   Animated,
-  Image,
   TouchableOpacity,
   Dimensions,
-  StatusBar,
   StyleSheet,
 } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { useSound } from "./sound";
-import {
-  Rhythm,
-  resources,
-  colors,
-  Effect,
-  shuffle,
-  injectID,
-  memoizeOne,
-} from "./common";
+import { Rhythm, resources, colors, injectID } from "./common";
 
 const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 
 type Props = { next: () => void };
-
-const extendedRhythm = [];
 
 const getRhythm = (step: number) => {
   let result = [
@@ -70,15 +55,19 @@ const ExplainStep = ({ next }: Props) => {
         setActive(rhythm[0]);
       } else {
         const currentIndex = rhythm.findIndex((item) => item.id === active.id);
-        if (currentIndex + 1 === 4) return setActive(rhythm[0]);
+        if (currentIndex + 1 === 4) {
+          return setActive(rhythm[0]);
+        }
         setActive(rhythm[currentIndex + 1]);
       }
     }, active.times * 500 + 200);
     return () => clearTimeout(timeout);
-  }, [active]);
+  }, [active, rhythm]);
 
   React.useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      return;
+    }
 
     let times = active.times;
 
@@ -92,11 +81,13 @@ const ExplainStep = ({ next }: Props) => {
       });
       animation.start(() => {
         times = times - 1;
-        if (times > 0) play();
+        if (times > 0) {
+          play();
+        }
       });
     }
     play();
-  }, [active]);
+  }, [active, animatedValue]);
 
   const renderMovement = ({ id, effect }: Rhythm) => {
     return (

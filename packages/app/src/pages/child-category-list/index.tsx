@@ -3,18 +3,13 @@ import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import LinearGradient from "react-native-linear-gradient";
 import CategoryTile from "./category-tile";
 import Loading from "components/loading";
 import { ChildStackParamList } from "navigation/child-stack-navigator";
 import colors from "colors";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
-// import cloudBlueImg from "assets/images/cloud-blue.png";
-// import cloudYellowImg from "assets/images/cloud-yellow.png";
-import Clouds from "components/clouds";
 
-const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 const GET_CHILD = gql`
