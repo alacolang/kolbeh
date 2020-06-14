@@ -130,7 +130,7 @@ const Feed = () => {
               styles.title,
               {
                 color: meta.color,
-                opacity: descriptionOpacity
+                opacity: descriptionOpacity,
               },
             ]}
           >

@@ -72,12 +72,10 @@ export const getRhythm = (count: number) => {
   let set = [...sets[count % sets.length]];
   if (count > sets.length) {
     const index = getRandomNumber(0, SET_LENGTH - 1);
-    const effects = ['clap', 'snap', 'pat', 'stomp'];
+    const effects = ["clap", "snap", "pat", "stomp"];
     const randomEffect = effects[getRandomNumber(0, effects.length - 1)];
     set[index] = { effect: randomEffect, times: getRandomNumber(1, 2) };
   }
-
-
 
   const rhythm: Rhythm[] = injectID(flatten(times(REPEAT_SET, set)));
   return rhythm;

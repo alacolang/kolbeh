@@ -21,7 +21,7 @@ type Props = {
 
 export const Icon = ({ size, name, ...props }: Props) => {
   let _size: number;
-  if (typeof size === 'number') {
+  if (typeof size === "number") {
     _size = size;
   } else {
     _size = SIZE[size];
@@ -35,4 +35,3 @@ export const Icon = ({ size, name, ...props }: Props) => {
     />
   );
 };
-

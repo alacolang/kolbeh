@@ -19,8 +19,7 @@ const IntroStep = ({ next }: Props) => {
         flexDirection: "column",
         flex: 1,
       }}
-    >      
-
+    >
       <View
         style={{ alignSelf: "flex-end", paddingTop: 10, paddingHorizontal: 15 }}
       >
@@ -60,7 +59,7 @@ const IntroStep = ({ next }: Props) => {
         onPress={() => {
           next();
         }}
-        style={{paddingBottom: 30}}
+        style={{ paddingBottom: 30 }}
       >
         <Image source={IntroImg} style={styles.image} resizeMode="contain" />
       </TouchableOpacity>

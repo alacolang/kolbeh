@@ -70,7 +70,12 @@ const PlayStep = (props: Props) => {
     }
     if (currentIndex % 4 === 3 && currentIndex + 1 !== rhythm.length) {
       // console.log({ currentIndex });
-      setDelay(Math.min(delayMax,  Math.max(DELAY_MIN, delay - (delayMax - DELAY_MIN) / 2.5)));
+      setDelay(
+        Math.min(
+          delayMax,
+          Math.max(DELAY_MIN, delay - (delayMax - DELAY_MIN) / 2.5)
+        )
+      );
     }
   }
 

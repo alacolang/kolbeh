@@ -104,14 +104,15 @@ const ExplainStep = ({ next }: Props) => {
         <Animated.View
           style={[
             styles.movementIconContainer,
-            { backgroundColor: id % 2 === 0 ? colors.pink : colors.green, 
+            {
+              backgroundColor: id % 2 === 0 ? colors.pink : colors.green,
               opacity:
-              active?.effect === "blank" && id === active?.id
-                ? animatedValue.interpolate({
-                    inputRange: [0, 0.5, 1],
-                    outputRange: [1, 0.5, 1],
-                  })
-                : 1,
+                active?.effect === "blank" && id === active?.id
+                  ? animatedValue.interpolate({
+                      inputRange: [0, 0.5, 1],
+                      outputRange: [1, 0.5, 1],
+                    })
+                  : 1,
             },
           ]}
         >

@@ -141,7 +141,7 @@ const Splash = () => {
       <TouchableOpacity onPress={() => handlePromotionClick()}>
         <>
           <FormattedText style={styles.promotionText}>
-            {promotion.description + '...'}
+            {promotion.description + "..."}
           </FormattedText>
 
           <View style={{ alignContent: "flex-end", alignSelf: "flex-end" }}>

@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   persian: {
     fontFamily: "IRANYekanRDMobile",
     textAlign: "left",
-    paddingTop: Platform.OS === 'ios' ? 7 : 2
+    paddingTop: Platform.OS === "ios" ? 7 : 2,
   },
 });
 

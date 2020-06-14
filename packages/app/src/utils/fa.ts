@@ -18,7 +18,7 @@ const messages: Record<string, string> = {
   "body-percussion.intro": " تمرین ریتم‌های بدنی",
   "body-percussion.explain.title": "راهنمای بازی",
   "body-percussion.explain.tip1":
-      "این تمرین باعث کاهش استرس، افزایش هماهنگی حرکتی و تعادل میشه. چهار حرکت دست یا پا داریم که با فاصله‌های ثابت اجرا می‌شن",
+    "این تمرین باعث کاهش استرس، افزایش هماهنگی حرکتی و تعادل میشه. چهار حرکت دست یا پا داریم که با فاصله‌های ثابت اجرا می‌شن",
   "body-percussion.explain.tip2":
     "مهم اینه که تلاش کنی با این ضرب‌آهنگ همراهی کنی.",
   "body-percussion.explain.tip3":
@@ -28,11 +28,13 @@ const messages: Record<string, string> = {
   "body-percussion.explain.tip5":
     "و گاهی حرکات من و تو با هم فرق می‌کنه، مثلا من ردیف اول رو می‌زنم و تو همزمان ردیف دوم",
   "body-percussion.start.title": "بریم که ضرب بگیریم",
-  "body-percussion.start.tip1": "اگه خواستی می‌تونی سرعت ضرب‌آهنگ‌ها رو کم و زیاد کنی",
+  "body-percussion.start.tip1":
+    "اگه خواستی می‌تونی سرعت ضرب‌آهنگ‌ها رو کم و زیاد کنی",
   "body-percussion.start.tip2": "یا اگه خسته شدی متوقفش کنی",
   "body-percussion.play":
     "اول به ضرب‌آهنگ‌ها گوش کن و بعد سعی کن با همان سرعت تکرار کنی.",
-    "unknown-post": " متاسفانه، این پست قابل مشاهده نیست. احتمالا باید برنامه خود را بروزرسانی کنید.",
+  "unknown-post":
+    " متاسفانه، این پست قابل مشاهده نیست. احتمالا باید برنامه خود را بروزرسانی کنید.",
 };
 
 export default messages;
