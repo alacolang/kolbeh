@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Image,
-  Text,
   Animated,
   TouchableOpacity,
   Dimensions,
@@ -15,7 +14,6 @@ import { getRhythm, Rhythm, resources, colors } from "./common";
 import TonbakImg from "assets/images/tonbak.png";
 
 const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 const w = fullWidth / 3;
 const movementColors = [colors.yellow, colors.violet, colors.green, colors.red];
 const gap = 15;
@@ -26,7 +24,7 @@ const DELAY_STEP = 100;
 
 type Props = { next: () => void };
 
-const PlayStep = (props: Props) => {
+const PlayStep = () => {
   const animatedValue = React.useRef(new Animated.Value(0)).current;
   const [rhythm, setRhythm] = React.useState<Rhythm[]>(getRhythm(0));
   const [active, setActive] = React.useState<Rhythm>();
@@ -81,6 +79,7 @@ const PlayStep = (props: Props) => {
     }
   }
 
+  // disable-eslint-rule react-hooks/exhaustive-deps
   React.useEffect(() => {
     const timeout = setTimeout(
       processNext,
@@ -92,6 +91,7 @@ const PlayStep = (props: Props) => {
   }, [active, play]);
 
   // animate active movement
+  // disable-eslint-rule react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (!active) {
       return;

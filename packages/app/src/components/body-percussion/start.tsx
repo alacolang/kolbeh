@@ -2,41 +2,19 @@ import React from "react";
 import Slider from "@react-native-community/slider";
 import {
   View,
-  Animated,
   TouchableOpacity,
   Dimensions,
   StyleSheet,
 } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
-import { Rhythm, colors, injectID } from "./common";
+import { colors } from "./common";
 
 const fullWidth = Dimensions.get("window").width;
 
 type Props = { next: () => void };
 
-const getRhythm = (step: number) => {
-  let result = [
-    { effect: "clap", times: 1 },
-    { effect: "snap", times: step === 4 ? 2 : 1 },
-    { effect: step === 3 ? "blank" : "pat", times: 1 },
-    { effect: "stomp", times: 1 },
-  ];
-
-  if (step === 5) {
-    result = result.concat([
-      { effect: "clap", times: 1 },
-      { effect: "blank", times: 1 },
-      { effect: "pat", times: 1 },
-      { effect: "stomp", times: 1 },
-    ]);
-  }
-  return injectID(result);
-};
-
 const ExplainStep = ({ next }: Props) => {
-  const [step, setStep] = React.useState(1);
-
   return (
     <View style={styles.container}>
       <FormattedText id="body-percussion.start.title" style={styles.title} />
