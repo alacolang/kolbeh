@@ -106,22 +106,21 @@ const Splash = () => {
       style={{
         // borderWidth: 1,
         position: "relative",
-        top: -35,
       }}
     >
       <Svg
-        height={120}
+        height={(fullWidth / 360) * 80}
         width={fullWidth}
-        // viewBox="0 0 360 281"
+        viewBox="0 0 360 80"
       >
         <Defs>
           <ClipPath id="cut-off-bottom">
-            <Rect x="0" y="35" width={fullWidth} height="120" />
+            <Rect x="0" y="0" width={360} height={80} />
           </ClipPath>
         </Defs>
 
         <Path
-          d="M-10.1111 1.78645H349.889C349.889 1.78645 422.889 -19.2135 349.889 82.7865C276.889 184.786 108.889 -51.2135 -10.1111 82.7865C-129.111 216.786 -10.1111 1.78645 -10.1111 1.78645Z"
+          d="M -2.5278288,-2.7352954 H 333.65452 c 0,0 70.35439,-15.6570186 -8.4244,60.3915374 -78.77874,76.048188 -211.11868,-99.906926 -336.182352,0 -125.063418,99.906558 8.4244032,-60.3915374 8.4244032,-60.3915374 z"
           fill={colors.backgroundVarient}
           clipPath="url(#cut-off-bottom)"
         />
@@ -236,19 +235,17 @@ const styles = StyleSheet.create({
     position: "relative",
     top: 20,
     alignSelf: "flex-start",
-    // borderRadius: 44,
     height: 60,
     width: 60,
   },
   enterContainer: {
     position: "relative",
-    top: -20,
     width: 50,
+    top: 10,
     height: 50,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 3,
     borderColor: "red",
     backgroundColor: colors.childCategory2,
   },
