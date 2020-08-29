@@ -66,3 +66,27 @@ export enum IPostType {
 }
 
 export type ICategories = ICategory[];
+
+export type IHappinessTraining = {
+  categories: IHappinessTrainingCategory[];
+  onboarding: ISlide[];
+};
+
+export type ISlide = {
+  title: string;
+  image: IImage;
+};
+
+export type IHappinessTrainingCategory = {
+  id: ID;
+  title: string;
+  exercises: IExercise[];
+  post: IPost;
+};
+
+type IExercise = {
+  id: string;
+  title: string;
+  order: number;
+  post?: IPost;
+};

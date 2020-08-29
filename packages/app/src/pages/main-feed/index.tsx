@@ -25,6 +25,7 @@ import Post from "components/feed-tile";
 import { StackParamList } from "navigation/home-stack-navigator";
 import { onShare } from "utils/share";
 import Curve from "components/curve";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;
@@ -405,24 +406,26 @@ const MainFeedScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-      {itemsRendered}
+    <SafeAreaView>
+      <View style={styles.container}>
+        <StatusBar hidden />
+        {itemsRendered}
 
-      <View style={styles.headerContainer}>
-        {searchInputRendered}
-        <View style={{ flex: 1 }} />
-        {triggerMenuRendered}
+        <View style={styles.headerContainer}>
+          {searchInputRendered}
+          <View style={{ flex: 1 }} />
+          {/* {triggerMenuRendered} */}
+        </View>
+        <Animated.View
+          style={[styles.menuContainer, { transform: [{ translateY: menuY }] }]}
+        >
+          {searchItemsRendered}
+          {/* {menuRendered} */}
+          {/* <Curve position="bottom-right" negative />
+          <Curve position="bottom-left" negative /> */}
+        </Animated.View>
       </View>
-      <Animated.View
-        style={[styles.menuContainer, { transform: [{ translateY: menuY }] }]}
-      >
-        {searchItemsRendered}
-        {menuRendered}
-        <Curve position="bottom-right" negative />
-        <Curve position="bottom-left" negative />
-      </Animated.View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -5,13 +5,14 @@ const BLUE = "#0BA3B5";
 
 const colors = {
   primary: "#a2a2a2",
-  primaryVarient: "white",
+  primaryVarient: "#1A8CAF",
   secondary: "white",
   // background: "#f6ede4",
   background: "white",
   backgroundVarient: "#44C4A4",
   active: PINK,
-  inactive: BLUE,
+  // inactive: BLUE,
+  inactive: "#ADBDC9",
   activeVarient: "#FABAA1",
   pink: PINK,
   green: GREEN,

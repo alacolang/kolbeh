@@ -10,10 +10,36 @@ const schema = gql`
     parentCategories(types: [PostType]): [Category!]! @cacheControl(maxAge: 240)
     posts(types: [PostType]): ParentFeedConnection!
     childCategories(types: [PostType]): [Category!]! @cacheControl(maxAge: 240)
+    categoryById(id: ID!): Category!
     parentFeed: ParentFeedConnection!
       @deprecated(reason: "use parentCategories")
     childFeed: ParentFeedConnection! @deprecated(reason: "use childCategories")
     promotions(types: [PostType]): [Promotion!]!
+    happinessTraining: HappinessTraining!
+  }
+
+  type HappinessTraining {
+    categories: [HappinessTrainingCategory]!
+    onboarding: [Slide]
+  }
+
+  type Slide {
+    title: String!
+    image: Image!
+  }
+
+  type HappinessTrainingCategory {
+    id: ID!
+    title: String!
+    exercises: [Exercise]
+    post: Post
+  }
+
+  type Exercise {
+    id: String!
+    title: String!
+    order: Int!
+    post: Post
   }
 
   type Category {

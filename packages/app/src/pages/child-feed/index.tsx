@@ -4,9 +4,13 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image,
   StatusBar,
   FlatList,
+  ImageSourcePropType,
 } from "react-native";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
 import {
   useRoute,
@@ -19,16 +23,57 @@ import { Icon } from "components/icon";
 import * as Types from "types";
 import colors from "colors";
 import FeedTile from "components/feed-tile";
+import TeenHeaderImg from "../../assets/images/teen-header.png";
+import KidHeaderImg from "../../assets/images/kid-header.png";
+import ToolboxHeaderImg from "../../assets/images/toolbox-header.png";
 
 const fullWidth = Dimensions.get("window").width;
 
 export type FeedRouteParam = {
-  category: Types.ICategory;
-  meta: {
-    backgroundColor: string;
-    color: string;
-  };
+  // category: Types.ICategory;
+  categoryId: string;
+  // meta: {
+  //   backgroundColor: string;
+  //   color: string;
+  // };
 };
+
+type CategoryData = {
+  categoryById: Types.ICategory;
+};
+
+const GET_CHILD_CATEGORY = gql`
+  query GetChildCategory($categoryId: ID!) {
+    categoryById(id: $categoryId) {
+      id
+      title
+      description
+      icon
+      feed {
+        pageInfo {
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+            title
+            type
+            category
+            images {
+              id
+              url
+            }
+            videos {
+              id
+              url
+              cover
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 type FeedRoute = RouteProp<ChildStackParamList, "childFeed">;
 type FeedNavigation = NavigationProp<ChildStackParamList, "childFeed">;
@@ -36,8 +81,15 @@ type FeedNavigation = NavigationProp<ChildStackParamList, "childFeed">;
 const Feed = () => {
   const navigation = useNavigation<FeedNavigation>();
   const route = useRoute<FeedRoute>();
+  const { categoryId } = route.params;
 
-  const { category, meta } = route.params;
+  const { data, loading, error } = useQuery<CategoryData>(GET_CHILD_CATEGORY, {
+    variables: { categoryId }, //, types: ["image", "markdown", "video", "inapp"] },
+  });
+
+  const category = data?.categoryById;
+  if (!category) return null;
+
   const feed = category.feed;
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
@@ -68,7 +120,7 @@ const Feed = () => {
 
         <Path
           d="M0 103C60 -37 297.424 245.744 438 56.5C578.576 -132.744 360 218 360 218H0V103Z"
-          fill={meta.backgroundColor}
+          // fill={meta.backgroundColor}
           clipPath="url(#cut-off-bottom)"
         />
       </Svg>
@@ -79,7 +131,7 @@ const Feed = () => {
     <View
       style={[
         styles.navbarContainer,
-        { backgroundColor: meta.backgroundColor },
+        // { backgroundColor: meta.backgroundColor },
       ]}
     >
       {curveRendered}
@@ -92,14 +144,20 @@ const Feed = () => {
             <Icon name="back" size="tiny" />
           </View>
         </TouchableOpacity>
-        <Icon name={`${category.icon}`} size="huge" />
+        <Icon name={category.icon} size="huge" />
       </View>
     </View>
   );
 
+  const img = ({
+    "child/kid": KidHeaderImg,
+    "child/teen": TeenHeaderImg,
+    "child/toolbox": ToolboxHeaderImg,
+  } as Record<string, ImageSourcePropType>)[category.id];
   return (
     <View style={styles.container}>
       <StatusBar hidden />
+      {img && <Image source={img} style={{ width: fullWidth, height: 200 }} />}
       <FlatList
         contentContainerStyle={styles.scrollViewContent}
         data={feed.edges}

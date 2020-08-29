@@ -39,6 +39,8 @@ import LeftArrowIcon from "./left-arrow.png";
 import TimesIcon from "./times.png";
 import PauseIcon from "./pause.png";
 import PlayIcon from "./play.png";
+import ShopIcon from "./shop.png";
+import ProfileIcon from './profile.png'
 
 const icons = {
   parent: ParentIcon,
@@ -83,6 +85,8 @@ const icons = {
   times: TimesIcon,
   pause: PauseIcon,
   play: PlayIcon,
+  shop: ShopIcon,
+  profile: ProfileIcon
 };
 
 export default icons;

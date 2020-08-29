@@ -1,7 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import MainNavigator from "./main-tab-navigator";
 import SplashScreen from "../pages/splash";
+import TabNavigator from "./main-tab-navigator";
+import HomeNavigator from "./home-stack-navigator";
 
 export type StackParamList = {
   splash: undefined;
@@ -11,17 +12,12 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
-  <Stack.Navigator initialRouteName="splash">
-    <Stack.Screen
-      name="splash"
-      component={SplashScreen}
-      options={{ header: () => null }}
-    />
-    <Stack.Screen
-      name="main"
-      component={MainNavigator}
-      options={{ header: () => null }}
-    />
+  <Stack.Navigator
+    initialRouteName="main"
+    screenOptions={{ headerShown: false }}
+  >
+    <Stack.Screen name="splash" component={SplashScreen} />
+    <Stack.Screen name="main" component={HomeNavigator} />
   </Stack.Navigator>
 );
 

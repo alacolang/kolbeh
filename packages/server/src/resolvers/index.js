@@ -1,5 +1,5 @@
-import depricatedResolvers from "./depricated-resolver";
 import parse from "../content/parse";
+import happinessTrainingData from "./data/happinessTraining";
 let parsedData;
 
 const ALL_TYPES = ["image", "video", "markdown", "inapp"];
@@ -93,6 +93,10 @@ const resolvers = {
     childCategories: (_, { types }) => {
       return dataResolver(parsedData.child, types);
     },
+    categoryById: (_, { id, types = ALL_TYPES }) => {
+      console.log({ id });
+      return dataResolver(parsedData.child, types).find((d) => d.id === id);
+    },
     promotions: (_, { types }) => {
       return [
         ...dataResolver(parsedData.parent, types),
@@ -103,7 +107,7 @@ const resolvers = {
         .filter(({ node }) => !!node.description)
         .map(({ node: { id, description } }) => ({ id, description }));
     },
-    ...depricatedResolvers,
+    happinessTraining: () => happinessTrainingData,
   },
 };
 
