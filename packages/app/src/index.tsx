@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ApolloClient } from "apollo-client";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
@@ -8,6 +8,7 @@ import config from "config";
 import "utils/localize";
 import { codePushify } from "utils/codepush";
 import { SavedPostsProvider } from "context/saved-posts";
+import SplashScreen from "react-native-splash-screen";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -21,6 +22,10 @@ const client = new ApolloClient({
 });
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <ApolloProvider client={client}>
       <SavedPostsProvider>
