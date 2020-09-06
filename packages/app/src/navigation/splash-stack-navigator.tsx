@@ -1,22 +1,22 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import SplashScreen from "../pages/splash";
+import Onboarding from "../pages/onboarding";
 import TabNavigator from "./main-tab-navigator";
 import HomeNavigator from "./home-stack-navigator";
 
 export type StackParamList = {
-  splash: undefined;
-  bodyPercussion: undefined;
+  onboarding: undefined;
+  // bodyPercussion: undefined;
   main: undefined;
 };
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
   <Stack.Navigator
-    initialRouteName="main"
+    initialRouteName="onboarding"
     screenOptions={{ headerShown: false }}
   >
-    <Stack.Screen name="splash" component={SplashScreen} />
+    <Stack.Screen name="onboarding" component={Onboarding} />
     <Stack.Screen name="main" component={HomeNavigator} />
   </Stack.Navigator>
 );
