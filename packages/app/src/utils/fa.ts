@@ -48,6 +48,13 @@ const messages: Record<string, string> = {
     "اول به ضرب‌آهنگ‌ها گوش کن و بعد سعی کن با همان سرعت تکرار کنی.",
   "unknown-post":
     " متاسفانه، این پست قابل مشاهده نیست. احتمالا باید برنامه خود را بروزرسانی کنید.",
+  "onboarding.1.title": "امید",
+  "onboarding.1.description":
+    "برنامه امید کلبه، شامل ده مهارت شاد زیستن مخصوص کودکان و نوجوانان است.",
+    "onboarding.2.title": "تشویق",
+  "onboarding.2.description": "هر مهارت‌، تمرین‌های روزانه‌ای دارد که با انجام آن‌ها مدال آن مهارت را کسب می‌کند.",
+  "onboarding.3.title": "مهارت",
+  "onboarding.3.description": "با تکمیل این تمرین‌ها فرد سفیر شادمانی کلبه می‌شود."
 };
 
 export default messages;

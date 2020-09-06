@@ -41,6 +41,7 @@ import PauseIcon from "./pause.png";
 import PlayIcon from "./play.png";
 import ShopIcon from "./shop.png";
 import ProfileIcon from './profile.png'
+import CheckIcon from './check.png'
 
 const icons = {
   parent: ParentIcon,
@@ -86,7 +87,8 @@ const icons = {
   pause: PauseIcon,
   play: PlayIcon,
   shop: ShopIcon,
-  profile: ProfileIcon
+  profile: ProfileIcon,
+  check: CheckIcon
 };
 
 export default icons;
