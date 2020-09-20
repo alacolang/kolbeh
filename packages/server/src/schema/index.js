@@ -31,13 +31,17 @@ const schema = gql`
   type HappinessTrainingCategory {
     id: ID!
     title: String!
+    description: String!
+    about: String
     exercises: [Exercise]
+    image: Image!
     post: Post
   }
 
   type Exercise {
     id: String!
     title: String!
+    description: String!
     order: Int!
     post: Post
   }
