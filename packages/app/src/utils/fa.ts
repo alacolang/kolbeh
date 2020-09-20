@@ -4,7 +4,7 @@ const messages: Record<string, string> = {
   enter: "ورود",
   "contact-us": "درباره ما",
   contact: "درباره ما",
-  home: "کلبه",
+  kolbeh: "کلبه",
   profile: "پروفایل",
   happinessTraining: "شادمانی",
   shop: "جایزه",
@@ -22,8 +22,8 @@ const messages: Record<string, string> = {
   // "خوشحال می‌شویم با ما در ارتباط باشید.",
   "contact.tel": "تلفن: ",
   "contact.telnumber": "۰۲۱ ۵۵۴۰ ۹۴۹۵",
-  "saved.title": "انتخاب شده‌ها",
-  saved: "انتخاب شده‌ها",
+  "bookmark.title": "منتخب",
+  bookmark: "منتخب",
   "invite-friends": "معرفی به دیگران",
   share: "معرفی به دیگران",
   "invite-others":
@@ -51,10 +51,15 @@ const messages: Record<string, string> = {
   "onboarding.1.title": "امید",
   "onboarding.1.description":
     "برنامه امید کلبه، شامل ده مهارت شاد زیستن مخصوص کودکان و نوجوانان است.",
-    "onboarding.2.title": "تشویق",
-  "onboarding.2.description": "هر مهارت‌، تمرین‌های روزانه‌ای دارد که با انجام آن‌ها مدال آن مهارت را کسب می‌کند.",
+  "onboarding.2.title": "تشویق",
+  "onboarding.2.description":
+    "هر مهارت‌، تمرین‌های روزانه‌ای دارد که با انجام آن‌ها مدال آن مهارت را کسب می‌کند.",
   "onboarding.3.title": "مهارت",
-  "onboarding.3.description": "با تکمیل این تمرین‌ها فرد سفیر شادمانی کلبه می‌شود."
+  "onboarding.3.description":
+    "با تکمیل این تمرین‌ها فرد سفیر شادمانی کلبه می‌شود.",
+  "happiness.menuTitle": "امید",
+  "happiness.greeting.1": "سلام",
+  "happiness.greeting.2": "آماده‌ای که تمرین اول ذهن‌آگاهی رو انجام بدی",
 };
 
 export default messages;

@@ -1,16 +1,18 @@
 const PINK = "#D879A7";
-const GREEN = "#0BA3B5";
+const GREEN = "#72BF9B";
 const MINT = "#CBEDDD";
 const BLUE = "#0BA3B5";
 const ORANGE = "#FE6E25";
+const ORANGE_VARIENT = "#FFC3B6";
 
 const colors = {
   primary: "#53616C",
-  primaryVarient: "#1A8CAF",
+  primaryVarient: "#2D2325",
   secondary: ORANGE,
+  secondaryVarient: ORANGE_VARIENT,
   // background: "#f6ede4",
   background: "white",
-  backgroundVarient: "#44C4A4",
+  backgroundVarient: "#F0F5FF",
   active: PINK,
   // inactive: BLUE,
   inactive: "#ADBDC9",

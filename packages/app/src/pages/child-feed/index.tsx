@@ -30,12 +30,7 @@ import ToolboxHeaderImg from "../../assets/images/toolbox-header.png";
 const fullWidth = Dimensions.get("window").width;
 
 export type FeedRouteParam = {
-  // category: Types.ICategory;
   categoryId: string;
-  // meta: {
-  //   backgroundColor: string;
-  //   color: string;
-  // };
 };
 
 type CategoryData = {
@@ -86,6 +81,8 @@ const Feed = () => {
   const { data, loading, error } = useQuery<CategoryData>(GET_CHILD_CATEGORY, {
     variables: { categoryId }, //, types: ["image", "markdown", "video", "inapp"] },
   });
+
+  console.log({ data, categoryId });
 
   const category = data?.categoryById;
   if (!category) return null;

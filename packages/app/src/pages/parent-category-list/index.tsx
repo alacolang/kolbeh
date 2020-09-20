@@ -62,15 +62,6 @@ type ParentCategoriesData = {
   parentCategories: Types.ICategories;
 };
 
-const getCategoryColor = (index: number) => {
-  const rowColors = [
-    { backgroundColor: colors.category1, color: colors.secondary },
-    { backgroundColor: colors.category2, color: colors.secondary },
-    { backgroundColor: colors.category3, color: colors.secondary },
-  ];
-  return rowColors[index % rowColors.length];
-};
-
 const ParentScreen = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
   const [refreshing, setRefreshing] = React.useState(false);
@@ -93,7 +84,7 @@ const ParentScreen = () => {
   return (
     <View
       style={{
-        backgroundColor: colors.backgroundVarient,
+        backgroundColor: colors.background,
         flex: 1,
       }}
     >
@@ -111,16 +102,12 @@ const ParentScreen = () => {
             backgroundColor={colors.backgroundVarient}
             barStyle="dark-content"
           />
-          {categories.map((category, index) => {
-            const color = getCategoryColor(index);
+          {categories.map((category) => {
             return (
               <CategoryTile
-                meta={color}
                 key={category.id}
                 category={category}
-                onPress={() =>
-                  navigation.navigate("parentFeed", { category, meta: color })
-                }
+                onPress={() => navigation.navigate("parentFeed", { category })}
               />
             );
           })}

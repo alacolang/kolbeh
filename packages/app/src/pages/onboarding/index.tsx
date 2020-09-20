@@ -1,31 +1,21 @@
 import React from "react";
 import Swiper from "react-native-swiper";
-import {
-  Animated,
-  View,
-  Image,
-  StyleSheet,
-  Text,
-  Dimensions,
-} from "react-native";
-// import { FormattedText } from "components/formatted-text";
+import { View, Image, StyleSheet, Dimensions, I18nManager } from "react-native";
 import img1 from "../../assets/images/onboarding-1.png";
 import img2 from "../../assets/images/onboarding-2.png";
 import img3 from "../../assets/images/onboarding-3.png";
 import img31 from "../../assets/images/onboarding-3-1.png";
 import imgGND from "../../assets/images/onboarding-gnd.png";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Icon } from "components/icon";
+import tickImg from "../../components/icon/images/tick.png";
+import backImg from "../../components/icon/images/back-curve.png";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
 
-type Props = {};
-
-const ImageHeight = frameHeight / 2.2;
+const ImageHeight = frameHeight / 2.5;
 
 const Onboarding = ({ navigation }) => (
   <Swiper
@@ -38,18 +28,6 @@ const Onboarding = ({ navigation }) => (
       console.log({ idex });
     }}
   >
-    <View style={styles.slide}>
-      <FormattedText style={styles.title} id="onboarding.1.title" />
-      <FormattedText style={styles.description} id="onboarding.1.description" />
-      <Image source={img1} style={styles.image} resizeMode="contain"></Image>
-      <Ground />
-    </View>
-    <View style={styles.slide}>
-      <FormattedText style={styles.title} id="onboarding.2.title" />
-      <FormattedText style={styles.description} id="onboarding.2.description" />
-      <Image source={img2} style={styles.image} resizeMode="contain"></Image>
-      <Ground />
-    </View>
     <View style={styles.slide}>
       <FormattedText style={styles.title} id="onboarding.3.title" />
       <FormattedText style={styles.description} id="onboarding.3.description" />
@@ -73,7 +51,7 @@ const Onboarding = ({ navigation }) => (
           source={img3}
           style={{
             height: ImageHeight,
-            width: frameWidth / 2,
+            width: frameWidth / 2.5,
             // borderWidth: 1,
             // borderColor: "red",
           }}
@@ -81,11 +59,14 @@ const Onboarding = ({ navigation }) => (
         ></Image>
       </View>
       <Ground />
-      <Animated.View
+      <View
         style={{
           position: "absolute",
-          bottom: 10,
-          right: 40,
+          bottom: 0,
+          left: -2,
+          // borderWidth: 1,
+          width: 50,
+          height: 80,
         }}
       >
         <TouchableOpacity
@@ -93,9 +74,39 @@ const Onboarding = ({ navigation }) => (
             navigation.navigate("main");
           }}
         >
-          <Icon name="check" size="medium" />
+          <Image
+            source={backImg}
+            style={{
+              width: 40,
+              height: 80,
+            }}
+            resizeMode="contain"
+          />
+          <Image
+            source={tickImg}
+            style={{
+              width: 35,
+              height: 35,
+              position: "relative",
+              top: -53,
+              left: 2,
+            }}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
-      </Animated.View>
+      </View>
+    </View>
+    <View style={styles.slide}>
+      <FormattedText style={styles.title} id="onboarding.2.title" />
+      <FormattedText style={styles.description} id="onboarding.2.description" />
+      <Image source={img2} style={styles.image} resizeMode="contain"></Image>
+      <Ground />
+    </View>
+    <View style={styles.slide}>
+      <FormattedText style={styles.title} id="onboarding.1.title" />
+      <FormattedText style={styles.description} id="onboarding.1.description" />
+      <Image source={img1} style={styles.image} resizeMode="contain"></Image>
+      <Ground />
     </View>
   </Swiper>
 );
@@ -103,7 +114,7 @@ const Onboarding = ({ navigation }) => (
 const Ground = () => (
   <Image
     source={imgGND}
-    style={{ width: frameWidth - 80, marginTop: 10 }}
+    style={{ width: frameWidth - 120, marginTop: 10 }}
     resizeMode="stretch"
   ></Image>
 );
@@ -116,21 +127,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 30,
     paddingTop: "20%",
-    // justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#9DD6EB",
   },
   slide2: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#97CAE5",
   },
   slide3: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#92BBD9",
   },
   title: {
     color: colors.primary,
@@ -138,17 +145,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   description: {
-    marginTop: 50,
-    marginBottom: 70,
+    marginTop: 30,
+    marginBottom: 30,
     height: 110,
     lineHeight: 24 * 1.4,
     color: colors.primary,
     fontSize: 24,
-    // fontWeight: "bold",
   },
   image: {
-    // marginTop: 40,
-    // borderWidth: 1,
     height: ImageHeight,
     width: frameWidth - 40,
   },

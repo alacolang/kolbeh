@@ -22,7 +22,7 @@ import { Icon } from "components/icon";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
-import { StackParamList } from "navigation/home-stack-navigator";
+import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { onShare } from "utils/share";
 import Curve from "components/curve";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -69,21 +69,21 @@ type FeedData = {
   posts: Types.IFeed;
 };
 
-type Navigation = NavigationProp<StackParamList, "feed">;
+type Navigation = NavigationProp<HomeStackParamList, "search">;
 
-const MainFeedScreen = () => {
+const SearchScreen = () => {
   const navigation = useNavigation<Navigation>();
   const animateValue = React.useRef(new Animated.Value(0)).current;
 
   const [refreshing, setRefreshing] = React.useState(false);
-  const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [isMenuOpen, setMenuOpen] = React.useState(true);
   const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS, {
     variables: { types: ["image", "markdown", "video", "inapp"] },
   });
 
   const searchAnimateValue = React.useRef(new Animated.Value(0)).current;
   const [query, setQuery] = React.useState("");
-  const [isSearchVisible, setSearchVisibility] = React.useState(false);
+  const [isSearchVisible, setSearchVisibility] = React.useState(true);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -111,6 +111,8 @@ const MainFeedScreen = () => {
         .reduce((acc, tags) => acc.concat(tags), [])
     )
   ).filter((x) => !!x);
+
+  console.log({ tags });
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
@@ -140,14 +142,14 @@ const MainFeedScreen = () => {
       cb();
       return;
     }
-    const [from, to] = !isMenuOpen ? [0, 1] : [1, 0];
-    animateValue.setValue(from);
-    Animated.timing(animateValue, {
-      toValue: to,
-      duration: 800,
-      easing: Easing.bezier(0.76, 0, 0.24, 1),
-      useNativeDriver: true,
-    }).start(cb);
+    // const [from, to] = !isMenuOpen ? [0, 1] : [1, 0];
+    // animateValue.setValue(from);
+    // Animated.timing(animateValue, {
+    //   toValue: to,
+    //   duration: 800,
+    //   easing: Easing.bezier(0.76, 0, 0.24, 1),
+    //   useNativeDriver: true,
+    // }).start(cb);
   };
 
   const handleSearch = (command: Command) => {
@@ -161,14 +163,14 @@ const MainFeedScreen = () => {
     if (isSearchVisible) {
       Keyboard.dismiss();
     }
-    const [from, to] = !isSearchVisible ? [0, 1] : [1, 0];
-    searchAnimateValue.setValue(from);
-    Animated.timing(searchAnimateValue, {
-      toValue: to,
-      duration: 500,
-      easing: Easing.bezier(0.76, 0, 0.24, 1),
-      useNativeDriver: true,
-    }).start();
+    // const [from, to] = !isSearchVisible ? [0, 1] : [1, 0];
+    // searchAnimateValue.setValue(from);
+    // Animated.timing(searchAnimateValue, {
+    //   toValue: to,
+    //   duration: 500,
+    //   easing: Easing.bezier(0.76, 0, 0.24, 1),
+    //   useNativeDriver: true,
+    // }).start();
   };
 
   const filteredTags = tags.filter((tag) =>
@@ -216,29 +218,33 @@ const MainFeedScreen = () => {
     </View>
   );
 
-  const triggerMenuRendered = !isSearchVisible && (
-    <TouchableOpacity
-      style={styles.menuTrigger}
-      onPress={() => {
-        handleMenu("toggle");
-      }}
-    >
-      <View style={styles.dotContainer}>
-        <View style={styles.dot} />
-        <View style={styles.dot} />
-      </View>
-    </TouchableOpacity>
-  );
+  // const triggerMenuRendered = !isSearchVisible && (
+  //   <TouchableOpacity
+  //     style={styles.menuTrigger}
+  //     onPress={() => {
+  //       handleMenu("toggle");
+  //     }}
+  //   >
+  //     <View style={styles.dotContainer}>
+  //       <View style={styles.dot} />
+  //       <View style={styles.dot} />
+  //     </View>
+  //   </TouchableOpacity>
+  // );
+
+  console.log({ filteredTags, isSearchVisible });
 
   const searchItemsRendered = isSearchVisible && (
     <View
       style={{
         flexDirection: "row",
         flexWrap: "wrap",
-        flex: 1,
+        // flex: 1,
         justifyContent: "center",
         paddingHorizontal: 30,
-        // borderWidth: 1,
+        borderWidth: 1,
+        backgroundColor: "red",
+        // height: 100
       }}
     >
       {filteredTags.length > 0 &&
@@ -248,15 +254,16 @@ const MainFeedScreen = () => {
             onPress={() => {
               setQuery(tag);
               Keyboard.dismiss();
-              handleMenu("close");
+              handleMenu("close", () => setSearchVisibility(false));
             }}
           >
             <View
               style={{
-                marginHorizontal: 2,
-                marginVertical: 2,
+                marginHorizontal: 4,
+                marginVertical: 4,
                 borderRadius: 10,
                 backgroundColor: colors.background,
+                borderWidth: 1,
               }}
             >
               <FormattedText
@@ -281,8 +288,8 @@ const MainFeedScreen = () => {
       <TouchableOpacity
         onPress={() => {
           setSearchVisibility(true);
-          handleSearch("open");
-          handleMenu("open");
+          // handleSearch("open");
+          // handleMenu("open");
         }}
       >
         <Animated.View
@@ -291,11 +298,7 @@ const MainFeedScreen = () => {
             alignItems: "center",
             width: 44,
             height: 44,
-            // borderWidth: 1,
-            opacity: searchAnimateValue.interpolate({
-              inputRange: [0, 0.4],
-              outputRange: [1, 0],
-            }),
+            borderWidth: 2,
           }}
         >
           <Icon name="search" size="tiny" />
@@ -307,24 +310,8 @@ const MainFeedScreen = () => {
           borderRadius: 30,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
-          top: 20,
-          left: 0.15 * fullWidth,
           flexDirection: "row",
-          opacity: searchAnimateValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 1],
-          }),
-          transform: [
-            {
-              translateX: searchAnimateValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [fullWidth, 0],
-              }),
-            },
-          ],
           width: fullWidth * 0.7,
-          height: 35,
           // borderWidth: 1,
         }}
       >
@@ -343,15 +330,22 @@ const MainFeedScreen = () => {
             fontFamily: "IRANYekanRDMobile",
             color: colors.primary,
           }}
-          onChangeText={(text) => setQuery(text)}
+          onChangeText={(text) => {
+            console.log({ text });
+            setQuery(text);
+          }}
           value={query}
         />
         {isSearchVisible && (
           <TouchableOpacity
             onPress={() => {
+              console.log("click the close");
               setQuery("");
-              handleSearch("close");
-              handleMenu("close", () => setSearchVisibility(false));
+              // handleSearch("close");
+              handleMenu(
+                "close"
+                // () => setSearchVisibility(false)
+              );
             }}
             style={{
               width: 44,
@@ -384,7 +378,7 @@ const MainFeedScreen = () => {
     <Animated.View
       style={{
         flexGrow: 1,
-        transform: [{ translateY: listMarginTop }],
+        // transform: [{ translateY: listMarginTop }],
       }}
     >
       {loading ? (
@@ -409,49 +403,37 @@ const MainFeedScreen = () => {
     <SafeAreaView>
       <View style={styles.container}>
         <StatusBar hidden />
-        {itemsRendered}
 
-        <View style={styles.headerContainer}>
-          {searchInputRendered}
-          <View style={{ flex: 1 }} />
-          {/* {triggerMenuRendered} */}
-        </View>
-        <Animated.View
-          style={[styles.menuContainer, { transform: [{ translateY: menuY }] }]}
-        >
-          {searchItemsRendered}
-          {/* {menuRendered} */}
-          {/* <Curve position="bottom-right" negative />
-          <Curve position="bottom-left" negative /> */}
-        </Animated.View>
+        <View style={styles.headerContainer}>{searchInputRendered}</View>
+        {/* <Animated.View
+          style={[
+            styles.menuContainer,
+            // { transform: [{ translateY: menuY }] }
+          ]}
+        > */}
+        {searchItemsRendered}
+        {/* </Animated.View> */}
       </View>
+      {itemsRendered}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    position: "absolute",
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    right: 0,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
-    backgroundColor: colors.backgroundVarient,
+    // backgroundColor: colors.backgroundVarient,
+    backgroundColor: "yellow",
   },
   menuContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
     flexDirection: "row",
     paddingHorizontal: 0,
-    zIndex: 0,
-    height: HEADER_SCROLL_DISTANCE,
-    backgroundColor: colors.backgroundVarient,
+    // height: HEADER_SCROLL_DISTANCE,
+    // backgroundColor: colors.backgroundVarient,
+    backgroundColor: "red",
   },
   menuItem: {
     flexDirection: "row",
@@ -494,4 +476,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainFeedScreen;
+export default SearchScreen;

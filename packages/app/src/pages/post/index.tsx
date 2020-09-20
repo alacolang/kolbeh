@@ -9,9 +9,8 @@ import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
 import Unknown from "./unkown-post";
-import colors from "colors";
 import { Icon } from "components/icon";
-import { useSavedPosts } from "context/saved-posts";
+import { useBookmarkedPosts } from "context/bookmark-posts";
 import InAppPost from "components/body-percussion";
 
 export type PostRouteParam = {
@@ -51,53 +50,55 @@ type PostData = {
 
 const PostScreen = () => {
   const [
-    savedPosts,
-    { addToSavedPosts, removeFromSavedPosts },
-  ] = useSavedPosts();
+    bookmarkedPosts,
+    { addToBookmarkedPosts, removeFromBookmarkedPosts },
+  ] = useBookmarkedPosts();
   const route = useRoute<PostRoute>();
   const { post, id } = route.params;
 
-  let stuff;
+  let _post;
   if (post) {
-    stuff = post;
+    _post = post;
   }
 
   const { data } = useQuery<PostData>(GET_POST, {
     variables: {
       kooft: id,
     },
-    skip: !id || !!(post && post.id),
+    skip: !id || !!post?.id,
   });
 
   if (id && data) {
-    stuff = data.postById;
+    _post = data.postById;
   }
 
-  if (!stuff) {
+  if (!_post) {
     return null;
   }
+
+  const _id = id ?? _post.id;
 
   const Component = {
     inapp: InAppPost,
     image: ImagePost,
     video: VideoPost,
     markdown: MarkdownPost,
-  }[stuff.type];
+  }[_post.type];
 
   if (!Component) {
     return <Unknown />;
   }
 
-  const isSaved = savedPosts.includes(id);
+  const isSaved = bookmarkedPosts.includes(_id);
 
   const saveButtonRendered = (
     <TouchableOpacity
       style={styles.saveContainer}
       onPress={() => {
         if (!isSaved) {
-          addToSavedPosts(id);
+          addToBookmarkedPosts(_id);
         } else {
-          removeFromSavedPosts(id);
+          removeFromBookmarkedPosts(_id);
         }
       }}
     >
@@ -105,29 +106,21 @@ const PostScreen = () => {
     </TouchableOpacity>
   );
 
-  const NO_SAVE_TYPES = [];
-  const canSave = !NO_SAVE_TYPES.includes(stuff.type);
+  const NO_SAVE_TYPES: Types.IPostType[] = [];
+  const canSave = !NO_SAVE_TYPES.includes(_post.type);
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={styles.container}>
       <StatusBar hidden />
       {canSave && <View style={styles.saveWrapper}>{saveButtonRendered}</View>}
-      <Component post={stuff} />
+      <Component post={_post} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
     flex: 1,
-    backgroundColor: colors.background,
-    justifyContent: "center",
-    alignItems: "center",
   },
   saveWrapper: {
     position: "absolute",
@@ -139,7 +132,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     // borderWidth: 1,
     // borderColor: "red",
-    // height: 60,
   },
   saveContainer: {
     justifyContent: "center",

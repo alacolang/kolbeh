@@ -80,13 +80,17 @@ export type ISlide = {
 export type IHappinessTrainingCategory = {
   id: ID;
   title: string;
+  description: string,
+  about: string,
+  image: IImage,
   exercises: IExercise[];
   post: IPost;
 };
 
-type IExercise = {
+export type IExercise = {
   id: string;
   title: string;
   order: number;
+  description: string;
   post?: IPost;
 };

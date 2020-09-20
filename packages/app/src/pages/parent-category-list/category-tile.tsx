@@ -1,71 +1,82 @@
 import React from "react";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { Dimensions, TouchableOpacity, StyleSheet, View } from "react-native";
 import { ICategory } from "types";
 import { Icon } from "components/icon";
-import styled from "styled-components/native";
 import { FormattedText } from "components/formatted-text";
+import colors from "../../colors";
 
 const width = Dimensions.get("window").width;
 
 type Props = {
   category: ICategory;
   onPress: () => void;
-  meta: {
-    backgroundColor: string;
-    color: string;
-  };
 };
 
-const CategoryTile = ({ category, onPress, meta }: Props) => {
+const format = (text: string) => text.substr(0, 25);
+
+const CategoryTile = ({ category, onPress }: Props) => {
+  console.log({ icon: category.icon });
   return (
     <TouchableOpacity
       onPress={onPress}
-      // activeOpacity={0.5}
     >
-      <Card>
-        <IconContainer backgroundColor={meta.backgroundColor}>
-          <Icon name={category.icon + "Active"} size="medium" />
-        </IconContainer>
-        {/* <Dot /> */}
-        <Title color={meta.color}>{category.title}</Title>
-      </Card>
+      <View style={styles.container}>
+        <View style={styles.icon}>
+          <Icon name={category.icon} size="huge" />
+        </View>
+        <View style={styles.texts}>
+          <FormattedText style={styles.title}>{category.title}</FormattedText>
+          <FormattedText style={styles.description}>
+            {format(category.description)}
+          </FormattedText>
+        </View>
+        <View style={styles.arrow}>
+          <Icon name="leftArrow" size="small" />
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };
 
-const Title = styled(FormattedText)`
-  font-size: 18px;
-  color: ${(props) => props.color};
-  padding: 0 15px;
-  line-height: 36px;
-  flex-grow: 1;
-`;
-
-const Card = styled.View`
-  /* background-color: ${(props) => props.backgroundColor}; */
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  height: 125px;
-  padding: 0 25px;
-  width: ${width - 50}px;
-  /* border-radius: 10px;
-  margin-bottom: 30px;
-  shadow-color: #000;
-  shadow-offset: 0 2px;
-  shadow-opacity: 0.23;
-  shadow-radius: 2.62px;
-
-  elevation: 4; */
-`;
-
-const IconContainer = styled.View`
-  background-color: ${(props) => props.backgroundColor};
-  width: 100px;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-`;
+const styles = StyleSheet.create({
+  icon: {
+    position: "absolute",
+    top: -20,
+    left: -20,
+    // borderWidth: 1,
+  },
+  container: {
+    backgroundColor: colors.backgroundVarient,
+    width: width - 70,
+    flexDirection: "row",
+    marginVertical: 40,
+    paddingVertical: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+    // borderWidth: 1,
+  },
+  texts: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 22,
+    color: colors.secondary,
+    marginBottom: 20,
+    // fontWeight: 600
+    fontWeight: "bold",
+  },
+  description: {
+    fontSize: 18,
+    color: colors.primary,
+    marginBottom: 10,
+  },
+  arrow: {
+    position: "absolute",
+    right: 20,
+    marginLeft: 30,
+  },
+});
 
 export default CategoryTile;

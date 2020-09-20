@@ -4,6 +4,7 @@ import Feed, { FeedRouteParam } from "../pages/parent-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
 import { Icon } from "../components/icon";
+import colors from "colors";
 
 export type ParentStackParamList = {
   parentCategoryList: undefined;
@@ -23,7 +24,7 @@ const ParentNavigator = ({ navigation, route }) => {
       // headerMode="none"
       screenOptions={() => ({
         animationEnabled: false,
-        headerTransparent: true,
+        // headerTransparent: true,
       })}
     >
       <Stack.Screen
@@ -37,7 +38,7 @@ const ParentNavigator = ({ navigation, route }) => {
         options={() => ({
           headerTransparent: true,
           title: "",
-          headerBackTitle: () => null,
+          headerBackTitleVisible: false,
           headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
           headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
@@ -45,9 +46,20 @@ const ParentNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="parentFeed"
         component={Feed}
-        options={{
-          header: () => null,
-          animationEnabled: false,
+        options={({ navigation, route }) => {
+          console.log("route", route.params.category.title);
+          return {
+            // header: () => null,
+            title: route.params.category.title,
+            headerTitleStyle: {
+              color: colors.secondary,
+              fontSize: 24,
+              fontFamily: "IRANYekanRDMobile",
+            },
+            headerBackTitleVisible: false,
+            headerBackImage: () => <Icon name="back" size="large" />,
+            animationEnabled: false,
+          };
         }}
       />
     </Stack.Navigator>
