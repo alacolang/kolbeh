@@ -28,6 +28,9 @@ const server = new ApolloServer({
       resolve();
     });
   },
+  engine: {
+    reportSchema: true
+  },
   // formatError: (error) => error,
   // dataSources,
   // plugins: [logger],
