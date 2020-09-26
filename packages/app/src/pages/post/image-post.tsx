@@ -75,7 +75,7 @@ const ImagePost = ({ post }: Props) => {
               <View
                 style={[
                   styles.dotsContainer,
-                  { bottom: (frameHeight - height) / 2 - 20 },
+                  // { bottom:0 },
                 ]}
               >
                 {result.map((x, i) => (
@@ -138,10 +138,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  dot: {
-    borderRadius: 9,
-    margin: 2,
-  },
+  dot: { borderRadius: 9, margin: 2 },
   indexContainer: {
     flexDirection: "row",
     justifyContent: "center",

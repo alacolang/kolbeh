@@ -5,7 +5,7 @@ import BackImg from "components/icon/images/back.png";
 import { FormattedText } from "components/formatted-text";
 import Markdown from "react-native-easy-markdown";
 import { resolveURL } from "utils/resolve";
-import { Icon } from "components/icon";
+import { IconSvg } from "components/icon";
 import * as Types from "types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -38,7 +38,9 @@ function HappinessCategory({ navigation, route }: Props) {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.backgroundVarient }}>
+    <SafeAreaView
+      style={{ backgroundColor: colors.backgroundVarient, flex: 1 }}
+    >
       <Header navigation={navigation} route={route} />
       <View style={styles.container}>
         <Markdown markdownStyles={markdownStyles}>{category.about}</Markdown>
@@ -46,17 +48,21 @@ function HappinessCategory({ navigation, route }: Props) {
           <View style={styles.verticalLine}>
             <View style={styles.verticalLineInner} />
           </View>
-          <View>
+          <View style={{ width: fullWidth / 2 - 40 }}>
             {category.exercises.map(
               (exercise: Types.IExercise, index: number) => {
-                const icon = index === 0 ? "circle" : "lockCircle";
                 return (
                   <TouchableOpacity
                     key={exercise.title}
                     onPress={() => handlePress(exercise)}
                     style={styles.exerciseContainer}
                   >
-                    <Icon name={icon} size="medium" style={styles.icon} />
+                    <IconSvg
+                      name="lockFill"
+                      size="medium"
+                      color={colors.secondaryThird}
+                      style={styles.icon}
+                    />
                     <FormattedText style={styles.exerciseTitle}>
                       {exercise.title}
                     </FormattedText>
@@ -85,13 +91,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   verticalLineInner: {
-    width: 4,
+    width: 5,
     backgroundColor: "#FFC3B6",
     flexGrow: 1,
-    left: 36,
+    left: 24 + 4,
     marginVertical: 36,
   },
   verticalLine: {
+    justifyContent: "center",
+    alignItems: "center",
     flexGrow: 1,
   },
   categoryImage: {
@@ -102,25 +110,24 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     flexDirection: "row",
-    borderWidth: 0,
-    height: 60,
+    // borderWidth: 1,
+    height: 80,
     zIndex: 1,
   },
   exerciseTitle: {
     color: colors.primary,
     fontSize: 18,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     top: 5,
   },
   icon: {
     backgroundColor: colors.backgroundVarient,
-    width: 48,
-    height: 48,
   },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    height: 80,
+    height: 90,
+    paddingTop: 10,
     backgroundColor: colors.backgroundVarient,
   },
   backIcon: {
@@ -168,8 +175,7 @@ const markdownStyles = {
   text: {
     fontFamily: "IRANYekanRDMobile",
     textAlign: "left",
-    // color: colors.primary,
-    color: "black",
+    color: colors.primary,
     fontSize: 18,
     lineHeight: 2 * 16,
   },

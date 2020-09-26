@@ -46,7 +46,6 @@ import kolbehActive from "./kolbeh-active.png";
 import kolbeh from "./kolbeh.png";
 import circle from "./circle.png";
 import checkCircle from "./check-circle.png";
-import lockCircle from "./lock-circle.png";
 import tickActive from "./tick-active.png";
 
 const icons = {
@@ -97,7 +96,6 @@ const icons = {
   kolbeh,
   kolbehActive,
   checkCircle,
-  lockCircle,
   circle,
   tickActive,
 };

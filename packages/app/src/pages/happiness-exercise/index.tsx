@@ -2,14 +2,22 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import Markdown from "react-native-easy-markdown";
 import colors from "colors";
-import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Modal,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import IdeaImg from "assets/images/exercise-idea.png";
 import CurveImg from "assets/images/back-curve-active.png";
 import { IconSvg } from "components/icon";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { FormattedText } from "components/formatted-text";
+import { ScrollView } from "react-native-gesture-handler";
+
+const fullWidth = Dimensions.get("window").width;
 
 type Props = StackScreenProps<HomeStackParamList, "happinessExercise">;
 function HappinessExercise({ navigation, route }: Props) {
@@ -25,12 +33,12 @@ function HappinessExercise({ navigation, route }: Props) {
       }}
     >
       <View style={styles.container}>
-        <Header title={exercise.title} />
+        <Header title={exercise.title} goBack={() => navigation.goBack()} />
         <Markdown markdownStyles={markdownStyles}>
           {exercise.description}
         </Markdown>
       </View>
-      <Idea />
+      <Idea title={exercise.title} />
       <View style={{ position: "absolute", left: 0, bottom: 40 }}>
         <BackButton onPress={() => navigation.goBack()} />
       </View>
@@ -38,20 +46,85 @@ function HappinessExercise({ navigation, route }: Props) {
   );
 }
 
-function Idea() {
+type IdeaProps = { title: string };
+function Idea({ title }: IdeaProps) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <TouchableOpacity
-      onPress={() => {}}
-      style={{
-        alignItems: "flex-end",
-        borderWidth: 0,
-        marginTop: 10,
-        marginBottom: 36,
-        marginHorizontal: 25,
-      }}
-    >
-      <Image source={IdeaImg} style={{ width: 160 }} resizeMode="contain" />
-    </TouchableOpacity>
+    <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          // Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.primary,
+          }}
+        >
+          <View
+            style={{
+              width: "80%",
+              borderRadius: 25,
+              minHeight: fullWidth / 2,
+              backgroundColor: colors.backgroundVarient,
+              // backgroundColor: 'red',
+              paddingVertical: 16,
+              alignItems: "center",
+              paddingHorizontal: 32,
+              zIndex: 100,
+              opacity: 1,
+            }}
+          >
+            <FormattedText style={{ fontSize: 28, color: "#00DE76" }}>
+              {title}‍
+            </FormattedText>
+            <ScrollView
+              style={{
+                alignSelf: "flex-start",
+                marginVertical: 16,
+                maxHeight: fullWidth,
+              }}
+            >
+              {["عکس مامان", "صدای باد", "وانیل"].map((x) => (
+                <FormattedText style={{ fontSize: 20 }}>{x}</FormattedText>
+              ))}
+            </ScrollView>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <IconSvg name="tickOutline" size="medium" color="#00DE76" />
+            </TouchableOpacity>
+            <View
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 10,
+              }}
+            >
+              <IconSvg name="exerciseIdea" size={70} color={colors.secondary} />
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <TouchableOpacity
+        onPress={() => {
+          setModalVisible(true);
+        }}
+        style={{
+          alignItems: "flex-end",
+          borderWidth: 0,
+          marginTop: 10,
+          marginBottom: 36,
+          marginHorizontal: 25,
+        }}
+      >
+        <IconSvg name="exerciseIdea" size={120} color="white" />
+      </TouchableOpacity>
+    </>
   );
 }
 
@@ -74,34 +147,32 @@ function BackButton({ onPress }: BackButtonProps) {
           top: 22,
         }}
       >
-        <IconSvg name="tickFill" size="medium" color={colors.secondary} />
+        <IconSvg name="tickOutline" size="medium" color={colors.secondary} />
       </View>
     </TouchableOpacity>
   );
 }
 
-type HeaderProps = { title: string };
-function Header({ title }: HeaderProps) {
+type HeaderProps = { title: string; goBack: () => void };
+function Header({ title, goBack }: HeaderProps) {
   return (
     <View
       style={{
         flexDirection: "row",
         justifyContent: "center",
         paddingVertical: 30,
-        // borderWidth: 1,
       }}
     >
       <IconSvg
         name="cloud"
         size={60}
         color="white"
-        style={{ position: "absolute", left: 0, top: 0 }}
+        style={{ position: "absolute", left: -8, top: 16 }}
       />
       <FormattedText
         style={{
           fontSize: 36,
           color: "white",
-          // borderWidth: 1,
         }}
       >
         {title}
@@ -112,10 +183,26 @@ function Header({ title }: HeaderProps) {
         color="white"
         style={{
           position: "absolute",
-          right: 0,
-          bottom: 30,
+          right: 30,
+          bottom: 15,
         }}
       />
+      <View
+        style={{
+          position: "absolute",
+          right: -25,
+          top: 25,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => goBack()}
+          style={{ width: 44, height: 44 }}
+        >
+          <IconSvg name="timesFill" size="small" color="white" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -155,7 +242,7 @@ const markdownStyles = {
     fontFamily: "IRANYekanRDMobile",
     textAlign: "left",
     color: "white",
-    fontSize: 22,
+    fontSize: 18,
     // marginVertical: 15,
     lineHeight: 2 * 16,
   },

@@ -4,13 +4,14 @@ const MINT = "#CBEDDD";
 const BLUE = "#0BA3B5";
 const ORANGE = "#FE6E25";
 const ORANGE_VARIENT = "#FFC3B6";
+const ORANGE_THIRD = "#FED8C5";
 
 const colors = {
   primary: "#53616C",
   primaryVarient: "#2D2325",
   secondary: ORANGE,
   secondaryVarient: ORANGE_VARIENT,
-  // background: "#f6ede4",
+  secondaryThird: ORANGE_THIRD,
   background: "white",
   backgroundVarient: "#F0F5FF",
   active: PINK,

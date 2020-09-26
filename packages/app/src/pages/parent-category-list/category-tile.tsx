@@ -17,9 +17,7 @@ const format = (text: string) => text.substr(0, 25);
 const CategoryTile = ({ category, onPress }: Props) => {
   console.log({ icon: category.icon });
   return (
-    <TouchableOpacity
-      onPress={onPress}
-    >
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.icon}>
           <Icon name={category.icon} size="huge" />
@@ -27,7 +25,7 @@ const CategoryTile = ({ category, onPress }: Props) => {
         <View style={styles.texts}>
           <FormattedText style={styles.title}>{category.title}</FormattedText>
           <FormattedText style={styles.description}>
-            {format(category.description)}
+            {category.shortDescription}
           </FormattedText>
         </View>
         <View style={styles.arrow}>
@@ -70,6 +68,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 18,
     color: colors.primary,
+    lineHeight: 18 * 1.5,
     marginBottom: 10,
   },
   arrow: {

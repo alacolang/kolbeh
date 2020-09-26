@@ -21,6 +21,7 @@ const GET_PARENT = gql`
     parentCategories {
       id
       title
+      shortDescription
       description
       icon
       feed {

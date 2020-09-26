@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Icon } from "../icon";
+import { Icon, IconSvg } from "../icon";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
 import ProgressiveImage from "components/progressive-image";
+import colors from "colors";
 
 type Props = {
   post: Types.IPost;
@@ -18,7 +19,7 @@ const TheVideo = ({ post }: Props) => {
     <>
       <ProgressiveImage uri={uri} />
       <View style={styles.iconContainer}>
-        <Icon name="video" size="small" />
+        <IconSvg name="video" size="small" color={colors.primary} />
       </View>
     </>
   );

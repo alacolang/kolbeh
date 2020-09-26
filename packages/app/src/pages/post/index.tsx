@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StatusBar, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/core";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
@@ -9,9 +15,12 @@ import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
 import Unknown from "./unkown-post";
-import { Icon } from "components/icon";
+import { Icon, IconSvg } from "components/icon";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import InAppPost from "components/body-percussion";
+import { SafeAreaView } from "react-native-safe-area-context";
+import colors from "colors";
+import BackImg from "components/icon/images/back.png";
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -48,7 +57,7 @@ type PostData = {
   postById: Types.IPost;
 };
 
-const PostScreen = () => {
+const PostScreen = ({ navigation }) => {
   const [
     bookmarkedPosts,
     { addToBookmarkedPosts, removeFromBookmarkedPosts },
@@ -102,7 +111,11 @@ const PostScreen = () => {
         }
       }}
     >
-      <Icon name={isSaved ? "saveActive" : "save"} size="small" />
+      <IconSvg
+        name="bookmark"
+        size="small"
+        color={isSaved ? colors.secondary : colors.primary}
+      />
     </TouchableOpacity>
   );
 
@@ -110,17 +123,37 @@ const PostScreen = () => {
   const canSave = !NO_SAVE_TYPES.includes(_post.type);
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-      {canSave && <View style={styles.saveWrapper}>{saveButtonRendered}</View>}
-      <Component post={_post} />
-    </View>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: _post.type === "video" ? "black" : colors.background,
+      }}
+    >
+      <View style={styles.container}>
+        <StatusBar hidden />
+        {canSave && (
+          <View style={styles.saveWrapper}>{saveButtonRendered}</View>
+        )}
+        <View style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={BackImg}
+              style={{ width: 40, height: 84 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+        <Component post={_post} />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // borderWidth: 5,
+    // borderColor: "blue",
   },
   saveWrapper: {
     position: "absolute",

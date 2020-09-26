@@ -15,7 +15,7 @@ const messages: Record<string, string> = {
   teen: "نوجوانان",
   "child/teen": "نوجوانان",
   search: "جستجو",
-  toolbox: "جعبه‌ابزار",
+  toolbox: "جعبه‌ آرامش",
   "child/toolbox": "جعبه‌ آرامش",
   "contact.title":
     " کلبه‌ی انجمن روانپزشکی کودک و نوجوان ایران، مکانی برای افزایش آگاهی و توانمندی روان‌شناختی شما ‌است. ",
@@ -59,7 +59,8 @@ const messages: Record<string, string> = {
     "با تکمیل این تمرین‌ها فرد سفیر شادمانی کلبه می‌شود.",
   "happiness.menuTitle": "امید",
   "happiness.greeting.1": "سلام",
-  "happiness.greeting.2": "آماده‌ای که تمرین اول ذهن‌آگاهی رو انجام بدی",
+  "happiness.greeting.2.0": "آماده‌ای که ",
+  "happiness.greeting.2.1": " رو انجام بدی",
 };
 
 export default messages;

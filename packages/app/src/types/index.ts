@@ -34,6 +34,7 @@ export type ITag = string;
 export type ICategory = {
   id: string;
   title: string;
+  shortDescription: string;
   description: string;
   icon: IconName;
   feed: IFeed;

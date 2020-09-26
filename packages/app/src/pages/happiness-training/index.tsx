@@ -24,11 +24,13 @@ import { resolveURL } from "utils/resolve";
 import Bar from "navigation/menu";
 import { TabParamList } from "navigation/tab-navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { IconSvg } from "components/icon";
+import { color } from "react-native-reanimated";
 
 const fullWidth = Dimensions.get("window").width;
 const imageWidth = fullWidth / 2 - 80;
-const slideWidth = fullWidth - 140;
-const slideHeight = slideWidth * 1.4;
+const slideWidth = fullWidth - 160;
+const slideHeight = (slideWidth * 320) / 200;
 
 const GET_HAPPINESS_TRAININGS = gql`
   query {
@@ -76,9 +78,15 @@ const HappinessTraining = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
       <Bar navigation={navigation} />
-      <View style={{ paddingLeft: 20 }}>
-        <FormattedText id="happiness.greeting.1" style={{ fontSize: 15 }} />
-        <FormattedText id="happiness.greeting.2" style={{ fontSize: 15 }} />
+      <View style={styles.greetingContainer}>
+        <FormattedText id="happiness.greeting.1" style={styles.greeting} />
+        <View style={{ flexDirection: "row" }}>
+          <FormattedText id="happiness.greeting.2.0" style={styles.greeting} />
+          <FormattedText style={styles.greetingCategory}>
+            {categories?.[0].title}
+          </FormattedText>
+          <FormattedText id="happiness.greeting.2.1" style={styles.greeting} />
+        </View>
       </View>
       <View>
         <ScrollView
@@ -86,29 +94,52 @@ const HappinessTraining = () => {
           style={{ transform: [{ scaleX: -1 }] }}
           contentContainerStyle={styles.categoriesContainer}
         >
-          {categories?.map((category) => (
-            <View key={category.id} style={styles.categoryContainer}>
-              <Image
-                source={{ uri: resolveURL(category.image.url) }}
-                resizeMode="contain"
-                style={styles.categoryImage}
-              />
-              <FormattedText style={styles.categoryTitle}>
-                {category.title}
-              </FormattedText>
-              <FormattedText style={styles.categoryDescription}>
-                {category.description}
-              </FormattedText>
-              <TouchableOpacity
-                style={styles.enterContainer}
-                onPress={() =>
-                  navigation.navigate("happinessCategory", { category })
-                }
+          {categories?.map((category, index) => {
+            const active = index === 0;
+            return (
+              <View
+                key={category.id}
+                style={[
+                  styles.categoryContainer,
+                  {
+                    backgroundColor: active
+                      ? colors.secondaryVarient
+                      : colors.green,
+                  },
+                ]}
               >
-                <FormattedText id="enter" style={styles.enter}></FormattedText>
-              </TouchableOpacity>
-            </View>
-          ))}
+                <Image
+                  source={{ uri: resolveURL(category.image.url) }}
+                  resizeMode="contain"
+                  style={styles.categoryImage}
+                />
+                <FormattedText style={styles.categoryTitle}>
+                  {category.title}
+                </FormattedText>
+                <FormattedText style={styles.categoryDescription}>
+                  {category.description}
+                </FormattedText>
+                {active ? (
+                  <TouchableOpacity
+                    style={styles.enterContainer}
+                    onPress={() =>
+                      navigation.navigate("happinessCategory", { category })
+                    }
+                  >
+                    <FormattedText id="enter" style={styles.enter} />
+                  </TouchableOpacity>
+                ) : (
+                  <View style={styles.lockContainer}>
+                    <IconSvg
+                      name="lockFill"
+                      size="medium"
+                      color={colors.secondaryThird}
+                    />
+                  </View>
+                )}
+              </View>
+            );
+          })}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -121,13 +152,23 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
   },
+  lockContainer: {
+    position: "absolute",
+    bottom: 32,
+    left: 32,
+    backgroundColor: colors.green,
+    borderRadius: 44,
+    height: 44,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   enterContainer: {
     position: "absolute",
-    bottom: 40,
-    left: 40,
+    bottom: 32,
+    left: 32,
     backgroundColor: colors.secondary,
-    borderRadius: 40,
-    height: 40,
+    borderRadius: 44,
+    height: 44,
     justifyContent: "center",
     alignItems: "center",
     width: slideWidth / 2,
@@ -135,15 +176,15 @@ const styles = StyleSheet.create({
   enter: { color: "white", top: -4, fontSize: 18 },
   categoriesContainer: {
     // borderWidth: 1,
-    paddingTop: 40,
+    paddingTop: 60,
     paddingLeft: 90,
-    paddingBottom: 20,
+    paddingBottom: 40,
     // height: slideHeight + 40,
   },
   categoryContainer: {
     transform: [{ scaleX: -1 }],
     paddingHorizontal: 20,
-    marginHorizontal: 30,
+    marginHorizontal: 15,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,
     // borderWidth: 1,
@@ -161,17 +202,23 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   categoryTitle: {
-    fontSize: 28,
-    marginTop: 30,
+    fontSize: 26,
     color: colors.primaryVarient,
   },
   categoryDescription: {
-    fontSize: 22,
+    fontSize: 20,
     marginTop: 30,
     color: colors.primary,
     lineHeight: 22 * 1.4,
     width: slideWidth / 1.5,
     // borderWidth: 1,
+  },
+  greetingContainer: { paddingLeft: 40 },
+  greeting: { fontSize: 18, color: colors.primary, lineHeight: 18 * 1.5 },
+  greetingCategory: {
+    color: colors.secondary,
+    paddingHorizontal: 5,
+    fontSize: 18,
   },
 });
 

@@ -4,7 +4,7 @@ import {
   StackHeaderProps,
 } from "@react-navigation/stack";
 import { Image, StyleSheet, View } from "react-native";
-import Feed from "../pages/search";
+import Search from "../pages/search";
 import ChildFeed, { FeedRouteParam } from "../pages/child-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import BackImg from "../components/icon/images/back.png";
@@ -36,14 +36,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     height: 60,
-    backgroundColor: colors.backgroundVarient,
   },
   container2: {
     flexDirection: "row",
     alignItems: "center",
-    height: 130,
-    // backgroundColor: colors.backgroundVarient,
+    justifyContent: "center",
+    height: 60,
   },
   backIcon: {
     width: 40,
@@ -51,11 +51,17 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: "black",
   },
-  back: { width: 44, height: 84, borderWidth: 0 },
+  back: {
+    width: 44,
+    height: 84,
+    position: "absolute",
+    left: 0,
+    // borderWidth: 1,
+  },
   title: {
     marginHorizontal: 30,
     fontSize: 28,
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     color: colors.secondary,
   },
 });
@@ -63,24 +69,18 @@ const styles = StyleSheet.create({
 const BackHeader = ({ navigation, scene }: StackHeaderProps) => {
   console.log({ scene });
   return (
-    <SafeAreaView style={{ backgroundColor: colors.backgroundVarient }}>
+    <SafeAreaView>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.back}
-        >
-          <Image
-            source={BackImg}
-            style={styles.backIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <FormattedText style={styles.title}>
-          {
-            //scene.route?.params?.exercise?.title ??
-            scene.route?.params?.category?.title
-          }
-        </FormattedText>
+        <View style={styles.back}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={BackImg}
+              style={styles.backIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+        <FormattedText style={styles.title} id={scene.route.name} />
       </View>
     </SafeAreaView>
   );
@@ -89,15 +89,23 @@ const BackHeader = ({ navigation, scene }: StackHeaderProps) => {
 const ChildFeedBackHeader = ({ navigation, scene }: StackHeaderProps) => {
   console.log({ scene });
   return (
-    <View style={styles.container2}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Image source={BackImg} style={styles.backIcon} resizeMode="contain" />
-      </TouchableOpacity>
-      <FormattedText
-        style={styles.title}
-        id={scene.route?.params?.categoryId}
-      ></FormattedText>
-    </View>
+    <SafeAreaView>
+      <View style={styles.container2}>
+        <View style={styles.back}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={BackImg}
+              style={styles.backIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+        <FormattedText
+          style={styles.title}
+          id={scene.route?.params?.categoryId}
+        ></FormattedText>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -116,7 +124,7 @@ const HomeNavigator = ({ navigation, route }) => {
     >
       <Stack.Screen
         name="search"
-        component={Feed}
+        component={Search}
         options={{
           header: BackHeader,
           animationEnabled: false,

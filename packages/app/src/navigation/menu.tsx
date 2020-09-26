@@ -20,7 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const fullHeight = Dimensions.get("window").height;
 
-const TEXT_LENGTH = 95;
+const TEXT_LENGTH = 125;
 const TEXT_HEIGHT = 40;
 
 type RouteName = keyof HomeStackParamList;
@@ -106,24 +106,29 @@ const Links = ({ onPress }: LinksProps) => {
           return (
             <View key={link.key} style={{ flexDirection: "row-reverse" }}>
               <View style={styles.textContainer}>
-                <FormattedText style={styles.text} id={link.name} />
+                <FormattedText
+                  style={[styles.text, { color: colors.primaryVarient }]}
+                  id={link.name}
+                />
               </View>
               <Svg
                 style={{
-                  width: 20,
+                  width: 35,
                   height: 120,
                   position: "absolute",
-                  left: 65 - 13,
+                  left: 65 - 19,
+                  // borderWidth: 1
                 }}
-                viewBox={`0 0 18 100`}
+                viewBox={`0 0 14 70`}
               >
                 <Path
-                  d={bellCurve(0, 80, 18)}
+                  d={bellCurve(0, 70, 14)}
                   fill="#F0F5FF"
+                  // fill="red"
                   stroke="none"
                   x={0}
                 />
-                <Circle cx={4} cy={40} r={4} fill="#FE6E25" />
+                <Circle cx={0} cy={35} r={3} fill="#FE6E25" />
               </Svg>
             </View>
           );
@@ -158,6 +163,8 @@ const styles = StyleSheet.create({
     height: TEXT_LENGTH,
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: 'red',
+    // borderWidth: 2
   },
   text: {
     transform: [{ rotate: "270deg" }],
@@ -178,6 +185,7 @@ const Bar = ({ navigation }: BarProps) => {
   return (
     <View
       style={{
+        // borderWidth: 1,
         position: "absolute",
         right: 0,
         width: 65 + 10,
@@ -219,17 +227,18 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
   // const [visible, setVisible] = React.useState(false);
   return (
     <SafeAreaView
-      mode="margin"
       edges={["right", "bottom", "left"]}
-      style={{ backgroundColor: "white", borderWidth: 1, height: 70 }}
+      style={{
+        backgroundColor:'#F9FBFF',
+        // borderWidth: 1,
+        paddingVertical: 10,
+      }}
     >
       <View
         style={{
           // flexGrow: 1,
           flexDirection: "row",
-          backgroundColor: "red",
-          // backgroundColor: "#F9FBFF",
-          // height: 70,
+          backgroundColor: "#F9FBFF",
           alignItems: "center",
           justifyContent: "space-evenly",
           // borderWidth: 1,
@@ -250,7 +259,7 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
             >
               <View
                 style={{
-                  borderWidth: 1,
+                  // borderWidth: 1,
                   height: 45,
                   borderRadius: 10,
                   width: 100,

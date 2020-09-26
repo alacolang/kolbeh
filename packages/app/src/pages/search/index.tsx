@@ -242,8 +242,9 @@ const SearchScreen = () => {
         // flex: 1,
         justifyContent: "center",
         paddingHorizontal: 30,
-        borderWidth: 1,
-        backgroundColor: "red",
+        // borderWidth: 1,
+        // backgroundColor: colors.backgroundVarient,
+        // backgroundColor: "red",
         // height: 100
       }}
     >
@@ -263,7 +264,7 @@ const SearchScreen = () => {
                 marginVertical: 4,
                 borderRadius: 10,
                 backgroundColor: colors.background,
-                borderWidth: 1,
+                // borderWidth: 1,
               }}
             >
               <FormattedText
@@ -298,7 +299,7 @@ const SearchScreen = () => {
             alignItems: "center",
             width: 44,
             height: 44,
-            borderWidth: 2,
+            // borderWidth: 2,
           }}
         >
           <Icon name="search" size="tiny" />
@@ -400,7 +401,7 @@ const SearchScreen = () => {
   );
 
   return (
-    <SafeAreaView>
+    <>
       <View style={styles.container}>
         <StatusBar hidden />
 
@@ -415,7 +416,7 @@ const SearchScreen = () => {
         {/* </Animated.View> */}
       </View>
       {itemsRendered}
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
     // backgroundColor: colors.backgroundVarient,
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
   },
   menuContainer: {
     flexDirection: "row",
@@ -472,7 +473,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    backgroundColor: colors.background,
+    // borderWidth: 1,
+    // backgroundColor: "red",
   },
 });
 
