@@ -22,9 +22,6 @@ import kid from "./kid.png";
 import teen from "./teen.png";
 import kidActive from "./kid-active.png";
 import teenActive from "./teen-active.png";
-import instagram from "./instagram.png";
-import twitter from "./twitter.png";
-import telegram from "./telegram.png";
 import info from "./information.png";
 import video from "./video.png";
 import loading from "./loading.png";
@@ -47,6 +44,7 @@ import kolbeh from "./kolbeh.png";
 import circle from "./circle.png";
 import checkCircle from "./check-circle.png";
 import tickActive from "./tick-active.png";
+import avatar from './avatar.png'
 
 const icons = {
   parent,
@@ -73,9 +71,6 @@ const icons = {
   teen,
   kidActive,
   teenActive,
-  instagram,
-  twitter,
-  telegram,
   info,
   video,
   loading,
@@ -98,6 +93,7 @@ const icons = {
   checkCircle,
   circle,
   tickActive,
+  avatar
 };
 
 export default icons;
