@@ -5,15 +5,16 @@ import {
   StatusBar,
   TouchableOpacity,
   Text,
+  Image,
   View,
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FormattedText } from "components/formatted-text";
 import colors from "colors";
-import { Icon } from "components/icon";
+import { IconSvg } from "components/icon";
 import { getVersion } from "utils/codepush";
-import Curve from "components/curve";
+import ContactImg from "assets/images/contact-character.png";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -42,24 +43,36 @@ const Contact = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          // activeOpacity={0.5}
-          onPress={() => navigation.goBack()}
-        >
-          <View style={styles.backContainer}>
-            <Icon name="back" size="tiny" />
-          </View>
-        </TouchableOpacity>
-        <View style={{ flex: 1 }} />
-        <Icon name="info" size="small" />
-        <Curve position="bottom-right" negative />
-        <Curve position="bottom-left" negative />
+    <View
+      style={{
+        backgroundColor: colors.green,
+        flex: 1,
+        paddingHorizontal: 36,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          // borderWidth: 1,
+          marginBottom: 10,
+          paddingHorizontal: 40,
+        }}
+      >
+        <IconSvg
+          name="cloud"
+          color="white"
+          size="medium"
+          style={{ position: "relative", top: 30 }}
+        />
+        <IconSvg
+          name="cloud"
+          color="white"
+          size="huge"
+          style={{ position: "relative", top: -10 }}
+        />
       </View>
-
       <View style={{ paddingHorizontal: 40 }}>
         <FormattedText style={styles.text} id="contact.title" />
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
@@ -79,24 +92,31 @@ const Contact = ({ navigation }) => {
             onPress={() => Linking.openURL("https://twitter.com/iacap_ir")}
           >
             <View style={styles.socialIconContainer}>
-              <Icon name="twitter" size="tiny" />
+              <IconSvg name="twitter" size="tiny" color="white" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => Linking.openURL("https://www.instagram.com/iacap2")}
           >
             <View style={styles.socialIconContainer}>
-              <Icon name="instagram" size="tiny" />
+              <IconSvg name="instagram" size="tiny" color="white" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => Linking.openURL("https://t.me/IACAP")}
           >
             <View style={styles.socialIconContainer}>
-              <Icon name="telegram" size="tiny" />
+              <IconSvg name="telegram" size="tiny" color="white" />
             </View>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={{ position: "absolute", bottom: 0, right: 10 }}>
+        <Image
+          source={ContactImg}
+          style={{ width: 150 }}
+          resizeMode="contain"
+        />
       </View>
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
@@ -123,7 +143,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: colors.primary,
+    color: "white",
     lineHeight: 2 * 18,
     textAlign: "center",
   },
@@ -132,6 +152,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-evenly",
+    paddingHorizontal: 30
   },
   socialIconContainer: {
     paddingTop: 20,
@@ -140,6 +161,7 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: colors.green
   },
   row: {
     height: 44,
@@ -150,7 +172,7 @@ const styles = StyleSheet.create({
   versionContainer: {
     flexDirection: "column",
     position: "absolute",
-    bottom: 10,
+    bottom: 40,
     right: 10,
   },
   version: {

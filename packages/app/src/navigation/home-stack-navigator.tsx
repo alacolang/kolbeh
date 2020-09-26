@@ -7,6 +7,7 @@ import { Image, StyleSheet, View } from "react-native";
 import Search from "../pages/search";
 import ChildFeed, { FeedRouteParam } from "../pages/child-feed";
 import Post, { PostRouteParam } from "../pages/post";
+import Settings from "../pages/settings";
 import BackImg from "../components/icon/images/back.png";
 import { Icon } from "../components/icon";
 import TabNavigator from "./tab-navigator";
@@ -17,8 +18,10 @@ import HappinessExercise from "../pages/happiness-exercise";
 import colors from "../colors";
 import * as Types from "types";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Contact from "pages/contact";
 
 export type HomeStackParamList = {
+  settings: undefined;
   search: undefined;
   contact: undefined;
   saved: undefined;
@@ -61,15 +64,22 @@ const styles = StyleSheet.create({
   title: {
     marginHorizontal: 30,
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.secondary,
   },
 });
 
-const BackHeader = ({ navigation, scene }: StackHeaderProps) => {
+const BackHeader = ({
+  navigation,
+  scene,
+  backgroundColor,
+  color,
+}: StackHeaderProps & { color?: string; backgroundColor?: string }) => {
   console.log({ scene });
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{ backgroundColor: backgroundColor ?? colors.backgroundVarient }}
+    >
       <View style={styles.container}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -80,7 +90,10 @@ const BackHeader = ({ navigation, scene }: StackHeaderProps) => {
             />
           </TouchableOpacity>
         </View>
-        <FormattedText style={styles.title} id={scene.route.name} />
+        <FormattedText
+          style={[styles.title, { color: color ?? colors.secondary }]}
+          id={scene.route.name}
+        />
       </View>
     </SafeAreaView>
   );
@@ -123,6 +136,15 @@ const HomeNavigator = ({ navigation, route }) => {
       })}
     >
       <Stack.Screen
+        name="settings"
+        component={Settings}
+        options={{
+          header: BackHeader,
+          animationEnabled: false,
+          // ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="search"
         component={Search}
         options={{
@@ -157,6 +179,21 @@ const HomeNavigator = ({ navigation, route }) => {
         name="home"
         component={TabNavigator}
         options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="contact"
+        component={Contact}
+        options={{
+          header: (props) => (
+            <BackHeader
+              {...props}
+              color="white"
+              backgroundColor={colors.green}
+            />
+          ),
+          animationEnabled: false,
+          // ...TransitionPresets.SlideFromRightIOS,
+        }}
       />
       <Stack.Screen
         name="happinessCategory"

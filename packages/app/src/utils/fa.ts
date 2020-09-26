@@ -3,7 +3,8 @@ const messages: Record<string, string> = {
     "به کلبه‌ی انجمن روانپزشکی کودک و نوجوان ایران خوش آمدید.",
   enter: "ورود",
   "contact-us": "درباره ما",
-  contact: "درباره ما",
+  contact: "ارتباط با ما",
+  reminder: "یادآور",
   kolbeh: "کلبه",
   profile: "پروفایل",
   happinessTraining: "شادمانی",
@@ -61,6 +62,10 @@ const messages: Record<string, string> = {
   "happiness.greeting.1": "سلام",
   "happiness.greeting.2.0": "آماده‌ای که ",
   "happiness.greeting.2.1": " رو انجام بدی",
+  "reward.daily": `آﻓﺮﯾﻦ ....
+ﮐﺎرت ﻋﺎﻟﯽ ﺑﻮد
+ﯾﮏ ﺳﺘﺎره ذﻫﻦ آﮔﺎﻫﯽ
+ﺑﻪ ﺳﺘﺎره‌ﻫﺎت اﺿﺎﻓﻪ ﺷﺪ`,
 };
 
 export default messages;

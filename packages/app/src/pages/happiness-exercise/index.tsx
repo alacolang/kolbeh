@@ -16,6 +16,7 @@ import CurveImg from "assets/images/back-curve-active.png";
 import { IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { ScrollView } from "react-native-gesture-handler";
+import rewardDailyImg from "assets/images/reward-daily.png";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -39,9 +40,7 @@ function HappinessExercise({ navigation, route }: Props) {
         </Markdown>
       </View>
       <Idea title={exercise.title} />
-      <View style={{ position: "absolute", left: 0, bottom: 40 }}>
-        <BackButton onPress={() => navigation.goBack()} />
-      </View>
+      <Done handleDone={() => navigation.goBack()} />
     </SafeAreaView>
   );
 }
@@ -150,6 +149,88 @@ function BackButton({ onPress }: BackButtonProps) {
         <IconSvg name="tickOutline" size="medium" color={colors.secondary} />
       </View>
     </TouchableOpacity>
+  );
+}
+
+type Done = { handleDone: () => void };
+function Done({ handleDone }: Done) {
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          handleDone();
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.primary,
+          }}
+        >
+          <View
+            style={{
+              width: "80%",
+              borderRadius: 25,
+              minHeight: fullWidth / 2,
+              backgroundColor: colors.backgroundVarient,
+              paddingVertical: 16,
+              paddingHorizontal: 32,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 16,
+              }}
+            >
+              <FormattedText
+                style={{
+                  fontSize: 20,
+                  lineHeight: 20 * 1.5,
+                  color: colors.primary,
+                }}
+                id="reward.daily"
+              />
+
+              <View
+                style={{
+                  right: -10,
+                  top: 30,
+                }}
+              >
+                <Image
+                  source={rewardDailyImg}
+                  style={{ width: 100, height: 200, borderWidth: 0 }}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                handleDone();
+              }}
+            >
+              <IconSvg name="tickOutline" size="medium" color="#00DE76" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <View style={{ position: "absolute", left: 0, bottom: 40 }}>
+        <BackButton
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        />
+      </View>
+    </>
   );
 }
 

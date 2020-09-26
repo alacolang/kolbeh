@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../colors";
-import { Icon, IconName } from "../components/icon";
+import { Icon, IconName, IconSvg, IconSvgName } from "../components/icon";
 import { FormattedText } from "components/formatted-text";
 import { HomeStackParamList } from "./home-stack-navigator";
 import { TabParamList } from "./tab-navigator";
@@ -37,7 +37,7 @@ type LinkParam = (
   | {
       type: "icon";
       route: keyof HomeStackParamList;
-      icon: IconName;
+      icon: IconSvgName;
     }
   | {
       type: "text";
@@ -49,6 +49,12 @@ type LinkParam = (
 ) & { key: string };
 
 const links: LinkParam[] = [
+  {
+    type: "icon",
+    route: "settings",
+    icon: "dots",
+    key: "settings",
+  },
   {
     type: "icon",
     route: "search",
@@ -96,8 +102,8 @@ const Links = ({ onPress }: LinksProps) => {
               key={link.key}
               onPress={() => onPress(link.route)}
             >
-              <View style={[styles.textContainer, { height: 50 }]}>
-                <Icon name="search" size="tiny" />
+              <View style={[styles.textContainer, { height: 70 }]}>
+                <IconSvg name={link.icon} size="tiny" color={colors.primary} />
               </View>
             </TouchableOpacity>
           );

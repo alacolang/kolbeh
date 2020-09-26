@@ -426,15 +426,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
-    // backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVarient,
     // backgroundColor: "yellow",
   },
   menuContainer: {
     flexDirection: "row",
     paddingHorizontal: 0,
     // height: HEADER_SCROLL_DISTANCE,
-    // backgroundColor: colors.backgroundVarient,
-    backgroundColor: "red",
   },
   menuItem: {
     flexDirection: "row",
@@ -465,15 +463,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollViewContent: {
-    marginTop: 30,
+    paddingTop: 30,
     // marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: 80,
+    backgroundColor: colors.backgroundVarient
   },
   container: {
     flexGrow: 1,
     // borderWidth: 1,
+    backgroundColor: colors.backgroundVarient
     // backgroundColor: "red",
   },
 });
