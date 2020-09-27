@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -25,7 +25,7 @@ import Bar from "navigation/menu";
 import { TabParamList } from "navigation/tab-navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { IconSvg } from "components/icon";
-import { color } from "react-native-reanimated";
+import { useHappiness } from "context/happiness";
 
 const fullWidth = Dimensions.get("window").width;
 const imageWidth = fullWidth / 2 - 80;
@@ -64,15 +64,22 @@ export type Navigation = CompositeNavigationProp<
 
 const HappinessTraining = () => {
   const navigation = useNavigation<Navigation>();
+  const happiness = useHappiness();
 
   const { data, loading } = useQuery<HappinessTrainingData>(
     GET_HAPPINESS_TRAININGS,
-    {}
+    { fetchPolicy: "network-only" }
   );
 
   const categories = data?.happinessTraining.categories;
 
-  console.log({ categories });
+  useEffect(() => {
+    if (!categories) return;
+    console.log("to call updateRawCategories");
+    happiness.updateRawCategories(categories);
+  }, [categories]);
+
+  console.log("training render", { loading });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,17 +101,18 @@ const HappinessTraining = () => {
           style={{ transform: [{ scaleX: -1 }] }}
           contentContainerStyle={styles.categoriesContainer}
         >
-          {categories?.map((category, index) => {
-            const active = index === 0;
+          {categories?.map((category) => {
+            const state = happiness.categories[category.id]?.state;
             return (
               <View
                 key={category.id}
                 style={[
                   styles.categoryContainer,
                   {
-                    backgroundColor: active
-                      ? colors.secondaryVarient
-                      : colors.green,
+                    backgroundColor:
+                      state === "in-progress" || state === "unlocked"
+                        ? colors.secondaryVarient
+                        : colors.green,
                   },
                 ]}
               >
@@ -119,7 +127,7 @@ const HappinessTraining = () => {
                 <FormattedText style={styles.categoryDescription}>
                   {category.description}
                 </FormattedText>
-                {active ? (
+                {state === "in-progress" || state === "unlocked" ? (
                   <TouchableOpacity
                     style={styles.enterContainer}
                     onPress={() =>
@@ -128,6 +136,8 @@ const HappinessTraining = () => {
                   >
                     <FormattedText id="enter" style={styles.enter} />
                   </TouchableOpacity>
+                ) : state === "done" ? (
+                  <FormattedText>Done</FormattedText>
                 ) : (
                   <View style={styles.lockContainer}>
                     <IconSvg

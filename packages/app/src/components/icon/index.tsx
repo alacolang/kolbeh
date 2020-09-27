@@ -54,7 +54,6 @@ export const IconSvg = ({ size, name, color, ...props }: SvgProps) => {
     _size = SIZE[size];
   }
 
-  console.log({ name, svgs });
   return (
     <SvgXml
       width={_size}

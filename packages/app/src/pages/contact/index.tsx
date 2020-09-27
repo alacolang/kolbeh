@@ -111,10 +111,10 @@ const Contact = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ position: "absolute", bottom: 0, right: 10 }}>
+      <View style={{ position: "absolute", bottom: 80, right: 10,  }}>
         <Image
           source={ContactImg}
-          style={{ width: 150 }}
+          style={{ width: 120, height: 300 }}
           resizeMode="contain"
         />
       </View>
@@ -152,7 +152,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-evenly",
-    paddingHorizontal: 30
+    paddingHorizontal: 40,
+    zIndex: 1,
   },
   socialIconContainer: {
     paddingTop: 20,
@@ -178,30 +179,6 @@ const styles = StyleSheet.create({
   version: {
     color: colors.primary,
     fontSize: 12,
-  },
-  logoContainer: {
-    borderWidth: 1,
-  },
-  headerContainer: {
-    position: "absolute",
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    right: 0,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 30,
-    height: HEADER_MIN_HEIGHT,
-    backgroundColor: colors.backgroundVarient,
-  },
-  backContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 44,
-    alignItems: "center",
-    justifyContent: "center",
-    // borderWidth: 2,
-    borderColor: "red",
   },
 });
 

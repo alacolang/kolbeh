@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
 import colors from "colors";
 import BackImg from "components/icon/images/back.png";
@@ -11,6 +11,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useHappiness } from "context/happiness";
+import { Circle } from "react-native-svg";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -30,8 +32,13 @@ const Header = ({ navigation, route }: Props) => {
 type Props = StackScreenProps<HomeStackParamList, "happinessCategory">;
 function HappinessCategory({ navigation, route }: Props) {
   const { category } = route.params;
+  const happiness = useHappiness();
 
-  console.log({ category });
+  useEffect(() => {
+    happiness.updateCategoryExercises(category);
+  }, []);
+
+  console.log({ category }, happiness.exercises);
 
   function handlePress(exercise: Types.IExercise) {
     navigation.navigate("happinessExercise", { exercise });
@@ -51,14 +58,24 @@ function HappinessCategory({ navigation, route }: Props) {
           <View style={{ width: fullWidth / 2 - 40 }}>
             {category.exercises.map(
               (exercise: Types.IExercise, index: number) => {
+                const state =
+                  happiness.exercises[exercise.id]?.state ?? "locked";
+                console.log(state, happiness.exercises[exercise.id]);
                 return (
                   <TouchableOpacity
+                    disabled={state === "locked" || state === "done"}
                     key={exercise.title}
                     onPress={() => handlePress(exercise)}
                     style={styles.exerciseContainer}
                   >
                     <IconSvg
-                      name="lockFill"
+                      name={
+                        state === "locked"
+                          ? "lockFill"
+                          : state === "done"
+                          ? "tickFill"
+                          : "circle"
+                      }
                       size="medium"
                       color={colors.secondaryThird}
                       style={styles.icon}
@@ -111,7 +128,7 @@ const styles = StyleSheet.create({
   exerciseContainer: {
     flexDirection: "row",
     // borderWidth: 1,
-    height: 80,
+    height: 65,
     zIndex: 1,
   },
   exerciseTitle: {

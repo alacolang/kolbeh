@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed, { FeedRouteParam } from "../pages/parent-feed";
 import Post, { PostRouteParam } from "../pages/post";
@@ -15,9 +15,15 @@ export type ParentStackParamList = {
 const Stack = createStackNavigator<ParentStackParamList>();
 
 const ParentNavigator = ({ navigation, route }) => {
-  navigation.setOptions({
-    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      tabBarVisible: route.state
+        ? route.state.index > 0
+          ? false
+          : true
+        : null,
+    });
+  }, []);
 
   return (
     <Stack.Navigator

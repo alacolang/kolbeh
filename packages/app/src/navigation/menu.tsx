@@ -20,7 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const fullHeight = Dimensions.get("window").height;
 
-const TEXT_LENGTH = 125;
+const TEXT_LENGTH = 100;
 const TEXT_HEIGHT = 40;
 
 type RouteName = keyof HomeStackParamList;
@@ -120,9 +120,9 @@ const Links = ({ onPress }: LinksProps) => {
               <Svg
                 style={{
                   width: 35,
-                  height: 120,
+                  height: 100,
                   position: "absolute",
-                  left: 65 - 19,
+                  left: 65 - 20,
                   // borderWidth: 1
                 }}
                 viewBox={`0 0 14 70`}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   linksContainer: {
     flexDirection: "column",
     borderColor: "orange",
-    marginTop: 100,
+    marginTop: 60,
     alignItems: "center",
     backgroundColor: "#F0F5FF",
   },

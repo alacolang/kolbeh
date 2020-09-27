@@ -70,7 +70,7 @@ function Settings({ navigation }) {
           >
             <IconSvg name={item.icon} size="small" color={colors.primary} />
             <FormattedText
-              style={{ paddingLeft: 40, color: colors.primary, fontSize: 20 }}
+              style={{ paddingHorizontal: 40, color: colors.primary, fontSize: 20 }}
               id={item.title}
             />
           </View>

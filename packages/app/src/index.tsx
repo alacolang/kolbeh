@@ -10,6 +10,7 @@ import { codePushify } from "utils/codepush";
 import { BookmarkedPostsProvider } from "context/bookmark-posts";
 import SplashScreen from "react-native-splash-screen";
 import { Platform } from "react-native";
+import { HappinessProvider } from "context/happiness";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -17,21 +18,21 @@ const httpLink = new HttpLink({
 
 const cache = new InMemoryCache();
 
-const defaultOptions: DefaultOptions = {
-  watchQuery: {
-    fetchPolicy: "no-cache",
-    errorPolicy: "ignore",
-  },
-  query: {
-    fetchPolicy: "no-cache",
-    errorPolicy: "all",
-  },
-};
+// const defaultOptions: DefaultOptions = {
+//   watchQuery: {
+//     fetchPolicy: "no-cache",
+//     errorPolicy: "ignore",
+//   },
+//   query: {
+//     fetchPolicy: "no-cache",
+//     errorPolicy: "all",
+//   },
+// };
 
 const client = new ApolloClient({
   link: httpLink,
   cache,
-  defaultOptions: defaultOptions,
+  // defaultOptions: defaultOptions,
 });
 
 const App = () => {
@@ -44,7 +45,9 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <BookmarkedPostsProvider>
-        <AppNavigator />
+        <HappinessProvider>
+          <AppNavigator />
+        </HappinessProvider>
       </BookmarkedPostsProvider>
     </ApolloProvider>
   );

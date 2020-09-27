@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   createStackNavigator,
   StackHeaderProps,
@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    height: 60,
+    height: 80,
+    // borderWidth: 1,
+    // borderColor: "red",
   },
   container2: {
     flexDirection: "row",
@@ -123,9 +125,15 @@ const ChildFeedBackHeader = ({ navigation, scene }: StackHeaderProps) => {
 };
 
 const HomeNavigator = ({ navigation, route }) => {
-  navigation.setOptions({
-    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      tabBarVisible: route.state
+        ? route.state.index > 0
+          ? false
+          : true
+        : null,
+    });
+  }, []);
 
   return (
     <Stack.Navigator

@@ -17,6 +17,7 @@ import { IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { ScrollView } from "react-native-gesture-handler";
 import rewardDailyImg from "assets/images/reward-daily.png";
+import { useHappiness } from "context/happiness";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -24,7 +25,9 @@ type Props = StackScreenProps<HomeStackParamList, "happinessExercise">;
 function HappinessExercise({ navigation, route }: Props) {
   const { exercise } = route.params;
 
-  console.log({ exercise });
+  const happiness = useHappiness();
+
+  console.log({ exercise }, happiness);
 
   return (
     <SafeAreaView
@@ -40,7 +43,12 @@ function HappinessExercise({ navigation, route }: Props) {
         </Markdown>
       </View>
       <Idea title={exercise.title} />
-      <Done handleDone={() => navigation.goBack()} />
+      <Done
+        handleDone={() => {
+          navigation.goBack();
+          happiness.markExerciseAsDone(exercise.id);
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -91,7 +99,9 @@ function Idea({ title }: IdeaProps) {
               }}
             >
               {["عکس مامان", "صدای باد", "وانیل"].map((x) => (
-                <FormattedText style={{ fontSize: 20 }}>{x}</FormattedText>
+                <FormattedText key={x} style={{ fontSize: 20 }}>
+                  {x}
+                </FormattedText>
               ))}
             </ScrollView>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
