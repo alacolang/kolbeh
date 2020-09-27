@@ -1,5 +1,6 @@
 import tickFill from "./tick-fill.svg";
 import tickOutline from "./tick-outline.svg";
+import circle from "./circle.svg";
 import cloud from "./cloud.svg";
 import timesFill from "./times-fill.svg";
 import exerciseIdea from "./exercise-idea.svg";
@@ -19,6 +20,7 @@ import telegram from "./telegram.svg";
 export default {
   tickFill,
   tickOutline,
+  circle,
   cloud,
   timesFill,
   exerciseIdea,
