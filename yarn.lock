@@ -14027,6 +14027,16 @@ react-native-easy-markdown@^2.0.0:
   dependencies:
     simple-markdown "^0.4.4"
 
+react-native-flipper@^0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.37.0.tgz#15187696e7361553952a83c77dcf53e508261662"
+  integrity sha512-ZnL31EfUoXpFY4zddm/8hW6hh7+wr1VXFV+2s9TWx5F9XQ/bNVFsP+2/bbTVwYE678caZOpmHxkWebkVb2PTtA==
+
+react-native-flipper@^0.60.0:
+  version "0.60.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.60.0.tgz#05443baa0db8ab9c15325933e48e3abe8093826b"
+  integrity sha512-pXA8XacaABi5ki1eYRpWV01Klv1HxA+RnTVskma6G3nWHMXQk/XUZdl7s4661bvpBDBqDqOamZs8eP0nF1uwiA==
+
 react-native-gesture-handler@^1.6.1:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"
@@ -14825,6 +14835,13 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rn-async-storage-flipper@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/rn-async-storage-flipper/-/rn-async-storage-flipper-0.0.9.tgz#8b658f3953925f0cee4a5f9ae309316d85e868be"
+  integrity sha512-HBNBW+t7SpsCSivESpX+enyWEZJ6hgL8qbaDVoQp8PAQ3rM1e1+sOETwINaYjuWChSrIe+u3Kk5enVZGZ1hbuQ==
+  dependencies:
+    react-native-flipper "^0.37.0"
 
 rsvp@^4.8.4:
   version "4.8.5"
