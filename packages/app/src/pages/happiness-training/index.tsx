@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -12,6 +12,7 @@ import {
   useNavigation,
   NavigationProp,
   CompositeNavigationProp,
+  useFocusEffect,
 } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -74,12 +75,14 @@ const HappinessTraining = () => {
   const categories = data?.happinessTraining.categories;
 
   useEffect(() => {
-    if (!categories) return;
-    console.log("to call updateRawCategories");
+    // useFocusEffect(
+    // useCallback(() => {
+    //   if (!categories) {
+    //     return;
+    //   }
     happiness.updateRawCategories(categories);
+    // }, [])
   }, [categories]);
-
-  console.log("training render", { loading });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,9 +113,9 @@ const HappinessTraining = () => {
                   styles.categoryContainer,
                   {
                     backgroundColor:
-                      state === "in-progress" || state === "unlocked"
-                        ? colors.secondaryVarient
-                        : colors.green,
+                      state === "locked"
+                        ? colors.green
+                        : colors.secondaryVarient,
                   },
                 ]}
               >
@@ -127,7 +130,15 @@ const HappinessTraining = () => {
                 <FormattedText style={styles.categoryDescription}>
                   {category.description}
                 </FormattedText>
-                {state === "in-progress" || state === "unlocked" ? (
+                {state === "locked" ? (
+                  <View style={styles.lockContainer}>
+                    <IconSvg
+                      name="lockFill"
+                      size="medium"
+                      color={colors.secondaryThird}
+                    />
+                  </View>
+                ) : (
                   <TouchableOpacity
                     style={styles.enterContainer}
                     onPress={() =>
@@ -136,16 +147,6 @@ const HappinessTraining = () => {
                   >
                     <FormattedText id="enter" style={styles.enter} />
                   </TouchableOpacity>
-                ) : state === "done" ? (
-                  <FormattedText>Done</FormattedText>
-                ) : (
-                  <View style={styles.lockContainer}>
-                    <IconSvg
-                      name="lockFill"
-                      size="medium"
-                      color={colors.secondaryThird}
-                    />
-                  </View>
                 )}
               </View>
             );

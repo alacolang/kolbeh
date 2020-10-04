@@ -21,25 +21,6 @@ it("already unlocked", () => {
   expect(result).toMatchObject(expectedResult);
 });
 
-it("in-progress", () => {
-  const rawCategory = {
-    exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],
-  } as types.IHappinessTrainingCategory;
-  const exercises = { "1": { state: "in-progress" } } as const;
-
-  const result = processCategoryExercise(
-    rawCategory,
-    exercises,
-    ONE_DAY_IN_MILLISECONDS + 2
-  );
-  const expectedResult = {
-    "2": { state: "locked" },
-    "3": { state: "locked" },
-  };
-
-  expect(result).toMatchObject(expectedResult);
-});
-
 it("done long ago", () => {
   const rawCategory = {
     exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],

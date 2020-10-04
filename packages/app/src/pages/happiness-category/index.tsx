@@ -12,7 +12,6 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
-import { Circle } from "react-native-svg";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -41,12 +40,12 @@ function HappinessCategory({ navigation, route }: Props) {
   console.log({ category }, happiness.exercises);
 
   function handlePress(exercise: Types.IExercise) {
-    navigation.navigate("happinessExercise", { exercise });
+    navigation.navigate("happinessExercise", { exercise, category });
   }
 
   return (
     <SafeAreaView
-      style={{ backgroundColor: colors.backgroundVarient, flex: 1 }}
+      style={{ backgroundColor: colors.backgroundVariant, flex: 1 }}
     >
       <Header navigation={navigation} route={route} />
       <View style={styles.container}>
@@ -55,15 +54,14 @@ function HappinessCategory({ navigation, route }: Props) {
           <View style={styles.verticalLine}>
             <View style={styles.verticalLineInner} />
           </View>
-          <View style={{ width: fullWidth / 2 - 40 }}>
-            {category.exercises.map(
+          <View style={styles.exercisesContainer}>
+            {category.exercises?.map(
               (exercise: Types.IExercise, index: number) => {
                 const state =
                   happiness.exercises[exercise.id]?.state ?? "locked";
-                console.log(state, happiness.exercises[exercise.id]);
                 return (
                   <TouchableOpacity
-                    disabled={state === "locked" || state === "done"}
+                    disabled={state === "locked"}
                     key={exercise.title}
                     onPress={() => handlePress(exercise)}
                     style={styles.exerciseContainer}
@@ -76,7 +74,7 @@ function HappinessCategory({ navigation, route }: Props) {
                           ? "tickFill"
                           : "circle"
                       }
-                      size="medium"
+                      size="small"
                       color={colors.secondaryThird}
                       style={styles.icon}
                     />
@@ -111,41 +109,44 @@ const styles = StyleSheet.create({
     width: 5,
     backgroundColor: "#FFC3B6",
     flexGrow: 1,
-    left: 24 + 4,
-    marginVertical: 36,
+    left: 15,
+    marginBottom: 38,
+    marginTop: 5,
   },
   verticalLine: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexGrow: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
   },
   categoryImage: {
-    width: fullWidth / 2,
-    height: (fullWidth / 2) * 1.6,
-    // borderWidth: 1,
+    width: fullWidth / 2.2,
+    height: (fullWidth / 2.2) * 1.6,
     borderColor: "red",
+  },
+  exercisesContainer: {
+    // borderWidth: 1,
   },
   exerciseContainer: {
     flexDirection: "row",
-    // borderWidth: 1,
     height: 65,
     zIndex: 1,
   },
   exerciseTitle: {
     color: colors.primary,
     fontSize: 18,
-    paddingHorizontal: 10,
-    top: 5,
+    paddingRight: 10,
+    top: -3,
   },
   icon: {
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
   },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
     height: 90,
     paddingTop: 10,
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
   },
   backIcon: {
     width: 40,

@@ -30,7 +30,10 @@ export type HomeStackParamList = {
   parent: undefined;
   childFeed: FeedRouteParam;
   happinessCategory: { category: Types.IHappinessTrainingCategory };
-  happinessExercise: { exercise: Types.IExercise };
+  happinessExercise: {
+    exercise: Types.IExercise;
+    category: Types.IHappinessTrainingCategory;
+  };
 };
 
 const Stack = createStackNavigator<HomeStackParamList>();

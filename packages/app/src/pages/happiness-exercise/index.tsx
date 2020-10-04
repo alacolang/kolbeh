@@ -23,11 +23,12 @@ const fullWidth = Dimensions.get("window").width;
 
 type Props = StackScreenProps<HomeStackParamList, "happinessExercise">;
 function HappinessExercise({ navigation, route }: Props) {
-  const { exercise } = route.params;
+  const { exercise, category } = route.params;
 
   const happiness = useHappiness();
-
-  console.log({ exercise }, happiness);
+  const [isAlreadyDone] = useState(
+    happiness.exercises[exercise.id].state === "done"
+  );
 
   return (
     <SafeAreaView
@@ -42,20 +43,26 @@ function HappinessExercise({ navigation, route }: Props) {
           {exercise.description}
         </Markdown>
       </View>
-      <Idea title={exercise.title} />
-      <Done
-        handleDone={() => {
-          navigation.goBack();
-          happiness.markExerciseAsDone(exercise.id);
-        }}
-      />
+      <Idea title={exercise.title} categoryID={category.id} />
+      {isAlreadyDone ? null : (
+        <Done
+          handleDone={() => {
+            happiness.markExerciseAsDone(exercise.id);
+          }}
+          isCategoryDone={() => happiness.isCategoryDone(category)}
+          handleAfterDone={() => {
+            navigation.navigate("home");
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 }
 
-type IdeaProps = { title: string };
-function Idea({ title }: IdeaProps) {
+type IdeaProps = { categoryID: string; title: string };
+function Idea({ title, categoryID }: IdeaProps) {
   const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <>
       <Modal
@@ -66,38 +73,12 @@ function Idea({ title }: IdeaProps) {
           // Alert.alert("Modal has been closed.");
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: colors.primary,
-          }}
-        >
-          <View
-            style={{
-              width: "80%",
-              borderRadius: 25,
-              minHeight: fullWidth / 2,
-              backgroundColor: colors.backgroundVarient,
-              // backgroundColor: 'red',
-              paddingVertical: 16,
-              alignItems: "center",
-              paddingHorizontal: 32,
-              zIndex: 100,
-              opacity: 1,
-            }}
-          >
-            <FormattedText style={{ fontSize: 28, color: "#00DE76" }}>
-              {title}‍
+        <View style={ideaStyles.modal}>
+          <View style={ideaStyles.container}>
+            <FormattedText style={ideaStyles.text}>
+              {title + " "}‍
             </FormattedText>
-            <ScrollView
-              style={{
-                alignSelf: "flex-start",
-                marginVertical: 16,
-                maxHeight: fullWidth,
-              }}
-            >
+            <ScrollView style={ideaStyles.list}>
               {["عکس مامان", "صدای باد", "وانیل"].map((x) => (
                 <FormattedText key={x} style={{ fontSize: 20 }}>
                   {x}
@@ -107,14 +88,12 @@ function Idea({ title }: IdeaProps) {
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <IconSvg name="tickOutline" size="medium" color="#00DE76" />
             </TouchableOpacity>
-            <View
-              style={{
-                position: "absolute",
-                right: 10,
-                top: 10,
-              }}
-            >
-              <IconSvg name="exerciseIdea" size={70} color={colors.secondary} />
+            <View style={ideaStyles.imageContainer}>
+              <IconSvg
+                name={`happinessToolbox-${categoryID}`}
+                size={70}
+                color={colors.secondary}
+              />
             </View>
           </View>
         </View>
@@ -123,48 +102,96 @@ function Idea({ title }: IdeaProps) {
         onPress={() => {
           setModalVisible(true);
         }}
-        style={{
-          alignItems: "flex-end",
-          borderWidth: 0,
-          marginTop: 10,
-          marginBottom: 36,
-          marginHorizontal: 25,
-        }}
+        style={ideaStyles.button}
       >
-        <IconSvg name="exerciseIdea" size={120} color="white" />
+        <IconSvg
+          name={`happinessToolbox-${categoryID}`}
+          size={120}
+          color="white"
+        />
       </TouchableOpacity>
     </>
   );
 }
+const ideaStyles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.primary,
+  },
+  container: {
+    width: "80%",
+    borderRadius: 25,
+    minHeight: fullWidth / 2,
+    backgroundColor: colors.backgroundVariant,
+    // backgroundColor: 'red',
+    paddingVertical: 16,
+    alignItems: "center",
+    paddingHorizontal: 32,
+    zIndex: 100,
+    opacity: 1,
+  },
+  text: { fontSize: 24, color: "#00DE76" },
+  list: {
+    alignSelf: "flex-start",
+    marginVertical: 16,
+    maxHeight: fullWidth,
+  },
+  imageContainer: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+  },
+  button: {
+    alignItems: "flex-end",
+    borderWidth: 0,
+    marginTop: 10,
+    marginBottom: 36,
+    marginHorizontal: 25,
+  },
+});
 
-type BackButtonProps = { onPress: () => void };
-function BackButton({ onPress }: BackButtonProps) {
+type DoneButtonProps = { onPress: () => void };
+function DoneButton({ onPress }: DoneButtonProps) {
   return (
     <TouchableOpacity
       onPress={() => onPress()}
-      style={{
-        height: 80,
-        justifyContent: "center",
-        borderWidth: 0,
-      }}
+      style={doneButtonStyles.container}
     >
-      <Image source={CurveImg} style={{ width: 50 }} resizeMode="contain" />
-      <View
-        style={{
-          position: "absolute",
-          borderWidth: 0,
-          top: 22,
-        }}
-      >
+      <Image
+        source={CurveImg}
+        style={doneButtonStyles.backgroundImage}
+        resizeMode="contain"
+      />
+      <View style={doneButtonStyles.iconContainer}>
         <IconSvg name="tickOutline" size="medium" color={colors.secondary} />
       </View>
     </TouchableOpacity>
   );
 }
+const doneButtonStyles = StyleSheet.create({
+  container: {
+    height: 80,
+    justifyContent: "center",
+    borderWidth: 0,
+  },
+  backgroundImage: { width: 50 },
+  iconContainer: {
+    position: "absolute",
+    borderWidth: 0,
+    top: 22,
+  },
+});
 
-type Done = { handleDone: () => void };
-function Done({ handleDone }: Done) {
+type DoneProps = {
+  handleDone: () => void;
+  handleAfterDone: () => void;
+  isCategoryDone: () => boolean;
+};
+function Done({ handleDone, handleAfterDone, isCategoryDone }: DoneProps) {
   const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <>
       <Modal
@@ -172,60 +199,28 @@ function Done({ handleDone }: Done) {
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
-          handleDone();
+          handleAfterDone();
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: colors.primary,
-          }}
-        >
-          <View
-            style={{
-              width: "80%",
-              borderRadius: 25,
-              minHeight: fullWidth / 2,
-              backgroundColor: colors.backgroundVarient,
-              paddingVertical: 16,
-              paddingHorizontal: 32,
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginBottom: 16,
-              }}
-            >
+        <View style={doneStyles.modal}>
+          <View style={doneStyles.container}>
+            <View style={doneStyles.innerContainer}>
               <FormattedText
-                style={{
-                  fontSize: 20,
-                  lineHeight: 20 * 1.5,
-                  color: colors.primary,
-                }}
-                id="reward.daily"
+                style={doneStyles.text}
+                id={isCategoryDone() ? "reward.category" : "reward.exercise"}
               />
 
-              <View
-                style={{
-                  right: -10,
-                  top: 30,
-                }}
-              >
+              <View style={doneStyles.imageContainer}>
                 <Image
                   source={rewardDailyImg}
-                  style={{ width: 100, height: 200, borderWidth: 0 }}
+                  style={doneStyles.image}
                   resizeMode="contain"
                 />
               </View>
             </View>
             <TouchableOpacity
               onPress={() => {
-                handleDone();
+                handleAfterDone();
               }}
             >
               <IconSvg name="tickOutline" size="medium" color="#00DE76" />
@@ -233,9 +228,10 @@ function Done({ handleDone }: Done) {
           </View>
         </View>
       </Modal>
-      <View style={{ position: "absolute", left: 0, bottom: 40 }}>
-        <BackButton
+      <View style={doneStyles.button}>
+        <DoneButton
           onPress={() => {
+            handleDone();
             setModalVisible(true);
           }}
         />
@@ -243,6 +239,40 @@ function Done({ handleDone }: Done) {
     </>
   );
 }
+const doneStyles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.primary,
+  },
+  container: {
+    width: "80%",
+    borderRadius: 25,
+    minHeight: fullWidth / 2,
+    backgroundColor: colors.backgroundVariant,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    alignItems: "center",
+  },
+  innerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  text: {
+    fontSize: 18,
+    lineHeight: 18 * 1.8,
+    color: colors.primary,
+    width: Math.min(fullWidth / 1.8, 180),
+  },
+  imageContainer: {
+    right: -30,
+    top: 30,
+  },
+  image: { width: 100, height: 200, borderWidth: 0 },
+  button: { position: "absolute", left: 0, bottom: 40 },
+});
 
 type HeaderProps = { title: string; goBack: () => void };
 function Header({ title, goBack }: HeaderProps) {
