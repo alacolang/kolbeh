@@ -20,12 +20,8 @@ const VideoPost = ({ post }: Props) => {
         source={{ uri }}
         style={styles.backgroundVideo}
         // paused={pause}
-        onLoad={() => {
-          // console.log("loaded", video, d);
-        }}
-        onError={() => {
-          // console.log("error", e, video);
-        }}
+        // onLoad={() => {}}
+        // onError={() => {}}
         resizeMode="contain"
         // minLoadRetryCount={4}
         controls={true}

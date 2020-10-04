@@ -212,7 +212,6 @@ const Bar = ({ navigation }: BarProps) => {
       >
         <Links
           onPress={(name, params = {}) => {
-            console.log({ name, params });
             // _handleDismiss();
             navigation.navigate(name as any, params);
           }}
@@ -362,7 +361,6 @@ const BottomSheet = ({ visible, onDismiss, navigation }: BottomSheetProps) => {
         useNativeDriver: false,
       }),
       onPanResponderRelease: (e, gs) => {
-        console.log({ e, gs, panY });
         if (gs.dy > 0 && gs.vy > 2) {
           return _handleDismiss();
         }

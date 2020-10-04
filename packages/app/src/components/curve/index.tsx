@@ -26,7 +26,7 @@ const Curve = ({
         left: right ? undefined : 0,
         right: right ? 0 : undefined,
         backgroundColor: negative
-          ? colors.backgroundVarient
+          ? colors.backgroundVariant
           : colors.background,
         height: size,
         width: size,
@@ -39,7 +39,7 @@ const Curve = ({
             ? backgroundColor
             : negative
             ? colors.background
-            : colors.backgroundVarient,
+            : colors.backgroundVariant,
           [`border${!top ? "Top" : "Bottom"}${
             right ? "Right" : "Left"
           }Radius`]: size,

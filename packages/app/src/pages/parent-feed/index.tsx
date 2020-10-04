@@ -52,7 +52,7 @@ const Feed = () => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: colors.backgroundVarient,
+        backgroundColor: colors.backgroundVariant,
       }}
       edges={["top"]}
     >
@@ -98,7 +98,7 @@ const BackHeader = ({ navigation, title }: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
   },
   scrollViewContent: {
     // marginTop: 15,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     // borderWidth: 1,
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
     // backgroundColor: "blue",
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 90,
     justifyContent: "center",
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
   },
   backIcon: {
     width: 40,

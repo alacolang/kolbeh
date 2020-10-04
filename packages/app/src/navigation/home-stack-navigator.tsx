@@ -80,10 +80,9 @@ const BackHeader = ({
   backgroundColor,
   color,
 }: StackHeaderProps & { color?: string; backgroundColor?: string }) => {
-  console.log({ scene });
   return (
     <SafeAreaView
-      style={{ backgroundColor: backgroundColor ?? colors.backgroundVarient }}
+      style={{ backgroundColor: backgroundColor ?? colors.backgroundVariant }}
     >
       <View style={styles.container}>
         <View style={styles.back}>
@@ -105,7 +104,6 @@ const BackHeader = ({
 };
 
 const ChildFeedBackHeader = ({ navigation, scene }: StackHeaderProps) => {
-  console.log({ scene });
   return (
     <SafeAreaView>
       <View style={styles.container2}>

@@ -112,8 +112,6 @@ const SearchScreen = () => {
     )
   ).filter((x) => !!x);
 
-  console.log({ tags });
-
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
   };
@@ -232,8 +230,6 @@ const SearchScreen = () => {
   //   </TouchableOpacity>
   // );
 
-  console.log({ filteredTags, isSearchVisible });
-
   const searchItemsRendered = isSearchVisible && (
     <View
       style={{
@@ -243,7 +239,7 @@ const SearchScreen = () => {
         justifyContent: "center",
         paddingHorizontal: 30,
         // borderWidth: 1,
-        // backgroundColor: colors.backgroundVarient,
+        // backgroundColor: colors.backgroundVariant,
         // backgroundColor: "red",
         // height: 100
       }}
@@ -332,7 +328,6 @@ const SearchScreen = () => {
             color: colors.primary,
           }}
           onChangeText={(text) => {
-            console.log({ text });
             setQuery(text);
           }}
           value={query}
@@ -340,7 +335,6 @@ const SearchScreen = () => {
         {isSearchVisible && (
           <TouchableOpacity
             onPress={() => {
-              console.log("click the close");
               setQuery("");
               // handleSearch("close");
               handleMenu(
@@ -426,7 +420,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
     // backgroundColor: "yellow",
   },
   menuContainer: {
@@ -468,12 +462,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: 80,
-    backgroundColor: colors.backgroundVarient
+    backgroundColor: colors.backgroundVariant,
   },
   container: {
     flexGrow: 1,
     // borderWidth: 1,
-    backgroundColor: colors.backgroundVarient
+    backgroundColor: colors.backgroundVariant,
     // backgroundColor: "red",
   },
 });

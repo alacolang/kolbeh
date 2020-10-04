@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   container: {
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
     width: width - 70,
     flexDirection: "row",
     marginVertical: 40,

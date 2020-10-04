@@ -82,8 +82,6 @@ const Feed = () => {
     variables: { categoryId }, //, types: ["image", "markdown", "video", "inapp"] },
   });
 
-  console.log({ data, categoryId });
-
   const category = data?.categoryById;
   if (!category) return null;
 

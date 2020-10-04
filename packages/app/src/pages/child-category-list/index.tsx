@@ -94,7 +94,7 @@ const ChildScreen = () => {
           right: (-fullHeight / 3) * 1.5,
           top: (fullHeight - (fullHeight / 3) * 2 - 80) / 2,
           borderRadius: fullHeight / 2,
-          backgroundColor: colors.backgroundVarient,
+          backgroundColor: colors.backgroundVariant,
         }}
       />
       <View

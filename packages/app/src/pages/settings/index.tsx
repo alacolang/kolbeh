@@ -16,7 +16,7 @@ function Settings({ navigation }) {
   return (
     <View
       style={{
-        backgroundColor: colors.backgroundVarient,
+        backgroundColor: colors.backgroundVariant,
         flex: 1,
         paddingHorizontal: 36,
       }}

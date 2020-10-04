@@ -24,9 +24,7 @@ const Onboarding = ({ navigation }) => (
     loop={false}
     activeDotColor={colors.secondary}
     dotColor={colors.primary}
-    onIndexChanged={(idex) => {
-      console.log({ idex });
-    }}
+    // onIndexChanged={(index) => {}}
   >
     <View style={styles.slide}>
       <FormattedText style={styles.title} id="onboarding.3.title" />

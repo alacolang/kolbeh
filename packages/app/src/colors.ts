@@ -13,7 +13,7 @@ const colors = {
   secondaryVarient: ORANGE_VARIENT,
   secondaryThird: ORANGE_THIRD,
   background: "white",
-  backgroundVarient: "#F0F5FF",
+  backgroundVariant: "#F0F5FF",
   active: PINK,
   // inactive: BLUE,
   inactive: "#ADBDC9",

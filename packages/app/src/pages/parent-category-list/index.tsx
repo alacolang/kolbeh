@@ -100,7 +100,7 @@ const ParentScreen = () => {
           }
         >
           <StatusBar
-            backgroundColor={colors.backgroundVarient}
+            backgroundColor={colors.backgroundVariant}
             barStyle="dark-content"
           />
           {categories.map((category) => {

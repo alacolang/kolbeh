@@ -62,10 +62,13 @@ const messages: Record<string, string> = {
   "happiness.greeting.1": "سلام",
   "happiness.greeting.2.0": "آماده‌ای که ",
   "happiness.greeting.2.1": " رو انجام بدی",
-  "reward.daily": `آﻓﺮﯾﻦ ....
+  "reward.exercise": `آﻓﺮﯾﻦ ....
 ﮐﺎرت ﻋﺎﻟﯽ ﺑﻮد
 ﯾﮏ ﺳﺘﺎره ذﻫﻦ آﮔﺎﻫﯽ
 ﺑﻪ ﺳﺘﺎره‌ﻫﺎت اﺿﺎﻓﻪ ﺷﺪ`,
+  "reward.category": `هورااا
+تو امروز مدال ‌ذهن آگاهی رو گرفتی
+عالیه، عالیه`,
 };
 
 export default messages;

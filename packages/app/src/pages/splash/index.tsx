@@ -121,7 +121,7 @@ const Splash = () => {
 
         <Path
           d="M -2.5278288,-2.7352954 H 333.65452 c 0,0 70.35439,-15.6570186 -8.4244,60.3915374 -78.77874,76.048188 -211.11868,-99.906926 -336.182352,0 -125.063418,99.906558 8.4244032,-60.3915374 8.4244032,-60.3915374 z"
-          fill={colors.backgroundVarient}
+          fill={colors.backgroundVariant}
           clipPath="url(#cut-off-bottom)"
         />
       </Svg>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: (fullHeight / 3) * 2,
     width: fullWidth,
-    backgroundColor: colors.backgroundVarient,
+    backgroundColor: colors.backgroundVariant,
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
     paddingHorizontal: 40,
