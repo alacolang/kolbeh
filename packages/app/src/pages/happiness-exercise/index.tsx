@@ -59,6 +59,10 @@ function HappinessExercise({ navigation, route }: Props) {
   );
 }
 
+const styles = StyleSheet.create({
+  container: { flex: 1, borderWidth: 0, paddingHorizontal: 30 },
+});
+
 type IdeaProps = { categoryID: string; title: string };
 function Idea({ title, categoryID }: IdeaProps) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -207,7 +211,11 @@ function Done({ handleDone, handleAfterDone, isCategoryDone }: DoneProps) {
             <View style={doneStyles.innerContainer}>
               <FormattedText
                 style={doneStyles.text}
-                id={isCategoryDone() ? "reward.category" : "reward.exercise"}
+                id={
+                  isCategoryDone()
+                    ? "happiness.reward.category"
+                    : "happiness.reward.exercise"
+                }
               />
 
               <View style={doneStyles.imageContainer}>
@@ -277,59 +285,53 @@ const doneStyles = StyleSheet.create({
 type HeaderProps = { title: string; goBack: () => void };
 function Header({ title, goBack }: HeaderProps) {
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        paddingVertical: 30,
-      }}
-    >
+    <View style={headerStyles.container}>
       <IconSvg
         name="cloud"
         size={60}
         color="white"
-        style={{ position: "absolute", left: -8, top: 16 }}
+        style={headerStyles.cloud1}
       />
-      <FormattedText
-        style={{
-          fontSize: 36,
-          color: "white",
-        }}
-      >
-        {title}
-      </FormattedText>
+      <FormattedText style={headerStyles.title}>{title}</FormattedText>
       <IconSvg
         name="cloud"
         size={20}
         color="white"
-        style={{
-          position: "absolute",
-          right: 30,
-          bottom: 15,
-        }}
+        style={headerStyles.cloud2}
       />
-      <View
-        style={{
-          position: "absolute",
-          right: -25,
-          top: 25,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => goBack()}
-          style={{ width: 44, height: 44 }}
-        >
+      <View style={headerStyles.closeContainer}>
+        <TouchableOpacity onPress={() => goBack()} style={headerStyles.close}>
           <IconSvg name="timesFill" size="small" color="white" />
         </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, borderWidth: 0, paddingHorizontal: 30 },
+const headerStyles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingVertical: 30,
+    marginTop: 30,
+  },
+  cloud1: { position: "absolute", left: -8, top: 16 },
+  title: {
+    fontSize: 36,
+    color: "white",
+  },
+  cloud2: {
+    position: "absolute",
+    right: 30,
+    bottom: 15,
+  },
+  closeContainer: {
+    position: "absolute",
+    right: -25,
+    top: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  close: { width: 44, height: 44, top: -30 },
 });
 
 const markdownStyles = {

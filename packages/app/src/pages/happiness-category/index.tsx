@@ -34,7 +34,7 @@ function HappinessCategory({ navigation, route }: Props) {
   const happiness = useHappiness();
 
   useEffect(() => {
-    happiness.updateCategoryExercises(category);
+    happiness.update();
   }, []);
 
   console.log({ category }, happiness.exercises);
@@ -44,9 +44,7 @@ function HappinessCategory({ navigation, route }: Props) {
   }
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: colors.backgroundVariant, flex: 1 }}
-    >
+    <SafeAreaView style={styles.outerContainer}>
       <Header navigation={navigation} route={route} />
       <View style={styles.container}>
         <Markdown markdownStyles={markdownStyles}>{category.about}</Markdown>
@@ -98,6 +96,7 @@ function HappinessCategory({ navigation, route }: Props) {
 }
 
 const styles = StyleSheet.create({
+  outerContainer: { backgroundColor: colors.backgroundVariant, flex: 1 },
   container: { borderWidth: 0, paddingHorizontal: 30 },
   contentContainer: {
     flexDirection: "row",

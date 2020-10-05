@@ -1,72 +1,181 @@
-import { processCategoryExercise, ONE_DAY_IN_MILLISECONDS } from "./index";
+import { getNextState } from "./index";
 import * as types from "types";
 
-it("already unlocked", () => {
-  const rawCategory = {
-    exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],
-  } as types.IHappinessTrainingCategory;
+describe("categories", () => {
+  it("empty case", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
 
-  const exercises = { "1": { state: "unlocked" } } as const;
+    const result = getNextState(rawCategories, {}, Date.now());
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "unlocked",
+        },
+        "cat-2": {
+          state: "locked",
+        },
+      },
+      exercises: {
+        "cat-1-ex-1": { state: "unlocked" },
+        "cat-1-ex-2": { state: "locked" },
+        "cat-2-ex-1": { state: "locked" },
+        "cat-2-ex-2": { state: "locked" },
+      },
+    };
+    expect(result).toEqual(expectedResult);
+  });
 
-  const result = processCategoryExercise(
-    rawCategory,
-    exercises,
-    ONE_DAY_IN_MILLISECONDS + 2
-  );
-  const expectedResult = {
-    "2": { state: "locked" },
-    "3": { state: "locked" },
-  };
+  it("new category + exercise introduced", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+      { id: "cat-3", exercises: [] },
+    ] as types.IHappinessTrainingCategory[];
+    const exercises = {
+      "cat-1-ex-1": { state: "locked" },
+      "cat-1-ex-2": { state: "locked" },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const result = getNextState(rawCategories, exercises, Date.now());
 
-  expect(result).toMatchObject(expectedResult);
-});
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "unlocked",
+        },
+        "cat-2": {
+          state: "locked",
+        },
+        "cat-3": {
+          state: "locked",
+        },
+      },
+      exercises: {
+        ...exercises,
+        "cat-1-ex-1": { state: "unlocked" },
+      },
+    };
+    expect(result).toEqual(expectedResult);
+  });
 
-it("done long ago", () => {
-  const rawCategory = {
-    exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],
-  } as types.IHappinessTrainingCategory;
-  const exercises = { "1": { state: "done", doneAt: 1 } } as const;
+  it("no change", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
 
-  const result = processCategoryExercise(
-    rawCategory,
-    exercises,
-    ONE_DAY_IN_MILLISECONDS + 2
-  );
-  const expectedResult = {
-    "2": { state: "unlocked" },
-    "3": { state: "locked" },
-  };
+    const exercises = {
+      "cat-1-ex-1": { state: "unlocked" },
+      "cat-1-ex-2": { state: "locked" },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const result = getNextState(rawCategories, exercises, Date.now());
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "unlocked",
+        },
+        "cat-2": {
+          state: "locked",
+        },
+      },
+      exercises,
+    };
 
-  expect(result).toMatchObject(expectedResult);
-});
+    expect(result).toEqual(expectedResult);
+  });
 
-it("done recently", () => {
-  const rawCategory = {
-    exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],
-  } as types.IHappinessTrainingCategory;
-  const exercises = { "1": { state: "done", doneAt: 1 } } as const;
+  it("recent exercise done", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
 
-  const result = processCategoryExercise(rawCategory, exercises, 2);
-  const expectedResult = {
-    "2": { state: "locked" },
-    "3": { state: "locked" },
-  };
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: 1 },
+      "cat-1-ex-2": { state: "locked" },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const result = getNextState(rawCategories, exercises, 2);
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "unlocked",
+        },
+        "cat-2": {
+          state: "locked",
+        },
+      },
+      exercises,
+    };
 
-  expect(result).toMatchObject(expectedResult);
-});
+    expect(result).toEqual(expectedResult);
+  });
 
-it("empty case", () => {
-  const rawCategory = {
-    exercises: [{ id: "1" }, { id: "2" }, { id: "3" }],
-  } as types.IHappinessTrainingCategory;
-  const exercises = {} as const;
+  it("recent category done", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
 
-  const result = processCategoryExercise(rawCategory, exercises, 1);
-  const expectedResult = {
-    "1": { state: "unlocked" },
-    "2": { state: "locked" },
-    "3": { state: "locked" },
-  };
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: 1 },
+      "cat-1-ex-2": { state: "done", doneAt: 10 },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const result = getNextState(rawCategories, exercises, 12);
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "done",
+          doneAt: 10,
+        },
+        "cat-2": {
+          state: "locked",
+        },
+      },
+      exercises,
+    };
 
-  expect(result).toMatchObject(expectedResult);
+    expect(result).toEqual(expectedResult);
+  });
+
+  it("mark category as done, unlock next one", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: 1 },
+      "cat-1-ex-2": { state: "done", doneAt: 10 },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const result = getNextState(rawCategories, exercises, Date.now());
+    const expectedResult = {
+      categories: {
+        "cat-1": {
+          state: "done",
+          doneAt: 10,
+        },
+        "cat-2": {
+          state: "unlocked",
+        },
+      },
+      exercises: {
+        ...exercises,
+        "cat-2-ex-1": { state: "unlocked" },
+      },
+    };
+
+    expect(result).toEqual(expectedResult);
+  });
 });
