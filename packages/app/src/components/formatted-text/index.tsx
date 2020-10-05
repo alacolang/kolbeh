@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TextProperties, Platform } from "react-native";
-import messages from "utils/fa";
-
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TextProps, Platform } from "react-native";
+// import messages from "utils/localize/fa";
+const messages = {};
 const MessagesContext = React.createContext(messages);
 
 const MessagesProvider: React.FC = (props) => {
@@ -15,16 +16,16 @@ const MessagesProvider: React.FC = (props) => {
 type Props = {
   id?: string;
 };
-const FormattedText: React.FC<TextProperties & Props> = ({
+const FormattedText: React.FC<TextProps & Props> = ({
   style,
   id,
   ...props
 }) => {
-  const _messages = React.useContext(MessagesContext);
+  const { t } = useTranslation();
   if (id) {
     return (
       <Text style={[styles.persian, style]} {...props}>
-        {_messages[id]}
+        {t(id)}
       </Text>
     );
   } else {
@@ -33,19 +34,6 @@ const FormattedText: React.FC<TextProperties & Props> = ({
 };
 
 export { MessagesProvider, FormattedText };
-
-// import { FormattedMessage } from "react-intl";
-
-// type Props = {
-//   style?: any;
-//   id: string;
-// };
-
-// const MyText: React.FC<Props> = ({ style, id }) => (
-//   <Text style={[styles.persian, style]}>
-//     <FormattedMessage id={id} />
-//   </Text>
-// );
 
 const styles = StyleSheet.create({
   persian: {
