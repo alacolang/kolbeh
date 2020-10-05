@@ -1,17 +1,17 @@
-import colors from 'colors';
-import Post from 'components/feed-tile';
-import { FormattedText } from 'components/formatted-text';
-import Loading from 'components/loading';
-import { useBookmarkedPosts } from 'context/bookmark-posts';
-import gql from 'graphql-tag';
-import { HomeStackParamList } from 'navigation/home-stack-navigator';
-import React from 'react';
-import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
-import * as Types from 'types';
-import { errorReport } from 'utils/error-reporter';
+import colors from "colors";
+import Post from "components/feed-tile";
+import { FormattedText } from "components/formatted-text";
+import Loading from "components/loading";
+import { useBookmarkedPosts } from "context/bookmark-posts";
+import gql from "graphql-tag";
+import { HomeStackParamList } from "navigation/home-stack-navigator";
+import React from "react";
+import { FlatList, StatusBar, StyleSheet, View } from "react-native";
+import * as Types from "types";
+import { errorReport } from "utils/error-reporter";
 
-import { useQuery } from '@apollo/react-hooks';
-import { NavigationProp, useNavigation } from '@react-navigation/core';
+import { useQuery } from "@apollo/react-hooks";
+import { NavigationProp } from "@react-navigation/core";
 
 const HEADER_HEIGHT = 180;
 
@@ -98,7 +98,7 @@ const BookmarkPostsScreen = () => {
       <StatusBar hidden />
       <View style={styles.headerContainer}>
         <FormattedText
-          id="bookmark.title"
+          id="screen-title.bookmark"
           style={{ color: colors.secondary, fontSize: 24 }}
         />
       </View>

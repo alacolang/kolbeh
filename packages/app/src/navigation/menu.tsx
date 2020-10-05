@@ -69,21 +69,21 @@ const links: LinkParam[] = [
   {
     type: "text",
     route: "childFeed",
-    name: "kid",
+    name: "screen-title.child/kid",
     params: { categoryId: "child/kid" },
     key: "kid",
   },
   {
     type: "text",
     route: "childFeed",
-    name: "teen",
+    name: "screen-title.child/teen",
     params: { categoryId: "child/teen" },
     key: "teen",
   },
   {
     type: "text",
     route: "childFeed",
-    name: "toolbox",
+    name: "screen-title.child/toolbox",
     params: { categoryId: "child/toolbox" },
     key: "toolbox",
   },
@@ -234,7 +234,7 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
     <SafeAreaView
       edges={["right", "bottom", "left"]}
       style={{
-        backgroundColor:'#F9FBFF',
+        backgroundColor: "#F9FBFF",
         // borderWidth: 1,
         paddingVertical: 10,
       }}

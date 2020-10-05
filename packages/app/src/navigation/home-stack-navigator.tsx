@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 80,
+    marginTop: 16,
     // borderWidth: 1,
     // borderColor: "red",
   },
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 60,
+    marginTop: 16,
   },
   backIcon: {
     width: 40,
@@ -96,7 +98,7 @@ const BackHeader = ({
         </View>
         <FormattedText
           style={[styles.title, { color: color ?? colors.secondary }]}
-          id={scene.route.name}
+          id={`screen-title.${scene.route.name}`}
         />
       </View>
     </SafeAreaView>
@@ -118,7 +120,7 @@ const ChildFeedBackHeader = ({ navigation, scene }: StackHeaderProps) => {
         </View>
         <FormattedText
           style={styles.title}
-          id={scene.route?.params?.categoryId}
+          id={`screen-title.${scene.route?.params?.categoryId}`}
         ></FormattedText>
       </View>
     </SafeAreaView>

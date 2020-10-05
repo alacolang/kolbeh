@@ -24,10 +24,7 @@ const GET_INFO = gql`
   }
 `;
 
-const HEADER_MIN_HEIGHT = 60;
-
-const Contact = ({ navigation }) => {
-  // const navigation = useNavigation<FeedNavigation>();
+const Contact = () => {
   const { data } = useQuery(GET_INFO);
   const info = data ? data.info : {};
   const [codepushVersion, setCodepushVersion] = React.useState({
@@ -111,7 +108,7 @@ const Contact = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ position: "absolute", bottom: 80, right: 10,  }}>
+      <View style={{ position: "absolute", bottom: 80, right: 10 }}>
         <Image
           source={ContactImg}
           style={{ width: 120, height: 300 }}
