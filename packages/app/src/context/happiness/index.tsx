@@ -26,8 +26,6 @@ type IHappinessContext = {
   ) => void;
   update: () => void;
   markExerciseAsDone: (id: ID) => void;
-  // markCategoryAsDone: (id: ID) => void;
-  // updateCategoryExercises: (category: types.IHappinessTrainingCategory) => void;
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
 };
 
@@ -38,8 +36,6 @@ const HappinessContext = React.createContext<IHappinessContext>({
   rawCategories: [],
   update: () => {},
   markExerciseAsDone: () => {},
-  // markCategoryAsDone: () => {},
-  // updateCategoryExercises: () => {},
   isCategoryDone: () => false,
 });
 
@@ -181,57 +177,6 @@ export function getNextState(
   };
 }
 
-// function canTryCategory(
-//   rawCategory: types.IHappinessTrainingCategory,
-//   exercises: Exercises,
-//   currentTime: number
-// ) {
-//   if (rawCategory.exercises.length === 0) {
-//     return false;
-//   }
-//   const canTry = rawCategory.exercises.reduce((acc, rawExercise) => {
-//     const id = rawExercise.id;
-//     const exercise = exercises[id];
-//     if (
-//       exercise?.state === "unlocked" ||
-//       (exercise?.state === "done" &&
-//         currentTime - exercise.doneAt < ONE_DAY_IN_MILLISECONDS)
-//     ) {
-//       return false;
-//     }
-//     return acc;
-//   }, true);
-//   return canTry;
-// }
-
-// export function processCategoryExercise(
-//   rawCategory: types.IHappinessTrainingCategory,
-//   exercises: Exercises,
-//   currentTime: number
-// ) {
-//   const result: any = {};
-//   let canTry = canTryCategory(rawCategory, exercises, currentTime);
-
-//   rawCategory.exercises.forEach((rawExercise) => {
-//     const id = rawExercise.id;
-//     const exercise = exercises[id];
-//     if (!exercise) {
-//       let state = "locked";
-//       if (canTry) {
-//         state = "unlocked";
-//         canTry = false;
-//       }
-//       result[id] = { state };
-//     } else {
-//       if (canTry && exercise.state === "locked") {
-//         result[id] = { state: "unlocked" };
-//         canTry = false;
-//       }
-//     }
-//   });
-//   return result;
-// }
-
 export const HappinessProvider = <T extends {}>(props: T) => {
   const [exercises, setExercises] = React.useState<Exercises>({});
   const [categories, setCategories] = React.useState<Categories>({});
@@ -256,72 +201,24 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     updateExercises(temp);
   };
 
-  // const markCategoryAsDone = async (id: ID) => {
-  //   const temp: Categories = {
-  //     ...categories,
-  //     [id]: { state: "done", doneAt: Date.now() },
-  //   };
-  //   updateCategories(temp);
-  // };
-
-  // const markCategoryAsNotDone = async (id: ID) => {
-  //   const state = categories[id]?.state;
-  //   const temp: Categories = {
-  //     ...categories,
-  //     [id]: { state: state === "done" ? "unlocked" : state },
-  //   };
-  //   console.log("markCategoryAsNotDone", { id, temp });
-  //   updateCategories(temp);
-  // };
-
   const updateRawCategories = async (
     _rawCategories: types.IHappinessTrainingCategory[] | undefined
   ) => {
-    console.log("updateRawCategories", _rawCategories);
     if (!_rawCategories) return;
     await AsyncStorage.setItem(SERVER_DATA, JSON.stringify(categories));
     setRawCategories(_rawCategories);
 
     const result = getNextState(_rawCategories, exercises, Date.now());
-    // console.log("updateRawCategories", { result });
     updateCategories(result.categories);
     updateExercises(result.exercises);
   };
 
-  // const updateCategoryExercises = (
-  //   rawCategory: types.IHappinessTrainingCategory
-  // ) => {
-  //   console.log("updateCategoryExercises>", { rawCategory, categories });
-  //   if (rawCategory.exercises?.length === 0) {
-  //     return;
-  //   }
-
-  //   // if (categories[rawCategory.id].state === "done") {
-  //   //   return;
-  //   // }
-  //   const isAllDone = isCategoryDoneGivenExercises(rawCategory, exercises);
-  //   if (isAllDone) {
-  //     markCategoryAsDone(rawCategory.id);
-  //     return {};
-  //   } else {
-  //     markCategoryAsNotDone(rawCategory.id);
-  //   }
-  //   const result = processCategoryExercise(rawCategory, exercises, Date.now());
-  //   // console.log("updateCategoryExercises", result);
-  //   updateExercises({ ...exercises, ...result });
-  // };
-
   useEffect(() => {
     async function readFromStorage() {
       const storedExercise = await AsyncStorage.getItem(EXERCISE_KEY);
-      const storedCategory = await AsyncStorage.getItem(CATEGORY_KEY);
-      // console.log("stored exercise:", format(storedExercise));
       try {
         if (storedExercise) {
           setExercises(JSON.parse(storedExercise));
-        }
-        if (storedCategory) {
-          // setCategories(JSON.parse(storedCategory));
         }
       } catch (e) {}
     }
@@ -332,14 +229,8 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     rawCategory: types.IHappinessTrainingCategory
   ): boolean => {
     const result = isCategoryDoneGivenExercises(rawCategory, exercises);
-    console.log("isCategoryDone", result);
     return result;
   };
-
-  // const nextCategoryToTry = () => {
-  //   for (const rawCategory of rawCategories) {
-  //   }
-  // };
 
   const update = () => {
     const result = getNextState(rawCategories, exercises, Date.now());
@@ -357,8 +248,6 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         categories,
         rawCategories,
         markExerciseAsDone,
-        // markCategoryAsDone,
-        // updateCategoryExercises,
         isCategoryDone,
       }}
     />
