@@ -257,3 +257,5 @@ export const HappinessProvider = <T extends {}>(props: T) => {
 export const useHappiness = () => {
   return React.useContext(HappinessContext);
 };
+
+// AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify({}));

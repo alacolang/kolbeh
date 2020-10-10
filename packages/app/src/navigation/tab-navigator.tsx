@@ -1,11 +1,9 @@
 import React from "react";
-import {
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HappinessTraining from "../pages/happiness-training";
 import BookmarkPostsScreen from "../pages/bookmark-posts";
 import ParentNavigator from "./parent-stack-navigator";
-import { TabBar } from './menu'
+import { TabBar } from "./menu";
 
 export type TabParamList = {
   parent: undefined;

@@ -1,5 +1,5 @@
 import { Share } from "react-native";
-import messages from "./fa";
+import messages from "./localize/fa";
 
 export const onShare = async () => {
   try {
