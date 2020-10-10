@@ -20,6 +20,7 @@ type Categories = Record<
 type IHappinessContext = {
   exercises: Exercises;
   categories: Categories;
+  rawCategories: types.IHappinessTrainingCategory[];
   updateRawCategories: (
     d: types.IHappinessTrainingCategory[] | undefined
   ) => void;
@@ -34,6 +35,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   exercises: {},
   categories: {},
   updateRawCategories: () => {},
+  rawCategories: [],
   update: () => {},
   markExerciseAsDone: () => {},
   // markCategoryAsDone: () => {},
@@ -353,6 +355,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         update,
         exercises,
         categories,
+        rawCategories,
         markExerciseAsDone,
         // markCategoryAsDone,
         // updateCategoryExercises,

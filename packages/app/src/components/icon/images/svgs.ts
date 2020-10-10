@@ -25,6 +25,7 @@ import gratitude from "./gratitude.svg";
 import awe from "./awe.svg";
 import resilience from "./resilience.svg";
 import selfCompassion from "./self-compassion.svg";
+import star from "./star.svg";
 
 export default {
   tickFill,
@@ -44,6 +45,7 @@ export default {
   twitter,
   instagram,
   telegram,
+  star,
   "happinessToolbox-mindfulness": mindfulness,
   "happinessToolbox-optimism": optimism,
   "happinessToolbox-forgiveness": forgiveness,

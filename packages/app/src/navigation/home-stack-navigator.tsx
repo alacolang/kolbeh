@@ -8,6 +8,7 @@ import Search from "../pages/search";
 import ChildFeed, { FeedRouteParam } from "../pages/child-feed";
 import Post, { PostRouteParam } from "../pages/post";
 import Settings from "../pages/settings";
+import Profile from "../pages/profile";
 import BackImg from "../components/icon/images/back.png";
 import { Icon } from "../components/icon";
 import TabNavigator from "./tab-navigator";
@@ -22,6 +23,7 @@ import Contact from "pages/contact";
 
 export type HomeStackParamList = {
   settings: undefined;
+  profile: undefined;
   search: undefined;
   contact: undefined;
   saved: undefined;
@@ -158,6 +160,15 @@ const HomeNavigator = ({ navigation, route }) => {
       <Stack.Screen
         name="search"
         component={Search}
+        options={{
+          header: BackHeader,
+          animationEnabled: false,
+          // ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="profile"
+        component={Profile}
         options={{
           header: BackHeader,
           animationEnabled: false,
