@@ -1,159 +1,176 @@
 import React from "react";
 import Swiper from "react-native-swiper";
-import { View, Image, StyleSheet, Dimensions, I18nManager } from "react-native";
+import { View, Image, StyleSheet, Dimensions, StatusBar } from "react-native";
 import img1 from "../../assets/images/onboarding-1.png";
 import img2 from "../../assets/images/onboarding-2.png";
 import img3 from "../../assets/images/onboarding-3.png";
-import img31 from "../../assets/images/onboarding-3-1.png";
-import imgGND from "../../assets/images/onboarding-gnd.png";
+// import img31 from "../../assets/images/onboarding-3-1.png";
+// import imgGND from "../../assets/images/onboarding-gnd.png";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import tickImg from "../../components/icon/images/tick.png";
-import backImg from "../../components/icon/images/back-curve.png";
+import { IconSvg } from "components/icon";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Trans, useTranslation } from "react-i18next";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
 
-const ImageHeight = frameHeight / 2.5;
+const ImageHeight = frameHeight / 2.2;
 
-const Onboarding = ({ navigation }) => (
-  <Swiper
-    style={styles.wrapper}
-    showsButtons={false}
-    loop={false}
-    activeDotColor={colors.secondary}
-    dotColor={colors.primary}
-    // onIndexChanged={(index) => {}}
-  >
-    <View style={styles.slide}>
-      <FormattedText style={styles.title} id="onboarding.3.title" />
-      <FormattedText style={styles.description} id="onboarding.3.description" />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-end",
-          justifyContent: "center",
-          width: frameWidth * 0.9,
-        }}
+const Onboarding = ({ navigation }) => {
+  const { t } = useTranslation();
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        marginBottom: 16,
+        backgroundColor: colors.backgroundVariant,
+      }}
+      edges={["top", "bottom"]}
+    >
+      <StatusBar hidden />
+
+      <Swiper
+        showsButtons={false}
+        loop={false}
+        activeDotColor={colors.secondary}
+        dotColor={colors.primary}
+        paginationStyle={{ flexDirection: "row-reverse" }}
       >
-        <Image
-          source={img31}
-          style={{
-            height: frameWidth / 2,
-            width: frameWidth / 4,
-          }}
-          resizeMode="cover"
-        ></Image>
-        <Image
-          source={img3}
-          style={{
-            height: ImageHeight,
-            width: frameWidth / 2.5,
-            // borderWidth: 1,
-            // borderColor: "red",
-          }}
-          resizeMode="contain"
-        ></Image>
-      </View>
-      <Ground />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: -2,
-          // borderWidth: 1,
-          width: 50,
-          height: 80,
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("main");
-          }}
-        >
-          <Image
-            source={backImg}
-            style={{
-              width: 40,
-              height: 80,
-            }}
-            resizeMode="contain"
-          />
-          <Image
-            source={tickImg}
-            style={{
-              width: 35,
-              height: 35,
-              position: "relative",
-              top: -53,
-              left: 2,
-            }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
-    <View style={styles.slide}>
-      <FormattedText style={styles.title} id="onboarding.2.title" />
-      <FormattedText style={styles.description} id="onboarding.2.description" />
-      <Image source={img2} style={styles.image} resizeMode="contain"></Image>
-      <Ground />
-    </View>
-    <View style={styles.slide}>
-      <FormattedText style={styles.title} id="onboarding.1.title" />
-      <FormattedText style={styles.description} id="onboarding.1.description" />
-      <Image source={img1} style={styles.image} resizeMode="contain"></Image>
-      <Ground />
-    </View>
-  </Swiper>
+        <View style={styles.slide}>
+          <Title text={t("onboarding.3.title")} />
+          <Description id={t("onboarding.3.description")} />
+          <Image source={img3} style={styles.image} resizeMode="contain" />
+          <View style={styles.doneContainer}>
+            <DoneButton
+              onPress={() => {
+                navigation.navigate("main");
+              }}
+            />
+          </View>
+        </View>
+        <View style={styles.slide}>
+          <Title text={t("onboarding.2.title")} />
+          <Description id={t("onboarding.2.description")} />
+          <Image source={img2} style={styles.image} resizeMode="contain" />
+        </View>
+
+        <View style={styles.slide}>
+          <Title text={t("onboarding.1.title")} />
+          <Description id={t("onboarding.1.description")} />
+          <Image source={img1} style={styles.image} resizeMode="contain" />
+        </View>
+      </Swiper>
+    </SafeAreaView>
+  );
+};
+
+const Description = ({ id }: { id: string }) => (
+  <View style={descriptionStyles.headerContainer}>
+    <IconSvg
+      name="cloud"
+      color="white"
+      size={40}
+      style={descriptionStyles.cloud1}
+    />
+    <FormattedText style={descriptionStyles.text}>
+      <Trans
+        i18nKey={id}
+        components={[
+          <FormattedText
+            style={[descriptionStyles.text, { color: colors.greenVariant }]}
+          />,
+        ]}
+      />
+    </FormattedText>
+  </View>
 );
 
-const Ground = () => (
-  <Image
-    source={imgGND}
-    style={{ width: frameWidth - 120, marginTop: 10 }}
-    resizeMode="stretch"
-  ></Image>
+const descriptionStyles = StyleSheet.create({
+  headerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  cloud1: { position: "absolute", bottom: 16, right: 16 },
+  text: {
+    marginTop: 30,
+    marginBottom: 30,
+    height: 120,
+    lineHeight: 24 * 1.6,
+    color: colors.primary,
+    fontSize: 23,
+    // borderWidth: 1,
+  },
+});
+
+const Title = ({ text }: { text: string }) => (
+  <View style={titleStyles.headerContainer}>
+    <IconSvg name="cloud" color="white" size={65} style={titleStyles.cloud1} />
+    <FormattedText style={titleStyles.text}>{text}</FormattedText>
+  </View>
 );
+
+const titleStyles = StyleSheet.create({
+  headerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  cloud1: { position: "absolute", bottom: 0, left: 16 },
+  text: {
+    color: colors.primary,
+    fontSize: 32,
+  },
+});
+
+type DoneButtonProps = { onPress: () => void };
+function DoneButton({ onPress }: DoneButtonProps) {
+  return (
+    <TouchableOpacity
+      onPress={() => onPress()}
+      style={doneButtonStyles.container}
+    >
+      <View style={doneButtonStyles.iconContainer}>
+        <IconSvg name="gaussCurve" size={90} color={colors.secondary} />
+      </View>
+      <View style={doneButtonStyles.icon2Container}>
+        <IconSvg name="tickFill" size={26} color="white" />
+      </View>
+    </TouchableOpacity>
+  );
+}
+const doneButtonStyles = StyleSheet.create({
+  container: {
+    height: 90,
+    width: 60,
+  },
+  iconContainer: {
+    position: "absolute",
+    borderColor: "green",
+    right: -7,
+  },
+  icon2Container: {
+    zIndex: 2,
+    position: "absolute",
+    top: 32,
+    right: 25,
+  },
+});
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: "#F0F5FF",
-  },
   slide: {
     flex: 1,
     paddingHorizontal: 30,
-    paddingTop: "20%",
+    paddingTop: 36,
     alignItems: "center",
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    color: colors.primary,
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  description: {
-    marginTop: 30,
-    marginBottom: 30,
-    height: 110,
-    lineHeight: 24 * 1.4,
-    color: colors.primary,
-    fontSize: 24,
   },
   image: {
     height: ImageHeight,
     width: frameWidth - 40,
   },
+  doneContainer: { position: "absolute", left: 0, bottom: 0 },
 });
 
 export default Onboarding;

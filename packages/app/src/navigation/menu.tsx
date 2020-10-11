@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../colors";
-import { Icon, IconName, IconSvg, IconSvgName } from "../components/icon";
+import { Icon, IconSvg, IconSvgName } from "../components/icon";
 import { FormattedText } from "components/formatted-text";
 import { HomeStackParamList } from "./home-stack-navigator";
 import { TabParamList } from "./tab-navigator";
@@ -103,7 +103,7 @@ const Links = ({ onPress }: LinksProps) => {
               onPress={() => onPress(link.route)}
             >
               <View style={[styles.textContainer, { height: 70 }]}>
-                <IconSvg name={link.icon} size="tiny" color={colors.primary} />
+                <IconSvg name={link.icon} size={17} color={colors.primary} />
               </View>
             </TouchableOpacity>
           );
@@ -113,7 +113,7 @@ const Links = ({ onPress }: LinksProps) => {
             <View key={link.key} style={{ flexDirection: "row-reverse" }}>
               <View style={styles.textContainer}>
                 <FormattedText
-                  style={[styles.text, { color: colors.primaryVarient }]}
+                  style={[styles.text, { color: colors.primary }]}
                   id={link.name}
                 />
               </View>
@@ -125,7 +125,7 @@ const Links = ({ onPress }: LinksProps) => {
                   left: 65 - 20,
                   // borderWidth: 1
                 }}
-                viewBox={`0 0 14 70`}
+                viewBox={"0 0 14 70"}
               >
                 <Path
                   d={bellCurve(0, 70, 14)}
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   text: {
     transform: [{ rotate: "270deg" }],
-    fontSize: 22,
+    fontSize: 20,
     color: "#C5CDD0",
     // borderWidth: 1,
     backgroundColor: "#F0F5FF",
@@ -191,11 +191,8 @@ const Bar = ({ navigation }: BarProps) => {
   return (
     <View
       style={{
-        // borderWidth: 1,
         position: "absolute",
         right: 0,
-        width: 65 + 10,
-        // paddingRight: 10,
         backgroundColor: "white",
         height: fullHeight,
         zIndex: 100,
@@ -204,7 +201,6 @@ const Bar = ({ navigation }: BarProps) => {
       <View
         style={{
           width: 65,
-          // paddingRight: 10,
           backgroundColor: "#F0F5FF",
           height: fullHeight,
           zIndex: 100,

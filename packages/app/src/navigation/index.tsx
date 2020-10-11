@@ -9,7 +9,7 @@ import SplashNavigator from "./splash-stack-navigator";
 const createAppContainer = () => {
   return (
     <SafeAreaProvider
-      // style={{ backgroundColor: "white", borderWidth: 2, borderColor: "red" }}
+    // style={{ backgroundColor: "white", borderWidth: 2, borderColor: "red" }}
     >
       <NavigationContainer>
         <SplashNavigator />

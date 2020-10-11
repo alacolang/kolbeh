@@ -26,6 +26,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { FormattedText } from "components/formatted-text";
 import BackImg from "components/icon/images/back.png";
 import CategoryTile from "pages/child-category-list/category-tile";
+import { GaussIcon } from "components/curve-icon";
 
 export type FeedRouteParam = {
   category: Types.ICategory;
@@ -83,13 +84,7 @@ const BackHeader = ({ navigation, title }: any) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.back}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={BackImg}
-            style={styles.backIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+        <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
       </View>
       <FormattedText style={styles.title}>{title}</FormattedText>
     </View>
@@ -155,7 +150,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     textAlign: "center",
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: colors.secondary,
   },
 });

@@ -134,15 +134,6 @@ const PostScreen = ({ navigation }) => {
         {canSave && (
           <View style={styles.saveWrapper}>{saveButtonRendered}</View>
         )}
-        <View style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={BackImg}
-              style={{ width: 40, height: 84 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
         <Component post={_post} />
       </View>
     </SafeAreaView>
@@ -163,8 +154,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     paddingTop: 10,
     paddingHorizontal: 30,
-    // borderWidth: 1,
-    // borderColor: "red",
   },
   saveContainer: {
     justifyContent: "center",

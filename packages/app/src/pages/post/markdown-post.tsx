@@ -96,19 +96,19 @@ const markdownStyles = {
     color: colors.h1,
     textAlign: "center",
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   h2: {
     color: colors.h2,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   h3: {
     color: colors.h3,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   text: {

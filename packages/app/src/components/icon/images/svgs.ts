@@ -1,5 +1,5 @@
 import tickFill from "./tick-fill.svg";
-import tickOutline from "./tick-outline.svg";
+import tickOutline from "./tick-outline1.svg";
 import circle from "./circle.svg";
 import cloud from "./cloud.svg";
 import timesFill from "./times-fill.svg";
@@ -26,6 +26,10 @@ import awe from "./awe.svg";
 import resilience from "./resilience.svg";
 import selfCompassion from "./self-compassion.svg";
 import star from "./star.svg";
+import gaussCurve from "./gauss-curve.svg";
+import leftArrow from "./left-arrow.svg";
+import rightArrow from "./right-arrow.svg";
+import medal from "./medal1.svg";
 
 export default {
   tickFill,
@@ -46,6 +50,10 @@ export default {
   instagram,
   telegram,
   star,
+  gaussCurve,
+  leftArrow,
+  rightArrow,
+  medal,
   "happinessToolbox-mindfulness": mindfulness,
   "happinessToolbox-optimism": optimism,
   "happinessToolbox-forgiveness": forgiveness,

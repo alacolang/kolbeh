@@ -44,7 +44,8 @@ import kolbeh from "./kolbeh.png";
 import circle from "./circle.png";
 import checkCircle from "./check-circle.png";
 import tickActive from "./tick-active.png";
-import avatar from './avatar.png'
+import avatar from "./avatar.png";
+import medal from "./medal.png";
 
 const icons = {
   parent,
@@ -93,7 +94,8 @@ const icons = {
   checkCircle,
   circle,
   tickActive,
-  avatar
+  avatar,
+  medal,
 };
 
 export default icons;

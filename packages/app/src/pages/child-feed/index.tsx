@@ -144,22 +144,15 @@ const Feed = () => {
     </View>
   );
 
-  const img = ({
-    "child/kid": KidHeaderImg,
-    "child/teen": TeenHeaderImg,
-    "child/toolbox": ToolboxHeaderImg,
-  } as Record<string, ImageSourcePropType>)[category.id];
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      {img && <Image source={img} style={{ width: fullWidth, height: 200 }} />}
       <FlatList
         contentContainerStyle={styles.scrollViewContent}
         data={feed.edges}
         renderItem={renderItem}
         keyExtractor={(item: Types.IPostEdge) => item.node.id}
       />
-      {navbarRendered}
     </View>
   );
 };
@@ -167,6 +160,7 @@ const Feed = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
+    marginTop: 120,
   },
   scrollViewContent: {
     marginTop: 45,

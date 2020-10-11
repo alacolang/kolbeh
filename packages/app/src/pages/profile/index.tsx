@@ -3,22 +3,23 @@ import { Icon, IconSvg } from "components/icon";
 import { useHappiness } from "context/happiness";
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
+import { Header } from "../settings/index";
 
 const frameWidth = Dimensions.get("window").width - 16 * 2;
-const size = frameWidth / 3 - 3 * 2;
+const size = frameWidth / 3 - 4 * 2;
 
 function Profile({ navigation }) {
   const happiness = useHappiness();
 
-  const ys = [16, -3, -10, -3, 16];
-  const xs = [-2, 3, 0, -3, 2];
+  const ys = [14, 1, -3, 1, 14];
+  const xs = [5, 5, 0, -5, -5];
   const categories = happiness.rawCategories.map((category) => {
     const exercises = category.exercises.map((exercise, index) => {
       const isDone = happiness.exercises[exercise.id].state === "done";
       return (
         <View
           style={{
-            paddingHorizontal: 2,
+            // paddingHorizontal: 2,
             position: "relative",
             top: -ys[index],
             right: xs[index],
@@ -26,7 +27,7 @@ function Profile({ navigation }) {
         >
           <IconSvg
             name="star"
-            size={(size - 2 * 2) / 5 - 2 * 2}
+            size={(size - 2 * 2) / 7 - 2 * 2}
             color={isDone ? "#FFDC25" : "lightgrey"}
           />
         </View>
@@ -37,20 +38,25 @@ function Profile({ navigation }) {
       <View
         style={{
           marginHorizontal: 3,
-          marginVertical: 3,
           width: size,
           height: size,
-          borderRadius: size,
-          justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "white",
-          elevation: 4,
+          paddingTop: 18,
         }}
       >
+        <Icon
+          name="medal"
+          size={0}
+          style={{
+            position: "absolute",
+            width: size,
+            height: size,
+          }}
+        />
         <IconSvg
           name={`happinessToolbox-${category.id}`}
-          size={size / 2}
-          color={colors.green}
+          size={size / 3}
+          color={colors.greenVariant}
         />
         <View style={{ flexDirection: "row" }}>{exercises}</View>
       </View>
@@ -59,27 +65,16 @@ function Profile({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <IconSvg
-          name="cloud"
-          color="white"
-          size="small"
-          style={styles.cloud1}
-        />
-        <View style={styles.avatar}>
-          <Icon name="avatar" size="large" />
-        </View>
-        <IconSvg name="cloud" color="white" size="huge" style={styles.cloud2} />
-      </View>
+      <Header />
       <View
         style={{
           justifyContent: "center",
-          borderColor: "red",
+          marginTop: 40,
         }}
       >
         <View
           style={{
-            flexDirection: "row-reverse",
+            flexDirection: "row",
             flexWrap: "wrap",
           }}
         >

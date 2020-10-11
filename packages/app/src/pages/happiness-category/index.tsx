@@ -12,6 +12,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
+import { GaussIcon } from "components/curve-icon";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -20,9 +21,7 @@ const Header = ({ navigation, route }: Props) => {
 
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Image source={BackImg} style={styles.backIcon} resizeMode="contain" />
-      </TouchableOpacity>
+      <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
       <FormattedText style={styles.title}>{category.title}</FormattedText>
     </View>
   );
@@ -180,13 +179,13 @@ const markdownStyles = {
   h2: {
     color: colors.h2,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   h3: {
     color: colors.h3,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   text: {

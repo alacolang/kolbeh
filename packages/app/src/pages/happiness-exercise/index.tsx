@@ -10,14 +10,17 @@ import {
   Modal,
   Dimensions,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CurveImg from "assets/images/back-curve-active.png";
 import { IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import rewardDailyImg from "assets/images/reward-daily.png";
+import rewardMedalImg from "assets/images/reward-medal.png";
 import { useHappiness } from "context/happiness";
+import { GaussIcon } from "components/curve-icon";
+import { Trans, useTranslation } from "react-i18next";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -38,16 +41,17 @@ function HappinessExercise({ navigation, route }: Props) {
       }}
     >
       <View style={styles.container}>
-        <Header title={exercise.title} goBack={() => navigation.goBack()} />
+        <Header title={exercise.title} />
         <Markdown markdownStyles={markdownStyles}>
           {exercise.description}
         </Markdown>
       </View>
-      <Idea title={exercise.title} categoryID={category.id} />
       {isAlreadyDone ? null : (
-        <Done
-          handleDone={() => {
-            happiness.markExerciseAsDone(exercise.id);
+        <AddIdea
+          title={category.title}
+          handleDone={(idea: string) => {
+            happiness.addIdea(category.id, idea);
+            // happiness.markExerciseAsDone(exercise.id);
           }}
           isCategoryDone={() => happiness.isCategoryDone(category)}
           handleAfterDone={() => {
@@ -55,16 +59,67 @@ function HappinessExercise({ navigation, route }: Props) {
           }}
         />
       )}
+      <Idea
+        ideas={happiness.ideas[category.id] ?? []}
+        title={exercise.title}
+        categoryID={category.id}
+      />
+      <View style={styles.close}>
+        <CloseButton onPress={() => navigation.goBack()} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, borderWidth: 0, paddingHorizontal: 30 },
+  close: { position: "absolute", left: 0, bottom: 40 },
 });
 
-type IdeaProps = { categoryID: string; title: string };
-function Idea({ title, categoryID }: IdeaProps) {
+type AddIdeaInputProps = { onPress: (text: string) => void };
+const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
+  const { t } = useTranslation();
+  const [idea, setIdea] = useState("");
+  return (
+    <View
+      style={{
+        alignSelf: "center",
+        flexDirection: "row",
+        width: "80%",
+        // marginBottom: 16,
+        borderWidth: 0,
+      }}
+    >
+      <TextInput
+        style={{
+          height: 40,
+          flex: 1,
+          backgroundColor: "white",
+          paddingHorizontal: 16,
+          borderRadius: 25,
+          fontFamily: "IRANYekanRDMobile",
+          textAlign: "right",
+        }}
+        onChangeText={(text) => setIdea(text)}
+        placeholder={t("happiness.exercise.ideaPlaceholder")}
+        value={idea}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          onPress(idea);
+          setIdea("");
+          Keyboard.dismiss();
+        }}
+        style={{ position: "absolute", right: 10, top: 7.5, borderWidth: 0 }}
+      >
+        <IconSvg name="tickFill" size="tiny" color={colors.primaryThird} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+type IdeaProps = { categoryID: string; title: string; ideas: string[] };
+function Idea({ title, categoryID, ideas }: IdeaProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -79,18 +134,16 @@ function Idea({ title, categoryID }: IdeaProps) {
       >
         <View style={ideaStyles.modal}>
           <View style={ideaStyles.container}>
-            <FormattedText style={ideaStyles.text}>
-              {title + " "}‍
-            </FormattedText>
+            <FormattedText style={ideaStyles.text}>{title + " "}‍</FormattedText>
             <ScrollView style={ideaStyles.list}>
-              {["عکس مامان", "صدای باد", "وانیل"].map((x) => (
-                <FormattedText key={x} style={{ fontSize: 20 }}>
-                  {x}
+              {ideas.map((idea) => (
+                <FormattedText key={idea} style={{ fontSize: 20 }}>
+                  {idea}
                 </FormattedText>
               ))}
             </ScrollView>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <IconSvg name="tickOutline" size="medium" color="#00DE76" />
+              <IconSvg name="tickOutline" size="small" color="#00DE76" />
             </TouchableOpacity>
             <View style={ideaStyles.imageContainer}>
               <IconSvg
@@ -110,7 +163,7 @@ function Idea({ title, categoryID }: IdeaProps) {
       >
         <IconSvg
           name={`happinessToolbox-${categoryID}`}
-          size={120}
+          size={80}
           color="white"
         />
       </TouchableOpacity>
@@ -150,50 +203,44 @@ const ideaStyles = StyleSheet.create({
   button: {
     alignItems: "flex-end",
     borderWidth: 0,
-    marginTop: 10,
+    marginTop: 24,
     marginBottom: 36,
     marginHorizontal: 25,
   },
 });
 
-type DoneButtonProps = { onPress: () => void };
-function DoneButton({ onPress }: DoneButtonProps) {
+type CloseButtonProps = { onPress: () => void };
+function CloseButton({ onPress }: CloseButtonProps) {
   return (
-    <TouchableOpacity
-      onPress={() => onPress()}
-      style={doneButtonStyles.container}
-    >
-      <Image
-        source={CurveImg}
-        style={doneButtonStyles.backgroundImage}
-        resizeMode="contain"
+    <View style={closeButtonStyles.container}>
+      <GaussIcon
+        onPress={() => onPress()}
+        icon="timesFill"
+        backgroundColor="white"
+        color={colors.secondary}
       />
-      <View style={doneButtonStyles.iconContainer}>
-        <IconSvg name="tickOutline" size="medium" color={colors.secondary} />
-      </View>
-    </TouchableOpacity>
+    </View>
   );
 }
-const doneButtonStyles = StyleSheet.create({
+const closeButtonStyles = StyleSheet.create({
   container: {
     height: 80,
-    justifyContent: "center",
-    borderWidth: 0,
-  },
-  backgroundImage: { width: 50 },
-  iconContainer: {
-    position: "absolute",
-    borderWidth: 0,
-    top: 22,
+    width: 40,
   },
 });
 
 type DoneProps = {
-  handleDone: () => void;
+  title: string;
+  handleDone: (idea: string) => void;
   handleAfterDone: () => void;
   isCategoryDone: () => boolean;
 };
-function Done({ handleDone, handleAfterDone, isCategoryDone }: DoneProps) {
+function AddIdea({
+  title,
+  handleDone,
+  handleAfterDone,
+  isCategoryDone,
+}: DoneProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -206,22 +253,25 @@ function Done({ handleDone, handleAfterDone, isCategoryDone }: DoneProps) {
           handleAfterDone();
         }}
       >
-        <View style={doneStyles.modal}>
-          <View style={doneStyles.container}>
-            <View style={doneStyles.innerContainer}>
-              <FormattedText
-                style={doneStyles.text}
-                id={
-                  isCategoryDone()
-                    ? "happiness.reward.category"
-                    : "happiness.reward.exercise"
-                }
-              />
+        <View style={addIdeaStyles.modal}>
+          <View style={addIdeaStyles.container}>
+            <View style={addIdeaStyles.innerContainer}>
+              <FormattedText style={addIdeaStyles.text}>
+                <Trans
+                  i18nKey={
+                    isCategoryDone()
+                      ? "happiness.reward.category"
+                      : "happiness.reward.exercise"
+                  }
+                  values={{ title }}
+                  components={[<FormattedText style={addIdeaStyles.text} />]}
+                />
+              </FormattedText>
 
-              <View style={doneStyles.imageContainer}>
+              <View style={addIdeaStyles.imageContainer}>
                 <Image
-                  source={rewardDailyImg}
-                  style={doneStyles.image}
+                  source={isCategoryDone() ? rewardMedalImg : rewardDailyImg}
+                  style={addIdeaStyles.image}
                   resizeMode="contain"
                 />
               </View>
@@ -230,24 +280,25 @@ function Done({ handleDone, handleAfterDone, isCategoryDone }: DoneProps) {
               onPress={() => {
                 handleAfterDone();
               }}
+              style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
             >
-              <IconSvg name="tickOutline" size="medium" color="#00DE76" />
+              <IconSvg name="tickOutline" size="small" color="#00DE76" />
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-      <View style={doneStyles.button}>
-        <DoneButton
-          onPress={() => {
-            handleDone();
-            setModalVisible(true);
-          }}
-        />
-      </View>
+      <AddIdeaInput
+        onPress={(text: string) => {
+          if (text.trim() === "") return;
+          console.log({ text });
+          handleDone(text);
+          setModalVisible(true);
+        }}
+      />
     </>
   );
 }
-const doneStyles = StyleSheet.create({
+const addIdeaStyles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "center",
@@ -255,55 +306,57 @@ const doneStyles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   container: {
-    width: "80%",
+    width: fullWidth - 2 * 36,
+    // marginHorizontal: 36,
     borderRadius: 25,
     minHeight: fullWidth / 2,
     backgroundColor: colors.backgroundVariant,
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    alignItems: "center",
+    // paddingVertical: 16,
+    // borderWidth: 3,
+    // alignItems: "center",
   },
   innerContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
+    // alignItems: "center",
+    // marginBottom: 16,
   },
   text: {
+    // paddingLeft: 16,
+    paddingTop: 36,
+    paddingRight: 36,
     fontSize: 18,
     lineHeight: 18 * 1.8,
     color: colors.primary,
-    width: Math.min(fullWidth / 1.8, 180),
+    width: fullWidth - 36 * 2 - 130,
+    // borderWidth: 2,
+    // borderColor: "green",
   },
   imageContainer: {
+    // position: "absolute",
     right: -30,
-    top: 30,
+    // top: 0,
+    // borderWidth: 1,
   },
-  image: { width: 100, height: 200, borderWidth: 0 },
-  button: { position: "absolute", left: 0, bottom: 40 },
+  image: { width: 130, height: 130 * 2, borderWidth: 0 },
 });
 
-type HeaderProps = { title: string; goBack: () => void };
-function Header({ title, goBack }: HeaderProps) {
+type HeaderProps = { title: string };
+function Header({ title }: HeaderProps) {
   return (
     <View style={headerStyles.container}>
       <IconSvg
         name="cloud"
-        size={60}
-        color="white"
+        size={55}
+        color={colors.secondaryVarient}
         style={headerStyles.cloud1}
       />
       <FormattedText style={headerStyles.title}>{title}</FormattedText>
       <IconSvg
         name="cloud"
         size={20}
-        color="white"
+        color={colors.secondaryVarient}
         style={headerStyles.cloud2}
       />
-      <View style={headerStyles.closeContainer}>
-        <TouchableOpacity onPress={() => goBack()} style={headerStyles.close}>
-          <IconSvg name="timesFill" size="small" color="white" />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -314,24 +367,16 @@ const headerStyles = StyleSheet.create({
     paddingVertical: 30,
     marginTop: 30,
   },
-  cloud1: { position: "absolute", left: -8, top: 16 },
+  cloud1: { position: "absolute", left: -8, top: 0 },
   title: {
-    fontSize: 36,
+    fontSize: 30,
     color: "white",
   },
   cloud2: {
     position: "absolute",
-    right: 30,
+    right: 16,
     bottom: 15,
   },
-  closeContainer: {
-    position: "absolute",
-    right: -25,
-    top: 25,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  close: { width: 44, height: 44, top: -30 },
 });
 
 const markdownStyles = {
@@ -346,19 +391,19 @@ const markdownStyles = {
     color: colors.h1,
     textAlign: "center",
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   h2: {
     color: colors.h2,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   h3: {
     color: colors.h3,
     paddingVertical: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 24,
   },
   text: {

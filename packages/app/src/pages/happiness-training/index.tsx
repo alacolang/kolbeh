@@ -128,9 +128,7 @@ const HappinessTraining = () => {
             <Trans
               i18nKey="happiness.greeting.tryNow"
               values={{ title: categoryToTryNext?.title ?? "" }}
-              components={[
-                <FormattedText style={{ color: "red", fontSize: 18 }} />,
-              ]}
+              components={[<FormattedText style={styles.greetingCategory} />]}
             />
           ) : null}
         </FormattedText>
@@ -186,23 +184,13 @@ const styles = StyleSheet.create({
     marginTop: 64,
     marginBottom: 64,
     flexGrow: 1,
+    paddingRight: 90,
     justifyContent: "space-between",
   },
-  categoriesContainer: {
-    // borderWidth: 1,
-    // paddingTop: 60,
-    paddingLeft: 90,
-    // height: 00,
-    // paddingBottom: 40,
-    // height: slideHeight + 40,
-  },
-  greetingContainer: { paddingLeft: 16, borderWidth: 0 },
-  greeting: { fontSize: 16, color: colors.primary, lineHeight: 18 * 1.5 },
-  greetingCategory: {
-    color: colors.secondary,
-    paddingHorizontal: 5,
-    fontSize: 18,
-  },
+  categoriesContainer: {},
+  greetingContainer: { paddingLeft: 32 },
+  greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
+  greetingCategory: { color: colors.greenVariant },
 });
 
 type SlideProps = {
@@ -234,24 +222,26 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
       <FormattedText style={slideStyles.categoryDescription}>
         {category.description}
       </FormattedText>
-      {state === "locked" ? (
-        <View style={slideStyles.lockContainer}>
-          <IconSvg
-            name="lockFill"
-            size="medium"
-            color={colors.secondaryThird}
-          />
-        </View>
-      ) : (
-        <TouchableOpacity
-          style={slideStyles.enterContainer}
-          onPress={() => onClick()}
-        >
-          <FormattedText style={slideStyles.enter}>
-            {t("happiness.training.enter")}
-          </FormattedText>
-        </TouchableOpacity>
-      )}
+      <View style={slideStyles.footer}>
+        {state === "locked" ? (
+          <View style={slideStyles.lockContainer}>
+            <IconSvg
+              name="lockFill"
+              size="small"
+              color={colors.secondaryThird}
+            />
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={slideStyles.enterContainer}
+            onPress={() => onClick()}
+          >
+            <FormattedText style={slideStyles.enter}>
+              {t("happiness.training.enter")}
+            </FormattedText>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
@@ -259,21 +249,28 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
 const slideStyles = StyleSheet.create({
   lockContainer: {
     position: "absolute",
-    bottom: 32,
-    left: 32,
+    bottom: 0,
+    // left: 32,
     backgroundColor: colors.green,
     borderRadius: 44,
     height: 44,
     justifyContent: "center",
     alignItems: "center",
   },
-  enterContainer: {
+  footer: {
     position: "absolute",
-    bottom: 32,
-    left: 32,
+    bottom: 24,
+    left: 0,
+    right: 0,
+    marginHorizontal: 16,
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
+  enterContainer: {
     backgroundColor: colors.secondary,
     borderRadius: 44,
     height: 44,
+    alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
     width: slideWidth / 2,
@@ -282,22 +279,25 @@ const slideStyles = StyleSheet.create({
   categoryContainer: {
     transform: [{ scaleX: -1 }],
     paddingHorizontal: 20,
-    marginHorizontal: 15,
+    marginLeft: 35,
+    marginTop: 40,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,
     // borderWidth: 1,
     width: slideWidth,
     height: slideHeight,
-    justifyContent: "center",
+    // justifyContent: "center",
+    paddingTop: slideHeight / 6,
   },
   categoryImage: {
     position: "absolute",
-    top: 0,
-    right: -20,
+    top: -40,
+    // zIndex: 1,
+    right: -30,
     width: imageWidth,
     height: slideHeight / 1.6,
     // borderWidth: 1,
-    borderColor: "red",
+    // borderColor: "red",
   },
   categoryTitle: {
     fontSize: 26,
@@ -305,10 +305,11 @@ const slideStyles = StyleSheet.create({
   },
   categoryDescription: {
     fontSize: 20,
-    marginTop: 30,
+    marginTop: slideHeight / 4,
     color: colors.primary,
     lineHeight: 22 * 1.4,
-    width: slideWidth / 1.5,
+    // width: slideWidth / 1.5,
+    // paddingHorizontal: 16,
     // borderWidth: 1,
   },
 });

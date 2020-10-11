@@ -4,67 +4,106 @@ import { Icon, IconSvg } from "components/icon";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
-const menuItems = [
-  { icon: "profile", title: "screen-title.profile", route: "profile" },
-  { icon: "bell", title: "reminder", route: "reminder" },
-  { icon: "email", title: "share", route: "share" },
-  { icon: "phone", title: "screen-title.contact", route: "contact" },
-];
+import { onShare } from "utils/share";
 
 function Settings({ navigation }) {
+  const menuItems = [
+    {
+      icon: "profile",
+      title: "screen-title.profile",
+      route: "profile",
+      onPress: () => navigation.navigate("profile"),
+    },
+    {
+      icon: "bell",
+      title: "reminder",
+      route: "reminder",
+      onPress: () => navigation.navigate("reminder"),
+    },
+    {
+      icon: "email",
+      title: "share",
+      route: "share",
+      onPress: () => onShare(),
+    },
+    {
+      icon: "phone",
+      title: "screen-title.contact",
+      route: "contact",
+      onPress: () => navigation.navigate("contact"),
+    },
+  ];
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <IconSvg
-          name="cloud"
-          color="white"
-          size="medium"
-          style={styles.cloud1}
-        />
-        <View style={styles.avatar}>
-          <Icon name="avatar" size="large" />
-        </View>
-        <IconSvg name="cloud" color="white" size="huge" style={styles.cloud2} />
+      <Header />
+      <View style={styles.content}>
+        {menuItems.map((item) => (
+          <TouchableOpacity onPress={item.onPress} style={styles.row}>
+            <View style={styles.rowContainer}>
+              <IconSvg name={item.icon} size="tiny" color={colors.primary} />
+              <FormattedText style={styles.itemTitle} id={item.title} />
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
-      {menuItems.map((item) => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate(item.route)}
-          style={styles.row}
-        >
-          <View style={styles.rowContainer}>
-            <IconSvg name={item.icon} size="small" color={colors.primary} />
-            <FormattedText style={styles.itemTitle} id={item.title} />
-          </View>
-        </TouchableOpacity>
-      ))}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+export const Header = () => {
+  return (
+    <View style={headerStyles.container}>
+      <IconSvg
+        name="cloud"
+        color="white"
+        size="medium"
+        style={headerStyles.cloud1}
+      />
+      <View style={headerStyles.avatarContainer}>
+        <View style={headerStyles.avatar} />
+        <Icon name="avatar" size="huge" />
+      </View>
+      <IconSvg
+        name="cloud"
+        color="white"
+        size="huge"
+        style={headerStyles.cloud2}
+      />
+    </View>
+  );
+};
+const headerStyles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundVariant,
-    flex: 1,
-    paddingHorizontal: 36,
-  },
-  headerContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    height: 140,
+    height: 90,
     // borderWidth: 1,
-    marginBottom: 50,
   },
   cloud1: { position: "absolute", bottom: 0, left: 0 },
+  avatarContainer: {
+    // borderWidth: 1
+  },
   avatar: {
-    borderWidth: 4,
+    borderWidth: 5,
+    position: "absolute",
+    top: 10,
+    left: -5,
     borderRadius: 500,
-    margin: 10,
-    padding: 10,
+    width: 90,
+    height: 90,
     borderColor: colors.secondary,
   },
   cloud2: { position: "absolute", top: 0, width: 80, right: 0 },
+});
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F0F5FF",
+    flex: 1,
+    paddingHorizontal: 36,
+  },
+  content: { marginTop: 50 },
   row: { borderWidth: 0, flexGrow: 1 },
   rowContainer: {
     flexDirection: "row",

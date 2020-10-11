@@ -4,8 +4,9 @@ import * as types from "types";
 
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
+const IDEA_KEY = "happiness_ideas";
 const SERVER_DATA = "happiness_server";
-const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 1;
+const ONE_DAY_IN_MILLISECONDS = 1000 * 10 * 1;
 // export const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 type ID = string;
@@ -15,27 +16,35 @@ type Exercises = Record<
 >;
 type Categories = Record<
   ID,
-  { state: "locked" | "unlocked" } | { state: "done"; doneAt: number }
+  | { state: "locked" }
+  | { state: "unlocked" }
+  | { state: "done"; doneAt: number }
 >;
+type Ideas = Record<ID, string[]>;
+
 type IHappinessContext = {
   exercises: Exercises;
   categories: Categories;
+  ideas: Ideas;
   rawCategories: types.IHappinessTrainingCategory[];
   updateRawCategories: (
     d: types.IHappinessTrainingCategory[] | undefined
   ) => void;
   update: () => void;
   markExerciseAsDone: (id: ID) => void;
+  addIdea: (categoryID: ID, text: string) => void;
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
 };
 
 const HappinessContext = React.createContext<IHappinessContext>({
   exercises: {},
   categories: {},
+  ideas: {},
   updateRawCategories: () => {},
   rawCategories: [],
   update: () => {},
   markExerciseAsDone: () => {},
+  addIdea: () => {},
   isCategoryDone: () => false,
 });
 
@@ -180,6 +189,7 @@ export function getNextState(
 export const HappinessProvider = <T extends {}>(props: T) => {
   const [exercises, setExercises] = React.useState<Exercises>({});
   const [categories, setCategories] = React.useState<Categories>({});
+  const [ideas, setIdeas] = React.useState<Ideas>({});
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
   >([]);
@@ -192,6 +202,11 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     await AsyncStorage.setItem(CATEGORY_KEY, JSON.stringify(updated));
     setCategories(updated);
   };
+  const updateIdeas = async (updated: Ideas) => {
+    await AsyncStorage.setItem(IDEA_KEY, JSON.stringify(updated));
+    console.log({ updated });
+    setIdeas(updated);
+  };
 
   const markExerciseAsDone = async (id: ID) => {
     const temp: Exercises = {
@@ -199,6 +214,16 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       [id]: { state: "done", doneAt: Date.now() },
     };
     updateExercises(temp);
+  };
+
+  const addIdea = async (categoryID: ID, text: string) => {
+    const idea = ideas[categoryID] ?? [];
+    console.log("addIdea", { categoryID, text, idea, ideas });
+    const temp: Ideas = {
+      ...ideas,
+      [categoryID]: [...idea, text],
+    };
+    updateIdeas(temp);
   };
 
   const updateRawCategories = async (
@@ -216,9 +241,13 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   useEffect(() => {
     async function readFromStorage() {
       const storedExercise = await AsyncStorage.getItem(EXERCISE_KEY);
+      const storedIdeas = await AsyncStorage.getItem(IDEA_KEY);
       try {
         if (storedExercise) {
           setExercises(JSON.parse(storedExercise));
+        }
+        if (storedIdeas) {
+          setExercises(JSON.parse(storedIdeas));
         }
       } catch (e) {}
     }
@@ -245,9 +274,11 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         updateRawCategories,
         update,
         exercises,
+        ideas,
         categories,
         rawCategories,
         markExerciseAsDone,
+        addIdea,
         isCategoryDone,
       }}
     />
