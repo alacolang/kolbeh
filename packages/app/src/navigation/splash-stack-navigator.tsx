@@ -5,17 +5,17 @@ import HomeNavigator from "./home-stack-navigator";
 
 export type StackParamList = {
   onboarding: undefined;
-  main: undefined;
+  home: undefined;
 };
 
 const Stack = createStackNavigator<StackParamList>();
 const SplashNavigator = () => (
   <Stack.Navigator
-    initialRouteName="main"
+    initialRouteName="home"
     screenOptions={{ headerShown: false }}
   >
     <Stack.Screen name="onboarding" component={Onboarding} />
-    <Stack.Screen name="main" component={HomeNavigator} />
+    <Stack.Screen name="home" component={HomeNavigator} />
   </Stack.Navigator>
 );
 
