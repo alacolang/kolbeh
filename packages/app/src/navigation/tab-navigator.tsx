@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HappinessTraining from "../pages/happiness-training";
 import BookmarkPostsScreen from "../pages/bookmark-posts";
 import ParentNavigator from "./parent-stack-navigator";
+import ParentCategoryList from "../pages/parent-category-list";
 import { TabBar } from "./menu";
 
 export type TabParamList = {
@@ -20,7 +21,8 @@ const TabNavigator = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen name="bookmark" component={BookmarkPostsScreen} />
-      <Tab.Screen name="parent" component={ParentNavigator} />
+      {/* <Tab.Screen name="parent" component={ParentNavigator} /> */}
+      <Tab.Screen name="parent" component={ParentCategoryList} />
       <Tab.Screen name="kolbeh" component={HappinessTraining} />
     </Tab.Navigator>
   );

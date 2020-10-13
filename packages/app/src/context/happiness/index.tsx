@@ -34,7 +34,14 @@ type IHappinessContext = {
   markExerciseAsDone: (id: ID) => void;
   addIdea: (categoryID: ID, text: string) => void;
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
+  categoryToTryNext: () => NextCategory;
 };
+
+type NextCategory =
+  | null
+  | "all-done"
+  | "not-now"
+  | types.IHappinessTrainingCategory;
 
 const HappinessContext = React.createContext<IHappinessContext>({
   exercises: {},
@@ -46,6 +53,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   markExerciseAsDone: () => {},
   addIdea: () => {},
   isCategoryDone: () => false,
+  categoryToTryNext: () => null,
 });
 
 export function isCategoryNotDoneYet(
@@ -55,7 +63,7 @@ export function isCategoryNotDoneYet(
   const result = rawCategory.exercises.reduce((acc, rawExercise) => {
     const id = rawExercise.id;
     const exercise = exercises[id];
-    if (exercise?.state === "unlocked" || exercise?.state === "done") {
+    if (exercise?.state === "unlocked" || exercise?.state === "locked") {
       return true;
     } else {
       return acc;
@@ -68,15 +76,11 @@ export function isCategoryDoneGivenExercises(
   rawCategory: types.IHappinessTrainingCategory,
   exercises: Exercises
 ) {
-  const allDone = rawCategory.exercises.reduce((acc, rawExercise) => {
+  const allDone = rawCategory.exercises.every((rawExercise) => {
     const id = rawExercise.id;
     const exercise = exercises[id];
-    if (exercise?.state !== "done") {
-      return false;
-    } else {
-      return acc;
-    }
-  }, true);
+    return exercise?.state === "done";
+  });
   return allDone && rawCategory.exercises.length > 0;
 }
 
@@ -167,7 +171,7 @@ export function getNextState(
         state: "done",
         doneAt: lastExerciseDoneAt,
       };
-      isCategoryLocked = false;
+      isCategoryLocked = isRecent ? true : false;
     } else if (categoryIsNotDone && !isCategoryLocked) {
       nextCategories[categoryId] = {
         state: "unlocked",
@@ -204,7 +208,6 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   };
   const updateIdeas = async (updated: Ideas) => {
     await AsyncStorage.setItem(IDEA_KEY, JSON.stringify(updated));
-    console.log({ updated });
     setIdeas(updated);
   };
 
@@ -218,7 +221,6 @@ export const HappinessProvider = <T extends {}>(props: T) => {
 
   const addIdea = async (categoryID: ID, text: string) => {
     const idea = ideas[categoryID] ?? [];
-    console.log("addIdea", { categoryID, text, idea, ideas });
     const temp: Ideas = {
       ...ideas,
       [categoryID]: [...idea, text],
@@ -240,14 +242,14 @@ export const HappinessProvider = <T extends {}>(props: T) => {
 
   useEffect(() => {
     async function readFromStorage() {
-      const storedExercise = await AsyncStorage.getItem(EXERCISE_KEY);
+      const storedExercises = await AsyncStorage.getItem(EXERCISE_KEY);
       const storedIdeas = await AsyncStorage.getItem(IDEA_KEY);
       try {
-        if (storedExercise) {
-          setExercises(JSON.parse(storedExercise));
+        if (storedExercises) {
+          setExercises(JSON.parse(storedExercises));
         }
         if (storedIdeas) {
-          setExercises(JSON.parse(storedIdeas));
+          setIdeas(JSON.parse(storedIdeas));
         }
       } catch (e) {}
     }
@@ -261,10 +263,43 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     return result;
   };
 
+  const isAllDone = () => {
+    const result = rawCategories.every((rawCategory) =>
+      isCategoryDoneGivenExercises(rawCategory, exercises)
+    );
+    return result;
+  };
+
   const update = () => {
     const result = getNextState(rawCategories, exercises, Date.now());
     updateCategories(result.categories);
     updateExercises(result.exercises);
+  };
+
+  const categoryToTryNext = (): NextCategory => {
+    return rawCategories.length > 0
+      ? [...rawCategories]
+          .reverse()
+          .reduce(
+            (
+              acc: "all-done" | "not-now" | types.IHappinessTrainingCategory,
+              category: types.IHappinessTrainingCategory
+            ) => {
+              if (acc !== "not-now" && acc !== "all-done") {
+                return acc;
+              }
+              const state = categories[category.id]?.state;
+              if (state === "done" && acc === "all-done") {
+                return acc;
+              }
+              if (categories[category.id]?.state === "unlocked") {
+                return category;
+              }
+              return "not-now";
+            },
+            "all-done"
+          )
+      : null;
   };
 
   return (
@@ -280,6 +315,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         markExerciseAsDone,
         addIdea,
         isCategoryDone,
+        categoryToTryNext,
       }}
     />
   );

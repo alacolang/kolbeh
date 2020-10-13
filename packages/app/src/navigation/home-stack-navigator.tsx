@@ -5,11 +5,16 @@ import {
 } from "@react-navigation/stack";
 import { StyleSheet, View } from "react-native";
 import Search from "../pages/search";
-import ChildFeed, { FeedRouteParam } from "../pages/child-feed";
+import ChildFeed, {
+  FeedRouteParam as ChildFeedRouteParam,
+} from "../pages/child-feed";
+import ParentFeed, {
+  FeedRouteParam as ParentFeedRouteParam,
+} from "../pages/parent-feed";
 import Post, { PostRouteParam } from "../pages/post";
+import ParentCategoryList from "../pages/parent-category-list";
 import Settings from "../pages/settings";
 import Profile from "../pages/profile";
-import { Icon } from "../components/icon";
 import TabNavigator from "./tab-navigator";
 import { FormattedText } from "components/formatted-text";
 import HappinessCategory from "../pages/happiness-category";
@@ -19,7 +24,7 @@ import * as Types from "types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Contact from "pages/contact";
 import { GaussIcon } from "components/curve-icon";
-import { color } from "react-native-reanimated";
+import { Icon } from "components/icon";
 
 export type HomeStackParamList = {
   settings: undefined;
@@ -30,7 +35,9 @@ export type HomeStackParamList = {
   post: PostRouteParam;
   home: undefined;
   parent: undefined;
-  childFeed: FeedRouteParam;
+  childFeed: ChildFeedRouteParam;
+  parentCategoryList: undefined;
+  parentFeed: ParentFeedRouteParam;
   happinessCategory: { category: Types.IHappinessTrainingCategory };
   happinessExercise: {
     exercise: Types.IExercise;
@@ -48,7 +55,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const JustBackHeader = ({
+export const JustBackHeader = ({
   navigation,
 }: StackHeaderProps & { color?: string; backgroundColor?: string }) => {
   return (
@@ -242,6 +249,19 @@ const HomeNavigator = ({ navigation, route }) => {
           header: () => null,
           // animationEnabled: false,
         }}
+      />
+      <Stack.Screen
+        name="parentCategoryList"
+        component={ParentCategoryList}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="parentFeed"
+        component={ParentFeed}
+        options={() => ({
+          header: () => null,
+          animationEnabled: false,
+        })}
       />
     </Stack.Navigator>
   );

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     paddingTop: 10,
     paddingHorizontal: 30,
-  },
+   },
   saveContainer: {
     justifyContent: "center",
     alignItems: "center",

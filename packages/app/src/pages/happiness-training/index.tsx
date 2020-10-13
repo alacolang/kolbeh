@@ -7,8 +7,6 @@ import {
   Dimensions,
   StyleSheet,
   Image,
-  Text,
-  Slider,
 } from "react-native";
 import {
   useNavigation,
@@ -30,7 +28,6 @@ import { IconSvg } from "components/icon";
 import { useHappiness } from "context/happiness";
 import { Trans, useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
-import { types } from "@babel/core";
 
 const fullWidth = Dimensions.get("window").width;
 const imageWidth = fullWidth / 2 - 80;
@@ -79,49 +76,26 @@ const HappinessTraining = () => {
   const categories = data?.happinessTraining.categories;
 
   useEffect(() => {
-    // useFocusEffect(
-    // useCallback(() => {
     if (!categories) {
       return;
     }
     happiness.updateRawCategories(categories);
-    // }, [])
   }, [categories]);
 
-  const categoryToTryNext:
-    | null
-    | "all-done"
-    | "not-now"
-    | Types.IHappinessTrainingCategory =
-    (categories ?? []).length > 0
-      ? [...(categories ?? [])]
-          ?.reverse()
-          ?.reduce(
-            (
-              acc: "all-done" | "not-now" | Types.IHappinessTrainingCategory,
-              category: Types.IHappinessTrainingCategory
-            ) => {
-              if (acc !== "not-now" && acc !== "all-done") {
-                return acc;
-              }
-              const state = happiness.categories[category.id]?.state;
-              if (state === "done" && acc === "all-done") {
-                return acc;
-              }
-              if (happiness.categories[category.id]?.state === "unlocked") {
-                return category;
-              }
-              return "not-now";
-            },
-            "all-done"
-          )
-      : null;
+  // useFocusEffect(() => {
+  // }, [happiness.categoryToTryNext()]);
+
+  const categoryToTryNext = happiness.categoryToTryNext();
+
   const tip = (
     <View style={styles.greetingContainer}>
       <View style={{ flexDirection: "row" }}>
         <FormattedText style={styles.greeting}>
           {categoryToTryNext === "all-done" ? (
-            t("happiness.greeting.enoughForToday")
+            <Trans
+              i18nKey="happiness.greeting.allDone"
+              components={[<FormattedText style={styles.greetingCategory} />]}
+            />
           ) : categoryToTryNext === "not-now" ? (
             t("happiness.greeting.enoughForToday")
           ) : categoryToTryNext?.title ? (
@@ -138,11 +112,7 @@ const HappinessTraining = () => {
 
   const slides = (
     <View>
-      <ScrollView
-        horizontal
-        style={{ transform: [{ scaleX: -1 }] }}
-        contentContainerStyle={styles.categoriesContainer}
-      >
+      <ScrollView horizontal style={styles.slider}>
         {categories?.map((category) => {
           const state = happiness.categories[category.id]?.state;
 
@@ -187,7 +157,7 @@ const styles = StyleSheet.create({
     paddingRight: 90,
     justifyContent: "space-between",
   },
-  categoriesContainer: {},
+  slider: { transform: [{ scaleX: -1 }], marginLeft: 36 },
   greetingContainer: { paddingLeft: 32 },
   greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
   greetingCategory: { color: colors.greenVariant },

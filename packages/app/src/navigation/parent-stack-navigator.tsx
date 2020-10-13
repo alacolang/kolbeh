@@ -5,6 +5,7 @@ import Post, { PostRouteParam } from "../pages/post";
 import ParentCategoryList from "../pages/parent-category-list";
 import { Icon } from "../components/icon";
 import colors from "colors";
+import { JustBackHeader } from "./home-stack-navigator";
 
 export type ParentStackParamList = {
   parentCategoryList: undefined;
@@ -43,10 +44,12 @@ const ParentNavigator = ({ navigation, route }) => {
         component={Post}
         options={() => ({
           headerTransparent: true,
-          title: "",
-          headerBackTitleVisible: false,
-          headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
-          headerBackImage: () => <Icon name="backDark" size="tiny" />,
+          header: JustBackHeader,
+          // headerTransparent: true,
+          // title: "",
+          // headerBackTitleVisible: false,
+          // headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
+          // headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
       />
       <Stack.Screen

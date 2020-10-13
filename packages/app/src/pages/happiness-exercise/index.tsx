@@ -51,7 +51,7 @@ function HappinessExercise({ navigation, route }: Props) {
           title={category.title}
           handleDone={(idea: string) => {
             happiness.addIdea(category.id, idea);
-            // happiness.markExerciseAsDone(exercise.id);
+            happiness.markExerciseAsDone(exercise.id);
           }}
           isCategoryDone={() => happiness.isCategoryDone(category)}
           handleAfterDone={() => {
@@ -59,7 +59,7 @@ function HappinessExercise({ navigation, route }: Props) {
           }}
         />
       )}
-      <Idea
+      <Ideas
         ideas={happiness.ideas[category.id] ?? []}
         title={exercise.title}
         categoryID={category.id}
@@ -118,23 +118,18 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
   );
 };
 
-type IdeaProps = { categoryID: string; title: string; ideas: string[] };
-function Idea({ title, categoryID, ideas }: IdeaProps) {
+type IdeasProps = { categoryID: string; title: string; ideas: string[] };
+function Ideas({ title, categoryID, ideas }: IdeasProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          // Alert.alert("Modal has been closed.");
-        }}
-      >
+      <Modal animationType="slide" transparent={false} visible={modalVisible}>
         <View style={ideaStyles.modal}>
           <View style={ideaStyles.container}>
-            <FormattedText style={ideaStyles.text}>{title + " "}‍</FormattedText>
+            <FormattedText style={ideaStyles.text}>
+              {title + " "}‍
+            </FormattedText>
             <ScrollView style={ideaStyles.list}>
               {ideas.map((idea) => (
                 <FormattedText key={idea} style={{ fontSize: 20 }}>
@@ -175,14 +170,13 @@ const ideaStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primaryThird,
   },
   container: {
     width: "80%",
     borderRadius: 25,
     minHeight: fullWidth / 2,
     backgroundColor: colors.backgroundVariant,
-    // backgroundColor: 'red',
     paddingVertical: 16,
     alignItems: "center",
     paddingHorizontal: 32,
@@ -229,7 +223,7 @@ const closeButtonStyles = StyleSheet.create({
   },
 });
 
-type DoneProps = {
+type AddIdeaProps = {
   title: string;
   handleDone: (idea: string) => void;
   handleAfterDone: () => void;
@@ -240,7 +234,7 @@ function AddIdea({
   handleDone,
   handleAfterDone,
   isCategoryDone,
-}: DoneProps) {
+}: AddIdeaProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -289,8 +283,7 @@ function AddIdea({
       </Modal>
       <AddIdeaInput
         onPress={(text: string) => {
-          if (text.trim() === "") return;
-          console.log({ text });
+          // if (text.trim() === "") return;
           handleDone(text);
           setModalVisible(true);
         }}
@@ -303,7 +296,7 @@ const addIdeaStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primaryThird,
   },
   container: {
     width: fullWidth - 2 * 36,
@@ -333,8 +326,8 @@ const addIdeaStyles = StyleSheet.create({
   },
   imageContainer: {
     // position: "absolute",
-    right: -30,
-    // top: 0,
+    right: -20,
+    top: -20,
     // borderWidth: 1,
   },
   image: { width: 130, height: 130 * 2, borderWidth: 0 },
