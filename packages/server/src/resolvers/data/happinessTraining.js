@@ -1,5 +1,4 @@
 const categories = [
-  ,
   {
     id: "mindfulness",
     title: "ذهن آگاهی",

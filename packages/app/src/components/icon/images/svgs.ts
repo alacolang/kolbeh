@@ -29,6 +29,7 @@ import star from "./star.svg";
 import gaussCurve from "./gauss-curve.svg";
 import leftArrow from "./left-arrow.svg";
 import rightArrow from "./right-arrow.svg";
+import certificate from "./certificate.svg";
 
 export default {
   tickFill,
@@ -52,6 +53,7 @@ export default {
   gaussCurve,
   leftArrow,
   rightArrow,
+  certificate,
   "happinessToolbox-mindfulness": mindfulness,
   "happinessToolbox-optimism": optimism,
   "happinessToolbox-forgiveness": forgiveness,

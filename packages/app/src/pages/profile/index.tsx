@@ -1,12 +1,22 @@
 import colors from "colors";
+import { FormattedText } from "components/formatted-text";
 import { Icon, IconSvg } from "components/icon";
 import { useHappiness } from "context/happiness";
-import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  Modal,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import rewardCertificateImg from "assets/images/reward-certificate.png";
 import { Header } from "../settings/index";
+import { Trans } from "react-i18next";
 
-const frameWidth = Dimensions.get("window").width - 16 * 2;
-const size = frameWidth / 3 - 4 * 2;
+const fullWidth = Dimensions.get("window").width - 16 * 2;
+const size = fullWidth / 3 - 4 * 2;
 
 function Profile({ navigation }) {
   const happiness = useHappiness();
@@ -79,6 +89,22 @@ function Profile({ navigation }) {
           }}
         >
           {categories}
+          {happiness.isAllDone() ? (
+            <>
+              <View style={{ flex: 1 }} />
+              <View
+                style={{
+                  marginHorizontal: 3,
+                  width: size,
+                  height: size,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Certificate />
+              </View>
+            </>
+          ) : null}
         </View>
       </View>
     </View>
@@ -120,6 +146,97 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 20,
   },
+});
+
+const Certificate = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <>
+      <Modal animationType="slide" transparent={false} visible={modalVisible}>
+        <View style={addIdeaStyles.modal}>
+          <View style={addIdeaStyles.container}>
+            <View style={addIdeaStyles.innerContainer}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  paddingLeft: 36,
+                  width: fullWidth - 36 * 2 - 130,
+                  paddingTop: 16,
+                }}
+              >
+                <View>
+                  <IconSvg name="certificate" size={55} color="red" />
+                </View>
+                <FormattedText style={addIdeaStyles.text}>
+                  <Trans
+                    i18nKey="happiness.reward.allDone"
+                    components={[<FormattedText style={addIdeaStyles.text} />]}
+                  />
+                </FormattedText>
+              </View>
+              <View style={addIdeaStyles.imageContainer}>
+                <Image
+                  source={rewardCertificateImg}
+                  style={addIdeaStyles.image}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
+            >
+              <IconSvg name="tickOutline" size="small" color="#00DE76" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <IconSvg name="certificate" size={80} color="red" />
+      </TouchableOpacity>
+    </>
+  );
+};
+
+const addIdeaStyles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.primaryThird,
+  },
+  container: {
+    width: fullWidth - 2 * 36,
+    // marginHorizontal: 36,
+    borderRadius: 25,
+    minHeight: fullWidth / 2,
+    backgroundColor: colors.backgroundVariant,
+    // paddingVertical: 16,
+    // borderWidth: 3,
+    // alignItems: "center",
+  },
+  innerContainer: {
+    flexDirection: "row",
+    // alignItems: "center",
+    // marginBottom: 16,
+  },
+  text: {
+    // paddingLeft: 16,
+    paddingTop: 16,
+    fontSize: 18,
+    lineHeight: 18 * 1.8,
+    color: colors.primary,
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
+  imageContainer: {
+    // position: "absolute",
+    right: -20,
+    top: -20,
+    // borderWidth: 1,
+  },
+  image: { width: 130, height: 130 * 2, borderWidth: 0 },
 });
 
 export default Profile;

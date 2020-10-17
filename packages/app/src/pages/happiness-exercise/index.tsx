@@ -17,6 +17,7 @@ import { IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import rewardDailyImg from "assets/images/reward-daily.png";
+import rewardCertificateImg from "assets/images/reward-certificate.png";
 import rewardMedalImg from "assets/images/reward-medal.png";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
@@ -54,6 +55,7 @@ function HappinessExercise({ navigation, route }: Props) {
             happiness.markExerciseAsDone(exercise.id);
           }}
           isCategoryDone={() => happiness.isCategoryDone(category)}
+          isAllDone={happiness.isAllDone}
           handleAfterDone={() => {
             navigation.navigate("home");
           }}
@@ -228,12 +230,14 @@ type AddIdeaProps = {
   handleDone: (idea: string) => void;
   handleAfterDone: () => void;
   isCategoryDone: () => boolean;
+  isAllDone: () => boolean;
 };
 function AddIdea({
   title,
   handleDone,
   handleAfterDone,
   isCategoryDone,
+  isAllDone,
 }: AddIdeaProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -250,21 +254,42 @@ function AddIdea({
         <View style={addIdeaStyles.modal}>
           <View style={addIdeaStyles.container}>
             <View style={addIdeaStyles.innerContainer}>
-              <FormattedText style={addIdeaStyles.text}>
-                <Trans
-                  i18nKey={
-                    isCategoryDone()
-                      ? "happiness.reward.category"
-                      : "happiness.reward.exercise"
-                  }
-                  values={{ title }}
-                  components={[<FormattedText style={addIdeaStyles.text} />]}
-                />
-              </FormattedText>
-
+              <View
+                style={{
+                  flexDirection: "column",
+                  paddingLeft: 36,
+                  width: fullWidth - 36 * 2 - 130,
+                  paddingTop: 16,
+                }}
+              >
+                {isAllDone() ? (
+                  <View>
+                    <IconSvg name="certificate" size={55} color="red" />
+                  </View>
+                ) : null}
+                <FormattedText style={addIdeaStyles.text}>
+                  <Trans
+                    i18nKey={
+                      isAllDone()
+                        ? "happiness.reward.allDone"
+                        : isCategoryDone()
+                        ? "happiness.reward.category"
+                        : "happiness.reward.exercise"
+                    }
+                    values={{ title }}
+                    components={[<FormattedText style={addIdeaStyles.text} />]}
+                  />
+                </FormattedText>
+              </View>
               <View style={addIdeaStyles.imageContainer}>
                 <Image
-                  source={isCategoryDone() ? rewardMedalImg : rewardDailyImg}
+                  source={
+                    isAllDone()
+                      ? rewardCertificateImg
+                      : isCategoryDone()
+                      ? rewardMedalImg
+                      : rewardDailyImg
+                  }
                   style={addIdeaStyles.image}
                   resizeMode="contain"
                 />
@@ -315,12 +340,10 @@ const addIdeaStyles = StyleSheet.create({
   },
   text: {
     // paddingLeft: 16,
-    paddingTop: 36,
-    paddingRight: 36,
+    paddingTop: 16,
     fontSize: 18,
     lineHeight: 18 * 1.8,
     color: colors.primary,
-    width: fullWidth - 36 * 2 - 130,
     // borderWidth: 2,
     // borderColor: "green",
   },

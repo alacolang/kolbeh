@@ -1,11 +1,6 @@
 import React from "react";
 import Slider from "@react-native-community/slider";
-import {
-  View,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { colors } from "./common";
@@ -37,8 +32,6 @@ const ExplainStep = ({ next }: Props) => {
     </View>
   );
 };
-
-const w = (fullWidth - 30 * 2) / 4;
 
 const styles = StyleSheet.create({
   container: {

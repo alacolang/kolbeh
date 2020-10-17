@@ -23,9 +23,6 @@ import { Icon } from "components/icon";
 import * as Types from "types";
 import colors from "colors";
 import FeedTile from "components/feed-tile";
-import TeenHeaderImg from "../../assets/images/teen-header.png";
-import KidHeaderImg from "../../assets/images/kid-header.png";
-import ToolboxHeaderImg from "../../assets/images/toolbox-header.png";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -119,28 +116,6 @@ const Feed = () => {
           clipPath="url(#cut-off-bottom)"
         />
       </Svg>
-    </View>
-  );
-
-  const navbarRendered = (
-    <View
-      style={[
-        styles.navbarContainer,
-        // { backgroundColor: meta.backgroundColor },
-      ]}
-    >
-      {curveRendered}
-      <View style={styles.navbarRow}>
-        <TouchableOpacity
-          // activeOpacity={0.5}
-          onPress={() => navigation.goBack()}
-        >
-          <View style={styles.backContainer}>
-            <Icon name="back" size="tiny" />
-          </View>
-        </TouchableOpacity>
-        <Icon name={category.icon} size="huge" />
-      </View>
     </View>
   );
 

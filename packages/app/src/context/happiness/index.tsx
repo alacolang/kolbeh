@@ -35,6 +35,7 @@ type IHappinessContext = {
   addIdea: (categoryID: ID, text: string) => void;
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
   categoryToTryNext: () => NextCategory;
+  isAllDone: () => boolean;
 };
 
 type NextCategory =
@@ -54,6 +55,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   addIdea: () => {},
   isCategoryDone: () => false,
   categoryToTryNext: () => null,
+  isAllDone: () => false,
 });
 
 export function isCategoryNotDoneYet(
@@ -316,6 +318,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         addIdea,
         isCategoryDone,
         categoryToTryNext,
+        isAllDone,
       }}
     />
   );
