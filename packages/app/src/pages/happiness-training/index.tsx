@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -68,6 +68,7 @@ const HappinessTraining = () => {
   const navigation = useNavigation<Navigation>();
   const happiness = useHappiness();
   const { t } = useTranslation();
+  const ref = useRef<ScrollView>();
 
   const { data } = useQuery<HappinessTrainingData>(GET_HAPPINESS_TRAININGS, {
     fetchPolicy: "network-only",
@@ -75,17 +76,32 @@ const HappinessTraining = () => {
 
   const categories = data?.happinessTraining.categories;
 
+  const categoryToTryNext = happiness.categoryToTryNext();
+
   useEffect(() => {
     if (!categories) {
       return;
     }
     happiness.updateRawCategories(categories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
-  // useFocusEffect(() => {
-  // }, [happiness.categoryToTryNext()]);
+  useEffect(() => {
+    if (
+      categoryToTryNext === "all-done" ||
+      categoryToTryNext === "not-now" ||
+      categoryToTryNext === null
+    ) {
+      return;
+    }
 
-  const categoryToTryNext = happiness.categoryToTryNext();
+    setTimeout(() => {
+      ref.current?.scrollTo({
+        x: slidesX[categoryToTryNext.id] - 36,
+        animated: true,
+      });
+    }, 100);
+  }, [categoryToTryNext]);
 
   const tip = (
     <View style={styles.greetingContainer}>
@@ -112,7 +128,7 @@ const HappinessTraining = () => {
 
   const slides = (
     <View>
-      <ScrollView horizontal style={styles.slider}>
+      <ScrollView horizontal contentContainerStyle={styles.slider} ref={ref}>
         {categories?.map((category) => {
           const state = happiness.categories[category.id]?.state;
 
@@ -151,14 +167,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
+    borderColor: "red",
     marginTop: 64,
     marginBottom: 64,
     flexGrow: 1,
     paddingRight: 90,
     justifyContent: "space-between",
   },
-  slider: { transform: [{ scaleX: -1 }], marginLeft: 36 },
-  greetingContainer: { paddingLeft: 32 },
+  slider: {
+    // transform: [{ scaleX: -1 }],
+    paddingRight: 36,
+  },
+  greetingContainer: {
+    paddingLeft: 32,
+  },
   greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
   greetingCategory: { color: colors.greenVariant },
 });
@@ -169,6 +191,9 @@ type SlideProps = {
   state: any;
   onClick: () => void;
 };
+
+const slidesX: Record<string, number> = {};
+
 const Slide = ({ category, state, onClick, t }: SlideProps) => {
   return (
     <View
@@ -180,6 +205,10 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
             state === "locked" ? colors.green : colors.secondaryVarient,
         },
       ]}
+      onLayout={(event) => {
+        const layout = event.nativeEvent.layout;
+        slidesX[category.id] = layout.x;
+      }}
     >
       <Image
         source={{ uri: resolveURL(category.image.url) }}
@@ -247,7 +276,7 @@ const slideStyles = StyleSheet.create({
   },
   enter: { color: "white", top: -4, fontSize: 18 },
   categoryContainer: {
-    transform: [{ scaleX: -1 }],
+    // transform: [{ scaleX: -1 }],
     paddingHorizontal: 20,
     marginLeft: 35,
     marginTop: 40,
