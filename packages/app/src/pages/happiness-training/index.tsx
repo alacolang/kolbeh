@@ -28,6 +28,7 @@ import { IconSvg } from "components/icon";
 import { useHappiness } from "context/happiness";
 import { Trans, useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
+import Loading from "components/loading";
 
 const fullWidth = Dimensions.get("window").width;
 const imageWidth = fullWidth / 2 - 80;
@@ -70,9 +71,12 @@ const HappinessTraining = () => {
   const { t } = useTranslation();
   const ref = useRef<ScrollView>();
 
-  const { data } = useQuery<HappinessTrainingData>(GET_HAPPINESS_TRAININGS, {
-    // fetchPolicy: "network-only",
-  });
+  const { data, loading } = useQuery<HappinessTrainingData>(
+    GET_HAPPINESS_TRAININGS,
+    {
+      // fetchPolicy: "network-only",
+    }
+  );
 
   const categories = data?.happinessTraining.categories;
 
@@ -143,21 +147,25 @@ const HappinessTraining = () => {
   const slides = (
     <View>
       <ScrollView horizontal contentContainerStyle={styles.slider} ref={ref}>
-        {categories?.map((category) => {
-          const state = happiness.categories[category.id]?.state;
+        {loading ? (
+          <Loading />
+        ) : (
+          categories?.map((category) => {
+            const state = happiness.categories[category.id]?.state;
 
-          return (
-            <Slide
-              key={category.id}
-              t={t}
-              category={category}
-              state={state}
-              onClick={() =>
-                navigation.navigate("happinessCategory", { category })
-              }
-            />
-          );
-        })}
+            return (
+              <Slide
+                key={category.id}
+                t={t}
+                category={category}
+                state={state}
+                onClick={() =>
+                  navigation.navigate("happinessCategory", { category })
+                }
+              />
+            );
+          })
+        )}
       </ScrollView>
     </View>
   );
