@@ -71,7 +71,7 @@ const HappinessTraining = () => {
   const ref = useRef<ScrollView>();
 
   const { data } = useQuery<HappinessTrainingData>(GET_HAPPINESS_TRAININGS, {
-    fetchPolicy: "network-only",
+    // fetchPolicy: "network-only",
   });
 
   const categories = data?.happinessTraining.categories;

@@ -19,6 +19,7 @@ function Settings({ navigation }) {
       title: "reminder",
       route: "reminder",
       onPress: () => navigation.navigate("reminder"),
+      disabled: true,
     },
     {
       icon: "email",
@@ -40,7 +41,11 @@ function Settings({ navigation }) {
         {menuItems.map((item) => (
           <TouchableOpacity onPress={item.onPress} style={styles.row}>
             <View style={styles.rowContainer}>
-              <IconSvg name={item.icon} size="tiny" color={colors.primary} />
+              <IconSvg
+                name={item.icon}
+                size="tiny"
+                color={item.disabled ? colors.primaryThird : colors.primary}
+              />
               <FormattedText style={styles.itemTitle} id={item.title} />
             </View>
           </TouchableOpacity>
