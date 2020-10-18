@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   size: {
-    width: 40,
-    height: 40,
+    width: 24,
+    height: 24,
   },
 });
 
