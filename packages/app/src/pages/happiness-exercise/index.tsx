@@ -2,7 +2,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import Markdown from "react-native-easy-markdown";
 import colors from "colors";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,6 +11,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSvg } from "components/icon";
@@ -22,6 +24,7 @@ import rewardMedalImg from "assets/images/reward-medal.png";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
 import { Trans, useTranslation } from "react-i18next";
+import { load, soundNames, play, release } from "./sound";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -29,11 +32,25 @@ type Props = StackScreenProps<HomeStackParamList, "happinessExercise">;
 function HappinessExercise({ navigation, route }: Props) {
   const { exercise, category } = route.params;
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const happiness = useHappiness();
   const [isAlreadyDone] = useState(
     happiness.exercises[exercise.id].state === "done"
   );
 
+  useEffect(() => {
+    async function helper() {
+      await load(soundNames);
+      play("happiness_background", { repeat: true, volume: 0.3 });
+    }
+    helper();
+    return function () {
+      release();
+    };
+  }, []);
+
+  console.log(exercise.description.length);
   return (
     <SafeAreaView
       style={{
@@ -41,40 +58,62 @@ function HappinessExercise({ navigation, route }: Props) {
         backgroundColor: colors.secondary,
       }}
     >
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Header title={exercise.title} />
         <Markdown markdownStyles={markdownStyles}>
           {exercise.description}
         </Markdown>
-      </View>
-      {isAlreadyDone ? null : (
-        <AddIdea
-          title={category.title}
-          handleDone={(idea: string) => {
-            happiness.addIdea(category.id, idea);
-            happiness.markExerciseAsDone(exercise.id);
-          }}
-          isCategoryDone={() => happiness.isCategoryDone(category)}
-          isAllDone={happiness.isAllDone}
-          handleAfterDone={() => {
-            navigation.navigate("home");
-          }}
-        />
-      )}
-      <Ideas
-        ideas={happiness.ideas[category.id] ?? []}
-        title={exercise.title}
-        categoryID={category.id}
+        {/* <Markdown markdownStyles={markdownStyles}>
+          {exercise.description}
+        </Markdown>
+        <Markdown markdownStyles={markdownStyles}>
+          {exercise.description}
+        </Markdown> */}
+      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "padding"}
+      >
+        {isAlreadyDone ? null : (
+          <AddIdeaInput
+            onPress={(idea: string) => {
+              // if (idea.trim() === "") {
+              //   return;
+              // }
+              happiness.addIdea(category.id, idea);
+              happiness.markExerciseAsDone(exercise.id);
+              setTimeout(() => setModalVisible(true), 100);
+            }}
+          />
+        )}
+      </KeyboardAvoidingView>
+      <Feedback
+        modalVisible={modalVisible}
+        title={category.title}
+        isCategoryDone={() => happiness.isCategoryDone(category)}
+        isAllDone={happiness.isAllDone}
+        handleAfterDone={() => {
+          navigation.navigate("home");
+        }}
       />
-      <View style={styles.close}>
-        <CloseButton onPress={() => navigation.goBack()} />
+      <View style={{ height: 140 }}>
+        <Ideas
+          ideas={happiness.ideas[category.id] ?? []}
+          title={exercise.title}
+          categoryID={category.id}
+        />
+
+        <View style={styles.close}>
+          <CloseButton onPress={() => navigation.goBack()} />
+        </View>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, borderWidth: 0, paddingHorizontal: 30 },
+  container: {
+    paddingHorizontal: 30,
+  },
   close: { position: "absolute", left: 0, bottom: 40 },
 });
 
@@ -82,31 +121,38 @@ type AddIdeaInputProps = { onPress: (text: string) => void };
 const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
   const { t } = useTranslation();
   const [idea, setIdea] = useState("");
+  const disabled = idea.length < 2;
   return (
     <View
       style={{
         alignSelf: "center",
         flexDirection: "row",
-        width: "80%",
-        // marginBottom: 16,
         borderWidth: 0,
+        marginHorizontal: 32,
       }}
     >
       <TextInput
+        multiline
+        numberOfLines={3}
+        maxLength={200}
         style={{
-          height: 40,
           flex: 1,
-          backgroundColor: "white",
+          borderWidth: 1,
+          borderColor: "white",
           paddingHorizontal: 16,
-          borderRadius: 25,
+          borderRadius: 10,
           fontFamily: "IRANYekanRDMobile",
+          fontSize: 18,
+          color: "white",
           textAlign: "right",
         }}
         onChangeText={(text) => setIdea(text)}
         placeholder={t("happiness.exercise.ideaPlaceholder")}
+        placeholderTextColor="white"
         value={idea}
       />
       <TouchableOpacity
+        disabled={disabled}
         onPress={() => {
           onPress(idea);
           setIdea("");
@@ -114,7 +160,11 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
         }}
         style={{ position: "absolute", right: 10, top: 7.5, borderWidth: 0 }}
       >
-        <IconSvg name="tickFill" size="tiny" color={colors.primaryThird} />
+        <IconSvg
+          name="tickFill"
+          size="tiny"
+          color={disabled ? colors.primaryThird : "#eaeaea"}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -127,22 +177,24 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
   return (
     <>
       <Modal animationType="slide" transparent={false} visible={modalVisible}>
-        <View style={ideaStyles.modal}>
-          <View style={ideaStyles.container}>
-            <FormattedText style={ideaStyles.text}>
+        <View style={ideasStyles.modal}>
+          <View style={ideasStyles.container}>
+            <FormattedText style={ideasStyles.text}>
               {title + " "}‍
             </FormattedText>
-            <ScrollView style={ideaStyles.list}>
-              {ideas.map((idea) => (
-                <FormattedText key={idea} style={{ fontSize: 20 }}>
-                  {idea}
-                </FormattedText>
-              ))}
+            <ScrollView style={ideasStyles.list}>
+              {ideas
+                .filter((x) => x.trim().length > 2)
+                .map((idea) => (
+                  <FormattedText key={idea} style={{ fontSize: 20 }}>
+                    {idea}
+                  </FormattedText>
+                ))}
             </ScrollView>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <IconSvg name="tickOutline" size="small" color="#00DE76" />
             </TouchableOpacity>
-            <View style={ideaStyles.imageContainer}>
+            <View style={ideasStyles.imageContainer}>
               <IconSvg
                 name={`happinessToolbox-${categoryID}`}
                 size={70}
@@ -156,7 +208,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
         onPress={() => {
           setModalVisible(true);
         }}
-        style={ideaStyles.button}
+        style={ideasStyles.button}
       >
         <IconSvg
           name={`happinessToolbox-${categoryID}`}
@@ -167,7 +219,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
     </>
   );
 }
-const ideaStyles = StyleSheet.create({
+const ideasStyles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "center",
@@ -182,14 +234,15 @@ const ideaStyles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
     paddingHorizontal: 32,
-    zIndex: 100,
-    opacity: 1,
+    // zIndex: 100,
+    // opacity: 1,
   },
   text: { fontSize: 24, color: "#00DE76" },
   list: {
     alignSelf: "flex-start",
-    marginVertical: 16,
+    marginVertical: 24,
     maxHeight: fullWidth,
+    width: "100%",
   },
   imageContainer: {
     position: "absolute",
@@ -197,9 +250,9 @@ const ideaStyles = StyleSheet.create({
     top: 10,
   },
   button: {
-    alignItems: "flex-end",
-    borderWidth: 0,
-    marginTop: 24,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
     marginBottom: 36,
     marginHorizontal: 25,
   },
@@ -225,98 +278,99 @@ const closeButtonStyles = StyleSheet.create({
   },
 });
 
-type AddIdeaProps = {
+type FeedbackProps = {
+  modalVisible: boolean;
   title: string;
-  handleDone: (idea: string) => void;
   handleAfterDone: () => void;
   isCategoryDone: () => boolean;
   isAllDone: () => boolean;
 };
-function AddIdea({
+const Feedback = ({
   title,
-  handleDone,
+  modalVisible,
   handleAfterDone,
   isCategoryDone,
   isAllDone,
-}: AddIdeaProps) {
-  const [modalVisible, setModalVisible] = useState(false);
+}: FeedbackProps) => {
+  const sound = isAllDone()
+    ? null
+    : isCategoryDone()
+    ? "reward_category"
+    : "reward_exercise";
 
+  React.useEffect(() => {
+    if (modalVisible && sound) {
+      play(sound, { stopAndPlay: true });
+    }
+  }, [sound, modalVisible]);
+
+  const text = isAllDone()
+    ? "happiness.reward.allDone"
+    : isCategoryDone()
+    ? "happiness.reward.category"
+    : "happiness.reward.exercise";
+  const image = isAllDone()
+    ? rewardCertificateImg
+    : isCategoryDone()
+    ? rewardMedalImg
+    : rewardDailyImg;
   return (
-    <>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          handleAfterDone();
-        }}
-      >
-        <View style={addIdeaStyles.modal}>
-          <View style={addIdeaStyles.container}>
-            <View style={addIdeaStyles.innerContainer}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  paddingLeft: 36,
-                  width: fullWidth - 36 * 2 - 130,
-                  paddingTop: 16,
-                }}
-              >
-                {isAllDone() ? (
-                  <View>
-                    <IconSvg name="certificate" size={55} color="red" />
-                  </View>
-                ) : null}
-                <FormattedText style={addIdeaStyles.text}>
-                  <Trans
-                    i18nKey={
-                      isAllDone()
-                        ? "happiness.reward.allDone"
-                        : isCategoryDone()
-                        ? "happiness.reward.category"
-                        : "happiness.reward.exercise"
-                    }
-                    values={{ title }}
-                    components={[<FormattedText style={addIdeaStyles.text} />]}
-                  />
-                </FormattedText>
-              </View>
-              <View style={addIdeaStyles.imageContainer}>
-                <Image
-                  source={
-                    isAllDone()
-                      ? rewardCertificateImg
-                      : isCategoryDone()
-                      ? rewardMedalImg
-                      : rewardDailyImg
-                  }
-                  style={addIdeaStyles.image}
-                  resizeMode="contain"
+    <Modal
+      animationType="fade"
+      hardwareAccelerated
+      transparent={false}
+      visible={modalVisible}
+      onRequestClose={() => {
+        handleAfterDone();
+      }}
+    >
+      <View style={feedbackStyles.modal}>
+        <View style={feedbackStyles.container}>
+          <View style={feedbackStyles.innerContainer}>
+            <View style={feedbackStyles.textContainer}>
+              {isAllDone() ? (
+                <View>
+                  <IconSvg name="certificate" size={55} color="red" />
+                </View>
+              ) : null}
+              <FormattedText style={feedbackStyles.text}>
+                <Trans
+                  i18nKey={text}
+                  values={{ title }}
+                  components={[
+                    <FormattedText
+                      style={[
+                        feedbackStyles.text,
+                        { color: colors.greenVariant },
+                      ]}
+                    />,
+                  ]}
                 />
-              </View>
+              </FormattedText>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                handleAfterDone();
-              }}
-              style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
-            >
-              <IconSvg name="tickOutline" size="small" color="#00DE76" />
-            </TouchableOpacity>
+            <View style={feedbackStyles.imageContainer}>
+              <Image
+                source={image}
+                style={feedbackStyles.image}
+                resizeMode="contain"
+              />
+            </View>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              handleAfterDone();
+            }}
+            style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
+          >
+            <IconSvg name="tickOutline" size="small" color="#00DE76" />
+          </TouchableOpacity>
         </View>
-      </Modal>
-      <AddIdeaInput
-        onPress={(text: string) => {
-          // if (text.trim() === "") return;
-          handleDone(text);
-          setModalVisible(true);
-        }}
-      />
-    </>
+      </View>
+    </Modal>
   );
-}
-const addIdeaStyles = StyleSheet.create({
+};
+
+const feedbackStyles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "center",
@@ -337,6 +391,12 @@ const addIdeaStyles = StyleSheet.create({
     flexDirection: "row",
     // alignItems: "center",
     // marginBottom: 16,
+  },
+  textContainer: {
+    flexDirection: "column",
+    paddingLeft: 36,
+    width: fullWidth - 36 * 2 - 130,
+    paddingTop: 16,
   },
   text: {
     // paddingLeft: 16,

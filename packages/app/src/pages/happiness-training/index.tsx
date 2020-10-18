@@ -97,7 +97,7 @@ const HappinessTraining = () => {
 
     setTimeout(() => {
       ref.current?.scrollTo({
-        x: slidesX[categoryToTryNext.id] - 36,
+        x: slidesX[categoryToTryNext.id] - 24,
         animated: true,
       });
     }, 100);
@@ -106,22 +106,36 @@ const HappinessTraining = () => {
   const tip = (
     <View style={styles.greetingContainer}>
       <View style={{ flexDirection: "row" }}>
-        <FormattedText style={styles.greeting}>
-          {categoryToTryNext === "all-done" ? (
+        {categoryToTryNext === "all-done" ? (
+          <FormattedText style={styles.greeting}>
             <Trans
               i18nKey="happiness.greeting.allDone"
               components={[<FormattedText style={styles.greetingCategory} />]}
             />
-          ) : categoryToTryNext === "not-now" ? (
-            t("happiness.greeting.enoughForToday")
-          ) : categoryToTryNext?.title ? (
-            <Trans
-              i18nKey="happiness.greeting.tryNow"
-              values={{ title: categoryToTryNext?.title ?? "" }}
-              components={[<FormattedText style={styles.greetingCategory} />]}
-            />
-          ) : null}
-        </FormattedText>
+          </FormattedText>
+        ) : categoryToTryNext === "not-now" ? (
+          <FormattedText
+            style={styles.greeting}
+            id="happiness.greeting.enoughForToday"
+          />
+        ) : categoryToTryNext?.title ? (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("happinessCategory", {
+                category: categoryToTryNext,
+              })
+            }
+          >
+            <FormattedText style={styles.greeting}>
+              <Trans
+                i18nKey="happiness.greeting.tryNow"
+                values={{ title: categoryToTryNext?.title ?? "" }}
+                components={[<FormattedText style={styles.greetingCategory} />]}
+                parent={FormattedText}
+              />
+            </FormattedText>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );

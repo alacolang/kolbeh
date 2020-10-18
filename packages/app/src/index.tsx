@@ -8,8 +8,6 @@ import config from "config";
 import "utils/localize";
 import { codePushify } from "utils/codepush";
 import { BookmarkedPostsProvider } from "context/bookmark-posts";
-import SplashScreen from "react-native-splash-screen";
-import { Platform } from "react-native";
 import { HappinessProvider } from "context/happiness";
 import RNAsyncStorageFlipper from "rn-async-storage-flipper";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -39,9 +37,6 @@ const client = new ApolloClient({
 
 const App = () => {
   useEffect(() => {
-    if (Platform.OS === "android") {
-      SplashScreen.hide();
-    }
     RNAsyncStorageFlipper(AsyncStorage);
   }, []);
 

@@ -6,7 +6,7 @@ const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
 const SERVER_DATA = "happiness_server";
-const ONE_DAY_IN_MILLISECONDS = 1000 * 10 * 1;
+const ONE_DAY_IN_MILLISECONDS = 1000 * 2 * 1;
 // export const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 type ID = string;
@@ -107,9 +107,6 @@ export function getNextState(
 ) {
   const nextCategories: Categories = {};
   const nextExercises: Exercises = {};
-  // let canTry = rawCategories.reduce((acc, rawCategory) => {
-  //   return acc && canTryCategory(rawCategory, exercises, currentTime);
-  // }, true);
 
   // exercises are not locked, but first one locked, following are locked too.
   let isExercisesLocked = false;
@@ -123,12 +120,6 @@ export function getNextState(
 
   rawCategories.forEach((rawCategory) => {
     const categoryId = rawCategory.id;
-    // const areThereExercises = rawCategory.exercises.length > 0;
-    // if (!areThereExercises) {
-    //   nextCategories[categoryId] = { state: "locked" } as const;
-    //   isCategoryLocked = true;
-    //   return;
-    // }
 
     isExercisesLocked = isCategoryLocked;
 
@@ -270,6 +261,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       isCategoryDoneGivenExercises(rawCategory, exercises)
     );
     return result;
+    // return true;
   };
 
   const update = () => {

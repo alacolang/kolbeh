@@ -4,31 +4,25 @@ import { View, Image, StyleSheet, Dimensions, StatusBar } from "react-native";
 import img1 from "../../assets/images/onboarding-1.png";
 import img2 from "../../assets/images/onboarding-2.png";
 import img3 from "../../assets/images/onboarding-3.png";
-// import img31 from "../../assets/images/onboarding-3-1.png";
-// import imgGND from "../../assets/images/onboarding-gnd.png";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { IconSvg } from "components/icon";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Trans, useTranslation } from "react-i18next";
+import { StackScreenProps } from "@react-navigation/stack";
+import { StackParamList } from "navigation/splash-stack-navigator";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
 
 const ImageHeight = frameHeight / 2.2;
 
-const Onboarding = ({ navigation }) => {
+type Props = StackScreenProps<StackParamList, "onboarding">;
+const Onboarding = ({ navigation }: Props) => {
   const { t } = useTranslation();
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        marginBottom: 16,
-        backgroundColor: colors.backgroundVariant,
-      }}
-      edges={["top", "bottom"]}
-    >
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <StatusBar hidden />
 
       <Swiper
@@ -45,7 +39,7 @@ const Onboarding = ({ navigation }) => {
           <View style={styles.doneContainer}>
             <DoneButton
               onPress={() => {
-                navigation.navigate("main");
+                navigation.navigate("home");
               }}
             />
           </View>
@@ -160,6 +154,11 @@ const doneButtonStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginBottom: 16,
+    backgroundColor: colors.backgroundVariant,
+  },
   slide: {
     flex: 1,
     paddingHorizontal: 30,

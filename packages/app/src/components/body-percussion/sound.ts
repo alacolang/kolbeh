@@ -29,18 +29,18 @@ export const useSound = (active?: Rhythm) => {
       return;
     }
     let times = active.times;
-    // console.log("useSound", { active });
     if (!sounds[active.effect]) {
-      console.log("no sounds for ", active);
+      console.warn("no sounds for ", active);
       return;
     }
 
     function play() {
+      if (!active) return;
       sounds[active.effect].play((success) => {
         if (success) {
           // console.log("sound played");
         } else {
-          console.log("sound play failed");
+          console.warn("sound play failed");
         }
         times = times - 1;
         if (times > 0) {

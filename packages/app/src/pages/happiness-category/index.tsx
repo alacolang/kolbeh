@@ -36,7 +36,7 @@ function HappinessCategory({ navigation, route }: Props) {
     happiness.update();
   }, []);
 
-  console.log({ category }, happiness.exercises);
+  // console.log({ category }, happiness.exercises);
 
   function handlePress(exercise: Types.IExercise) {
     navigation.navigate("happinessExercise", { exercise, category });

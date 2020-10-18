@@ -60,17 +60,17 @@ const Contact = () => {
         <IconSvg
           name="cloud"
           color="white"
-          size="medium"
-          style={{ position: "relative", top: 30 }}
+          size="small"
+          style={{ position: "relative", top: -0 }}
         />
         <IconSvg
           name="cloud"
           color="white"
           size="huge"
-          style={{ position: "relative", top: -10 }}
+          style={{ position: "relative", top: -10, left: 30 }}
         />
       </View>
-      <View style={{ paddingHorizontal: 40 }}>
+      <View style={{ paddingHorizontal: 16 }}>
         <FormattedText style={styles.text} id="contact.title" />
         <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
           <View style={styles.row}>
@@ -108,10 +108,10 @@ const Contact = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ position: "absolute", bottom: 80, right: 10 }}>
+      <View style={{ position: "absolute", bottom: 110, right: 10 }}>
         <Image
           source={ContactImg}
-          style={{ width: 120, height: 300 }}
+          style={{ width: 200, height: 300 }}
           resizeMode="contain"
         />
       </View>
