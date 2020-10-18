@@ -126,6 +126,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
+
     defaultConfig {
         applicationId "ir.alacolang.kolbeh"
         minSdkVersion rootProject.ext.minSdkVersion
