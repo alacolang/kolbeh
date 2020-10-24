@@ -1,10 +1,11 @@
 import Analytics from "appcenter-analytics";
+import config from "config";
 
-export const trackEvents = (
+export const trackEvent = (
   eventName: string,
-  properties?: { [name: string]: string }
+  properties?: Record<string, any>
 ) => {
-  if (process.env.NODE_ENV !== "production") {
+  if (config.ANALYTICS_DISABLED) {
     return;
   }
   Analytics.trackEvent(eventName, properties);

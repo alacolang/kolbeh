@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import Analytics from "appcenter-analytics";
 import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { ParentStackParamList } from "navigation/parent-stack-navigator";
 import VideoCover from "./video";
 import ImageCover from "./image";
 import * as Types from "types";
 import MarkdownCover from "./markdown";
+import { trackEvent } from "utils/analytics";
 
 type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
 
@@ -26,7 +26,7 @@ const Post = ({ post }: Props) => {
   const navigation = useNavigation<FeedNavigation>();
 
   const track = () => {
-    Analytics.trackEvent("Post clicked", {
+    trackEvent("Post clicked", {
       category,
       type,
       id,
