@@ -78,16 +78,16 @@ const ImagePost = ({ post }: Props) => {
                   { bottom: (frameHeight - height) / 2 - 70 },
                 ]}
               >
-                {result.map((x, i) => (
+                {result.map((xx, i) => (
                   <View
                     key={i}
                     style={[
                       styles.dot,
                       {
-                        width: x === "." ? 3 : 7,
-                        height: x === "." ? 3 : 7,
+                        width: xx === "." ? 3 : 7,
+                        height: xx === "." ? 3 : 7,
                         backgroundColor:
-                          x === "o" ? colors.secondary : colors.inactive,
+                          xx === "o" ? colors.secondary : colors.inactive,
                       },
                     ]}
                   />

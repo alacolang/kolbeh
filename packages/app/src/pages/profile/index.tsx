@@ -18,7 +18,7 @@ import { Trans } from "react-i18next";
 const fullWidth = Dimensions.get("window").width - 16 * 2;
 const size = fullWidth / 3 - 4 * 2;
 
-function Profile({ navigation }) {
+function Profile() {
   const happiness = useHappiness();
 
   const ys = [14, 1, -3, 1, 14];

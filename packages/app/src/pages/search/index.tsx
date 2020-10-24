@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   TextInput,
-  Easing,
   TouchableOpacity,
   RefreshControl,
   Animated,
@@ -12,7 +11,6 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Loading from "components/loading";
@@ -22,17 +20,10 @@ import { Icon } from "components/icon";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
-import { HomeStackParamList } from "navigation/home-stack-navigator";
-import { onShare } from "utils/share";
-import Curve from "components/curve";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-const fullHeight = Dimensions.get("window").height;
 const fullWidth = Dimensions.get("window").width;
 
-const HEADER_MAX_HEIGHT = (fullHeight / 6) * 2.5;
 const HEADER_MIN_HEIGHT = 65;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const GET_POSTS = gql`
   query GetPosts($types: [PostType]) {
@@ -69,19 +60,13 @@ type FeedData = {
   posts: Types.IFeed;
 };
 
-type Navigation = NavigationProp<HomeStackParamList, "search">;
-
 const SearchScreen = () => {
-  const navigation = useNavigation<Navigation>();
-  const animateValue = React.useRef(new Animated.Value(0)).current;
-
   const [refreshing, setRefreshing] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(true);
   const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS, {
     variables: { types: ["image", "markdown", "video", "inapp"] },
   });
 
-  const searchAnimateValue = React.useRef(new Animated.Value(0)).current;
   const [query, setQuery] = React.useState("");
   const [isSearchVisible, setSearchVisibility] = React.useState(true);
 
@@ -108,27 +93,13 @@ const SearchScreen = () => {
     new Set(
       posts.edges
         .map((post) => post.node.tags)
-        .reduce((acc, tags) => acc.concat(tags), [])
+        .reduce((acc, _tags) => acc.concat(_tags), [])
     )
   ).filter((x) => !!x);
 
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
   };
-
-  let menuY = animateValue.interpolate({
-    inputRange: [0.3, 1],
-    outputRange: [
-      -HEADER_SCROLL_DISTANCE + HEADER_MIN_HEIGHT,
-      HEADER_MIN_HEIGHT,
-    ],
-    extrapolate: "clamp",
-  });
-
-  let listMarginTop = animateValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [HEADER_MIN_HEIGHT, HEADER_MAX_HEIGHT + 30],
-  });
 
   type Command = "open" | "close" | "toggle";
   const handleMenu = (command: Command, cb = () => {}) => {
@@ -140,108 +111,19 @@ const SearchScreen = () => {
       cb();
       return;
     }
-    // const [from, to] = !isMenuOpen ? [0, 1] : [1, 0];
-    // animateValue.setValue(from);
-    // Animated.timing(animateValue, {
-    //   toValue: to,
-    //   duration: 800,
-    //   easing: Easing.bezier(0.76, 0, 0.24, 1),
-    //   useNativeDriver: true,
-    // }).start(cb);
-  };
-
-  const handleSearch = (command: Command) => {
-    if (
-      (command === "close" && !isSearchVisible) ||
-      (command === "open" && isSearchVisible)
-    ) {
-      return;
-    }
-
-    if (isSearchVisible) {
-      Keyboard.dismiss();
-    }
-    // const [from, to] = !isSearchVisible ? [0, 1] : [1, 0];
-    // searchAnimateValue.setValue(from);
-    // Animated.timing(searchAnimateValue, {
-    //   toValue: to,
-    //   duration: 500,
-    //   easing: Easing.bezier(0.76, 0, 0.24, 1),
-    //   useNativeDriver: true,
-    // }).start();
   };
 
   const filteredTags = tags.filter((tag) =>
     query.length > 0 ? new RegExp(query).test(tag) : true
   );
 
-  const menuRendered = !isSearchVisible && (
-    <View
-      style={{
-        flexDirection: "column",
-        // borderWidth: 1,
-        paddingLeft: 30,
-        flexGrow: 1,
-        justifyContent: "space-evenly",
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => {
-          handleMenu("close");
-          navigation.navigate("saved");
-        }}
-      >
-        <View style={styles.menuItem}>
-          <Icon name="saved" size={40} />
-          <FormattedText style={styles.menuItemTitle} id="saved.title" />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => onShare()}>
-        <View style={styles.menuItem}>
-          <Icon name="shareActive" size={40} />
-          <FormattedText style={styles.menuItemTitle} id="invite-friends" />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          handleMenu("close");
-          navigation.navigate("contact");
-        }}
-      >
-        <View style={styles.menuItem}>
-          <Icon name="info" size={40} />
-          <FormattedText style={styles.menuItemTitle} id="contact-us" />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-
-  // const triggerMenuRendered = !isSearchVisible && (
-  //   <TouchableOpacity
-  //     style={styles.menuTrigger}
-  //     onPress={() => {
-  //       handleMenu("toggle");
-  //     }}
-  //   >
-  //     <View style={styles.dotContainer}>
-  //       <View style={styles.dot} />
-  //       <View style={styles.dot} />
-  //     </View>
-  //   </TouchableOpacity>
-  // );
-
   const searchItemsRendered = isSearchVisible && (
     <View
       style={{
         flexDirection: "row",
         flexWrap: "wrap",
-        // flex: 1,
         justifyContent: "center",
         paddingHorizontal: 30,
-        // borderWidth: 1,
-        // backgroundColor: colors.backgroundVariant,
-        // backgroundColor: "red",
-        // height: 100
       }}
     >
       {filteredTags.length > 0 &&
@@ -285,8 +167,6 @@ const SearchScreen = () => {
       <TouchableOpacity
         onPress={() => {
           setSearchVisibility(true);
-          // handleSearch("open");
-          // handleMenu("open");
         }}
       >
         <Animated.View
@@ -295,7 +175,6 @@ const SearchScreen = () => {
             alignItems: "center",
             width: 44,
             height: 44,
-            // borderWidth: 2,
           }}
         >
           <Icon name="search" size="tiny" />
@@ -309,7 +188,6 @@ const SearchScreen = () => {
           justifyContent: "center",
           flexDirection: "row",
           width: fullWidth * 0.7,
-          // borderWidth: 1,
         }}
       >
         <TextInput
@@ -336,11 +214,7 @@ const SearchScreen = () => {
           <TouchableOpacity
             onPress={() => {
               setQuery("");
-              // handleSearch("close");
-              handleMenu(
-                "close"
-                // () => setSearchVisibility(false)
-              );
+              handleMenu("close");
             }}
             style={{
               width: 44,
@@ -373,7 +247,6 @@ const SearchScreen = () => {
     <Animated.View
       style={{
         flexGrow: 1,
-        // transform: [{ translateY: listMarginTop }],
       }}
     >
       {loading ? (
@@ -398,16 +271,8 @@ const SearchScreen = () => {
     <>
       <View style={styles.container}>
         <StatusBar hidden />
-
         <View style={styles.headerContainer}>{searchInputRendered}</View>
-        {/* <Animated.View
-          style={[
-            styles.menuContainer,
-            // { transform: [{ translateY: menuY }] }
-          ]}
-        > */}
         {searchItemsRendered}
-        {/* </Animated.View> */}
       </View>
       {itemsRendered}
     </>
@@ -421,12 +286,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
     backgroundColor: colors.backgroundVariant,
-    // backgroundColor: "yellow",
   },
   menuContainer: {
     flexDirection: "row",
     paddingHorizontal: 0,
-    // height: HEADER_SCROLL_DISTANCE,
   },
   menuItem: {
     flexDirection: "row",
@@ -444,7 +307,6 @@ const styles = StyleSheet.create({
   },
   dotContainer: {
     flex: 1,
-    // borderWidth: 1,
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
@@ -458,7 +320,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     paddingTop: 30,
-    // marginHorizontal: 15,
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: 80,
@@ -466,9 +327,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    // borderWidth: 1,
     backgroundColor: colors.backgroundVariant,
-    // backgroundColor: "red",
   },
 });
 

@@ -2,7 +2,6 @@ import React from "react";
 import {
   Linking,
   StyleSheet,
-  StatusBar,
   TouchableOpacity,
   Text,
   Image,

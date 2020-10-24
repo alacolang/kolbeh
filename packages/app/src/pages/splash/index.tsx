@@ -6,19 +6,18 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/core";
+// import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
-import { CommonActions } from "@react-navigation/native";
+// import { CommonActions } from "@react-navigation/native";
 import gql from "graphql-tag";
 import { FormattedText } from "components/formatted-text";
 import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
-import { StackParamList } from "navigation/splash-stack-navigator";
+// import { StackParamList } from "navigation/splash-stack-navigator";
 import colors from "colors";
 import { Icon } from "components/icon";
 import * as Types from "types";
 
 import AsyncStorage from "@react-native-community/async-storage";
-// import { persistCache } from "apollo-cache-persist";
 
 const GET_PROMOTIONS = gql`
   query {
@@ -29,14 +28,14 @@ const GET_PROMOTIONS = gql`
   }
 `;
 
-type Navigation = NavigationProp<StackParamList, "splash">;
+// type Navigation = NavigationProp<StackParamList, "splash">;
 
 type PromotionsData = {
   promotions: Types.IPromotion[];
 };
 
 const Splash = () => {
-  const navigation = useNavigation<Navigation>();
+  // const navigation = useNavigation<Navigation>();
   const { data, loading } = useQuery<PromotionsData>(GET_PROMOTIONS);
 
   const [promotion, setPromotion] = React.useState<
@@ -50,8 +49,8 @@ const Splash = () => {
         return;
       }
       try {
-        const promotion = getRandomPromotion(JSON.parse(raw));
-        setPromotion(promotion);
+        const p = getRandomPromotion(JSON.parse(raw));
+        setPromotion(p);
       } catch (e) {}
     }
     restorePromotions();
@@ -72,33 +71,33 @@ const Splash = () => {
     if (!data) {
       return;
     }
-    navigation.dispatch(
-      CommonActions.reset({
-        routes: [
-          {
-            name: "main",
-            state: {
-              routes: [
-                {
-                  name: "home",
-                  state: {
-                    index: 1,
-                    routes: [
-                      { name: "feed" },
-                      { name: "post", params: { id: promotion!.id } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      })
-    );
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     routes: [
+    //       {
+    //         name: "main",
+    //         state: {
+    //           routes: [
+    //             {
+    //               name: "home",
+    //               state: {
+    //                 index: 1,
+    //                 routes: [
+    //                   { name: "feed" },
+    //                   { name: "post", params: { id: promotion!.id } },
+    //                 ],
+    //               },
+    //             },
+    //           ],
+    //         },
+    //       },
+    //     ],
+    //   })
+    // );
   };
 
   const handleEnter = () => {
-    navigation.reset({ index: 0, routes: [{ name: "main" }] });
+    // navigation.reset({ index: 0, routes: [{ name: "main" }] });
   };
 
   const borderRendered = (

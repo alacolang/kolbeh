@@ -6,5 +6,9 @@ module.exports = {
   rules: {
     "no-console": ["error", { allow: ["warn"] }],
     quotes: ["error", "double"],
+    "react-native/no-inline-styles": 0,
+  },
+  env: {
+    "jest/globals": true,
   },
 };

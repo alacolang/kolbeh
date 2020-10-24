@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
 import colors from "colors";
-import BackImg from "components/icon/images/back.png";
 import { FormattedText } from "components/formatted-text";
 import Markdown from "react-native-easy-markdown";
 import { resolveURL } from "utils/resolve";
@@ -34,9 +33,8 @@ function HappinessCategory({ navigation, route }: Props) {
 
   useEffect(() => {
     happiness.update();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // console.log({ category }, happiness.exercises);
 
   function handlePress(exercise: Types.IExercise) {
     navigation.navigate("happinessExercise", { exercise, category });
@@ -52,36 +50,33 @@ function HappinessCategory({ navigation, route }: Props) {
             <View style={styles.verticalLineInner} />
           </View>
           <View style={styles.exercisesContainer}>
-            {category.exercises?.map(
-              (exercise: Types.IExercise, index: number) => {
-                const state =
-                  happiness.exercises[exercise.id]?.state ?? "locked";
-                return (
-                  <TouchableOpacity
-                    disabled={state === "locked"}
-                    key={exercise.title}
-                    onPress={() => handlePress(exercise)}
-                    style={styles.exerciseContainer}
-                  >
-                    <IconSvg
-                      name={
-                        state === "locked"
-                          ? "lockFill"
-                          : state === "done"
-                          ? "tickFill"
-                          : "circle"
-                      }
-                      size="small"
-                      color={colors.secondaryThird}
-                      style={styles.icon}
-                    />
-                    <FormattedText style={styles.exerciseTitle}>
-                      {exercise.title}
-                    </FormattedText>
-                  </TouchableOpacity>
-                );
-              }
-            )}
+            {category.exercises?.map((exercise: Types.IExercise) => {
+              const state = happiness.exercises[exercise.id]?.state ?? "locked";
+              return (
+                <TouchableOpacity
+                  disabled={state === "locked"}
+                  key={exercise.title}
+                  onPress={() => handlePress(exercise)}
+                  style={styles.exerciseContainer}
+                >
+                  <IconSvg
+                    name={
+                      state === "locked"
+                        ? "lockFill"
+                        : state === "done"
+                        ? "tickFill"
+                        : "circle"
+                    }
+                    size="small"
+                    color={colors.secondaryThird}
+                    style={styles.icon}
+                  />
+                  <FormattedText style={styles.exerciseTitle}>
+                    {exercise.title}
+                  </FormattedText>
+                </TouchableOpacity>
+              );
+            })}
           </View>
           <Image
             source={{ uri: resolveURL(category.image.url) }}

@@ -12,10 +12,7 @@ type Props = {
   onPress: () => void;
 };
 
-const format = (text: string) => text.substr(0, 25);
-
 const CategoryTile = ({ category, onPress }: Props) => {
-  console.log({ icon: category.icon });
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>

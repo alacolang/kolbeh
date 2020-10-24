@@ -28,10 +28,8 @@ const ParentNavigator = ({ navigation, route }) => {
 
   return (
     <Stack.Navigator
-      // headerMode="none"
       screenOptions={() => ({
         animationEnabled: false,
-        // headerTransparent: true,
       })}
     >
       <Stack.Screen
@@ -45,20 +43,13 @@ const ParentNavigator = ({ navigation, route }) => {
         options={() => ({
           headerTransparent: true,
           header: JustBackHeader,
-          // headerTransparent: true,
-          // title: "",
-          // headerBackTitleVisible: false,
-          // headerLeftContainerStyle: { paddingLeft: 30, paddingTop: 20 },
-          // headerBackImage: () => <Icon name="backDark" size="tiny" />,
         })}
       />
       <Stack.Screen
         name="parentFeed"
         component={Feed}
-        options={({ navigation, route }) => {
-          console.log("route", route.params.category.title);
+        options={({ route }) => {
           return {
-            // header: () => null,
             title: route.params.category.title,
             headerTitleStyle: {
               color: colors.secondary,

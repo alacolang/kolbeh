@@ -28,7 +28,7 @@ const loadSound = (soundName: SoundNames) => {
   });
 };
 
-export const soundNames = Object.keys(SOUNDS) as SoundNames[];
+export const SOUND_NAMES = Object.keys(SOUNDS) as SoundNames[];
 
 export function load(soundNames: SoundNames[]) {
   return new Promise(async (resolve, reject) => {
@@ -46,7 +46,7 @@ export function load(soundNames: SoundNames[]) {
 }
 
 export function release() {
-  soundNames.forEach((soundName) => {
+  SOUND_NAMES.forEach((soundName) => {
     sounds[soundName]?.release();
   });
   sounds = {} as Sounds;
@@ -59,10 +59,9 @@ let state: State = { mode: "idle" };
 
 export const play = (
   soundName: SoundNames,
-  { repeat = false, stopAndPlay = false, volume = 0.8 }
+  { stopAndPlay = false, volume = 0.8 }
 ) => {
   function helper() {
-    console.log("helper", state, soundName);
     state = { mode: "playing", soundName: soundName };
     sounds[soundName].setVolume(volume);
     sounds[soundName].play((success) => {

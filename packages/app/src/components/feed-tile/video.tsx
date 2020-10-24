@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Icon, IconSvg } from "../icon";
+import { IconSvg } from "../icon";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
 import ProgressiveImage from "components/progressive-image";

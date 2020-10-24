@@ -15,7 +15,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { IconSvg } from "components/icon";
+import { IconSvg, IconSvgName } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import rewardDailyImg from "assets/images/reward-daily.png";
@@ -24,7 +24,7 @@ import rewardMedalImg from "assets/images/reward-medal.png";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
 import { Trans, useTranslation } from "react-i18next";
-import { load, soundNames, play, release } from "./sound";
+import { load, SOUND_NAMES, play, release } from "./sound";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -41,8 +41,8 @@ function HappinessExercise({ navigation, route }: Props) {
 
   useEffect(() => {
     async function helper() {
-      await load(soundNames);
-      play("happiness_background", { repeat: true, volume: 0.3 });
+      await load(SOUND_NAMES);
+      play("happiness_background", { volume: 0.3 });
     }
     helper();
     return function () {
@@ -50,7 +50,6 @@ function HappinessExercise({ navigation, route }: Props) {
     };
   }, []);
 
-  console.log(exercise.description.length);
   return (
     <SafeAreaView
       style={{
@@ -196,7 +195,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
             </TouchableOpacity>
             <View style={ideasStyles.imageContainer}>
               <IconSvg
-                name={`happinessToolbox-${categoryID}`}
+                name={`happinessToolbox-${categoryID}` as IconSvgName}
                 size={70}
                 color={colors.secondary}
               />
@@ -211,7 +210,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
         style={ideasStyles.button}
       >
         <IconSvg
-          name={`happinessToolbox-${categoryID}`}
+          name={`happinessToolbox-${categoryID}` as IconSvgName}
           size={80}
           color="white"
         />

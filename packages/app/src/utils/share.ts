@@ -10,7 +10,7 @@ export const onShare = async () => {
           "\n https://cafebazaar.ir/app/ir.alacolang.kolbeh",
       },
       {
-        dialogTitle: messages["share"],
+        dialogTitle: messages.share,
       }
     );
     if (result.action === Share.sharedAction) {

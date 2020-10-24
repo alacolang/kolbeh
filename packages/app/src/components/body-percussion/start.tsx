@@ -1,11 +1,9 @@
 import React from "react";
 import Slider from "@react-native-community/slider";
-import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { colors } from "./common";
-
-const fullWidth = Dimensions.get("window").width;
 
 type Props = { next: () => void };
 

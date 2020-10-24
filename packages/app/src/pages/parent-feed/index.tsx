@@ -1,31 +1,15 @@
 import React from "react";
-import {
-  Dimensions,
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-} from "react-native";
-import {
-  useRoute,
-  RouteProp,
-  useNavigation,
-  NavigationProp,
-} from "@react-navigation/core";
+import { View, Image, StyleSheet, FlatList, Text } from "react-native";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/core";
 import { ParentStackParamList } from "navigation/parent-stack-navigator";
 import { ChildStackParamList } from "navigation/child-stack-navigator";
-import { Icon, IconName } from "components/icon";
+import { IconName } from "components/icon";
 import icons from "components/icon/images";
 import * as Types from "types";
 import colors from "colors";
 import FeedTile from "components/feed-tile";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackHeaderProps } from "@react-navigation/stack";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { FormattedText } from "components/formatted-text";
-import BackImg from "components/icon/images/back.png";
-import CategoryTile from "pages/child-category-list/category-tile";
 import { GaussIcon } from "components/curve-icon";
 
 export type FeedRouteParam = {
@@ -37,7 +21,6 @@ const ICON_SIZE = 50;
 type FeedRoute =
   | RouteProp<ParentStackParamList, "parentFeed">
   | RouteProp<ChildStackParamList, "childFeed">;
-// type FeedNavigation = NavigationProp<ParentStackParamList, "parentFeed">;
 
 const Feed = () => {
   const route = useRoute<FeedRoute>();
@@ -96,7 +79,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundVariant,
   },
   scrollViewContent: {
-    // marginTop: 15,
     paddingBottom: 25,
     flexDirection: "column",
     alignItems: "center",
@@ -109,21 +91,17 @@ const styles = StyleSheet.create({
     lineHeight: 2 * 22,
     textAlign: "center",
     color: colors.primary,
-    // borderWidth: 1
   },
   descriptionContainer: {
     alignItems: "center",
     justifyContent: "flex-end",
-    // borderWidth: 1,
     backgroundColor: colors.backgroundVariant,
-    // backgroundColor: "blue",
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
   },
   categoryIcon: {
     width: ICON_SIZE * 2,
     height: ICON_SIZE * 2,
-    // borderWidth: 1,
     transform: [{ rotateY: "180deg" }],
     alignSelf: "flex-end",
     marginHorizontal: 30,
@@ -150,7 +128,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     textAlign: "center",
-    // fontWeight: "bold",
     color: colors.secondary,
   },
 });

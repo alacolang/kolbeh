@@ -22,8 +22,6 @@ const DELAY_MIN = 80;
 const DELAY_MAX = 800;
 const DELAY_STEP = 100;
 
-type Props = { next: () => void };
-
 const PlayStep = () => {
   const animatedValue = React.useRef(new Animated.Value(0)).current;
   const [rhythm, setRhythm] = React.useState<Rhythm[]>(getRhythm(0));
@@ -34,8 +32,6 @@ const PlayStep = () => {
   const [play, setPlay] = React.useState(false);
 
   useSound(active);
-
-  // console.log("root", { play, active, count, delay });
 
   // change active movement
   function processNext() {
@@ -120,14 +116,11 @@ const PlayStep = () => {
   const getMovement = (index: number): React.ReactElement | null => {
     const item: Rhythm = rhythm[index];
 
-    // if (!active) {
-    //   return null;
-    // }
     if (!item) {
-      // console.log("getMovement item not found", {
-      //   index,
-      //   activeId: active?.id,
-      // });
+      console.warn("getMovement item not found", {
+        index,
+        activeId: active?.id,
+      });
       return null;
     }
 
@@ -191,7 +184,7 @@ const PlayStep = () => {
     );
   };
 
-  let movements: React.ReactElement[] = [];
+  let movements: React.ReactNode[] = [];
 
   if (active) {
     const currentIndex = rhythm.findIndex((item) => item.id === active.id);

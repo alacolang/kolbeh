@@ -11,7 +11,7 @@ export const useSound = (active?: Rhythm) => {
 
     const handleError = (error: Error) => {
       if (error) {
-        console.log("failed to load the sound", error);
+        console.warn("failed to load the sound", error);
         return;
       }
     };

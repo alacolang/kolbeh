@@ -24,7 +24,6 @@ import * as Types from "types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Contact from "pages/contact";
 import { GaussIcon } from "components/curve-icon";
-import { Icon } from "components/icon";
 
 export type HomeStackParamList = {
   settings: undefined;

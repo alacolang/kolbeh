@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ApolloClient, DefaultOptions } from "apollo-client";
+import { ApolloClient } from "apollo-client";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";

@@ -81,9 +81,9 @@ export type ISlide = {
 export type IHappinessTrainingCategory = {
   id: ID;
   title: string;
-  description: string,
-  about: string,
-  image: IImage,
+  description: string;
+  about: string;
+  image: IImage;
   exercises: IExercise[];
   post: IPost;
 };

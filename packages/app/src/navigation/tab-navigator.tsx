@@ -2,7 +2,6 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HappinessTraining from "../pages/happiness-training";
 import BookmarkPostsScreen from "../pages/bookmark-posts";
-import ParentNavigator from "./parent-stack-navigator";
 import ParentCategoryList from "../pages/parent-category-list";
 import { TabBar } from "./menu";
 

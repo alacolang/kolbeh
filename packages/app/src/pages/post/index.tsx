@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, StatusBar, StyleSheet, TouchableOpacity } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/core";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
@@ -15,12 +9,11 @@ import MarkdownPost from "./markdown-post";
 import ImagePost from "./image-post";
 import VideoPost from "./video-post";
 import Unknown from "./unkown-post";
-import { Icon, IconSvg } from "components/icon";
+import { IconSvg } from "components/icon";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import InAppPost from "components/body-percussion";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "colors";
-import BackImg from "components/icon/images/back.png";
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -57,7 +50,7 @@ type PostData = {
   postById: Types.IPost;
 };
 
-const PostScreen = ({ navigation }) => {
+const PostScreen = () => {
   const [
     bookmarkedPosts,
     { addToBookmarkedPosts, removeFromBookmarkedPosts },
@@ -154,7 +147,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     paddingTop: 10,
     paddingHorizontal: 30,
-   },
+  },
   saveContainer: {
     justifyContent: "center",
     alignItems: "center",

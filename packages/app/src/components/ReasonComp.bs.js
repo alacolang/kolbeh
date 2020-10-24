@@ -9,8 +9,5 @@ function ReasonComp(Props) {
 
 var make = ReasonComp;
 
-export {
-  make ,
-  
-}
+export { make };
 /* react Not a pure module */

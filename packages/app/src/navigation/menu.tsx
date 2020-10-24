@@ -1,19 +1,11 @@
 import React from "react";
-import {
-  PanResponder,
-  Animated,
-  Modal,
-  StyleSheet,
-  View,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../colors";
-import { Icon, IconSvg, IconSvgName } from "../components/icon";
+import { Icon, IconName, IconSvg, IconSvgName } from "../components/icon";
 import { FormattedText } from "components/formatted-text";
 import { HomeStackParamList } from "./home-stack-navigator";
 import { TabParamList } from "./tab-navigator";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { Navigation } from "../pages/happiness-training";
 import Svg, { Path, Circle } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -169,14 +161,11 @@ const styles = StyleSheet.create({
     height: TEXT_LENGTH,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: 'red',
-    // borderWidth: 2
   },
   text: {
     transform: [{ rotate: "270deg" }],
     fontSize: 20,
     color: "#C5CDD0",
-    // borderWidth: 1,
     backgroundColor: "#F0F5FF",
     width: TEXT_LENGTH,
     height: TEXT_HEIGHT,
@@ -231,18 +220,15 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
       edges={["right", "bottom", "left"]}
       style={{
         backgroundColor: "#F9FBFF",
-        // borderWidth: 1,
         paddingVertical: 10,
       }}
     >
       <View
         style={{
-          // flexGrow: 1,
           flexDirection: "row",
           backgroundColor: "#F9FBFF",
           alignItems: "center",
           justifyContent: "space-evenly",
-          // borderWidth: 1,
         }}
       >
         {state.routes.map((route, index) => {
@@ -260,7 +246,6 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
             >
               <View
                 style={{
-                  // borderWidth: 1,
                   height: 45,
                   borderRadius: 10,
                   width: 100,
@@ -271,7 +256,7 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
                 }}
               >
                 <Icon
-                  name={route.name + (focused ? "Active" : "")}
+                  name={(route.name + (focused ? "Active" : "")) as IconName}
                   size="tiny"
                 />
                 {focused ? (
@@ -290,103 +275,4 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
       </View>
     </SafeAreaView>
   );
-};
-
-const bottomStyles = StyleSheet.create({
-  overlay: {
-    backgroundColor: "rgba(0,0,0,0.2)",
-    flex: 1,
-    justifyContent: "flex-end",
-    // borderWidth: 3,
-    // borderColor: "yellow",
-  },
-  container: {
-    // backgroundColor: "white",
-    // paddingTop: 12,
-    // borderTopRightRadius: 12,
-    // borderTopLeftRadius: 12,
-    // borderWidth: 4,
-    // borderColor: "blue",
-  },
-  sheet: {
-    height: 300,
-    width: "100%",
-    // borderWidth: 8,
-    // alignItems: "center",
-    // flexGrow: 1,
-    // borderColor: "green",
-    // backgroundColor: "white",
-  },
-});
-
-type BottomSheetProps = {
-  visible: boolean;
-  onDismiss: () => void;
-  navigation: StackNavigationProp<HomeStackParamList>;
-};
-const BottomSheet = ({ visible, onDismiss, navigation }: BottomSheetProps) => {
-  const panY = React.useRef(
-    // new Animated.Value(Dimensions.get("screen").height / 2)
-    new Animated.Value(0)
-  ).current;
-  const _resetPositionAnim = Animated.timing(panY, {
-    toValue: 0,
-    duration: 300,
-    useNativeDriver: false,
-  });
-  const _closeAnim = Animated.timing(panY, {
-    toValue: Dimensions.get("screen").height,
-    duration: 500,
-    useNativeDriver: false,
-  });
-
-  React.useEffect(() => {
-    if (visible) {
-      _resetPositionAnim.start();
-    }
-  }, [visible]);
-  function _handleDismiss() {
-    _closeAnim.start(() => onDismiss());
-  }
-
-  const _panResponders = React.useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => false,
-      onPanResponderMove: Animated.event([null, { dy: panY }], {
-        useNativeDriver: false,
-      }),
-      onPanResponderRelease: (e, gs) => {
-        if (gs.dy > 0 && gs.vy > 2) {
-          return _handleDismiss();
-        }
-        return _resetPositionAnim.start();
-      },
-    })
-  ).current;
-  const top = panY.interpolate({
-    inputRange: [-1, 0, 1],
-    outputRange: [0, 0, 1],
-  });
-  <Modal
-    animated
-    animationType="fade"
-    visible={visible}
-    transparent
-    onRequestClose={() => _handleDismiss()}
-  >
-    <View style={bottomStyles.overlay} {..._panResponders.panHandlers}>
-      <Animated.View style={[bottomStyles.container, { top: top }]}>
-        <View style={bottomStyles.sheet}>
-          {/* <Button title="close" onPress={() => _handleDismiss()} /> */}
-          <Links
-            onPress={(name, params = {}) => {
-              _handleDismiss();
-              navigation.navigate(name, params);
-            }}
-          />
-        </View>
-      </Animated.View>
-    </View>
-  </Modal>;
 };

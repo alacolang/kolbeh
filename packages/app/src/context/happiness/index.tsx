@@ -224,7 +224,9 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   const updateRawCategories = async (
     _rawCategories: types.IHappinessTrainingCategory[] | undefined
   ) => {
-    if (!_rawCategories) return;
+    if (!_rawCategories) {
+      return;
+    }
     await AsyncStorage.setItem(SERVER_DATA, JSON.stringify(categories));
     setRawCategories(_rawCategories);
 

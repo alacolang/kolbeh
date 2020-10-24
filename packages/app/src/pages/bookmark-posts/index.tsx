@@ -4,14 +4,12 @@ import { FormattedText } from "components/formatted-text";
 import Loading from "components/loading";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import gql from "graphql-tag";
-import { HomeStackParamList } from "navigation/home-stack-navigator";
 import React from "react";
 import { FlatList, StatusBar, StyleSheet, View } from "react-native";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 
 import { useQuery } from "@apollo/react-hooks";
-import { NavigationProp } from "@react-navigation/core";
 
 const HEADER_HEIGHT = 180;
 
@@ -49,7 +47,6 @@ const GET_POSTS = gql`
 type FeedData = {
   posts: Types.IFeed;
 };
-type FeedNavigation = NavigationProp<HomeStackParamList, "saved">;
 
 const BookmarkPostsScreen = () => {
   const [savedPosts] = useBookmarkedPosts();
