@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   createStackNavigator,
   StackHeaderProps,
@@ -24,8 +24,10 @@ import * as Types from "types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Contact from "pages/contact";
 import { GaussIcon } from "components/curve-icon";
+import Onboarding from "pages/onboarding";
 
 export type HomeStackParamList = {
+  onboarding: undefined;
   settings: undefined;
   profile: undefined;
   search: undefined;
@@ -148,25 +150,20 @@ const childBackHeaderStyles = StyleSheet.create({
   },
 });
 
-const HomeNavigator = ({ navigation, route }) => {
-  useEffect(() => {
-    navigation.setOptions({
-      tabBarVisible: route.state
-        ? route.state.index > 0
-          ? false
-          : true
-        : null,
-    });
-  }, []);
-
+const HomeNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="onboarding"
       screenOptions={() => ({
         animationEnabled: false,
         // headerTransparent: true,
       })}
     >
+      <Stack.Screen
+        name="onboarding"
+        component={Onboarding}
+        options={{ header: () => null, animationEnabled: false }}
+      />
       <Stack.Screen
         name="settings"
         component={Settings}

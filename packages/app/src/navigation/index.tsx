@@ -1,17 +1,25 @@
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import React from "react";
+import React, { useEffect } from "react";
+import SplashScreen from "react-native-splash-screen";
 
 import {
   NavigationContainer,
   NavigationContainerRef,
 } from "@react-navigation/native";
-import SplashNavigator from "./splash-stack-navigator";
+import HomeNavigator from "./home-stack-navigator";
 import { trackEvent } from "../utils/analytics";
+import { Platform } from "react-native";
 
 const CreateAppContainer = () => {
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationContainerRef>(null);
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      SplashScreen.hide();
+    }
+  });
 
   return (
     <SafeAreaProvider>
@@ -32,7 +40,7 @@ const CreateAppContainer = () => {
           routeNameRef.current = currentRouteName;
         }}
       >
-        <SplashNavigator />
+        <HomeNavigator />
       </NavigationContainer>
     </SafeAreaProvider>
   );

@@ -11,14 +11,14 @@ import { IconSvg } from "components/icon";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Trans, useTranslation } from "react-i18next";
 import { StackScreenProps } from "@react-navigation/stack";
-import { StackParamList } from "navigation/splash-stack-navigator";
+import { HomeStackParamList } from "navigation/home-stack-navigator";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
 
 const ImageHeight = frameHeight / 2.2;
 
-type Props = StackScreenProps<StackParamList, "onboarding">;
+type Props = StackScreenProps<HomeStackParamList, "onboarding">;
 const Onboarding = ({ navigation }: Props) => {
   const { t } = useTranslation();
   return (
