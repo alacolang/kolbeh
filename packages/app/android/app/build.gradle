@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -137,6 +138,7 @@ android {
         versionCode 19
         versionName "0.0.18"
         multiDexEnabled true
+        resValue "string", "build_config_package", "ir.alacolang.kolbeh"
     }
     splits {
         abi {
