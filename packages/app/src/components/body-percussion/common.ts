@@ -2,10 +2,6 @@ import ClapImg from "assets/images/clap.png";
 import SnapImg from "assets/images/snap.png";
 import PatImg from "assets/images/pat.png";
 import StompImg from "assets/images/stomp.png";
-// import ClapImg from "assets/images/clapping.png";
-// import SnapImg from "assets/images/snapping.png";
-// import PatImg from "assets/images/patting.png";
-// import StompImg from "assets/images/stomping.png";
 
 export const resources = {
   clap: { image: ClapImg, sound: "clap.wav", title: "دست زدن" },
@@ -23,10 +19,10 @@ const getRandomNumber = (min: number, max: number): number => {
 
 export type Rhythm = {
   id: number;
-  effect: string;
+  effect: "clap" | "snap" | "pat" | "stomp" | "blank";
   times: number;
 };
-type RhythmNoId = Omit<Rhythm, "id">;
+export type RhythmNoId = Omit<Rhythm, "id">;
 
 export const getRhythm = (count: number) => {
   const set1: RhythmNoId[] = [
@@ -119,17 +115,4 @@ const flatten = <T extends {}>(arr: (T | T[])[]): T[] => {
       return acc.concat(obj);
     }
   }, []);
-};
-
-export const memoizeOne = (fn) => {
-  let cache;
-  let last: string;
-  return (...args) => {
-    const key = JSON.stringify(args);
-    if (key == last) {
-      return cache;
-    }
-    cache = fn(...args);
-    return cache;
-  };
 };

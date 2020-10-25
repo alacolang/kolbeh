@@ -35,7 +35,9 @@ export const useSound = (active?: Rhythm) => {
     }
 
     function play() {
-      if (!active) return;
+      if (!active) {
+        return;
+      }
       sounds[active.effect].play((success) => {
         if (success) {
           // console.log("sound played");

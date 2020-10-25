@@ -9,14 +9,14 @@ import {
 import { Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { useSound } from "./sound";
-import { Rhythm, resources, colors, injectID } from "./common";
+import { Rhythm, resources, colors, injectID, RhythmNoId } from "./common";
 
 const fullWidth = Dimensions.get("window").width;
 
 type Props = { next: () => void };
 
 const getRhythm = (step: number) => {
-  let result = [
+  let result: RhythmNoId[] = [
     { effect: "clap", times: 1 },
     { effect: "snap", times: step === 4 ? 2 : 1 },
     { effect: step === 3 ? "blank" : "pat", times: 1 },
@@ -62,6 +62,7 @@ const ExplainStep = ({ next }: Props) => {
       }
     }, active.times * 500 + 200);
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   React.useEffect(() => {

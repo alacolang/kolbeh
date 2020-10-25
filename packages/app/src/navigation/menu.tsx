@@ -237,11 +237,7 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
             <TouchableOpacity
               key={index}
               onPress={() => {
-                if (route.name === "happinessTraining" && focused) {
-                  // setVisible(true);
-                } else {
-                  navigation.navigate(route.name);
-                }
+                navigation.navigate(route.name);
               }}
             >
               <View

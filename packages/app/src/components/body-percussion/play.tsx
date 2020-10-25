@@ -65,7 +65,6 @@ const PlayStep = () => {
       setActive(rhythm[currentIndex + 1]);
     }
     if (currentIndex % 4 === 3 && currentIndex + 1 !== rhythm.length) {
-      // console.log({ currentIndex });
       setDelay(
         Math.min(
           delayMax,
@@ -75,7 +74,6 @@ const PlayStep = () => {
     }
   }
 
-  // disable-eslint-rule react-hooks/exhaustive-deps
   React.useEffect(() => {
     const timeout = setTimeout(
       processNext,
@@ -84,6 +82,7 @@ const PlayStep = () => {
     // console.log({ delay, total: delay + (active ? active.times * 500 : 0) });
 
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, play]);
 
   // animate active movement
@@ -95,7 +94,7 @@ const PlayStep = () => {
 
     let times = active.times;
 
-    function play() {
+    function doPlay() {
       animatedValue.setValue(0);
       const animation = Animated.timing(animatedValue, {
         toValue: 1,
@@ -106,11 +105,12 @@ const PlayStep = () => {
       animation.start(() => {
         times = times - 1;
         if (times > 0) {
-          play();
+          doPlay();
         }
       });
     }
-    play();
+    doPlay();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   const getMovement = (index: number): React.ReactElement | null => {
@@ -204,15 +204,12 @@ const PlayStep = () => {
         position: "absolute",
         top: 0,
         right: 0,
-        //  borderWidth: 2,
       }}
     >
       <Image
         source={TonbakImg}
         style={{
           alignSelf: "flex-end",
-          // justifyContent:'flex-end',
-          // top: 30,
           height: tonbakSize,
           width: tonbakSize,
           zIndex: 10,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Feed, { FeedRouteParam } from "../pages/child-feed";
 import Post, { PostRouteParam } from "../pages/post";
@@ -13,28 +13,11 @@ export type ChildStackParamList = {
 
 const Stack = createStackNavigator<ChildStackParamList>();
 
-const ChildNavigator = ({ navigation, route }) => {
-  useEffect(() => {
-    navigation.setOptions({
-      tabBarVisible: route.state
-        ? route.state.index > 0
-          ? false
-          : true
-        : null,
-    });
-  }, []);
-
+const ChildNavigator = () => {
   return (
     <Stack.Navigator
-      // headerMode="none"
-      screenOptions={({}) => ({
-        // gestureEnabled: true,
-        // cardOverlayEnabled: true,
-        // headerStatusBarHeight:
-        //   navigation.dangerouslyGetState().routes.indexOf(route) > 0
-        //     ? 0
-        //     : undefined,
-        // ...TransitionPresets.SlideFromRightIOS,
+      screenOptions={() => ({
+        animationEnabled: false,
       })}
     >
       <Stack.Screen

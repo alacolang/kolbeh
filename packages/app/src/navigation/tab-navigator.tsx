@@ -20,7 +20,6 @@ const TabNavigator = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen name="bookmark" component={BookmarkPostsScreen} />
-      {/* <Tab.Screen name="parent" component={ParentNavigator} /> */}
       <Tab.Screen name="parent" component={ParentCategoryList} />
       <Tab.Screen name="kolbeh" component={HappinessTraining} />
     </Tab.Navigator>
