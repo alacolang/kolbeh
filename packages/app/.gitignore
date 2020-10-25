@@ -67,3 +67,5 @@ android/app/release
 
 .project
 .settings
+
+.env
