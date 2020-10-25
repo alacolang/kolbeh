@@ -26,7 +26,7 @@ const CreateAppContainer = () => {
             ?.name;
 
           if (previousRouteName !== currentRouteName) {
-            trackEvent("screen", { name: currentRouteName });
+            trackEvent("page", { name: currentRouteName });
           }
 
           routeNameRef.current = currentRouteName;
