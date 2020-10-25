@@ -2,8 +2,8 @@ name: app-lint
 
 on:
   push:
-    paths:
-      - "packages/app/*"
+    # paths:
+    #   - "packages/app/*"
 
 defaults:
   run:
