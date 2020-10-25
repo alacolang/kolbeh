@@ -8,5 +8,6 @@ export const trackEvent = (
   if (config.ANALYTICS_DISABLED) {
     return;
   }
+  console.log(`%c ${eventName}`, "color: red", properties);
   Analytics.trackEvent(eventName, properties);
 };

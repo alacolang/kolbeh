@@ -12,6 +12,7 @@ import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
+import { trackEvent } from "utils/analytics";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -34,6 +35,7 @@ function HappinessCategory({ navigation, route }: Props) {
   useEffect(() => {
     happiness.update();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    trackEvent("happiness", { category: category.id });
   }, []);
 
   function handlePress(exercise: Types.IExercise) {
