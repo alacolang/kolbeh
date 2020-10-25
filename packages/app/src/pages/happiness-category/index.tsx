@@ -34,8 +34,8 @@ function HappinessCategory({ navigation, route }: Props) {
 
   useEffect(() => {
     happiness.update();
+    trackEvent("happiness-screen", { category: category.id });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    trackEvent("happiness", { category: category.id });
   }, []);
 
   function handlePress(exercise: Types.IExercise) {

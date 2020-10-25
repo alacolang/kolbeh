@@ -28,6 +28,7 @@ function Profile() {
       const isDone = happiness.exercises[exercise.id].state === "done";
       return (
         <View
+          key={exercise.id}
           style={{
             // paddingHorizontal: 2,
             position: "relative",

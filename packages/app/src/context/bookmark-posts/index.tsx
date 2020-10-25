@@ -1,5 +1,6 @@
 import React from "react";
 import AsyncStorage from "@react-native-community/async-storage";
+import { trackEvent } from "utils/analytics";
 
 const KEY = "saved-posts";
 
@@ -32,6 +33,7 @@ export const BookmarkedPostsProvider = <T extends {}>(props: T) => {
 
   const addToBookmarkedPosts = (id: ID) => {
     const updatedBookmarkedPosts = Array.from(new Set([id, ...posts]));
+    trackEvent("bookmark", { id });
     updateBookmarkedPosts(updatedBookmarkedPosts);
   };
 

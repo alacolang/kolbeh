@@ -26,10 +26,10 @@ const Post = ({ post }: Props) => {
   const navigation = useNavigation<FeedNavigation>();
 
   const track = () => {
-    trackEvent("Post clicked", {
+    trackEvent("post", {
       category,
       type,
-      id,
+      id: id.replace(/\.md$/, ""),
     });
   };
 

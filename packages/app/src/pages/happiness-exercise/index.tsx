@@ -25,6 +25,8 @@ import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
 import { Trans, useTranslation } from "react-i18next";
 import { load, SOUND_NAMES, play, release } from "./sound";
+import { trackEvent } from "utils/analytics";
+import config from "config";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -50,6 +52,12 @@ function HappinessExercise({ navigation, route }: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    trackEvent("happiness-screen", {
+      exercise: exercise.id,
+    });
+  }, [category.id, exercise.id]);
+
   return (
     <SafeAreaView
       style={{
@@ -62,12 +70,6 @@ function HappinessExercise({ navigation, route }: Props) {
         <Markdown markdownStyles={markdownStyles}>
           {exercise.description}
         </Markdown>
-        {/* <Markdown markdownStyles={markdownStyles}>
-          {exercise.description}
-        </Markdown>
-        <Markdown markdownStyles={markdownStyles}>
-          {exercise.description}
-        </Markdown> */}
       </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "padding"}
@@ -75,9 +77,12 @@ function HappinessExercise({ navigation, route }: Props) {
         {isAlreadyDone ? null : (
           <AddIdeaInput
             onPress={(idea: string) => {
-              // if (idea.trim() === "") {
-              //   return;
-              // }
+              if (idea.trim() === "" && !config.isDevelopment) {
+                return;
+              }
+              trackEvent("happiness-add-idea", {
+                exercise: exercise.id,
+              });
               happiness.addIdea(category.id, idea);
               happiness.markExerciseAsDone(exercise.id);
               setTimeout(() => setModalVisible(true), 100);
@@ -91,6 +96,15 @@ function HappinessExercise({ navigation, route }: Props) {
         isCategoryDone={() => happiness.isCategoryDone(category)}
         isAllDone={happiness.isAllDone}
         handleAfterDone={() => {
+          if (happiness.isCategoryDone(category)) {
+            trackEvent("happiness-category-completed", {
+              category: category.id,
+              ideas: (happiness.ideas[category.id] ?? []).length,
+            });
+          }
+          if (happiness.isAllDone()) {
+            trackEvent("happiness-all-done");
+          }
           navigation.navigate("home");
         }}
       />

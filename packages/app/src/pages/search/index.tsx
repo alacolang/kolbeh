@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   TextInput,
@@ -20,6 +20,7 @@ import { Icon } from "components/icon";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
+import { trackEvent } from "utils/analytics";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -131,6 +132,7 @@ const SearchScreen = () => {
           <TouchableOpacity
             key={tag}
             onPress={() => {
+              trackEvent("search", { tag });
               setQuery(tag);
               Keyboard.dismiss();
               handleMenu("close", () => setSearchVisibility(false));
