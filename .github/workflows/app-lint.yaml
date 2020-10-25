@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: packages/apps
+    working-directory: packages/app
 jobs:
   lint:
     runs-on: ubuntu-latest
