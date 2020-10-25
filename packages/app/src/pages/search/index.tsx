@@ -63,13 +63,12 @@ type FeedData = {
 
 const SearchScreen = () => {
   const [refreshing, setRefreshing] = React.useState(false);
-  const [isMenuOpen, setMenuOpen] = React.useState(true);
   const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS, {
     variables: { types: ["image", "markdown", "video", "inapp"] },
   });
 
   const [query, setQuery] = React.useState("");
-  const [isSearchVisible, setSearchVisibility] = React.useState(true);
+  const [isTagsVisible, setTagsVisibility] = React.useState(true);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -102,23 +101,11 @@ const SearchScreen = () => {
     return <Post post={item} />;
   };
 
-  type Command = "open" | "close" | "toggle";
-  const handleMenu = (command: Command, cb = () => {}) => {
-    setMenuOpen(command === "toggle" ? !isMenuOpen : command === "open");
-    if (
-      (command === "close" && !isMenuOpen) ||
-      (command === "open" && isMenuOpen)
-    ) {
-      cb();
-      return;
-    }
-  };
-
   const filteredTags = tags.filter((tag) =>
     query.length > 0 ? new RegExp(query).test(tag) : true
   );
 
-  const searchItemsRendered = isSearchVisible && (
+  const searchItemsRendered = isTagsVisible && (
     <View
       style={{
         flexDirection: "row",
@@ -135,7 +122,7 @@ const SearchScreen = () => {
               trackEvent("search", { tag });
               setQuery(tag);
               Keyboard.dismiss();
-              handleMenu("close", () => setSearchVisibility(false));
+              setTagsVisibility(false);
             }}
           >
             <View
@@ -168,7 +155,7 @@ const SearchScreen = () => {
     <>
       <TouchableOpacity
         onPress={() => {
-          setSearchVisibility(true);
+          setTagsVisibility(true);
         }}
       >
         <Animated.View
@@ -195,10 +182,10 @@ const SearchScreen = () => {
         <TextInput
           // autoFocus={true}
           onFocus={() => {
-            handleMenu("open");
+            setTagsVisibility(true);
           }}
           style={{
-            height: 35,
+            height: 45,
             paddingHorizontal: 15,
             fontSize: 16,
             lineHeight: 16,
@@ -212,11 +199,11 @@ const SearchScreen = () => {
           }}
           value={query}
         />
-        {isSearchVisible && (
+        {isTagsVisible && (
           <TouchableOpacity
             onPress={() => {
               setQuery("");
-              handleMenu("close");
+              setTagsVisibility(false);
             }}
             style={{
               width: 44,
