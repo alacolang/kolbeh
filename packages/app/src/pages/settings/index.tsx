@@ -1,34 +1,39 @@
+import { StackNavigationProp } from "@react-navigation/stack";
 import colors from "colors";
 import { FormattedText } from "components/formatted-text";
 import { Icon, IconSvg } from "components/icon";
+import { HomeStackParamList } from "navigation/home-stack-navigator";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { onShare } from "utils/share";
 
-function Settings({ navigation }) {
+type Props = {
+  navigation: StackNavigationProp<HomeStackParamList, "settings">;
+};
+function Settings({ navigation }: Props) {
   const menuItems = [
     {
-      icon: "profile",
+      icon: "profile" as const,
       title: "screen-title.profile",
       route: "profile",
       onPress: () => navigation.navigate("profile"),
     },
     {
-      icon: "bell",
+      icon: "bell" as const,
       title: "reminder",
       route: "reminder",
-      onPress: () => navigation.navigate("reminder"),
+      onPress: () => null,
       disabled: true,
     },
     {
-      icon: "email",
+      icon: "email" as const,
       title: "share",
       route: "share",
       onPress: () => onShare(),
     },
     {
-      icon: "phone",
+      icon: "phone" as const,
       title: "screen-title.contact",
       route: "contact",
       onPress: () => navigation.navigate("contact"),
@@ -39,7 +44,11 @@ function Settings({ navigation }) {
       <Header />
       <View style={styles.content}>
         {menuItems.map((item) => (
-          <TouchableOpacity onPress={item.onPress} style={styles.row}>
+          <TouchableOpacity
+            key={item.title}
+            onPress={item.onPress}
+            style={styles.row}
+          >
             <View style={styles.rowContainer}>
               <IconSvg
                 name={item.icon}
