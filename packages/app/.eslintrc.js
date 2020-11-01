@@ -7,6 +7,7 @@ module.exports = {
     "no-console": ["error", { allow: ["warn"] }],
     quotes: ["error", "double"],
     "react-native/no-inline-styles": 0,
+    "react-native/no-unused-styles": 1,
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
   },
