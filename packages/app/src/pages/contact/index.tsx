@@ -41,7 +41,7 @@ const Contact = () => {
   return (
     <View
       style={{
-        backgroundColor: colors.green,
+        backgroundColor: colors.backgroundPrimaryThird,
         flex: 1,
         paddingHorizontal: 36,
       }}
@@ -58,13 +58,13 @@ const Contact = () => {
       >
         <IconSvg
           name="cloud"
-          color="white"
+          color={colors[9]}
           size="small"
           style={{ position: "relative", top: -0 }}
         />
         <IconSvg
           name="cloud"
-          color="white"
+          color={colors[9]}
           size="huge"
           style={{ position: "relative", top: -10, left: 30 }}
         />
@@ -107,13 +107,13 @@ const Contact = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ position: "absolute", bottom: 110, right: 10 }}>
+      {/* <View style={{ position: "absolute", bottom: 110, right: 10 }}>
         <Image
           source={ContactImg}
           style={{ width: 200, height: 300 }}
           resizeMode="contain"
         />
-      </View>
+      </View> */}
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
@@ -128,15 +128,6 @@ const Contact = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: colors.background,
-    paddingTop: 30,
-  },
   text: {
     fontSize: 18,
     color: "white",
@@ -173,7 +164,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   version: {
-    color: colors.primary,
+    color: "#f0f0f0",
     fontSize: 12,
   },
 });

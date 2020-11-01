@@ -40,7 +40,7 @@ const Feed = () => {
       }}
       edges={["top"]}
     >
-      <BackHeader navigation={navigation} title={category.title} />
+      {/* <BackHeader navigation={navigation} title={category.title} /> */}
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.scrollViewContent}
@@ -113,12 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.backgroundVariant,
   },
-  backIcon: {
-    width: 40,
-    height: 84,
-    borderWidth: 0,
-    borderColor: "black",
-  },
   back: {
     width: 44,
     height: 84,
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     textAlign: "center",
-    color: colors.secondary,
+    color: colors[1],
   },
 });
 

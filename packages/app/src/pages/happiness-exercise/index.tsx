@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  Image,
   Modal,
   Dimensions,
   TouchableOpacity,
@@ -18,15 +17,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSvg, IconSvgName } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
-import rewardDailyImg from "assets/images/reward-daily.png";
-import rewardCertificateImg from "assets/images/reward-certificate.png";
-import rewardMedalImg from "assets/images/reward-medal.png";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
 import { Trans, useTranslation } from "react-i18next";
 import { load, SOUND_NAMES, play, release } from "./sound";
 import { trackEvent } from "utils/analytics";
 import config from "config";
+import rewardDailyImg from "../../assets/images/reward-daily.gif";
+import rewardMedalImg from "../../assets/images/connection.gif";
+import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
+
+import { Gif } from "pages/happiness-training";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -62,7 +63,7 @@ function HappinessExercise({ navigation, route }: Props) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.backgroundPrimary,
       }}
     >
       <ScrollView contentContainerStyle={styles.container}>
@@ -70,26 +71,42 @@ function HappinessExercise({ navigation, route }: Props) {
         <Markdown markdownStyles={markdownStyles}>
           {exercise.description}
         </Markdown>
+        <View style={{ marginTop: 16 }} />
       </ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "padding"}
-      >
-        {isAlreadyDone ? null : (
-          <AddIdeaInput
-            onPress={(idea: string) => {
-              if (idea.trim() === "" && !config.isDevelopment) {
-                return;
-              }
-              trackEvent("happiness-add-idea", {
-                exercise: exercise.id,
-              });
-              happiness.addIdea(category.id, idea);
-              happiness.markExerciseAsDone(exercise.id);
-              setTimeout(() => setModalVisible(true), 100);
-            }}
-          />
-        )}
-      </KeyboardAvoidingView>
+      <View style={{ marginTop: 16 }}>
+        <View
+          style={{
+            position: "absolute",
+            top: -32 - 16,
+            borderWidth: 0,
+            left: 0,
+            right: 0,
+            height: 32,
+            width: "100%",
+            backgroundColor: "#AF99F1a0",
+          }}
+        />
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+        >
+          {isAlreadyDone ? null : (
+            <AddIdeaInput
+              onPress={(idea: string) => {
+                if (idea.trim() === "" && !config.isDevelopment) {
+                  return;
+                }
+                trackEvent("happiness-add-idea", {
+                  exercise: exercise.id,
+                });
+                happiness.addIdea(category.id, idea);
+                happiness.markExerciseAsDone(exercise.id);
+                setTimeout(() => setModalVisible(true), 100);
+              }}
+            />
+          )}
+        </KeyboardAvoidingView>
+      </View>
       <Feedback
         modalVisible={modalVisible}
         title={category.title}
@@ -199,20 +216,32 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
               {ideas
                 .filter((x) => x.trim().length > 2)
                 .map((idea) => (
-                  <FormattedText key={idea} style={{ fontSize: 20 }}>
+                  <FormattedText
+                    key={idea}
+                    style={{ color: "white", fontSize: 22 }}
+                  >
                     {idea}
                   </FormattedText>
                 ))}
             </ScrollView>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <IconSvg name="tickOutline" size="small" color="#00DE76" />
-            </TouchableOpacity>
-            <View style={ideasStyles.imageContainer}>
-              <IconSvg
-                name={`happinessToolbox-${categoryID}` as IconSvgName}
-                size={70}
-                color={colors.secondary}
-              />
+            <View style={ideasStyles.footer}>
+              <View style={ideasStyles.closeButton}>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <GaussIcon
+                    backgroundColor={"white"}
+                    color={colors.backgroundPrimaryThird}
+                    onPress={() => setModalVisible(false)}
+                    icon="tickOutline"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={ideasStyles.imageContainer}>
+                <IconSvg
+                  name={`happinessToolbox-${categoryID}` as IconSvgName}
+                  size={70}
+                  color={colors[4]}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -226,7 +255,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
         <IconSvg
           name={`happinessToolbox-${categoryID}` as IconSvgName}
           size={80}
-          color="white"
+          color={colors.backgroundPrimaryThird}
         />
       </TouchableOpacity>
     </>
@@ -243,24 +272,41 @@ const ideasStyles = StyleSheet.create({
     width: "80%",
     borderRadius: 25,
     minHeight: fullWidth / 2,
-    backgroundColor: colors.backgroundVariant,
+    backgroundColor: colors.backgroundPrimaryThird,
     paddingVertical: 16,
     alignItems: "center",
-    paddingHorizontal: 32,
-    // zIndex: 100,
-    // opacity: 1,
   },
-  text: { fontSize: 24, color: "#00DE76" },
+  text: { fontSize: 24, color: "white" },
   list: {
     alignSelf: "flex-start",
     marginVertical: 24,
     maxHeight: fullWidth,
     width: "100%",
+    paddingHorizontal: 32,
   },
+  footer: { height: 100, width: "100%" },
   imageContainer: {
     position: "absolute",
     right: 10,
-    top: 10,
+    bottom: 0,
+    width: 70,
+    height: 70,
+    borderWidth: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "white",
+    borderRadius: 70,
+  },
+  closeButton: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 80,
+    marginTop: 6,
+    zIndex: 1,
   },
   button: {
     position: "absolute",
@@ -327,6 +373,11 @@ const Feedback = ({
     : isCategoryDone()
     ? rewardMedalImg
     : rewardDailyImg;
+  const image2: IconSvgName = isAllDone()
+    ? "rewardCertificate"
+    : isCategoryDone()
+    ? "rewardMedal"
+    : "rewardDaily";
   return (
     <Modal
       animationType="fade"
@@ -338,14 +389,22 @@ const Feedback = ({
       }}
     >
       <View style={feedbackStyles.modal}>
-        <View style={feedbackStyles.container}>
-          <View style={feedbackStyles.innerContainer}>
+        <TouchableOpacity onPress={() => handleAfterDone()}>
+          <View style={feedbackStyles.container}>
+            <View style={feedbackStyles.imageContainer}>
+              <Gif image={image} theme="purple" />
+            </View>
+            <View
+              style={{
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                top: 0,
+              }}
+            >
+              <IconSvg name={image2} size={55} color={colors[10]} />
+            </View>
             <View style={feedbackStyles.textContainer}>
-              {isAllDone() ? (
-                <View>
-                  <IconSvg name="certificate" size={55} color="red" />
-                </View>
-              ) : null}
               <FormattedText style={feedbackStyles.text}>
                 <Trans
                   i18nKey={text}
@@ -361,23 +420,8 @@ const Feedback = ({
                 />
               </FormattedText>
             </View>
-            <View style={feedbackStyles.imageContainer}>
-              <Image
-                source={image}
-                style={feedbackStyles.image}
-                resizeMode="contain"
-              />
-            </View>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              handleAfterDone();
-            }}
-            style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
-          >
-            <IconSvg name="tickOutline" size="small" color="#00DE76" />
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
     </Modal>
   );
@@ -388,45 +432,37 @@ const feedbackStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primaryThird,
+    backgroundColor: colors.backgroundLight,
   },
   container: {
     width: fullWidth - 2 * 36,
-    // marginHorizontal: 36,
-    borderRadius: 25,
+    height: fullWidth - 2 * 36,
+    borderRadius: fullWidth - 2 * 36,
+    borderWidth: 5,
+    borderColor: colors.backgroundPrimary,
     minHeight: fullWidth / 2,
-    backgroundColor: colors.backgroundVariant,
-    // paddingVertical: 16,
+    backgroundColor: colors.backgroundPrimaryThird,
     // borderWidth: 3,
-    // alignItems: "center",
-  },
-  innerContainer: {
-    flexDirection: "row",
-    // alignItems: "center",
-    // marginBottom: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 15,
   },
   textContainer: {
     flexDirection: "column",
-    paddingLeft: 36,
+    top: -10,
     width: fullWidth - 36 * 2 - 130,
-    paddingTop: 16,
   },
   text: {
-    // paddingLeft: 16,
-    paddingTop: 16,
     fontSize: 18,
     lineHeight: 18 * 1.8,
-    color: colors.primary,
+    color: "white",
+    textAlign: "center",
     // borderWidth: 2,
     // borderColor: "green",
   },
   imageContainer: {
-    // position: "absolute",
-    right: -20,
-    top: -20,
-    // borderWidth: 1,
+    top: -10,
   },
-  image: { width: 130, height: 130 * 2, borderWidth: 0 },
 });
 
 type HeaderProps = { title: string };
@@ -436,14 +472,14 @@ function Header({ title }: HeaderProps) {
       <IconSvg
         name="cloud"
         size={55}
-        color={colors.secondaryVarient}
+        color={colors[9]}
         style={headerStyles.cloud1}
       />
       <FormattedText style={headerStyles.title}>{title}</FormattedText>
       <IconSvg
         name="cloud"
         size={20}
-        color={colors.secondaryVarient}
+        color={colors[9]}
         style={headerStyles.cloud2}
       />
     </View>
@@ -459,7 +495,7 @@ const headerStyles = StyleSheet.create({
   cloud1: { position: "absolute", left: -8, top: 0 },
   title: {
     fontSize: 30,
-    color: "white",
+    color: colors.backgroundPrimaryThird,
   },
   cloud2: {
     position: "absolute",

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Swiper from "react-native-swiper";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -14,7 +13,7 @@ import img3 from "../../assets/images/3.gif";
 import img from "../../assets/images/onboarding-image.png";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Trans, useTranslation } from "react-i18next";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -24,42 +23,83 @@ const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
 const imageSize = Math.min(frameWidth - 40 * 2, frameHeight / 2.5);
 
+const range = (n: number) => {
+  const result = [];
+  for (let i = 0; i < n; i++) {
+    result.push(i);
+  }
+  return result;
+};
+
+const Dots = ({ active, length }: { active: number; length: number }) => {
+  return (
+    <View style={dotsStyles.container}>
+      {range(length).map((i) => (
+        <View
+          key={i}
+          style={[
+            dotsStyles.dot,
+            {
+              backgroundColor:
+                i === active
+                  ? colors.backgroundSecondary
+                  : colors.backgroundPrimaryThird,
+            },
+          ]}
+        />
+      ))}
+    </View>
+  );
+};
+const dotsStyles = StyleSheet.create({
+  container: {
+    flexDirection: "row-reverse",
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    marginHorizontal: 3,
+  },
+});
+
 type Props = StackScreenProps<HomeStackParamList, "onboarding">;
 const Onboarding = ({ navigation }: Props) => {
   const { t } = useTranslation();
+  const [activeIndex, setActiveIndex] = useState(0);
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <StatusBar hidden />
-
-      <Swiper
-        showsButtons={true}
-        loop={false}
-        activeDotColor={colors.backgroundSecondary}
-        dotColor={colors.backgroundPrimaryThird}
-        paginationStyle={{
-          flexDirection: "row-reverse",
-          top: imageSize + 36 + 36 + 16,
-          // bottom: 0,
-          alignItems: "flex-start",
-          // borderWidth: 1,
+      <View style={styles.dots}>
+        <Dots active={activeIndex} length={3} />
+      </View>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={frameWidth}
+        decelerationRate={"fast"}
+        horizontal
+        style={{ flexDirection: "row-reverse" }}
+        snapToAlignment={"center"}
+        pagingEnabled={true}
+        onScroll={(event) => {
+          const x = event.nativeEvent.contentOffset.x;
+          const index = Math.floor((x + frameWidth / 2) / frameWidth);
+          if (index !== activeIndex) {
+            setActiveIndex(index);
+          }
         }}
-        buttonWrapperStyle={{
-          position: "absolute",
-          paddingBottom: 24,
-          justifyContent: "center",
-          alignItems: "flex-end",
-          backgroundColor: "transparent",
-        }}
-        prevButton={<View />}
-        nextButton={
-          <Action
-            text={t("onboarding.next")}
-            onPress={() => {
-              navigation.navigate("home");
-            }}
-          />
-        }
       >
+        <View style={styles.slide}>
+          <Gif image={img1} />
+          <Title text={t("onboarding.1.title")} />
+          <Description id={t("onboarding.1.description")} />
+        </View>
+        <View style={styles.slide}>
+          <Gif image={img2} />
+          <Title text={t("onboarding.2.title")} />
+          <Description id={t("onboarding.2.description")} />
+        </View>
+
         <View style={styles.slide}>
           <Gif image={img3} />
           <Title text={t("onboarding.3.title")} />
@@ -74,18 +114,7 @@ const Onboarding = ({ navigation }: Props) => {
             />
           </View>
         </View>
-        <View style={styles.slide}>
-          <Gif image={img2} />
-          <Title text={t("onboarding.2.title")} />
-          <Description id={t("onboarding.2.description")} />
-        </View>
-
-        <View style={styles.slide}>
-          <Gif image={img1} />
-          <Title text={t("onboarding.1.title")} />
-          <Description id={t("onboarding.1.description")} />
-        </View>
-      </Swiper>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -114,54 +143,27 @@ const descriptionStyles = StyleSheet.create({
   text: {
     textAlign: "center",
     marginTop: 16,
-    // height: 120,
     lineHeight: 24 * 1.6,
     color: colors.secondary,
     fontSize: 23,
-    // borderWidth: 1,
   },
 });
 
 const Gif = ({ image }: { image: ImageSourcePropType }) => {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    setTimeout(() => setShow(true), 1000);
-  }, []);
   return (
     <View style={gifStyles.imageContainer}>
       <Image source={img} style={gifStyles.imageOverlay} resizeMode="contain" />
-      {show && <Image source={image} style={gifStyles.image} />}
-      {/* <IconSvg
-      name="cloud"
-      color={colors[11]}
-      size={40}
-      style={gifStyles.cloud1}
-    />
-    <IconSvg
-      name="cloud"
-      color={colors.lightBlue}
-      size={80}
-      style={gifStyles.cloud2}
-    /> */}
+      <Image source={image} style={gifStyles.image} resizeMode="contain" />
     </View>
   );
 };
 
 const gifStyles = StyleSheet.create({
-  cloud1: { position: "absolute", bottom: imageSize / 2, right: -24 },
-  cloud2: {
-    position: "absolute",
-    top: 20,
-    left: -24,
-  },
   imageContainer: {
     height: imageSize + 20,
     width: imageSize + 20,
     justifyContent: "center",
     alignItems: "center",
-  },
-  overlay: {
-    backgroundColor: colors.backgroundPrimary,
   },
   imageOverlay: {
     position: "absolute",
@@ -171,6 +173,7 @@ const gifStyles = StyleSheet.create({
   image: {
     height: imageSize * 0.6,
     width: imageSize * 0.6,
+    borderWidth: 1,
   },
 });
 
@@ -186,7 +189,7 @@ const titleStyles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    color: colors.primary,
+    color: "white",
     fontSize: 32,
   },
 });
@@ -223,7 +226,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundPrimary,
   },
+  dots: {
+    position: "absolute",
+    top: imageSize + 36 + 36 + 24,
+    alignItems: "center",
+    width: "100%",
+  },
   slide: {
+    width: frameWidth,
     flex: 1,
     paddingHorizontal: 30,
     paddingTop: 36,
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
   doneContainer: {
     position: "absolute",
     bottom: 0,
-    paddingBottom: 24,
+    paddingBottom: 36,
     justifyContent: "center",
     alignItems: "flex-end",
     backgroundColor: "transparent",

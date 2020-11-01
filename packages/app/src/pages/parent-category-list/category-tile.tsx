@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, TouchableOpacity, StyleSheet, View } from "react-native";
 import { ICategory } from "types";
-import { Icon } from "components/icon";
+import { Icon, IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
 
@@ -26,7 +26,7 @@ const CategoryTile = ({ category, onPress }: Props) => {
           </FormattedText>
         </View>
         <View style={styles.arrow}>
-          <Icon name="leftArrow" size="small" />
+          <IconSvg name="leftArrowFill" size="small" color={colors[1]} />
         </View>
       </View>
     </TouchableOpacity>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   container: {
-    backgroundColor: colors.backgroundVariant,
+    backgroundColor: colors.backgroundLight,
     width: width - 70,
     flexDirection: "row",
     marginVertical: 40,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    color: colors.secondary,
+    color: colors[1],
     marginBottom: 20,
     // fontWeight: 600
     // fontWeight: "bold",

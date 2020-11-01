@@ -14,7 +14,7 @@ type Props = {
 export const GaussIcon = ({
   onPress,
   icon,
-  backgroundColor = colors.secondary,
+  backgroundColor = colors[1],
   color = "white",
 }: Props) => (
   <TouchableOpacity onPress={() => onPress()}>
@@ -30,10 +30,6 @@ export const GaussIcon = ({
 );
 
 const leftIconStyles = StyleSheet.create({
-  backContainer: {
-    position: "absolute",
-    left: 0,
-  },
   container: {
     height: 85,
     width: 60,

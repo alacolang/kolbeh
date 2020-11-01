@@ -25,6 +25,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Contact from "pages/contact";
 import { GaussIcon } from "components/curve-icon";
 import Onboarding from "pages/onboarding";
+import { useTranslation } from "react-i18next";
 
 export type HomeStackParamList = {
   onboarding: undefined;
@@ -82,21 +83,35 @@ export const JustBackHeader = ({
 const BackHeader = ({
   navigation,
   scene,
-  backgroundColor,
+  title,
+  transparent = false,
+  backgroundColor = colors.backgroundLight,
   color,
-}: StackHeaderProps & { color?: string; backgroundColor?: string }) => {
+}: StackHeaderProps & {
+  color?: string;
+  title?: string | undefined;
+  backgroundColor?: string;
+  transparent?: boolean;
+}) => {
+  const { t } = useTranslation();
   return (
     <SafeAreaView
-      style={{ backgroundColor: backgroundColor ?? colors.backgroundVariant }}
+      style={
+        transparent
+          ? null
+          : {
+              backgroundColor: backgroundColor,
+            }
+      }
     >
       <View style={backHeaderStyle.container}>
         <View style={backHeaderStyle.backContainer}>
           <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
         </View>
-        <FormattedText
-          style={[styles.title, { color: color ?? colors.secondary }]}
-          id={`screen-title.${scene.route.name}`}
-        />
+
+        <FormattedText style={[styles.title, { color: color ?? colors[1] }]}>
+          {title ? title : t(`screen-title.${scene.route.name}`)}
+        </FormattedText>
       </View>
     </SafeAreaView>
   );
@@ -168,7 +183,8 @@ const HomeNavigator = () => {
         name="settings"
         component={Settings}
         options={{
-          header: BackHeader,
+          headerTransparent: true,
+          header: (props) => <BackHeader transparent {...props} />,
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
         }}
@@ -186,7 +202,8 @@ const HomeNavigator = () => {
         name="profile"
         component={Profile}
         options={{
-          header: BackHeader,
+          headerTransparent: true,
+          header: (props) => <BackHeader transparent {...props} />,
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
         }}
@@ -223,7 +240,7 @@ const HomeNavigator = () => {
             <BackHeader
               {...props}
               color="white"
-              backgroundColor={colors.green}
+              backgroundColor={colors.backgroundPrimaryThird}
             />
           ),
           animationEnabled: false,
@@ -254,8 +271,11 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="parentFeed"
         component={ParentFeed}
-        options={() => ({
-          header: () => null,
+        options={({ route }) => ({
+          // header: () => null,
+          header: (props) => (
+            <BackHeader {...props} title={route.params.category.title} />
+          ),
           animationEnabled: false,
         })}
       />

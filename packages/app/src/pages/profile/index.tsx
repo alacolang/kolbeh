@@ -9,20 +9,20 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Image,
 } from "react-native";
-import rewardCertificateImg from "assets/images/reward-certificate.png";
 import { Header } from "../settings/index";
 import { Trans } from "react-i18next";
+import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
+import { Gif } from "pages/happiness-training";
 
 const fullWidth = Dimensions.get("window").width - 16 * 2;
-const size = fullWidth / 3 - 4 * 2;
+const size = (fullWidth - 20) / 3 - 4 * 2;
 
 function Profile() {
   const happiness = useHappiness();
 
-  const ys = [14, 1, -3, 1, 14];
-  const xs = [5, 5, 0, -5, -5];
+  const ys = [22, 8, 0, 7, 22];
+  const xs = [1, 4, 0, -6, -3];
   const categories = happiness.rawCategories.map((category) => {
     const exercises = category.exercises.map((exercise, index) => {
       const isDone = happiness.exercises[exercise.id].state === "done";
@@ -38,8 +38,8 @@ function Profile() {
         >
           <IconSvg
             name="star"
-            size={(size - 2 * 2) / 7 - 2 * 2}
-            color={isDone ? "#FFDC25" : "lightgrey"}
+            size={(size - 2 * 2) / 7 - 2 * 2 - 1}
+            color={isDone ? colors[10] : "lightgrey"}
           />
         </View>
       );
@@ -47,10 +47,11 @@ function Profile() {
 
     return (
       <View
+        key={category.id}
         style={{
           marginHorizontal: 3,
           width: size,
-          height: size,
+          height: size - 10,
           alignItems: "center",
           paddingTop: 18,
         }}
@@ -60,14 +61,14 @@ function Profile() {
           size={0}
           style={{
             position: "absolute",
-            width: size,
-            height: size,
+            width: size - 20,
+            height: size - 20,
           }}
         />
         <IconSvg
           name={`happinessToolbox-${category.id}`}
-          size={size / 3}
-          color={colors.greenVariant}
+          size={size / 3.2}
+          color={colors[10]}
         />
         <View style={{ flexDirection: "row" }}>{exercises}</View>
       </View>
@@ -76,11 +77,11 @@ function Profile() {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header showMedal />
       <View
         style={{
           justifyContent: "center",
-          marginTop: 40,
+          marginTop: 24,
         }}
       >
         <View
@@ -90,7 +91,7 @@ function Profile() {
           }}
         >
           {categories}
-          {happiness.isAllDone() ? (
+          {happiness.isAllDone() || true ? (
             <>
               <View style={{ flex: 1 }} />
               <View
@@ -114,130 +115,95 @@ function Profile() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundVariant,
+    backgroundColor: colors.backgroundLight,
     flex: 1,
-    paddingHorizontal: 16,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 140,
-    // borderWidth: 1,
-    marginBottom: 16,
-  },
-  cloud1: { position: "absolute", bottom: 16, left: 16 },
-  avatar: {
-    borderWidth: 4,
-    borderRadius: 500,
-    margin: 10,
-    padding: 10,
-    borderColor: colors.secondary,
-  },
-  cloud2: { position: "absolute", top: 0, width: 80, right: 16 },
-  row: { borderWidth: 0, flexGrow: 1 },
-  rowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    // borderWidth: 1,
-    height: 70,
-  },
-  itemTitle: {
-    paddingHorizontal: 40,
-    color: colors.primary,
-    fontSize: 20,
+    paddingHorizontal: 24,
+    paddingTop: 60,
   },
 });
 
 const Certificate = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const image = rewardCertificateImg;
   return (
     <>
       <Modal animationType="slide" transparent={false} visible={modalVisible}>
-        <View style={addIdeaStyles.modal}>
-          <View style={addIdeaStyles.container}>
-            <View style={addIdeaStyles.innerContainer}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  paddingLeft: 36,
-                  width: fullWidth - 36 * 2 - 130,
-                  paddingTop: 16,
-                }}
-              >
-                <View>
-                  <IconSvg name="certificate" size={55} color="red" />
+        <View style={feedbackStyles.modal}>
+          <View style={feedbackStyles.container}>
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={{ alignItems: "center" }}
+            >
+              <View style={feedbackStyles.imageContainer}>
+                <Gif image={image} theme="purple" />
+                <View style={{ position: "absolute", top: 30, left: 25 }}>
+                  <IconSvg name="rewardCertificate" size={55} color="red" />
                 </View>
-                <FormattedText style={addIdeaStyles.text}>
+              </View>
+              <View style={feedbackStyles.textContainer}>
+                <FormattedText style={feedbackStyles.text}>
                   <Trans
-                    i18nKey="happiness.reward.allDone"
-                    components={[<FormattedText style={addIdeaStyles.text} />]}
+                    i18nKey={"happiness.reward.allDone"}
+                    components={[
+                      <FormattedText
+                        style={[
+                          feedbackStyles.text,
+                          { color: colors.greenVariant },
+                        ]}
+                      />,
+                    ]}
                   />
                 </FormattedText>
               </View>
-              <View style={addIdeaStyles.imageContainer}>
-                <Image
-                  source={rewardCertificateImg}
-                  style={addIdeaStyles.image}
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={{ alignSelf: "center", position: "absolute", bottom: 24 }}
-            >
-              <IconSvg name="tickOutline" size="small" color="#00DE76" />
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <IconSvg name="certificate" size={80} color="red" />
+        <IconSvg name="rewardCertificate" size={80} color={colors[10]} />
       </TouchableOpacity>
     </>
   );
 };
 
-const addIdeaStyles = StyleSheet.create({
+const feedbackStyles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primaryThird,
+    backgroundColor: colors.backgroundLight,
   },
   container: {
     width: fullWidth - 2 * 36,
-    // marginHorizontal: 36,
-    borderRadius: 25,
+    height: fullWidth - 2 * 36,
+    borderRadius: fullWidth - 2 * 36,
+    borderWidth: 5,
+    borderColor: colors.backgroundPrimary,
     minHeight: fullWidth / 2,
-    backgroundColor: colors.backgroundVariant,
-    // paddingVertical: 16,
-    // borderWidth: 3,
-    // alignItems: "center",
+    backgroundColor: colors.backgroundPrimaryThird,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 15,
   },
-  innerContainer: {
-    flexDirection: "row",
-    // alignItems: "center",
-    // marginBottom: 16,
+  textContainer: {
+    top: -5,
+    width: fullWidth - 36 * 2 - 130,
   },
   text: {
-    // paddingLeft: 16,
-    paddingTop: 16,
     fontSize: 18,
-    lineHeight: 18 * 1.8,
-    color: colors.primary,
+    lineHeight: 18 * 1.6,
+    color: "white",
+    textAlign: "center",
     // borderWidth: 2,
     // borderColor: "green",
   },
   imageContainer: {
     // position: "absolute",
-    right: -20,
-    top: -20,
+    // right: -20,
+    top: 0,
     // borderWidth: 1,
   },
-  image: { width: 130, height: 130 * 2, borderWidth: 0 },
 });
 
 export default Profile;

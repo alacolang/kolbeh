@@ -126,7 +126,7 @@ const Links = ({ onPress }: LinksProps) => {
                   stroke="none"
                   x={0}
                 />
-                <Circle cx={0} cy={35} r={3} fill="#FE6E25" />
+                <Circle cx={0} cy={35} r={3} fill={colors[1]} />
               </Svg>
             </View>
           );
@@ -214,7 +214,6 @@ type TabBarProps = {
 };
 
 export const TabBar = ({ state, navigation }: TabBarProps) => {
-  // const [visible, setVisible] = React.useState(false);
   return (
     <SafeAreaView
       edges={["right", "bottom", "left"]}
@@ -248,17 +247,18 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "row",
-                  backgroundColor: focused ? "#FED8C5" : "#F9FBFF",
+                  backgroundColor: focused ? colors[4] : "#F9FBFF",
                 }}
               >
-                <Icon
-                  name={(route.name + (focused ? "Active" : "")) as IconName}
+                <IconSvg
+                  name={route.name as IconSvgName}
                   size="tiny"
+                  color={focused ? colors[1] : "#C9D8DF"}
                 />
                 {focused ? (
                   <FormattedText
                     style={{
-                      color: colors.secondary,
+                      color: colors[1],
                       paddingHorizontal: 10,
                     }}
                     id={route.name}

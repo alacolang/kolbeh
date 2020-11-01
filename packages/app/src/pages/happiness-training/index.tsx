@@ -7,6 +7,7 @@ import {
   Dimensions,
   StyleSheet,
   Image,
+  ImageSourcePropType,
 } from "react-native";
 import {
   useNavigation,
@@ -20,7 +21,6 @@ import colors from "colors";
 import * as Types from "types";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { ScrollView } from "react-native-gesture-handler";
-import { resolveURL } from "utils/resolve";
 import Bar from "navigation/menu";
 import { TabParamList } from "navigation/tab-navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -29,11 +29,37 @@ import { useHappiness } from "context/happiness";
 import { Trans, useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import Loading from "components/loading";
+import { State } from "context/happiness";
+import img1 from "../../assets/images/1.gif";
+import img2 from "../../assets/images/2.gif";
+import img3 from "../../assets/images/3.gif";
+import selfCompassion from "../../assets/images/self-compassion.gif";
+import resilience from "../../assets/images/resilience.gif";
+import kindness from "../../assets/images/kindness.gif";
+import empathy from "../../assets/images/empathy.gif";
+import connection from "../../assets/images/connection.gif";
+import optimism from "../../assets/images/optimism.gif";
+import mindfulness from "../../assets/images/mindfulness.gif";
+import Svg, { Ellipse } from "react-native-svg";
 
 const fullWidth = Dimensions.get("window").width;
-const imageWidth = fullWidth / 2 - 80;
 const slideWidth = fullWidth - 160;
 const slideHeight = (slideWidth * 320) / 200;
+const slideGutter = 20;
+
+export const IMAGES: Record<any, ImageSourcePropType> = {
+  "self-compassion": selfCompassion,
+  compassion: empathy,
+  resilience: resilience,
+  gratitude: img3,
+  kindness: kindness,
+  empathy: empathy,
+  connection: connection,
+  optimism: optimism,
+  awe: img1,
+  mindfulness: mindfulness,
+  forgiveness: img2,
+};
 
 const GET_HAPPINESS_TRAININGS = gql`
   query {
@@ -146,7 +172,14 @@ const HappinessTraining = () => {
 
   const slides = (
     <View>
-      <ScrollView horizontal contentContainerStyle={styles.slider} ref={ref}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        snapToInterval={slideWidth + slideGutter * 2}
+        decelerationRate={"fast"}
+        contentContainerStyle={styles.slider}
+        ref={ref}
+      >
         {loading ? (
           <Loading />
         ) : (
@@ -204,13 +237,13 @@ const styles = StyleSheet.create({
     paddingLeft: 32,
   },
   greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
-  greetingCategory: { color: colors.greenVariant },
+  greetingCategory: { color: colors[1] },
 });
 
 type SlideProps = {
   t: TFunction;
-  category: any;
-  state: any;
+  category: Types.IHappinessTrainingCategory;
+  state: State["state"];
   onClick: () => void;
 };
 
@@ -224,7 +257,9 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
         slideStyles.categoryContainer,
         {
           backgroundColor:
-            state === "locked" ? colors.green : colors.secondaryVarient,
+            state === "locked"
+              ? colors.backgroundPrimaryVariant
+              : colors.secondaryVarient,
         },
       ]}
       onLayout={(event) => {
@@ -232,25 +267,25 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
         slidesX[category.id] = layout.x;
       }}
     >
-      <Image
-        source={{ uri: resolveURL(category.image.url) }}
-        resizeMode="contain"
-        style={slideStyles.categoryImage}
-      />
+      <Gif image={IMAGES[category.id]} />
+      {/* <Gif image={require(`../../assets/images/${image}.gif`)} /> */}
       <FormattedText style={slideStyles.categoryTitle}>
         {category.title}
       </FormattedText>
-      <FormattedText style={slideStyles.categoryDescription}>
+      <FormattedText
+        style={[
+          slideStyles.categoryDescription,
+          {
+            color: state === "locked" ? colors.backgroundLight : colors.primary,
+          },
+        ]}
+      >
         {category.description}
       </FormattedText>
       <View style={slideStyles.footer}>
         {state === "locked" ? (
           <View style={slideStyles.lockContainer}>
-            <IconSvg
-              name="lockFill"
-              size="small"
-              color={colors.secondaryThird}
-            />
+            <IconSvg name="lockFill" size="small" color={colors[10]} />
           </View>
         ) : (
           <TouchableOpacity
@@ -271,8 +306,6 @@ const slideStyles = StyleSheet.create({
   lockContainer: {
     position: "absolute",
     bottom: 0,
-    // left: 32,
-    backgroundColor: colors.green,
     borderRadius: 44,
     height: 44,
     justifyContent: "center",
@@ -284,11 +317,9 @@ const slideStyles = StyleSheet.create({
     left: 0,
     right: 0,
     marginHorizontal: 16,
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   enterContainer: {
-    backgroundColor: colors.secondary,
+    backgroundColor: "white",
     borderRadius: 44,
     height: 44,
     alignSelf: "center",
@@ -296,41 +327,111 @@ const slideStyles = StyleSheet.create({
     alignItems: "center",
     width: slideWidth / 2,
   },
-  enter: { color: "white", top: -4, fontSize: 18 },
+  enter: { color: "#7995F5", top: -4, fontSize: 18 },
   categoryContainer: {
-    // transform: [{ scaleX: -1 }],
-    paddingHorizontal: 20,
+    paddingHorizontal: slideGutter,
     marginLeft: 35,
     marginTop: 40,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,
-    // borderWidth: 1,
     width: slideWidth,
     height: slideHeight,
-    // justifyContent: "center",
-    paddingTop: slideHeight / 6,
-  },
-  categoryImage: {
-    position: "absolute",
-    top: -40,
-    // zIndex: 1,
-    right: -30,
-    width: imageWidth,
-    height: slideHeight / 1.6,
-    // borderWidth: 1,
-    // borderColor: "red",
+    paddingTop: 24,
+    alignItems: "center",
   },
   categoryTitle: {
     fontSize: 26,
-    color: colors.primaryVarient,
+    color: colors[10],
+    textAlign: "center",
   },
   categoryDescription: {
     fontSize: 20,
-    marginTop: slideHeight / 4,
-    color: colors.primary,
     lineHeight: 22 * 1.4,
-    // width: slideWidth / 1.5,
-    // paddingHorizontal: 16,
+    textAlign: "center",
+  },
+});
+
+const imageSize = 180;
+
+type GifProp = {
+  image: ImageSourcePropType;
+  dropShadow?: boolean;
+  theme?: "purple" | "yellow";
+};
+export const Gif = ({
+  image,
+  dropShadow = false,
+  theme = "yellow",
+}: GifProp) => {
+  const xx = imageSize - 40;
+  const yy = 10;
+  return (
+    <View style={gifStyles.imageContainer}>
+      <View style={gifStyles.circleContainer}>
+        <View
+          style={[
+            gifStyles.circle,
+            {
+              borderColor:
+                theme === "yellow"
+                  ? colors.backgroundSecondary
+                  : colors.backgroundPrimary,
+            },
+          ]}
+        />
+      </View>
+      <Image source={image} style={gifStyles.image} resizeMode="contain" />
+      {dropShadow && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: -25,
+            width: xx,
+            height: yy,
+          }}
+        >
+          <Svg viewBox={`0 0 ${xx} ${yy}`} style={{ width: xx, height: yy }}>
+            <Ellipse
+              cx={xx / 2}
+              cy={yy / 2}
+              rx={xx / 2}
+              ry={yy / 2}
+              fill={colors.backgroundSecondary}
+            />
+          </Svg>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const gifStyles = StyleSheet.create({
+  imageContainer: {
+    height: imageSize + 10,
+    width: imageSize + 10,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 1,
+  },
+  circleContainer: {
+    position: "absolute",
+    width: imageSize,
+    height: imageSize,
+    backgroundColor: "yellow",
+    borderRadius: imageSize,
+  },
+  circle: {
+    width: imageSize,
+    height: imageSize,
+    backgroundColor: "white",
+    borderRadius: imageSize,
+    borderWidth: 7,
+    elevation: 10,
+  },
+
+  image: {
+    height: imageSize * 0.65,
+    width: imageSize * 0.65,
     // borderWidth: 1,
   },
 });

@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
 import { GaussIcon } from "components/curve-icon";
 import { trackEvent } from "utils/analytics";
+import { Gif, IMAGES } from "../happiness-training";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -70,7 +71,7 @@ function HappinessCategory({ navigation, route }: Props) {
                         : "circle"
                     }
                     size="small"
-                    color={colors.secondaryThird}
+                    color={colors.backgroundPrimaryVariant}
                     style={styles.icon}
                   />
                   <FormattedText style={styles.exerciseTitle}>
@@ -80,11 +81,7 @@ function HappinessCategory({ navigation, route }: Props) {
               );
             })}
           </View>
-          <Image
-            source={{ uri: resolveURL(category.image.url) }}
-            resizeMode="contain"
-            style={styles.categoryImage}
-          />
+          <Gif image={IMAGES[category.id]} dropShadow />
         </View>
       </View>
     </SafeAreaView>
@@ -96,13 +93,13 @@ const styles = StyleSheet.create({
   container: { borderWidth: 0, paddingHorizontal: 30 },
   contentContainer: {
     flexDirection: "row",
-    marginTop: 30,
+    marginTop: 16,
     alignItems: "center",
     justifyContent: "space-between",
   },
   verticalLineInner: {
     width: 5,
-    backgroundColor: "#FFC3B6",
+    backgroundColor: colors.backgroundPrimaryVariant,
     flexGrow: 1,
     left: 15,
     marginBottom: 38,
@@ -114,17 +111,10 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
-  categoryImage: {
-    width: fullWidth / 2.2,
-    height: (fullWidth / 2.2) * 1.6,
-    borderColor: "red",
-  },
-  exercisesContainer: {
-    // borderWidth: 1,
-  },
+  exercisesContainer: {},
   exerciseContainer: {
     flexDirection: "row",
-    height: 65,
+    height: 60,
     zIndex: 1,
   },
   exerciseTitle: {
@@ -143,13 +133,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: colors.backgroundVariant,
   },
-  backIcon: {
-    width: 40,
-    height: 84,
-    borderWidth: 0,
-    borderColor: "black",
-  },
-  back: { width: 44, height: 84, borderWidth: 0 },
   title: {
     marginHorizontal: 30,
     fontSize: 28,

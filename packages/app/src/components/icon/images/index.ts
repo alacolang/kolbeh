@@ -1,11 +1,3 @@
-import parentActive from "./parent-active.png";
-import parent from "./parent.png";
-import child from "./child.png";
-import childActive from "./child-active.png";
-import home from "./home.png";
-import homeActive from "./home-active.png";
-import back from "./back.png";
-import backDark from "./back-dark.png";
 import logo from "./logo.png";
 import empathy from "./empathy.png";
 import grief from "./grief.png";
@@ -39,8 +31,6 @@ import play from "./play.png";
 import shop from "./shop.png";
 import profile from "./profile.png";
 import check from "./check.png";
-import kolbehActive from "./kolbeh-active.png";
-import kolbeh from "./kolbeh.png";
 import circle from "./circle.png";
 import checkCircle from "./check-circle.png";
 import tickActive from "./tick-active.png";
@@ -48,14 +38,14 @@ import avatar from "./avatar.png";
 import medal from "./medal.png";
 
 const icons = {
-  parent,
-  parentActive,
-  child,
-  childActive,
-  home,
-  homeActive,
-  back,
-  backDark,
+  // parent,
+  // parentActive,
+  // child,
+  // childActive,
+  // home,
+  // homeActive,
+  // back,
+  // backDark,
   logo,
   empathy,
   grief,
@@ -89,8 +79,6 @@ const icons = {
   shop,
   profile,
   check,
-  kolbeh,
-  kolbehActive,
   checkCircle,
   circle,
   tickActive,

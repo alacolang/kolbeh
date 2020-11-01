@@ -15,7 +15,7 @@ function Settings({ navigation }: Props) {
   const menuItems = [
     {
       icon: "profile" as const,
-      title: "screen-title.profile",
+      title: "profile",
       route: "profile",
       onPress: () => navigation.navigate("profile"),
     },
@@ -64,22 +64,34 @@ function Settings({ navigation }: Props) {
   );
 }
 
-export const Header = () => {
+export const Header = ({ showMedal = false }: { showMedal?: boolean }) => {
   return (
     <View style={headerStyles.container}>
       <IconSvg
         name="cloud"
-        color="white"
+        color={colors[9]}
         size="medium"
         style={headerStyles.cloud1}
       />
-      <View style={headerStyles.avatarContainer}>
-        <View style={headerStyles.avatar} />
-        <Icon name="avatar" size="huge" />
+      <View style={headerStyles.avatar}>
+        {showMedal ? (
+          <IconSvg
+            name="rewardMedal"
+            color={colors[1]}
+            size="medium"
+            style={{
+              position: "absolute",
+              top: -28,
+              zIndex: 10,
+              alignSelf: "center",
+            }}
+          />
+        ) : null}
+        <Icon name="avatar" size={120} />
       </View>
       <IconSvg
         name="cloud"
-        color="white"
+        color={colors[9]}
         size="huge"
         style={headerStyles.cloud2}
       />
@@ -91,31 +103,34 @@ const headerStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    height: 90,
+    height: 140,
     // borderWidth: 1,
   },
   cloud1: { position: "absolute", bottom: 0, left: 0 },
-  avatarContainer: {
-    // borderWidth: 1
-  },
   avatar: {
     borderWidth: 5,
-    position: "absolute",
-    top: 10,
-    left: -5,
+    // position: "absolute",
+    // top: 20,
+    zIndex: 10,
+    // left: -5,
     borderRadius: 500,
-    width: 90,
-    height: 90,
-    borderColor: colors.secondary,
+    width: 110,
+    height: 110,
+    borderColor: colors[1],
+    backgroundColor: colors.backgroundLight,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 10,
   },
   cloud2: { position: "absolute", top: 0, width: 80, right: 0 },
 });
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F0F5FF",
+    backgroundColor: colors.backgroundLight,
     flex: 1,
     paddingHorizontal: 36,
+    paddingTop: 60,
   },
   content: { marginTop: 50 },
   row: { borderWidth: 0, flexGrow: 1 },
