@@ -1,12 +1,10 @@
 import React from "react";
-import { Dimensions, StyleSheet, Animated } from "react-native";
+import { StyleSheet, Animated } from "react-native";
 import Markdown from "react-native-easy-markdown";
 import colors from "colors";
 import * as Types from "types";
 import AnimatedImage from "./animated-image";
 import { resolveURL } from "utils/resolve";
-
-const frameWidth = Dimensions.get("window").width - 30 * 2;
 
 type Props = {
   post: Types.IPost;
@@ -37,7 +35,6 @@ const MarkdownPost = ({ post }: Props) => {
             />
           );
         }}
-        // renderText={textRenderer}
       >
         {post.markdown.content}
       </Markdown>
@@ -45,39 +42,7 @@ const MarkdownPost = ({ post }: Props) => {
   );
 };
 
-// const textRenderer = (
-//   textType: string,
-//   children: React.ReactNode,
-//   _: any,
-//   key: string
-// ) => {
-//   // Possible textTypes: h1, h2, h3, h4, h5, h6, strong, del, em, u
-//   switch (textType) {
-//     case "h1":
-//     case "h2":
-//     case "h3":
-//     case "h4":
-//     case "h5":
-//     case "h6":
-//       return <FormattedText>{children}</FormattedText>;
-//     case "strong":
-//       return <FormattedText>{children}</FormattedText>;
-//     case "del":
-//       return <FormattedText>{children}</FormattedText>;
-//     case "em":
-//       return <FormattedText>{children}</FormattedText>;
-//     case "u":
-//       return <FormattedText>{children}</FormattedText>;
-//     default:
-//       return <FormattedText>{children}</FormattedText>;
-//   }
-// };
-
 const styles = StyleSheet.create({
-  container: {
-    width: frameWidth,
-    height: 100,
-  },
   scrollViewContentContainer: {
     paddingHorizontal: 30,
     backgroundColor: colors.background,

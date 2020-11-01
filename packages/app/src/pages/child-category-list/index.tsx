@@ -128,8 +128,6 @@ const ChildScreen = () => {
   );
 };
 
-const width = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
@@ -140,14 +138,6 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     flexDirection: "column",
     justifyContent: "space-evenly",
-    // alignItems: "center",
-  },
-  tree: {
-    position: "absolute",
-    right: (width / 2 - 90) / 2,
-    bottom: 30,
-    width: 90,
-    height: 50,
   },
 });
 

@@ -297,25 +297,15 @@ const styles = StyleSheet.create({
     width: w - 40,
     borderRadius: w - 40,
   },
-  text: {
-    justifyContent: "center",
-    fontSize: 24,
-    lineHeight: 24 * 1.3,
-    color: "#828282",
-  },
   actionsContainer: {
     paddingTop: 10,
     paddingBottom: 30,
     flexDirection: "row",
-    // borderWidth: 2,
-    // borderColor: "red",
     justifyContent: "center",
     alignItems: "center",
   },
   sliderContainer: { width: 200 },
   pauseContainer: {
-    // borderWidth: 2,
-    // borderColor: "red",
     marginRight: 15,
   },
 });

@@ -274,49 +274,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 30,
     height: HEADER_MIN_HEIGHT,
-    backgroundColor: colors.backgroundVariant,
-  },
-  menuContainer: {
-    flexDirection: "row",
-    paddingHorizontal: 0,
-  },
-  menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  menuItemTitle: {
-    paddingHorizontal: 15,
-    color: colors.secondary,
-    fontSize: 18,
-  },
-  menuTrigger: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-  },
-  dotContainer: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 6,
-    margin: 2,
-    backgroundColor: colors.background,
+    // backgroundColor: colors.backgroundLight,
   },
   scrollViewContent: {
     paddingTop: 30,
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: 80,
-    backgroundColor: colors.backgroundVariant,
+    backgroundColor: colors.backgroundLight,
   },
   container: {
     flexGrow: 1,
-    backgroundColor: colors.backgroundVariant,
+    backgroundColor: colors.backgroundLight,
   },
 });
 

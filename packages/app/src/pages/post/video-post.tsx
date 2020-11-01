@@ -1,10 +1,8 @@
 import React from "react";
-import { Dimensions, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
-
-const frameWidth = Dimensions.get("window").width - 40 * 2;
 
 type Props = {
   post: Types.IPost;
@@ -41,10 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  videoContainer: {
-    height: frameWidth,
-    width: frameWidth,
-  },
   backgroundVideo: {
     position: "absolute",
     top: 0,
@@ -52,18 +46,6 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-  },
-  iconContainer: {
-    backgroundColor: "transparent",
-    borderRadius: 100,
-    // borderWidth: 1,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    left: 0,
-    top: 0,
   },
 });
 

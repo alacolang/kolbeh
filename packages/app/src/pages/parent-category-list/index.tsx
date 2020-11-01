@@ -99,10 +99,6 @@ const ParentScreen = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <StatusBar
-            backgroundColor={colors.backgroundVariant}
-            barStyle="dark-content"
-          />
           {categories.map((category) => {
             return (
               <CategoryTile
