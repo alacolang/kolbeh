@@ -27,9 +27,14 @@ import resilience from "./resilience.svg";
 import selfCompassion from "./self-compassion.svg";
 import star from "./star.svg";
 import gaussCurve from "./gauss-curve.svg";
-import leftArrow from "./left-arrow.svg";
+import leftArrowFill from "./left-arrow-fill.svg";
 import rightArrow from "./right-arrow.svg";
-import certificate from "./certificate.svg";
+import onboarding from "./onboarding-image1.svg";
+import parent from "./parent.svg";
+import kolbeh from "./kolbeh.svg";
+import rewardDaily from "./reward-daily.svg";
+import rewardMedal from "./reward-medal-3.svg";
+import rewardCertificate from "./reward-certificate-1.svg";
 
 export default {
   tickFill,
@@ -51,9 +56,14 @@ export default {
   telegram,
   star,
   gaussCurve,
-  leftArrow,
+  leftArrowFill,
   rightArrow,
-  certificate,
+  parent,
+  onboarding,
+  kolbeh,
+  rewardDaily,
+  rewardMedal,
+  rewardCertificate,
   "happinessToolbox-mindfulness": mindfulness,
   "happinessToolbox-optimism": optimism,
   "happinessToolbox-forgiveness": forgiveness,
