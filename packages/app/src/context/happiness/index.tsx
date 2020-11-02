@@ -9,17 +9,12 @@ const SERVER_DATA = "happiness_server";
 const ONE_DAY_IN_MILLISECONDS = 1000 * 2 * 1;
 // export const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
+export type State =
+  | { state: "locked" | "unlocked" }
+  | { state: "done"; doneAt: number };
 type ID = string;
-type Exercises = Record<
-  ID,
-  { state: "locked" | "unlocked" } | { state: "done"; doneAt: number }
->;
-type Categories = Record<
-  ID,
-  | { state: "locked" }
-  | { state: "unlocked" }
-  | { state: "done"; doneAt: number }
->;
+type Exercises = Record<ID, State>;
+type Categories = Record<ID, State>;
 type Ideas = Record<ID, string[]>;
 
 type IHappinessContext = {
