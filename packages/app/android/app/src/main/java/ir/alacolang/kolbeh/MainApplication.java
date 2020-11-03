@@ -55,9 +55,9 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance(); //<== AmerllicA config
-    sharedI18nUtilInstance.forceRTL(this, true); //<== AmerllicA config
-    sharedI18nUtilInstance.allowRTL(this, true); //<== AmerllicA config
+    I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
+    sharedI18nUtilInstance.forceRTL(this, true);
+    sharedI18nUtilInstance.allowRTL(this, true);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
