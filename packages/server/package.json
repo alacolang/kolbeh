@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@babel/register": "^7.9.0",
-    "@react-native-firebase/messaging": "^7.9.1",
     "apollo-server": "^2.11.0",
     "apollo-server-express": "^2.11.0",
     "apollo-server-plugin-response-cache": "^0.4.1",
@@ -21,6 +20,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.3.0",
     "front-matter": "^3.1.0",
     "fs-extra": "^9.0.0",
     "graphql": "^14.6.0",
