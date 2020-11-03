@@ -46,18 +46,19 @@ const fullWidth = Dimensions.get("window").width;
 const slideWidth = fullWidth - 160;
 const slideHeight = (slideWidth * 320) / 200;
 const slideGutter = 25;
+const imageSize = Math.min(slideWidth - 16 * 2, slideHeight / 2.5);
 
 export const IMAGES: Record<any, ImageSourcePropType> = {
   "self-compassion": selfCompassion,
   compassion: empathy,
-  resilience: resilience,
+  resilience,
   gratitude: img3,
-  kindness: kindness,
-  empathy: empathy,
-  connection: connection,
-  optimism: optimism,
+  kindness,
+  empathy,
+  connection,
+  optimism,
   awe: img1,
-  mindfulness: mindfulness,
+  mindfulness,
   forgiveness: img2,
 };
 
@@ -350,8 +351,6 @@ const slideStyles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-const imageSize = 180;
 
 type GifProp = {
   image: ImageSourcePropType;
