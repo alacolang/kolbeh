@@ -19,7 +19,7 @@ const colors = {
   primary: "#53616C",
   primaryVarient: "#2D2325",
   primaryThird: "#C5CDD0",
-  secondary: "#5F37A1",
+  secondary: "#FFB61D",
   secondaryVarient: ORANGE_VARIENT,
   secondaryThird: ORANGE_THIRD,
   background: "white",

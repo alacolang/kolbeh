@@ -11,6 +11,8 @@ import { BookmarkedPostsProvider } from "context/bookmark-posts";
 import { HappinessProvider } from "context/happiness";
 import RNAsyncStorageFlipper from "rn-async-storage-flipper";
 import AsyncStorage from "@react-native-community/async-storage";
+import messaging from "@react-native-firebase/messaging";
+import { Alert } from "react-native";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -38,6 +40,13 @@ const client = new ApolloClient({
 const App = () => {
   useEffect(() => {
     RNAsyncStorageFlipper(AsyncStorage);
+  }, []);
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
