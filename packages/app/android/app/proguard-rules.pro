@@ -10,4 +10,4 @@
 # Add any project specific keep options here:
 
 -keep public class com.horcrux.svg.** {*;}
--keep class host.exp.exponent.BuildConfig { *; }
+-keep class ir.alacolang.kolbeh.BuildConfig { *; }
