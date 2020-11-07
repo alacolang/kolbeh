@@ -107,7 +107,7 @@ const PostScreen = () => {
       <IconSvg
         name="bookmark"
         size="small"
-        color={isSaved ? colors.secondary : colors.primary}
+        color={isSaved ? colors.active : colors.inactive}
       />
     </TouchableOpacity>
   );

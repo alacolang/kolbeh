@@ -45,7 +45,7 @@ import Svg, { Ellipse } from "react-native-svg";
 const fullWidth = Dimensions.get("window").width;
 const slideWidth = fullWidth - 160;
 const slideHeight = (slideWidth * 320) / 200;
-const slideGutter = 20;
+const slideGutter = 25;
 
 export const IMAGES: Record<any, ImageSourcePropType> = {
   "self-compassion": selfCompassion,
@@ -175,7 +175,7 @@ const HappinessTraining = () => {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
-        snapToInterval={slideWidth + slideGutter * 2}
+        snapToInterval={slideWidth + slideGutter}
         decelerationRate={"fast"}
         contentContainerStyle={styles.slider}
         ref={ref}
@@ -329,8 +329,8 @@ const slideStyles = StyleSheet.create({
   },
   enter: { color: "#7995F5", top: -4, fontSize: 18 },
   categoryContainer: {
-    paddingHorizontal: slideGutter,
-    marginLeft: 35,
+    paddingHorizontal: 20,
+    marginLeft: slideGutter,
     marginTop: 40,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,

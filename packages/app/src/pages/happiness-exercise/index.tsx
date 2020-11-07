@@ -167,10 +167,11 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
         maxLength={200}
         style={{
           flex: 1,
-          borderWidth: 1,
+          borderWidth: 5,
           borderColor: "white",
           paddingHorizontal: 16,
-          borderRadius: 10,
+          borderTopLeftRadius: 30,
+          borderBottomRightRadius: 30,
           fontFamily: "IRANYekanRDMobile",
           fontSize: 18,
           color: "white",
@@ -188,7 +189,7 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
           setIdea("");
           Keyboard.dismiss();
         }}
-        style={{ position: "absolute", right: 10, top: 7.5, borderWidth: 0 }}
+        style={{ position: "absolute", right: 11, top: 11, borderWidth: 0 }}
       >
         <IconSvg
           name="tickFill"
@@ -291,7 +292,7 @@ const ideasStyles = StyleSheet.create({
     bottom: 0,
     width: 70,
     height: 70,
-    borderWidth: 4,
+    // borderWidth: 4,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "white",

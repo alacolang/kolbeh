@@ -24,7 +24,7 @@ const colors = {
   secondaryThird: ORANGE_THIRD,
   background: "white",
   backgroundVariant: "#F0F5FF",
-  active: PINK,
+  active: '#FFB61D',
   // inactive: BLUE,
   inactive: "#ADBDC9",
   activeVarient: "#FABAA1",

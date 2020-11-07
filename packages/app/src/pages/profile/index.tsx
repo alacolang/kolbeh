@@ -138,7 +138,11 @@ const Certificate = () => {
               <View style={feedbackStyles.imageContainer}>
                 <Gif image={image} theme="purple" />
                 <View style={{ position: "absolute", top: 30, left: 25 }}>
-                  <IconSvg name="rewardCertificate" size={55} color="red" />
+                  <IconSvg
+                    name="rewardCertificate"
+                    size={55}
+                    color={colors.backgroundPrimary}
+                  />
                 </View>
               </View>
               <View style={feedbackStyles.textContainer}>

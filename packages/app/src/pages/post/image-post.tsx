@@ -87,7 +87,7 @@ const ImagePost = ({ post }: Props) => {
                         width: xx === "." ? 3 : 7,
                         height: xx === "." ? 3 : 7,
                         backgroundColor:
-                          xx === "o" ? colors.secondary : colors.inactive,
+                          xx === "o" ? colors.active : colors.inactive,
                       },
                     ]}
                   />
