@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import RNConfig from "react-native-config";
+import { HOST, API, ANALYTICS_DISABLED } from "@env";
 
 export type Config = {
   HOST: string;
@@ -25,9 +25,9 @@ function fixSchema(uri: string): string {
 }
 
 const config: Config = {
-  HOST: fixSchema(RNConfig.HOST),
-  API: fixSchema(RNConfig.API),
-  ANALYTICS_DISABLED: RNConfig.ANALYTICS_DISABLED === "true",
+  HOST: fixSchema(HOST),
+  API: fixSchema(API),
+  ANALYTICS_DISABLED: ANALYTICS_DISABLED === "true",
   isDevelopment,
 };
 
