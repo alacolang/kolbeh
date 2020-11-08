@@ -10,6 +10,7 @@ import schema from "./schema";
 import resolvers from "./resolvers";
 // import logger from "./plugins/logger";
 import { admin } from "./firebase-config";
+import usersRouter from "./users";
 
 const app = express();
 app.use(cors());
@@ -75,6 +76,8 @@ app.get("/firebase/check", (req, res) => {
   admin.messaging().send(message);
   res.send("sent!");
 });
+
+app.use("/api/users", usersRouter);
 
 app.post("/api/error", (req, res) => {
   console.log("error", req.body);
