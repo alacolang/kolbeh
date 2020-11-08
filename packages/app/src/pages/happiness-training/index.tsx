@@ -41,6 +41,7 @@ import connection from "../../assets/images/connection.gif";
 import optimism from "../../assets/images/optimism.gif";
 import mindfulness from "../../assets/images/mindfulness.gif";
 import Svg, { Ellipse } from "react-native-svg";
+import { useIdentity } from "context/identity";
 
 const fullWidth = Dimensions.get("window").width;
 const slideWidth = fullWidth - 160;
@@ -94,6 +95,9 @@ export type Navigation = CompositeNavigationProp<
 
 const HappinessTraining = () => {
   const navigation = useNavigation<Navigation>();
+  const {
+    state: { name },
+  } = useIdentity();
   const happiness = useHappiness();
   const { t } = useTranslation();
   const ref = useRef<ScrollView>();
@@ -136,38 +140,43 @@ const HappinessTraining = () => {
 
   const tip = (
     <View style={styles.greetingContainer}>
-      <View style={{ flexDirection: "row" }}>
-        {categoryToTryNext === "all-done" ? (
+      <FormattedText style={styles.greeting}>
+        <Trans
+          i18nKey="happiness.greeting.hello"
+          values={{ name }}
+          components={[<FormattedText style={styles.greeting} />]}
+        />
+      </FormattedText>
+      {categoryToTryNext === "all-done" ? (
+        <FormattedText style={styles.greeting}>
+          <Trans
+            i18nKey="happiness.greeting.allDone"
+            components={[<FormattedText style={styles.greetingCategory} />]}
+          />
+        </FormattedText>
+      ) : categoryToTryNext === "not-now" ? (
+        <FormattedText
+          style={styles.greeting}
+          id="happiness.greeting.enoughForToday"
+        />
+      ) : categoryToTryNext?.title ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("happinessCategory", {
+              category: categoryToTryNext,
+            })
+          }
+        >
           <FormattedText style={styles.greeting}>
             <Trans
-              i18nKey="happiness.greeting.allDone"
+              i18nKey="happiness.greeting.tryNow"
+              values={{ title: categoryToTryNext?.title ?? "" }}
               components={[<FormattedText style={styles.greetingCategory} />]}
+              parent={FormattedText}
             />
           </FormattedText>
-        ) : categoryToTryNext === "not-now" ? (
-          <FormattedText
-            style={styles.greeting}
-            id="happiness.greeting.enoughForToday"
-          />
-        ) : categoryToTryNext?.title ? (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("happinessCategory", {
-                category: categoryToTryNext,
-              })
-            }
-          >
-            <FormattedText style={styles.greeting}>
-              <Trans
-                i18nKey="happiness.greeting.tryNow"
-                values={{ title: categoryToTryNext?.title ?? "" }}
-                components={[<FormattedText style={styles.greetingCategory} />]}
-                parent={FormattedText}
-              />
-            </FormattedText>
-          </TouchableOpacity>
-        ) : null}
-      </View>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 
@@ -236,6 +245,7 @@ const styles = StyleSheet.create({
   },
   greetingContainer: {
     paddingLeft: 32,
+    flexDirection: "column",
   },
   greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
   greetingCategory: { color: colors[1] },
