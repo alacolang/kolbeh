@@ -69,3 +69,6 @@ android/app/release
 .settings
 
 .env
+
+android/app/google-services.json
+assets/appcenter-config.json
