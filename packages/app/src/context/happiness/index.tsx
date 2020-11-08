@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
+import { saveToDatabase, useIdentity } from "context/identity";
 
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
@@ -185,6 +186,9 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
   >([]);
+  const {
+    state: { userId },
+  } = useIdentity();
 
   const updateExercises = async (updated: Exercises) => {
     await AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify(updated));
@@ -204,6 +208,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       ...exercises,
       [id]: { state: "done", doneAt: Date.now() },
     };
+    saveToDatabase(userId, { happiness: temp });
     updateExercises(temp);
   };
 
