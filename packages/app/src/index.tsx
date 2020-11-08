@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ApolloClient } from "apollo-client";
+import AsyncStorage from "@react-native-community/async-storage";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -10,9 +11,8 @@ import { codePushify } from "utils/codepush";
 import { BookmarkedPostsProvider } from "context/bookmark-posts";
 import { HappinessProvider } from "context/happiness";
 import RNAsyncStorageFlipper from "rn-async-storage-flipper";
-import AsyncStorage from "@react-native-community/async-storage";
-import messaging from "@react-native-firebase/messaging";
-import { Alert } from "react-native";
+import { IdentityProvider } from "context/identity";
+import { useStuff } from "context/identity/firebase";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -38,26 +38,24 @@ const client = new ApolloClient({
 });
 
 const App = () => {
+  useStuff();
   useEffect(() => {
     RNAsyncStorageFlipper(AsyncStorage);
   }, []);
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
-    });
 
-    return unsubscribe;
-  }, []);
-
-  return (
-    <ApolloProvider client={client}>
-      <BookmarkedPostsProvider>
-        <HappinessProvider>
-          <AppNavigator />
-        </HappinessProvider>
-      </BookmarkedPostsProvider>
-    </ApolloProvider>
-  );
+  return <AppNavigator />;
 };
 
-export default codePushify(App);
+const WithProviders = () => (
+  <ApolloProvider client={client}>
+    <IdentityProvider>
+      <BookmarkedPostsProvider>
+        <HappinessProvider>
+          <App />
+        </HappinessProvider>
+      </BookmarkedPostsProvider>
+    </IdentityProvider>
+  </ApolloProvider>
+);
+
+export default codePushify(WithProviders);

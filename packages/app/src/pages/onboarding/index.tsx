@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Trans, useTranslation } from "react-i18next";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
+import { useIdentity } from "context/identity";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
@@ -66,6 +67,9 @@ const dotsStyles = StyleSheet.create({
 type Props = StackScreenProps<HomeStackParamList, "onboarding">;
 const Onboarding = ({ navigation }: Props) => {
   const { t } = useTranslation();
+  const {
+    state: { name },
+  } = useIdentity();
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -109,7 +113,11 @@ const Onboarding = ({ navigation }: Props) => {
             <Action
               text={t("onboarding.done")}
               onPress={() => {
-                navigation.navigate("home");
+                if (name) {
+                  navigation.navigate("home");
+                } else {
+                  navigation.navigate("login");
+                }
               }}
             />
           </View>

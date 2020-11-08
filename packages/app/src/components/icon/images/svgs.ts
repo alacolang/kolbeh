@@ -35,6 +35,8 @@ import kolbeh from "./kolbeh.svg";
 import rewardDaily from "./reward-daily.svg";
 import rewardMedal from "./reward-medal-3.svg";
 import rewardCertificate from "./reward-certificate-1.svg";
+import loginHeader from "./login-header.svg";
+import edit from "./edit.svg";
 
 export default {
   tickFill,
@@ -64,6 +66,8 @@ export default {
   rewardDaily,
   rewardMedal,
   rewardCertificate,
+  loginHeader,
+  edit,
   "happinessToolbox-mindfulness": mindfulness,
   "happinessToolbox-optimism": optimism,
   "happinessToolbox-forgiveness": forgiveness,

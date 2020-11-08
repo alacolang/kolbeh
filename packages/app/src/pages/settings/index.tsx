@@ -1,7 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import colors from "colors";
 import { FormattedText } from "components/formatted-text";
-import { Icon, IconSvg } from "components/icon";
+import { IconSvg } from "components/icon";
+import Header from "./header";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -63,67 +64,6 @@ function Settings({ navigation }: Props) {
     </View>
   );
 }
-
-export const Header = ({ showMedal = false }: { showMedal?: boolean }) => {
-  return (
-    <View style={headerStyles.container}>
-      <IconSvg
-        name="cloud"
-        color={colors[9]}
-        size="medium"
-        style={headerStyles.cloud1}
-      />
-      <View style={headerStyles.avatar}>
-        {showMedal ? (
-          <IconSvg
-            name="rewardMedal"
-            color={colors[1]}
-            size="medium"
-            style={{
-              position: "absolute",
-              top: -28,
-              zIndex: 10,
-              alignSelf: "center",
-            }}
-          />
-        ) : null}
-        <Icon name="avatar" size={120} />
-      </View>
-      <IconSvg
-        name="cloud"
-        color={colors[9]}
-        size="huge"
-        style={headerStyles.cloud2}
-      />
-    </View>
-  );
-};
-const headerStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 140,
-    // borderWidth: 1,
-  },
-  cloud1: { position: "absolute", bottom: 0, left: 0 },
-  avatar: {
-    borderWidth: 5,
-    // position: "absolute",
-    // top: 20,
-    zIndex: 10,
-    // left: -5,
-    borderRadius: 500,
-    width: 110,
-    height: 110,
-    borderColor: colors[1],
-    backgroundColor: colors.backgroundLight,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 10,
-  },
-  cloud2: { position: "absolute", top: 0, width: 80, right: 0 },
-});
 
 const styles = StyleSheet.create({
   container: {

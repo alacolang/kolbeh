@@ -22,7 +22,7 @@ import Onboarding from "pages/onboarding";
 import { BackHeader, ChildFeedBackHeader, JustBackHeader } from "./headers";
 
 export type HomeStackParamList = {
-  login: undefined;
+  login: { shouldGoBack?: boolean };
   onboarding: undefined;
   settings: undefined;
   profile: undefined;
@@ -161,7 +161,7 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="login"
         component={Login}
-        options={{ header: () => null }}
+        options={{ header: () => null, animationEnabled: false }}
       />
     </Stack.Navigator>
   );

@@ -10,7 +10,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { Header } from "../settings/index";
+import Header from "../settings/header";
 import { Trans } from "react-i18next";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
 import { Gif } from "pages/happiness-training";
@@ -77,7 +77,7 @@ function Profile() {
 
   return (
     <View style={styles.container}>
-      <Header showMedal />
+      <Header showMedal showName />
       <View
         style={{
           justifyContent: "center",
