@@ -32,7 +32,7 @@ function Login({ navigation, route }: Props) {
     }
 
     updateName(name);
-    if (route.params.shouldGoBack) {
+    if (route.params?.shouldGoBack) {
       navigation.goBack();
     } else {
       navigation.navigate("home");

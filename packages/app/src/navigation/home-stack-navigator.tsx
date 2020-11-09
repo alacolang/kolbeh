@@ -22,7 +22,7 @@ import Onboarding from "pages/onboarding";
 import { BackHeader, ChildFeedBackHeader, JustBackHeader } from "./headers";
 
 export type HomeStackParamList = {
-  login: { shouldGoBack?: boolean };
+  login: { shouldGoBack: boolean } | undefined;
   onboarding: undefined;
   settings: undefined;
   profile: undefined;
