@@ -14,7 +14,6 @@ import { useIdentity } from "context/identity";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 
-const frameHeight = Dimensions.get("screen").height;
 const frameWidth = Dimensions.get("screen").width;
 
 type Props = StackScreenProps<HomeStackParamList, "login">;
@@ -107,13 +106,16 @@ const styles = StyleSheet.create({
   enter: { color: "white", top: -4, fontSize: 18 },
 });
 
+const headerHeight = (frameWidth / 360) * 240;
+
 export const Header = () => {
   return (
     <View style={headerStyles.container}>
       <IconSvg
         name="loginHeader"
         color={colors.backgroundSecondary}
-        size={frameWidth}
+        width={frameWidth}
+        height={headerHeight}
         style={headerStyles.background}
       />
       <IconSvg
@@ -139,14 +141,20 @@ const headerStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     alignItems: "center",
-    height: frameHeight * 0.4,
-    // borderWidth: 1,
+    height: headerHeight,
   },
-  background: { position: "absolute", left: 0, right: 0, top: -70 },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    width: frameWidth,
+    height: headerHeight,
+  },
   cloud1: { position: "absolute", bottom: 80, left: 50 },
   avatar: {
     borderWidth: 7,
-    top: 23,
+    top: 40,
     zIndex: 10,
     left: -2,
     borderRadius: 500,
