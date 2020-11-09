@@ -100,7 +100,7 @@ const HappinessTraining = () => {
   } = useIdentity();
   const happiness = useHappiness();
   const { t } = useTranslation();
-  const ref = useRef<ScrollView>();
+  const ref = useRef<ScrollView>(null);
 
   const { data, loading } = useQuery<HappinessTrainingData>(
     GET_HAPPINESS_TRAININGS,
