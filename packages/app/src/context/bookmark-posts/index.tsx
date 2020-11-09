@@ -9,8 +9,8 @@ type ID = string; // & { _type: "PostID" }; // type branding!
 type IBookmarkedPostsContext = [
   ID[],
   {
-    addToBookmarkedPosts: (id: ID) => Promise<ID[]>;
-    removeFromBookmarkedPosts: (id: ID) => Promise<ID[]>;
+    addToBookmarkedPosts: (id: ID) => void;
+    removeFromBookmarkedPosts: (id: ID) => void;
   }
 ];
 
@@ -57,7 +57,7 @@ export const BookmarkedPostsProvider = <T extends {}>(props: T) => {
       } catch (e) {}
     }
     readFromStorage();
-  }, [posts]);
+  }, []);
 
   return (
     <BookmarkedPostsContext.Provider
