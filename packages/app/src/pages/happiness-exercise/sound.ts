@@ -59,7 +59,7 @@ let state: State = { mode: "idle" };
 
 export const play = (
   soundName: SoundNames,
-  { stopAndPlay = false, volume = 0.8 }
+  { stopAndPlay = false, volume = 0.4 }
 ) => {
   function helper() {
     state = { mode: "playing", soundName: soundName };
