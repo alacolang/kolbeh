@@ -42,22 +42,33 @@ export const Icon = ({ size, name, ...props }: Props) => {
 
 type SvgProps = {
   name: IconSvgName;
-  size: keyof typeof SIZE | number;
   color: string;
-} & Omit<XmlProps, "xml">;
+} & (
+  | {
+      size: keyof typeof SIZE | number;
+    }
+  | { width: number; height: number }
+) &
+  Omit<XmlProps, "xml">;
 
-export const IconSvg = ({ size, name, color, ...props }: SvgProps) => {
-  let _size: number;
-  if (typeof size === "number") {
-    _size = size;
+export const IconSvg = ({ name, color, ...props }: SvgProps) => {
+  let width: number;
+  let height: number;
+  if ("size" in props) {
+    if (typeof props.size === "number") {
+      width = height = props.size;
+    } else {
+      width = height = SIZE[props.size];
+    }
   } else {
-    _size = SIZE[size];
+    width = props.width;
+    height = props.height;
   }
 
   return (
     <SvgXml
-      width={_size}
-      height={_size}
+      width={width}
+      height={height}
       xml={svgs[name]}
       color={color}
       {...props}
