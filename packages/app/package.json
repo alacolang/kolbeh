@@ -26,6 +26,7 @@
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^4.13.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/netinfo": "^5.9.7",
     "@react-native-community/slider": "^2.0.9",
     "@react-native-firebase/app": "^8.4.6",
     "@react-native-firebase/messaging": "^7.9.2",
