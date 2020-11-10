@@ -193,7 +193,7 @@ const HappinessTraining = () => {
         ref={ref}
       >
         {loading ? (
-          <View style={slideStyles.categoryContainer}>
+          <View style={[slideStyles.categoryContainer, { left: -32 }]}>
             <Loading />
           </View>
         ) : (
