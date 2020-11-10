@@ -193,7 +193,9 @@ const HappinessTraining = () => {
         ref={ref}
       >
         {loading ? (
-          <Loading />
+          <View style={slideStyles.categoryContainer}>
+            <Loading />
+          </View>
         ) : (
           categories?.map((category) => {
             const state = happiness.categories[category.id]?.state;
