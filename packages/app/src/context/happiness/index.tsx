@@ -96,6 +96,41 @@ function getLastExerciseDoneAt(
   return result;
 }
 
+export function categoryToTryNext(
+  categories: Categories,
+  rawCategories: types.IHappinessTrainingCategory[]
+): NextCategory {
+  if (
+    !rawCategories ||
+    rawCategories.length === 0 ||
+    !categories ||
+    Object.keys(categories).length === 0
+  ) {
+    return null;
+  }
+  return [...rawCategories]
+    .reverse()
+    .reduce(
+      (
+        acc: "all-done" | "not-now" | types.IHappinessTrainingCategory,
+        category: types.IHappinessTrainingCategory
+      ) => {
+        if (acc !== "not-now" && acc !== "all-done") {
+          return acc;
+        }
+        const state = categories[category.id]?.state;
+        if (state === "done" && acc === "all-done") {
+          return acc;
+        }
+        if (categories[category.id]?.state === "unlocked") {
+          return category;
+        }
+        return "not-now";
+      },
+      "all-done"
+    );
+}
+
 export function getNextState(
   rawCategories: types.IHappinessTrainingCategory[],
   exercises: Exercises,
@@ -191,16 +226,16 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   } = useIdentity();
 
   const updateExercises = async (updated: Exercises) => {
-    await AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify(updated));
     setExercises(updated);
+    AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify(updated));
   };
   const updateCategories = async (updated: Categories) => {
-    await AsyncStorage.setItem(CATEGORY_KEY, JSON.stringify(updated));
     setCategories(updated);
+    AsyncStorage.setItem(CATEGORY_KEY, JSON.stringify(updated));
   };
   const updateIdeas = async (updated: Ideas) => {
-    await AsyncStorage.setItem(IDEA_KEY, JSON.stringify(updated));
     setIdeas(updated);
+    AsyncStorage.setItem(IDEA_KEY, JSON.stringify(updated));
   };
 
   const markExerciseAsDone = async (id: ID) => {
@@ -227,8 +262,8 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     if (!_rawCategories) {
       return;
     }
-    await AsyncStorage.setItem(SERVER_DATA, JSON.stringify(categories));
     setRawCategories(_rawCategories);
+    AsyncStorage.setItem(SERVER_DATA, JSON.stringify(categories));
 
     const result = getNextState(_rawCategories, exercises, Date.now());
     updateCategories(result.categories);
@@ -239,12 +274,16 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     async function readFromStorage() {
       const storedExercises = await AsyncStorage.getItem(EXERCISE_KEY);
       const storedIdeas = await AsyncStorage.getItem(IDEA_KEY);
+      const storedRawCategories = await AsyncStorage.getItem(SERVER_DATA);
       try {
         if (storedExercises) {
           setExercises(JSON.parse(storedExercises));
         }
         if (storedIdeas) {
           setIdeas(JSON.parse(storedIdeas));
+        }
+        if (storedRawCategories) {
+          setRawCategories(JSON.parse(storedRawCategories));
         }
       } catch (e) {}
     }
@@ -272,32 +311,6 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     updateExercises(result.exercises);
   };
 
-  const categoryToTryNext = (): NextCategory => {
-    return rawCategories.length > 0
-      ? [...rawCategories]
-          .reverse()
-          .reduce(
-            (
-              acc: "all-done" | "not-now" | types.IHappinessTrainingCategory,
-              category: types.IHappinessTrainingCategory
-            ) => {
-              if (acc !== "not-now" && acc !== "all-done") {
-                return acc;
-              }
-              const state = categories[category.id]?.state;
-              if (state === "done" && acc === "all-done") {
-                return acc;
-              }
-              if (categories[category.id]?.state === "unlocked") {
-                return category;
-              }
-              return "not-now";
-            },
-            "all-done"
-          )
-      : null;
-  };
-
   return (
     <HappinessContext.Provider
       {...props}
@@ -311,7 +324,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         markExerciseAsDone,
         addIdea,
         isCategoryDone,
-        categoryToTryNext,
+        categoryToTryNext: () => categoryToTryNext(categories, rawCategories),
         isAllDone,
       }}
     />
