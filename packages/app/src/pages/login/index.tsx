@@ -154,7 +154,7 @@ const headerStyles = StyleSheet.create({
   cloud1: { position: "absolute", bottom: 80, left: 50 },
   avatar: {
     borderWidth: 7,
-    top: 40,
+    top: 120 / 2 - 10,
     zIndex: 10,
     left: -2,
     borderRadius: 500,
