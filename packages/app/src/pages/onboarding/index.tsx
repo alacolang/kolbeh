@@ -22,7 +22,8 @@ import { useIdentity } from "context/identity";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
-const imageSize = Math.min(frameWidth - 40 * 2, frameHeight / 2.5);
+// const imageSize = Math.min(frameWidth - 40 * 2, frameHeight / 2.5);
+const imageSize = 150;
 
 const range = (n: number) => {
   const result = [];
@@ -236,15 +237,15 @@ const styles = StyleSheet.create({
   },
   dots: {
     position: "absolute",
-    top: imageSize + 36 + 36 + 24,
+    top: (frameHeight / 2 - imageSize) / 2 + imageSize + 36 + 16,
     alignItems: "center",
     width: "100%",
   },
   slide: {
     width: frameWidth,
-    flex: 1,
+    // flex: 1,
     paddingHorizontal: 30,
-    paddingTop: 36,
+    paddingTop: (frameHeight / 2 - imageSize) / 2,
     alignItems: "center",
   },
   doneContainer: {
