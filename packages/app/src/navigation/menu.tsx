@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../colors";
-import { Icon, IconName, IconSvg, IconSvgName } from "../components/icon";
+import { IconSvg, IconSvgName } from "../components/icon";
 import { FormattedText } from "components/formatted-text";
 import { HomeStackParamList } from "./home-stack-navigator";
 import { TabParamList } from "./tab-navigator";
@@ -114,7 +114,8 @@ const Links = ({ onPress }: LinksProps) => {
                   width: 35,
                   height: 100,
                   position: "absolute",
-                  left: 65 - 20,
+                  right: 65 - 20,
+                  transform: [{ scaleX: -1 }],
                   // borderWidth: 1
                 }}
                 viewBox={"0 0 14 70"}
@@ -173,6 +174,8 @@ const styles = StyleSheet.create({
   },
 });
 
+export const BAR_WIDTH = 65;
+
 type BarProps = {
   navigation: Navigation;
 };
@@ -181,7 +184,7 @@ const Bar = ({ navigation }: BarProps) => {
     <View
       style={{
         position: "absolute",
-        right: 0,
+        left: 0,
         backgroundColor: "white",
         height: fullHeight,
         zIndex: 100,
@@ -189,7 +192,7 @@ const Bar = ({ navigation }: BarProps) => {
     >
       <View
         style={{
-          width: 65,
+          width: BAR_WIDTH,
           backgroundColor: "#F0F5FF",
           height: fullHeight,
           zIndex: 100,
@@ -224,7 +227,7 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
     >
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: "row-reverse",
           backgroundColor: "#F9FBFF",
           alignItems: "center",
           justifyContent: "space-evenly",

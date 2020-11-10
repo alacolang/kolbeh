@@ -21,7 +21,7 @@ import colors from "colors";
 import * as Types from "types";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { ScrollView } from "react-native-gesture-handler";
-import Bar from "navigation/menu";
+import Bar, { BAR_WIDTH } from "navigation/menu";
 import { TabParamList } from "navigation/tab-navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { IconSvg } from "components/icon";
@@ -44,9 +44,9 @@ import Svg, { Ellipse } from "react-native-svg";
 import { useIdentity } from "context/identity";
 
 const fullWidth = Dimensions.get("window").width;
-const slideWidth = fullWidth - 160;
-const slideHeight = (slideWidth * 320) / 200;
 const slideGutter = 25;
+const slideWidth = fullWidth - BAR_WIDTH - 2 * slideGutter - 40;
+const slideHeight = (slideWidth * 320) / 200;
 const imageSize = Math.min(slideWidth - 16 * 2, slideHeight / 2.5);
 
 export const IMAGES: Record<any, ImageSourcePropType> = {
@@ -95,6 +95,7 @@ export type Navigation = CompositeNavigationProp<
 
 const HappinessTraining = () => {
   const navigation = useNavigation<Navigation>();
+
   const {
     state: { name },
   } = useIdentity();
@@ -138,7 +139,8 @@ const HappinessTraining = () => {
     }, 100);
   }, [categoryToTryNext]);
 
-  const tip = (
+
+  const header = (
     <View style={styles.greetingContainer}>
       <FormattedText style={styles.greeting}>
         <Trans
@@ -218,7 +220,7 @@ const HappinessTraining = () => {
       <StatusBar hidden />
       <Bar navigation={navigation} />
       <View style={styles.contentContainer}>
-        {tip}
+        {header}
         {slides}
       </View>
     </SafeAreaView>
@@ -232,19 +234,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    borderColor: "red",
     marginTop: 64,
-    marginBottom: 64,
+    marginBottom: 16,
     flexGrow: 1,
-    paddingRight: 90,
+    paddingLeft: BAR_WIDTH,
     justifyContent: "space-between",
   },
   slider: {
-    // transform: [{ scaleX: -1 }],
-    paddingRight: 36,
+    paddingRight: 32,
   },
   greetingContainer: {
-    paddingLeft: 32,
+    paddingLeft: 16,
     flexDirection: "column",
   },
   greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
@@ -279,7 +279,6 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
       }}
     >
       <Gif image={IMAGES[category.id]} />
-      {/* <Gif image={require(`../../assets/images/${image}.gif`)} /> */}
       <FormattedText style={slideStyles.categoryTitle}>
         {category.title}
       </FormattedText>
@@ -340,9 +339,9 @@ const slideStyles = StyleSheet.create({
   },
   enter: { color: "#7995F5", top: -4, fontSize: 18 },
   categoryContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     marginLeft: slideGutter,
-    marginTop: 40,
+    // marginTop: 40,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,
     width: slideWidth,
