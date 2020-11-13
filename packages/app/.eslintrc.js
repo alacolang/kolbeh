@@ -14,4 +14,7 @@ module.exports = {
   env: {
     "jest/globals": true,
   },
+  globals: {
+    AbortController: true,
+  },
 };

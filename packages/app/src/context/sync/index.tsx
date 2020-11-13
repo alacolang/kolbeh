@@ -17,14 +17,13 @@ type SyncState = {
 type ServiceState = {
   state: "initializing" | "idle" | "syncing";
   abortController: AbortController | undefined;
-  dataToSyncWhileInit: Record<string, any>[];
-  dataOnFly: Record<string, any>;
+  dataToSyncWhileInit: Record<string, any>;
 };
 
 const initialServiceState = Object.freeze({
   state: "initializing" as const,
   abortController: undefined,
-  dataToSyncWhileInit: [],
+  dataToSyncWhileInit: {},
   dataOnFly: {},
 });
 
@@ -59,11 +58,26 @@ async function writeToStorage() {
 
 type Options = { syncWhileInitializing?: boolean };
 
+// const changes = [];
+// type Change = {
+//   id: string;
+//   data: any;
+//   state: "SYNCED" | "NOT_SYNCED";
+// };
+
+// order of changes matter.
+// so if change 2 works and change 1 fails and we try later
+// change 1, then it might end in different state on server.
+// so on new changes, we abort the older ones and merge all
+// changes and try to sync.
+
 export const sync = async (data: Record<string, any>, options?: Options) => {
+  // changes.push({ data, state: "NOT_SYNCED" });
   // first store the change
   // try to send
   // if failed nothing
   // if success, remove the change
+  // if already sending, abort and merge the new change and try again
 
   // or
   // if anything on fly, abort it
@@ -73,7 +87,7 @@ export const sync = async (data: Record<string, any>, options?: Options) => {
 
   // on init
   // read stored changes, ...
-  // new change while on init, 
+  // new change while on init
 
   // on become online
   // read stored changes, ...
@@ -87,18 +101,23 @@ export const sync = async (data: Record<string, any>, options?: Options) => {
   log("sync> ", { userId, data });
   if (!syncWhileInitializing && serviceState.state === "initializing") {
     log("sync> trying to sync while initializing");
-    serviceState.dataToSyncWhileInit.push(data);
+    serviceState.dataToSyncWhileInit = deepmerge(
+      serviceState.dataToSyncWhileInit,
+      data
+    );
     return;
   }
   if (serviceState.state === "syncing" && serviceState.abortController) {
     serviceState.abortController.abort();
-    serviceState.dataOnFly = deepmerge(serviceState.dataOnFly, data);
   }
+  syncState.data = deepmerge(syncState.data, data);
+
   if (serviceState.state !== "initializing") {
     serviceState.state = "syncing";
   }
   serviceState.abortController = new AbortController();
-  serviceState.dataOnFly = { ...data };
+
+  await writeToStorage();
 
   try {
     await fetch(url, {
@@ -108,15 +127,13 @@ export const sync = async (data: Record<string, any>, options?: Options) => {
         token: `kolbeh-${userId}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(serviceState.dataOnFly),
+      body: JSON.stringify(syncState.data),
       signal: serviceState.abortController.signal,
     });
     syncState = { ...initialSyncState };
-    serviceState.dataOnFly = {};
   } catch (e) {
     console.warn("sync> not synced", e);
     syncState.sync = "NOT_SYNCED";
-    syncState.data = serviceState.dataOnFly;
   } finally {
     serviceState.abortController = undefined;
     if (serviceState.state !== "initializing") {
@@ -152,22 +169,23 @@ export async function initSync() {
       if (syncState.sync === "NOT_SYNCED") {
         await sync(syncState.data, { syncWhileInitializing: true });
       }
-      while (serviceState.dataToSyncWhileInit.length > 0) {
-        const data = serviceState.dataToSyncWhileInit.shift();
-        if (data) {
-          await sync(data, { syncWhileInitializing: true });
-        }
+      const data = serviceState.dataToSyncWhileInit;
+      if (emptyObject(data)) {
+        serviceState.state = "syncing";
+        await sync(data, { syncWhileInitializing: true });
       }
     })
     .catch((e) => {
       console.warn("sync> failed to init", e);
     })
     .finally(() => {
-      serviceState.dataToSyncWhileInit = [];
+      serviceState.dataToSyncWhileInit = {};
       serviceState.state = "idle";
       log("sync> init done");
     });
 }
+
+const emptyObject = (obj: Record<string, any>) => Object.keys(obj).length > 0;
 
 // const key = "happiness_sync_key";
 // AsyncStorage.removeItem(key);
