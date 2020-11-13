@@ -68,6 +68,6 @@ export const BookmarkedPostsProvider = <T extends {}>(props: T) => {
 };
 
 export const useBookmarkedPosts = () => {
-  const BookmarkedPosts = React.useContext(BookmarkedPostsContext);
-  return BookmarkedPosts;
+  const context = React.useContext(BookmarkedPostsContext);
+  return context;
 };

@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
-import { saveToDatabase, useIdentity } from "context/identity";
+import { useIdentity } from "context/identity";
+import { sync } from "../sync";
 
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
-const SERVER_DATA = "happiness_server";
+const SERVER_DATA_KEY = "happiness_server";
+const REMINDER_KEY = "happiness_reminder";
 const ONE_DAY_IN_MILLISECONDS = 1000 * 2 * 1;
 // export const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+const REMINDER_INITIAL_STATE: ReminderState = {
+  state: "INACTIVE",
+};
 
 export type State =
   | { state: "locked" | "unlocked" }
@@ -17,6 +22,9 @@ type ID = string;
 type Exercises = Record<ID, State>;
 type Categories = Record<ID, State>;
 type Ideas = Record<ID, string[]>;
+export type ReminderState = {
+  state: "ACTIVE" | "INACTIVE";
+};
 
 type IHappinessContext = {
   exercises: Exercises;
@@ -32,6 +40,8 @@ type IHappinessContext = {
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
   categoryToTryNext: () => NextCategory;
   isAllDone: () => boolean;
+  reminderState: ReminderState;
+  updateReminder: (s: ReminderState) => void;
 };
 
 type NextCategory =
@@ -52,6 +62,8 @@ const HappinessContext = React.createContext<IHappinessContext>({
   isCategoryDone: () => false,
   categoryToTryNext: () => null,
   isAllDone: () => false,
+  reminderState: REMINDER_INITIAL_STATE,
+  updateReminder: () => {},
 });
 
 export function isCategoryNotDoneYet(
@@ -80,6 +92,10 @@ export function isCategoryDoneGivenExercises(
     return exercise?.state === "done";
   });
   return allDone && rawCategory.exercises.length > 0;
+}
+
+function _sync(exercises: Exercises, reminder: ReminderState) {
+  sync({ happiness: { exercises, reminder: reminder } });
 }
 
 function getLastExerciseDoneAt(
@@ -218,6 +234,9 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   const [exercises, setExercises] = React.useState<Exercises>({});
   const [categories, setCategories] = React.useState<Categories>({});
   const [ideas, setIdeas] = React.useState<Ideas>({});
+  const [reminder, setReminder] = React.useState<ReminderState>(
+    REMINDER_INITIAL_STATE
+  );
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
   >([]);
@@ -243,7 +262,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       ...exercises,
       [id]: { state: "done", doneAt: Date.now() },
     };
-    saveToDatabase(userId, { happiness: temp });
+    _sync(temp, reminder);
     updateExercises(temp);
   };
 
@@ -263,7 +282,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       return;
     }
     setRawCategories(_rawCategories);
-    AsyncStorage.setItem(SERVER_DATA, JSON.stringify(categories));
+    AsyncStorage.setItem(SERVER_DATA_KEY, JSON.stringify(_rawCategories));
 
     const result = getNextState(_rawCategories, exercises, Date.now());
     updateCategories(result.categories);
@@ -274,7 +293,8 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     async function readFromStorage() {
       const storedExercises = await AsyncStorage.getItem(EXERCISE_KEY);
       const storedIdeas = await AsyncStorage.getItem(IDEA_KEY);
-      const storedRawCategories = await AsyncStorage.getItem(SERVER_DATA);
+      const storedRawCategories = await AsyncStorage.getItem(SERVER_DATA_KEY);
+      const storedReminder = await AsyncStorage.getItem(REMINDER_KEY);
       try {
         if (storedExercises) {
           setExercises(JSON.parse(storedExercises));
@@ -283,9 +303,14 @@ export const HappinessProvider = <T extends {}>(props: T) => {
           setIdeas(JSON.parse(storedIdeas));
         }
         if (storedRawCategories) {
-          setRawCategories(JSON.parse(storedRawCategories));
+          updateRawCategories(JSON.parse(storedRawCategories));
         }
-      } catch (e) {}
+        if (storedReminder) {
+          setReminder(JSON.parse( storedReminder));
+        }
+      } catch (e) {
+        console.warn("failed to load", e);
+      }
     }
     readFromStorage();
   }, []);
@@ -311,6 +336,12 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     updateExercises(result.exercises);
   };
 
+  const updateReminder = (state: ReminderState) => {
+    AsyncStorage.setItem(REMINDER_KEY, JSON.stringify(state));
+    setReminder(state);
+    _sync(exercises, state);
+  };
+
   return (
     <HappinessContext.Provider
       {...props}
@@ -324,6 +355,8 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         markExerciseAsDone,
         addIdea,
         isCategoryDone,
+        reminderState: reminder,
+        updateReminder,
         categoryToTryNext: () => categoryToTryNext(categories, rawCategories),
         isAllDone,
       }}
@@ -336,3 +369,4 @@ export const useHappiness = () => {
 };
 
 // AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify({}));
+// AsyncStorage.setItem(SERVER_DATA_KEY, JSON.stringify([]));

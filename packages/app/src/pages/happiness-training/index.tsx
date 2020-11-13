@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -13,6 +13,7 @@ import {
   useNavigation,
   NavigationProp,
   CompositeNavigationProp,
+  useFocusEffect,
 } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -103,16 +104,26 @@ const HappinessTraining = () => {
   const { t } = useTranslation();
   const ref = useRef<ScrollView>(null);
 
-  const { data, loading } = useQuery<HappinessTrainingData>(
+  const { data, loading, refetch } = useQuery<HappinessTrainingData>(
     GET_HAPPINESS_TRAININGS,
     {
       // fetchPolicy: "network-only",
     }
   );
 
-  const categories = data?.happinessTraining.categories;
+  const categories = happiness.rawCategories;
+  // const categories = data?.happinessTraining.categories;
+  // console.log("here", { categories, data, loading });
 
   const categoryToTryNext = happiness.categoryToTryNext();
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (!categories) {
+  //       refetch();
+  //     }
+  //   }, [categories, refetch])
+  // );
 
   useEffect(() => {
     if (!categories) {
@@ -122,7 +133,7 @@ const HappinessTraining = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     if (
       categoryToTryNext === "all-done" ||
       categoryToTryNext === "not-now" ||
@@ -138,7 +149,6 @@ const HappinessTraining = () => {
       });
     }, 100);
   }, [categoryToTryNext]);
-
 
   const header = (
     <View style={styles.greetingContainer}>

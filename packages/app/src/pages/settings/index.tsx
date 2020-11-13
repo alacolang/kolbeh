@@ -6,37 +6,39 @@ import Header from "./header";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 import { onShare } from "utils/share";
+import { useHappiness, ReminderState } from "context/happiness";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   navigation: StackNavigationProp<HomeStackParamList, "settings">;
 };
 function Settings({ navigation }: Props) {
+  const { reminderState, updateReminder } = useHappiness();
+  const { t } = useTranslation();
+
   const menuItems = [
     {
       icon: "profile" as const,
-      title: "profile",
-      route: "profile",
+      title: t("profile"),
       onPress: () => navigation.navigate("profile"),
     },
     {
       icon: "bell" as const,
-      title: "reminder",
-      route: "reminder",
+      title: t("reminder"),
       onPress: () => null,
-      disabled: true,
+      left: <Reminder reminder={reminderState} update={updateReminder} />,
+      disabled: reminderState.state === "INACTIVE",
     },
     {
       icon: "email" as const,
-      title: "share",
-      route: "share",
+      title: t("share"),
       onPress: () => onShare(),
     },
     {
       icon: "phone" as const,
-      title: "screen-title.contact",
-      route: "contact",
+      title: t("screen-title.contact"),
       onPress: () => navigation.navigate("contact"),
     },
   ];
@@ -46,7 +48,7 @@ function Settings({ navigation }: Props) {
       <View style={styles.content}>
         {menuItems.map((item) => (
           <TouchableOpacity
-            key={item.title}
+            key={item.icon}
             onPress={item.onPress}
             style={styles.row}
           >
@@ -54,9 +56,13 @@ function Settings({ navigation }: Props) {
               <IconSvg
                 name={item.icon}
                 size="tiny"
-                color={item.disabled ? colors.primaryThird : colors.primary}
+                color={item.disabled ? colors.inactive : colors.primary}
               />
-              <FormattedText style={styles.itemTitle} id={item.title} />
+              <FormattedText style={styles.itemTitle}>
+                {item.title}
+              </FormattedText>
+              <View style={{ flex: 1 }} />
+              {item.left ? item.left : null}
             </View>
           </TouchableOpacity>
         ))}
@@ -64,6 +70,30 @@ function Settings({ navigation }: Props) {
     </View>
   );
 }
+
+type ReminderProps = {
+  reminder: ReminderState;
+  update: (state: ReminderState) => void;
+};
+const Reminder = (props: ReminderProps) => {
+  const isEnabled = props.reminder.state === "ACTIVE";
+  const toggleSwitch = () => {
+    props.update({ state: isEnabled ? "INACTIVE" : "ACTIVE" });
+  };
+  return (
+    <View>
+      <Switch
+        trackColor={{
+          false: colors.inactive,
+          true: colors.inactive,
+        }}
+        thumbColor={isEnabled ? colors.active : "#f4f3f4"}
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

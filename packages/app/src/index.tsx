@@ -12,7 +12,9 @@ import { BookmarkedPostsProvider } from "context/bookmark-posts";
 import { HappinessProvider } from "context/happiness";
 import RNAsyncStorageFlipper from "rn-async-storage-flipper";
 import { IdentityProvider } from "context/identity";
-import { useStuff } from "context/identity/firebase";
+import { useFirebaseMessaging } from "context/identity/firebase";
+import { ConnectivityProvider } from "context/connectivity";
+import useFlipperAsyncStorageViewer from "utils/flipper-async-storage-viewer";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -38,7 +40,8 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  useStuff();
+  useFirebaseMessaging();
+  useFlipperAsyncStorageViewer();
   useEffect(() => {
     RNAsyncStorageFlipper(AsyncStorage);
   }, []);
@@ -48,13 +51,15 @@ const App = () => {
 
 const WithProviders = () => (
   <ApolloProvider client={client}>
-    <IdentityProvider>
-      <BookmarkedPostsProvider>
-        <HappinessProvider>
-          <App />
-        </HappinessProvider>
-      </BookmarkedPostsProvider>
-    </IdentityProvider>
+    <ConnectivityProvider>
+      <IdentityProvider>
+        <BookmarkedPostsProvider>
+          <HappinessProvider>
+            <App />
+          </HappinessProvider>
+        </BookmarkedPostsProvider>
+      </IdentityProvider>
+    </ConnectivityProvider>
   </ApolloProvider>
 );
 

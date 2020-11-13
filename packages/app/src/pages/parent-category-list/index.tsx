@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   View,
   RefreshControl,
   StatusBar,
   StyleSheet,
   ScrollView,
+  InteractionManager,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/core";
+import {
+  useNavigation,
+  NavigationProp,
+  useFocusEffect,
+} from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import CategoryTile from "./category-tile";
@@ -15,6 +20,9 @@ import { ParentStackParamList } from "navigation/parent-stack-navigator";
 import colors from "colors";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
+import { FormattedText } from "components/formatted-text";
+import { useConnectivity } from "context/connectivity";
+import { NetworkStatus } from "apollo-client";
 
 const GET_PARENT = gql`
   query GetParent {
@@ -65,22 +73,32 @@ type ParentCategoriesData = {
 
 const ParentScreen = () => {
   const navigation = useNavigation<ParentFeedNavigationProp>();
-  const [refreshing, setRefreshing] = React.useState(false);
-  const { data, loading, refetch, error } = useQuery<ParentCategoriesData>(
-    GET_PARENT
-  );
+  const { data, loading, refetch, error, networkStatus } = useQuery<
+    ParentCategoriesData
+  >(GET_PARENT, {
+    notifyOnNetworkStatusChange: true,
+  });
+  const { isConnected } = useConnectivity();
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    refetch().then(() => setRefreshing(false));
+  const _refetch = useCallback(() => {
+    const task = InteractionManager.runAfterInteractions(async () => {
+      if (refetch) await refetch();
+    });
+    return () => task.cancel();
   }, [refetch]);
 
-  if (error) {
-    errorReport(error, { origin: "parent> get feed" });
-    return null;
-  }
+  const categories: Types.ICategory[] = data?.parentCategories ?? [];
 
-  const categories: Types.ICategory[] = data ? data.parentCategories : [];
+  // useEffect(() => {
+  //   if (categories.length === 0) {
+  //     _refetch();
+  //   }
+  // }, [isConnected, _refetch, categories.length]);
+
+  console.log(
+    { isConnected, networkStatus, loading, error },
+    error?.networkError
+  );
 
   return (
     <View
@@ -90,16 +108,39 @@ const ParentScreen = () => {
       }}
     >
       <StatusBar hidden />
-      {loading ? (
-        <Loading varient />
-      ) : (
-        <ScrollView
-          contentContainerStyle={styles.container}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {categories.map((category) => {
+
+      {loading && categories.length === 0 ? <Loading varient /> : null}
+      <ScrollView
+        contentContainerStyle={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={networkStatus === NetworkStatus.refetch}
+            onRefresh={_refetch}
+          />
+        }
+      >
+        { categories.length === 0 && error ? (
+          <View
+            style={{
+              // position: "absolute",
+              // top: 0,
+              zIndex: 10,
+              height: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 36,
+              backgroundColor: "#ffffffa0",
+              width: "100%",
+            }}
+          >
+            {networkStatus === NetworkStatus.error ? (
+              <FormattedText id="error.connection" />
+            ) : (
+              <FormattedText id="error.misc" />
+            )}
+          </View>
+        ) : (
+          categories.map((category) => {
             return (
               <CategoryTile
                 key={category.id}
@@ -107,9 +148,9 @@ const ParentScreen = () => {
                 onPress={() => navigation.navigate("parentFeed", { category })}
               />
             );
-          })}
-        </ScrollView>
-      )}
+          })
+        )}
+      </ScrollView>
     </View>
   );
 };

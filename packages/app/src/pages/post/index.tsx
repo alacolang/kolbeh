@@ -14,6 +14,9 @@ import { useBookmarkedPosts } from "context/bookmark-posts";
 import InAppPost from "components/body-percussion";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "colors";
+import { NetworkStatus } from "apollo-client";
+import { FormattedText } from "components/formatted-text";
+import { useConnectivity } from "context/connectivity";
 
 export type PostRouteParam = {
   post?: Types.IPost;
@@ -63,11 +66,14 @@ const PostScreen = () => {
     _post = post;
   }
 
+  const { isInternetReachable } = useConnectivity();
+
   const { data } = useQuery<PostData>(GET_POST, {
     variables: {
       kooft: id,
     },
     skip: !id || !!post?.id,
+    notifyOnNetworkStatusChange: true,
   });
 
   if (id && data) {
@@ -127,6 +133,28 @@ const PostScreen = () => {
         {canSave && (
           <View style={styles.saveWrapper}>{saveButtonRendered}</View>
         )}
+        {!isInternetReachable ? (
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              zIndex: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: colors.backgroundSecondary,
+                paddingHorizontal: 36,
+                height: 30,
+              }}
+            >
+              <FormattedText id="error.connection" />
+            </View>
+          </View>
+        ) : null}
         <Component post={_post} />
       </View>
     </SafeAreaView>

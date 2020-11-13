@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-
 import AsyncStorage from "@react-native-community/async-storage";
-import config from "config";
+import { initSync, sync } from "context/sync";
 
 const IDENTITY_KEY = "identity";
 
 const noop = () => {};
+
+let userId: string | undefined;
+
+export function getUserId() {
+  return userId;
+}
 
 type State = {
   userId: string;
@@ -47,32 +52,22 @@ function guidGenerator(): string {
   );
 }
 
-let _userId: string | undefined;
-
-export async function saveToDatabase(
-  userId: string,
-  data: Record<string, any>
-) {
-  const extendedData = { ...data, userId };
-  const url = config.HOST + "/api/users";
-  console.log("saveToDatabase", { url, extendedData });
-  await fetch(url, {
-    method: "POST",
-    mode: "cors",
-    headers: { token: `kolbeh-${userId}`, "Content-Type": "application/json" },
-    body: JSON.stringify(extendedData),
-  });
-}
-
 export const IdentityProvider = <T extends {}>(props: T) => {
   const [state, setState] = React.useState<State>(initialState);
 
-  const update = async (updated: State) => {
-    console.log("update called", { updated, state });
+  const update = (updated: State) => {
     if (JSON.stringify(updated) !== JSON.stringify(state)) {
-      await AsyncStorage.setItem(IDENTITY_KEY, JSON.stringify(updated));
-      await saveToDatabase(updated.userId, updated);
+      doUpdate(updated);
+    }
+  };
+
+  const doUpdate = async (updated: State) => {
+    try {
+      AsyncStorage.setItem(IDENTITY_KEY, JSON.stringify(updated));
+      sync(updated);
       setState(updated);
+    } catch (e) {
+      console.warn("failed to update", e);
     }
   };
 
@@ -81,13 +76,15 @@ export const IdentityProvider = <T extends {}>(props: T) => {
       const storedState = await AsyncStorage.getItem(IDENTITY_KEY);
       try {
         const parsedStoreState = JSON.parse(storedState!);
-        console.log({ parsedStoreState });
-        if (parsedStoreState.userId?.length > 0) {
-          update(parsedStoreState);
+        if (parsedStoreState.userId) {
+          userId = parsedStoreState.userId;
+          doUpdate(parsedStoreState);
         } else {
-          const userId = guidGenerator();
-          update({ ...initialState, userId });
+          const _userId = guidGenerator();
+          userId = _userId;
+          doUpdate({ ...initialState, userId: _userId });
         }
+        initSync();
       } catch (e) {}
     }
     readFromStorage();
