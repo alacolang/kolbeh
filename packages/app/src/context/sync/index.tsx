@@ -4,9 +4,8 @@ import config from "config";
 import { getUserId } from "../identity";
 import deepmerge from "deepmerge";
 import debounce from "debounce";
+import { log } from "utils/log";
 
-// eslint-disable-next-line no-console
-const log = config.isDevelopment ? console.log : () => {};
 const url = config.HOST + "/api/users";
 
 type SyncState = {

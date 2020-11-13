@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   ImageSourcePropType,
+  InteractionManager,
 } from "react-native";
 import {
   useNavigation,
@@ -43,6 +44,9 @@ import optimism from "../../assets/images/optimism.gif";
 import mindfulness from "../../assets/images/mindfulness.gif";
 import Svg, { Ellipse } from "react-native-svg";
 import { useIdentity } from "context/identity";
+import { NetworkStatus } from "apollo-client";
+import { log } from "utils/log";
+import { useConnectivity } from "context/connectivity";
 
 const fullWidth = Dimensions.get("window").width;
 const slideGutter = 25;
@@ -104,36 +108,53 @@ const HappinessTraining = () => {
   const { t } = useTranslation();
   const ref = useRef<ScrollView>(null);
 
-  const { data, loading, refetch } = useQuery<HappinessTrainingData>(
-    GET_HAPPINESS_TRAININGS,
-    {
-      // fetchPolicy: "network-only",
-    }
-  );
+  const { data, loading, error, refetch, networkStatus } = useQuery<
+    HappinessTrainingData
+  >(GET_HAPPINESS_TRAININGS, {
+    // fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
+  });
 
+  console.log({ loading, error });
+
+  const newCategories = data?.happinessTraining.categories;
   const categories = happiness.rawCategories;
-  // const categories = data?.happinessTraining.categories;
-  // console.log("here", { categories, data, loading });
-
   const categoryToTryNext = happiness.categoryToTryNext();
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (!categories) {
-  //       refetch();
-  //     }
-  //   }, [categories, refetch])
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      if (!categories) {
+        refetch();
+      }
+    }, [categories, refetch])
+  );
+
+  const { isConnected } = useConnectivity();
+
+  const _refetch = useCallback(() => {
+    const task = InteractionManager.runAfterInteractions(async () => {
+      if (refetch) {
+        await refetch();
+      }
+    });
+    return () => task.cancel();
+  }, [refetch]);
 
   useEffect(() => {
-    if (!categories) {
+    if (categories.length === 0 && isConnected) {
+      _refetch();
+    }
+  }, [isConnected, _refetch, categories.length]);
+
+  useEffect(() => {
+    if (!newCategories) {
       return;
     }
-    happiness.updateRawCategories(categories);
+    happiness.updateRawCategories(newCategories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categories]);
+  }, [newCategories]);
 
-  useFocusEffect(() => {
+  const jumpToCategory = useCallback(() => {
     if (
       categoryToTryNext === "all-done" ||
       categoryToTryNext === "not-now" ||
@@ -143,12 +164,19 @@ const HappinessTraining = () => {
     }
 
     setTimeout(() => {
-      ref.current?.scrollTo({
-        x: slidesX[categoryToTryNext.id] - 24,
-        animated: true,
-      });
+      const x = slidesX[categoryToTryNext.id];
+      if (x) {
+        ref.current?.scrollTo({
+          x: x - 24,
+          animated: true,
+        });
+      }
     }, 100);
-  }, [categoryToTryNext]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryToTryNext, slidesX]);
+
+  useFocusEffect(jumpToCategory);
+  useEffect(jumpToCategory, [loading, jumpToCategory]);
 
   const header = (
     <View style={styles.greetingContainer}>
@@ -232,8 +260,32 @@ const HappinessTraining = () => {
       <StatusBar hidden />
       <Bar navigation={navigation} />
       <View style={styles.contentContainer}>
-        {header}
-        {slides}
+        {categories.length === 0 && error ? (
+          <View
+            style={{
+              zIndex: 10,
+              height: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 36,
+              backgroundColor: "#ffffffa0",
+            }}
+          >
+            {networkStatus === NetworkStatus.error ? (
+              <FormattedText
+                id="error.connection"
+                style={{ color: colors.primary }}
+              />
+            ) : (
+              <FormattedText id="error.misc" />
+            )}
+          </View>
+        ) : (
+          <>
+            {header}
+            {slides}
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -274,53 +326,54 @@ const slidesX: Record<string, number> = {};
 
 const Slide = ({ category, state, onClick, t }: SlideProps) => {
   return (
-    <View
-      key={category.id}
-      style={[
-        slideStyles.categoryContainer,
-        {
-          backgroundColor:
-            state === "locked"
-              ? colors.backgroundPrimaryVariant
-              : colors.secondaryVarient,
-        },
-      ]}
-      onLayout={(event) => {
-        const layout = event.nativeEvent.layout;
-        slidesX[category.id] = layout.x;
-      }}
-    >
-      <Gif image={IMAGES[category.id]} />
-      <FormattedText style={slideStyles.categoryTitle}>
-        {category.title}
-      </FormattedText>
-      <FormattedText
+    <TouchableOpacity disabled={state === "locked"} onPress={() => onClick()}>
+      <View
+        key={category.id}
         style={[
-          slideStyles.categoryDescription,
+          slideStyles.categoryContainer,
           {
-            color: state === "locked" ? colors.backgroundLight : colors.primary,
+            backgroundColor:
+              state === "locked"
+                ? colors.backgroundPrimaryVariant
+                : colors.secondaryVarient,
           },
         ]}
+        onLayout={(event) => {
+          const layout = event.nativeEvent.layout;
+          slidesX[category.id] = layout.x;
+        }}
       >
-        {category.description}
-      </FormattedText>
-      <View style={slideStyles.footer}>
-        {state === "locked" ? (
-          <View style={slideStyles.lockContainer}>
-            <IconSvg name="lockFill" size="small" color={colors[10]} />
-          </View>
-        ) : (
-          <TouchableOpacity
-            style={slideStyles.enterContainer}
-            onPress={() => onClick()}
-          >
-            <FormattedText style={slideStyles.enter}>
-              {t("happiness.training.enter")}
-            </FormattedText>
-          </TouchableOpacity>
-        )}
+        <Gif image={IMAGES[category.id]} />
+        <FormattedText style={slideStyles.categoryTitle}>
+          {category.title}
+        </FormattedText>
+        <FormattedText
+          style={[
+            slideStyles.categoryDescription,
+            {
+              color:
+                state === "locked" ? colors.backgroundLight : colors.primary,
+            },
+          ]}
+        >
+          {category.description}
+        </FormattedText>
+        <View style={slideStyles.footer}>
+          {
+            state === "locked" ? (
+              <View style={slideStyles.lockContainer}>
+                <IconSvg name="lockFill" size="small" color={colors[10]} />
+              </View>
+            ) : null
+            // <View style={slideStyles.enterContainer}>
+            //   <FormattedText style={slideStyles.enter}>
+            //     {t("happiness.training.enter")}
+            //   </FormattedText>
+            // </View>
+          }
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

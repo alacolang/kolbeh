@@ -5,11 +5,18 @@ import Loading from "components/loading";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import gql from "graphql-tag";
 import React from "react";
-import { FlatList, StatusBar, StyleSheet, View } from "react-native";
+import {
+  DynamicColorIOS,
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 
 import { useQuery } from "@apollo/react-hooks";
+import { NetworkStatus } from "apollo-client";
 
 const HEADER_HEIGHT = 180;
 
@@ -51,12 +58,17 @@ type FeedData = {
 const BookmarkPostsScreen = () => {
   const [savedPosts] = useBookmarkedPosts();
 
-  const { data, loading, error } = useQuery<FeedData>(GET_POSTS);
+  const { data, loading, error, networkStatus } = useQuery<FeedData>(
+    GET_POSTS,
+    {
+      fetchPolicy: "cache-first",
+    }
+  );
 
-  if (error) {
-    errorReport(error, { origin: "parent> get feed" });
-    return null;
-  }
+  // if (error) {
+  //   errorReport(error, { origin: "parent> get feed" });
+  //   return null;
+  // }
 
   const posts = (
     data || {
@@ -70,6 +82,11 @@ const BookmarkPostsScreen = () => {
   const renderItem = ({ item }: { item: Types.IPostEdge }) => {
     return <Post post={item} />;
   };
+  const bookmarkedPosts: Types.IPostEdge[] = posts.edges.filter(({ node }) =>
+    savedPosts.includes(node.id)
+  );
+
+  console.log({ bookmarkedPosts });
 
   const itemsRendered = (
     <View
@@ -77,14 +94,41 @@ const BookmarkPostsScreen = () => {
         flexGrow: 1,
       }}
     >
-      {loading ? (
+      {bookmarkedPosts.length === 0 && error ? (
+        <View
+          style={{
+            zIndex: 10,
+            height: 30,
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 36,
+            flex: 1,
+            backgroundColor: "#ffffffa0",
+          }}
+        >
+          {networkStatus === NetworkStatus.error ? (
+            <FormattedText
+              id="error.connection"
+              style={{ color: colors.primary }}
+            />
+          ) : (
+            <FormattedText id="error.misc" style={{ color: colors.primary }} />
+          )}
+        </View>
+      ) : loading ? (
         <Loading />
       ) : (
         <FlatList
           contentContainerStyle={styles.scrollViewContent}
-          data={posts.edges.filter(({ node }) => savedPosts.includes(node.id))}
+          data={bookmarkedPosts}
           renderItem={renderItem}
           keyExtractor={(item: Types.IPostEdge) => item.node.id}
+          ListEmptyComponent={() => (
+            <FormattedText
+              id="bookmarkPage.empty"
+              style={{ color: colors.primary }}
+            />
+          )}
         />
       )}
     </View>

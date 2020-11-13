@@ -1,9 +1,39 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import { useEffect } from "react";
-
-import { addPlugin } from "react-native-flipper";
+import { addPlugin, Flipper } from "react-native-flipper";
+import { log } from "./log";
 
 let timeout: ReturnType<typeof setTimeout>;
+
+async function deleteFromStorage(key: string) {
+  await AsyncStorage.removeItem(key);
+  log("flipper> removed key from storage: ", { key });
+}
+
+function helper(connection: Flipper.FlipperConnection) {
+  timeout = setTimeout(async () => {
+    const keys = await AsyncStorage.getAllKeys();
+    const keyValues = await AsyncStorage.multiGet(keys);
+    const result = keyValues.map(([key, value]) => {
+      try {
+        return { key, value: JSON.parse(value!) };
+      } catch (e) {
+        return { key, value };
+      }
+    });
+
+    try {
+      connection.send("update", result);
+    } catch (e) {}
+    connection.receive("delete", (params) => {
+      log("flipper> received", { params });
+      if (params.key) {
+        deleteFromStorage(params.key);
+      }
+    });
+    helper(connection);
+  }, 2000);
+}
 
 export default function useFlipperAsyncStorageViewer() {
   useEffect(() => {
@@ -13,27 +43,7 @@ export default function useFlipperAsyncStorageViewer() {
       },
       runInBackground: () => false,
       onConnect(connection) {
-        function helper() {
-          timeout = setTimeout(async () => {
-            const keys = await AsyncStorage.getAllKeys();
-            const values = await AsyncStorage.multiGet(keys);
-            const result = values.reduce((acc, value) => {
-              if (!value[1]) {
-                return acc;
-              }
-              try {
-                acc[value[0]] = JSON.parse(value[1]);
-              } catch (e) {}
-              return acc;
-            }, {} as Record<string, any>);
-
-            try {
-              connection.send("update", result);
-            } catch (e) {}
-            helper();
-          }, 2000);
-        }
-        helper();
+        helper(connection);
       },
       onDisconnect() {
         if (timeout) {

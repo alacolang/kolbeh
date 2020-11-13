@@ -82,7 +82,9 @@ const ParentScreen = () => {
 
   const _refetch = useCallback(() => {
     const task = InteractionManager.runAfterInteractions(async () => {
-      if (refetch) await refetch();
+      if (refetch) {
+        await refetch();
+      }
     });
     return () => task.cancel();
   }, [refetch]);
@@ -119,7 +121,7 @@ const ParentScreen = () => {
           />
         }
       >
-        { categories.length === 0 && error ? (
+        {categories.length === 0 && error ? (
           <View
             style={{
               // position: "absolute",
@@ -134,9 +136,15 @@ const ParentScreen = () => {
             }}
           >
             {networkStatus === NetworkStatus.error ? (
-              <FormattedText id="error.connection" />
+              <FormattedText
+                id="error.connection"
+                style={{ color: colors.primary }}
+              />
             ) : (
-              <FormattedText id="error.misc" />
+              <FormattedText
+                id="error.misc"
+                style={{ color: colors.primary }}
+              />
             )}
           </View>
         ) : (
