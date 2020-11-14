@@ -6,6 +6,8 @@ import {
   Dimensions,
   StatusBar,
   ImageSourcePropType,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import img1 from "../../assets/images/1.gif";
 import img2 from "../../assets/images/2.gif";
@@ -13,7 +15,6 @@ import img3 from "../../assets/images/3.gif";
 import img from "../../assets/images/onboarding-image.png";
 import { FormattedText } from "components/formatted-text";
 import colors from "../../colors";
-import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Trans, useTranslation } from "react-i18next";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -22,8 +23,7 @@ import { useIdentity } from "context/identity";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
-// const imageSize = Math.min(frameWidth - 40 * 2, frameHeight / 2.5);
-const imageSize = 150;
+const imageSize = frameWidth / 2;
 
 const range = (n: number) => {
   const result = [];
@@ -58,9 +58,9 @@ const dotsStyles = StyleSheet.create({
     flexDirection: "row-reverse",
   },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
+    width: 8,
+    height: 8,
+    borderRadius: 8,
     marginHorizontal: 3,
   },
 });
@@ -95,29 +95,38 @@ const Onboarding = ({ navigation }: Props) => {
         }}
       >
         <View style={styles.slide}>
-          <Gif image={img1} />
-          <Title text={t("onboarding.1.title")} />
-          <Description id={t("onboarding.1.description")} />
+          <View style={styles.upperContainer}>
+            <Gif image={img1} />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Title text={t("onboarding.1.title")} />
+            <Description id={t("onboarding.1.description")} />
+          </View>
         </View>
         <View style={styles.slide}>
-          <Gif image={img2} />
-          <Title text={t("onboarding.2.title")} />
-          <Description id={t("onboarding.2.description")} />
+          <View style={styles.upperContainer}>
+            <Gif image={img2} />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Title text={t("onboarding.2.title")} />
+            <Description id={t("onboarding.2.description")} />
+          </View>
         </View>
 
         <View style={styles.slide}>
-          <Gif image={img3} />
-          <Title text={t("onboarding.3.title")} />
-          <Description id={t("onboarding.3.description")} />
-
-          <View style={styles.doneContainer}>
+          <View style={styles.upperContainer}>
+            <Gif image={img3} />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Title text={t("onboarding.3.title")} />
+            <Description id={t("onboarding.3.description")} />
             <Action
               text={t("onboarding.done")}
               onPress={() => {
                 if (name) {
-                  navigation.navigate("home");
+                  navigation.replace("home");
                 } else {
-                  navigation.navigate("login");
+                  navigation.replace("login");
                 }
               }}
             />
@@ -154,7 +163,7 @@ const descriptionStyles = StyleSheet.create({
     marginTop: 16,
     lineHeight: 24 * 1.6,
     color: colors.secondary,
-    fontSize: 23,
+    fontSize: 18,
   },
 });
 
@@ -194,12 +203,12 @@ const Title = ({ text }: { text: string }) => (
 
 const titleStyles = StyleSheet.create({
   headerContainer: {
-    marginTop: 36 + 36,
+    // marginTop: ,
   },
   text: {
     textAlign: "center",
     color: "white",
-    fontSize: 32,
+    fontSize: 38,
   },
 });
 
@@ -213,6 +222,7 @@ function Action({ onPress, text }: ActionProps) {
 }
 const actionStyles = StyleSheet.create({
   container: {
+    marginTop: 36,
     width: 60,
     height: 60,
     borderRadius: 60,
@@ -237,23 +247,33 @@ const styles = StyleSheet.create({
   },
   dots: {
     position: "absolute",
-    top: (frameHeight / 2 - imageSize) / 2 + imageSize + 36 + 16,
+    top: frameHeight / 2,
     alignItems: "center",
     width: "100%",
   },
   slide: {
     width: frameWidth,
-    // flex: 1,
-    paddingHorizontal: 30,
-    paddingTop: (frameHeight / 2 - imageSize) / 2,
+    paddingHorizontal: 36,
     alignItems: "center",
   },
+  lowerContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginTop: 36,
+  },
+  upperContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 36,
+  },
   doneContainer: {
-    position: "absolute",
-    bottom: 0,
+    // position: "absolute",
+    // bottom: 0,
     paddingBottom: 36,
-    justifyContent: "center",
-    alignItems: "flex-end",
+    // justifyContent: "center",
+    // alignItems: "flex-end",
     backgroundColor: "transparent",
   },
 });

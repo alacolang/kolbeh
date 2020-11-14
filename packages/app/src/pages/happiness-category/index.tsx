@@ -1,32 +1,16 @@
 import React, { useEffect } from "react";
-import { View, Image, StyleSheet, Dimensions } from "react-native";
+import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
 import colors from "colors";
 import { FormattedText } from "components/formatted-text";
 import Markdown from "react-native-easy-markdown";
-import { resolveURL } from "utils/resolve";
 import { IconSvg } from "components/icon";
 import * as Types from "types";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
-import { GaussIcon } from "components/curve-icon";
 import { trackEvent } from "utils/analytics";
 import { Gif, IMAGES } from "../happiness-training";
-
-const fullWidth = Dimensions.get("window").width;
-
-const Header = ({ navigation, route }: Props) => {
-  const { category } = route.params;
-
-  return (
-    <View style={styles.headerContainer}>
-      <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
-      <FormattedText style={styles.title}>{category.title}</FormattedText>
-    </View>
-  );
-};
 
 type Props = StackScreenProps<HomeStackParamList, "happinessCategory">;
 function HappinessCategory({ navigation, route }: Props) {
@@ -45,61 +29,74 @@ function HappinessCategory({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.outerContainer}>
-      <Header navigation={navigation} route={route} />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Markdown markdownStyles={markdownStyles}>{category.about}</Markdown>
-        <View style={styles.contentContainer}>
-          <View style={styles.verticalLine}>
-            <View style={styles.verticalLineInner} />
-          </View>
-          <View style={styles.exercisesContainer}>
-            {category.exercises?.map((exercise: Types.IExercise) => {
-              const state = happiness.exercises[exercise.id]?.state ?? "locked";
-              return (
-                <TouchableOpacity
-                  disabled={state === "locked"}
-                  key={exercise.title}
-                  onPress={() => handlePress(exercise)}
-                  style={styles.exerciseContainer}
-                >
-                  <IconSvg
-                    name={
-                      state === "locked"
-                        ? "lockFill"
-                        : state === "done"
-                        ? "tickFill"
-                        : "circle"
-                    }
-                    size="small"
-                    color={colors.backgroundPrimaryVariant}
-                    style={styles.icon}
-                  />
-                  <FormattedText style={styles.exerciseTitle}>
-                    {exercise.title}
-                  </FormattedText>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <Gif image={IMAGES[category.id]} dropShadow />
+        <View style={{ marginTop: 16 }} />
+      </ScrollView>
+      <View style={styles.contentContainer}>
+        <View
+          style={{
+            position: "absolute",
+            top: -32 - 16,
+            borderWidth: 0,
+            left: 0,
+            right: 0,
+            height: 32,
+            width: "120%",
+            backgroundColor: "#F0F5FFa0",
+          }}
+        />
+        <View style={styles.verticalLine}>
+          <View style={styles.verticalLineInner} />
         </View>
+        <View style={styles.exercisesContainer}>
+          {category.exercises?.map((exercise: Types.IExercise) => {
+            const state = happiness.exercises[exercise.id]?.state ?? "locked";
+            return (
+              <TouchableOpacity
+                disabled={state === "locked"}
+                key={exercise.title}
+                onPress={() => handlePress(exercise)}
+                style={styles.exerciseContainer}
+              >
+                <IconSvg
+                  name={
+                    state === "locked"
+                      ? "lockFill"
+                      : state === "done"
+                      ? "tickFill"
+                      : "circle"
+                  }
+                  size="small"
+                  color={colors.backgroundPrimaryVariant}
+                  style={styles.icon}
+                />
+                <FormattedText style={styles.exerciseTitle}>
+                  {exercise.title}
+                </FormattedText>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+        <Gif image={IMAGES[category.id]} dropShadow />
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  outerContainer: { backgroundColor: colors.backgroundVariant, flex: 1 },
-  container: { borderWidth: 0, paddingHorizontal: 30 },
+  outerContainer: { backgroundColor: colors.backgroundLight, flex: 1 },
+  container: { paddingHorizontal: 32 },
   contentContainer: {
+    marginHorizontal: 32,
+    marginBottom: 16,
     flexDirection: "row",
     marginTop: 16,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   verticalLineInner: {
     width: 5,
-    backgroundColor: colors.backgroundPrimaryVariant,
+    backgroundColor: colors.backgroundPrimary,
     flexGrow: 1,
     left: 15,
     marginBottom: 38,
@@ -111,7 +108,9 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
-  exercisesContainer: {},
+  exercisesContainer: {
+    flexGrow: 1,
+  },
   exerciseContainer: {
     flexDirection: "row",
     height: 60,
@@ -125,19 +124,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     backgroundColor: colors.backgroundVariant,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    height: 90,
-    paddingTop: 10,
-    backgroundColor: colors.backgroundVariant,
-  },
-  title: {
-    marginHorizontal: 30,
-    fontSize: 28,
-    // fontWeight: 'bold',
-    color: colors.secondary,
   },
 });
 

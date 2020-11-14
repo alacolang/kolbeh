@@ -23,7 +23,7 @@ export const GaussIcon = ({
         <IconSvg name="gaussCurve" size={85} color={backgroundColor} />
       </View>
       <View style={leftIconStyles.icon}>
-        <IconSvg name={icon} size={20} color={color} />
+        <IconSvg name={icon} size={22} color={color} />
       </View>
     </View>
   </TouchableOpacity>

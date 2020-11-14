@@ -39,12 +39,7 @@ const Header = ({
         ) : null}
         <Icon name="avatar" size={120} />
       </View>
-      <IconSvg
-        name="cloud"
-        color={colors[9]}
-        size="huge"
-        style={styles.cloud2}
-      />
+      <IconSvg name="cloud" color={colors[9]} size={60} style={styles.cloud2} />
       {showName ? <Name /> : null}
     </View>
   );

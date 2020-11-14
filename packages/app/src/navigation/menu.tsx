@@ -114,7 +114,7 @@ const Links = ({ onPress }: LinksProps) => {
                   width: 35,
                   height: 100,
                   position: "absolute",
-                  right: 65 - 20,
+                  right: 65 - 25,
                   transform: [{ scaleX: -1 }],
                   // borderWidth: 1
                 }}
@@ -122,7 +122,7 @@ const Links = ({ onPress }: LinksProps) => {
               >
                 <Path
                   d={bellCurve(0, 70, 14)}
-                  fill="#F0F5FF"
+                  fill={colors.backgroundLight}
                   // fill="red"
                   stroke="none"
                   x={0}
@@ -152,10 +152,9 @@ const Links = ({ onPress }: LinksProps) => {
 const styles = StyleSheet.create({
   linksContainer: {
     flexDirection: "column",
-    borderColor: "orange",
-    marginTop: 60,
+    marginTop: 32,
     alignItems: "center",
-    backgroundColor: "#F0F5FF",
+    backgroundColor: colors.backgroundLight,
   },
   textContainer: {
     width: TEXT_HEIGHT,
@@ -167,14 +166,14 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "270deg" }],
     fontSize: 20,
     color: "#C5CDD0",
-    backgroundColor: "#F0F5FF",
+    backgroundColor: colors.backgroundLight,
     width: TEXT_LENGTH,
     height: TEXT_HEIGHT,
     textAlign: "center",
   },
 });
 
-export const BAR_WIDTH = 65;
+export const BAR_WIDTH = 60;
 
 type BarProps = {
   navigation: Navigation;

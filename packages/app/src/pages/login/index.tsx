@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingHorizontal: 32,
-    marginTop: 60,
+    marginTop: 60 + 32,
     flexGrow: 1,
   },
   text: {

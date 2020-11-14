@@ -13,7 +13,7 @@ import {
 import Header from "../settings/header";
 import { Trans } from "react-i18next";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
-import { Gif } from "pages/happiness-training";
+import { Gif, imageSize } from "pages/happiness-training";
 
 const fullWidth = Dimensions.get("window").width - 16 * 2;
 const size = (fullWidth - 20) / 3 - 4 * 2;
@@ -21,7 +21,7 @@ const size = (fullWidth - 20) / 3 - 4 * 2;
 function Profile() {
   const happiness = useHappiness();
 
-  const ys = [22, 8, 0, 7, 22];
+  const ys = [22, 8, 2, 7, 22];
   const xs = [1, 4, 0, -6, -3];
   const categories = happiness.rawCategories.map((category) => {
     const exercises = category.exercises.map((exercise, index) => {
@@ -137,7 +137,13 @@ const Certificate = () => {
             >
               <View style={feedbackStyles.imageContainer}>
                 <Gif image={image} theme="purple" />
-                <View style={{ position: "absolute", top: 30, left: 25 }}>
+                <View
+                  style={{
+                    position: "absolute",
+                    top: imageSize / 10,
+                    left: imageSize / 8,
+                  }}
+                >
                   <IconSvg
                     name="rewardCertificate"
                     size={55}
@@ -205,7 +211,7 @@ const feedbackStyles = StyleSheet.create({
   imageContainer: {
     // position: "absolute",
     // right: -20,
-    top: 0,
+    // top: 0,
     // borderWidth: 1,
   },
 });

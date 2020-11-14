@@ -45,14 +45,13 @@ import mindfulness from "../../assets/images/mindfulness.gif";
 import Svg, { Ellipse } from "react-native-svg";
 import { useIdentity } from "context/identity";
 import { NetworkStatus } from "apollo-client";
-import { log } from "utils/log";
 import { useConnectivity } from "context/connectivity";
 
 const fullWidth = Dimensions.get("window").width;
 const slideGutter = 25;
 const slideWidth = fullWidth - BAR_WIDTH - 2 * slideGutter - 40;
 const slideHeight = (slideWidth * 320) / 200;
-const imageSize = Math.min(slideWidth - 16 * 2, slideHeight / 2.5);
+export const imageSize = Math.min(slideWidth - 16 * 2, slideHeight / 2.5);
 
 export const IMAGES: Record<any, ImageSourcePropType> = {
   "self-compassion": selfCompassion,
@@ -231,7 +230,7 @@ const HappinessTraining = () => {
         ref={ref}
       >
         {loading ? (
-          <View style={[slideStyles.categoryContainer, { left: -32 }]}>
+          <View style={[slideStyles.container, { left: -32 }]}>
             <Loading />
           </View>
         ) : (
@@ -311,7 +310,12 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     flexDirection: "column",
   },
-  greeting: { fontSize: 20, color: colors.primary, lineHeight: 18 * 1.8 },
+  greeting: {
+    fontSize: 16,
+    color: colors.primary,
+    lineHeight: 18 * 1.8,
+    paddingHorizontal: 16,
+  },
   greetingCategory: { color: colors[1] },
 });
 
@@ -330,7 +334,7 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
       <View
         key={category.id}
         style={[
-          slideStyles.categoryContainer,
+          slideStyles.container,
           {
             backgroundColor:
               state === "locked"
@@ -344,33 +348,28 @@ const Slide = ({ category, state, onClick, t }: SlideProps) => {
         }}
       >
         <Gif image={IMAGES[category.id]} />
-        <FormattedText style={slideStyles.categoryTitle}>
-          {category.title}
-        </FormattedText>
-        <FormattedText
-          style={[
-            slideStyles.categoryDescription,
-            {
-              color:
-                state === "locked" ? colors.backgroundLight : colors.primary,
-            },
-          ]}
-        >
-          {category.description}
-        </FormattedText>
+        <View style={slideStyles.contentContainer}>
+          <FormattedText style={slideStyles.categoryTitle}>
+            {category.title}
+          </FormattedText>
+          <FormattedText
+            style={[
+              slideStyles.categoryDescription,
+              {
+                color:
+                  state === "locked" ? colors.backgroundLight : colors.primary,
+              },
+            ]}
+          >
+            {category.description}
+          </FormattedText>
+        </View>
         <View style={slideStyles.footer}>
-          {
-            state === "locked" ? (
-              <View style={slideStyles.lockContainer}>
-                <IconSvg name="lockFill" size="small" color={colors[10]} />
-              </View>
-            ) : null
-            // <View style={slideStyles.enterContainer}>
-            //   <FormattedText style={slideStyles.enter}>
-            //     {t("happiness.training.enter")}
-            //   </FormattedText>
-            // </View>
-          }
+          {state === "locked" ? (
+            <View style={slideStyles.lockContainer}>
+              <IconSvg name="lockFill" size="small" color={colors[10]} />
+            </View>
+          ) : null}
         </View>
       </View>
     </TouchableOpacity>
@@ -393,26 +392,22 @@ const slideStyles = StyleSheet.create({
     right: 0,
     marginHorizontal: 16,
   },
-  enterContainer: {
-    backgroundColor: "white",
-    borderRadius: 44,
-    height: 44,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    width: slideWidth / 2,
-  },
-  enter: { color: "#7995F5", top: -4, fontSize: 18 },
-  categoryContainer: {
+
+  container: {
     paddingHorizontal: 16,
     marginLeft: slideGutter,
-    // marginTop: 40,
     backgroundColor: colors.secondaryVarient,
     borderRadius: 20,
     width: slideWidth,
     height: slideHeight,
-    paddingTop: 24,
+    paddingTop: 16,
     alignItems: "center",
+    marginBottom: 16,
+    elevation: 5,
+  },
+  contentContainer: {
+    paddingTop: 16,
+    paddingHorizontal: 16,
   },
   categoryTitle: {
     fontSize: 26,
@@ -420,7 +415,7 @@ const slideStyles = StyleSheet.create({
     textAlign: "center",
   },
   categoryDescription: {
-    fontSize: 20,
+    fontSize: 16,
     lineHeight: 22 * 1.4,
     textAlign: "center",
   },
@@ -480,11 +475,11 @@ export const Gif = ({
 
 const gifStyles = StyleSheet.create({
   imageContainer: {
-    height: imageSize + 10,
-    width: imageSize + 10,
+    height: imageSize + 20, // extra number is for elevation
+    width: imageSize + 20,
     justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 1,
+    marginBottom: 5,
   },
   circleContainer: {
     position: "absolute",
@@ -492,16 +487,17 @@ const gifStyles = StyleSheet.create({
     height: imageSize,
     backgroundColor: "yellow",
     borderRadius: imageSize,
+    justifyContent: "center",
+    alignItems: "center",
   },
   circle: {
-    width: imageSize,
-    height: imageSize,
+    width: imageSize + 5,
+    height: imageSize + 5,
     backgroundColor: "white",
-    borderRadius: imageSize,
+    borderRadius: imageSize + 5,
     borderWidth: 7,
     elevation: 10,
   },
-
   image: {
     height: imageSize * 0.65,
     width: imageSize * 0.65,

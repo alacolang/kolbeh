@@ -16,7 +16,7 @@ import gql from "graphql-tag";
 import Loading from "components/loading";
 import { FormattedText } from "components/formatted-text";
 import colors from "colors";
-import { Icon } from "components/icon";
+import { IconSvg } from "components/icon";
 import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
@@ -166,13 +166,14 @@ const SearchScreen = () => {
             height: 44,
           }}
         >
-          <Icon name="search" size="tiny" />
+          <IconSvg name="search" size="tiny" color={colors.primary} />
         </Animated.View>
       </TouchableOpacity>
       <Animated.View
         style={{
           backgroundColor: colors.background,
           borderRadius: 30,
+          elevation: 4,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
@@ -185,7 +186,7 @@ const SearchScreen = () => {
             setTagsVisibility(true);
           }}
           style={{
-            height: 45,
+            height: 40,
             paddingHorizontal: 15,
             fontSize: 16,
             lineHeight: 16,
@@ -193,6 +194,7 @@ const SearchScreen = () => {
             textAlign: "right",
             fontFamily: "IRANYekanRDMobile",
             color: colors.primary,
+            // backgroundColor: "white",
           }}
           onChangeText={(text) => {
             setQuery(text);
@@ -214,18 +216,7 @@ const SearchScreen = () => {
               marginRight: -6,
             }}
           >
-            <View
-              style={{
-                width: 20,
-                height: 20,
-                borderRadius: 20,
-                backgroundColor: "lightgrey",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Icon name="times" size="nano" />
-            </View>
+            <IconSvg name="timesFill" size="nano" color={colors.primary} />
           </TouchableOpacity>
         )}
       </Animated.View>

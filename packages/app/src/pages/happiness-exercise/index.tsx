@@ -176,7 +176,9 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
           fontSize: 18,
           color: "white",
           textAlign: "right",
+          elevation: 4,
         }}
+        returnKeyType="done"
         onChangeText={(text) => setIdea(text)}
         placeholder={t("happiness.exercise.ideaPlaceholder")}
         placeholderTextColor="white"
@@ -255,7 +257,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
       >
         <IconSvg
           name={`happinessToolbox-${categoryID}` as IconSvgName}
-          size={80}
+          size={100}
           color={colors.backgroundPrimaryThird}
         />
       </TouchableOpacity>

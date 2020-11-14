@@ -15,11 +15,12 @@ import Profile from "../pages/profile";
 import TabNavigator from "./tab-navigator";
 import HappinessCategory from "../pages/happiness-category";
 import HappinessExercise from "../pages/happiness-exercise";
-import colors from "../colors";
 import * as Types from "types";
 import Contact from "pages/contact";
 import Onboarding from "pages/onboarding";
 import { BackHeader, ChildFeedBackHeader, JustBackHeader } from "./headers";
+import { useTranslation } from "react-i18next";
+import colors from "colors";
 
 export type HomeStackParamList = {
   login: { shouldGoBack: boolean } | undefined;
@@ -45,6 +46,7 @@ export type HomeStackParamList = {
 const Stack = createStackNavigator<HomeStackParamList>();
 
 const HomeNavigator = () => {
+  const { t } = useTranslation();
   return (
     <Stack.Navigator
       initialRouteName="onboarding"
@@ -101,7 +103,13 @@ const HomeNavigator = () => {
         component={ChildFeed}
         options={{
           headerTransparent: true,
-          header: (props) => <ChildFeedBackHeader {...props} />,
+          header: (props) => (
+            <BackHeader
+              {...props}
+              title={t(`screen-title.${props.scene.route?.params?.categoryId}`)}
+            />
+          ),
+          // header: (props) => <ChildFeedBackHeader {...props} />,
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
         }}
@@ -119,6 +127,8 @@ const HomeNavigator = () => {
             <BackHeader
               {...props}
               color="white"
+              backIconBackgroundColor="white"
+              backIconColor={colors.backgroundPrimaryThird}
               backgroundColor={colors.backgroundPrimaryThird}
             />
           ),
@@ -130,7 +140,16 @@ const HomeNavigator = () => {
         name="happinessCategory"
         component={HappinessCategory}
         options={{
-          header: () => null,
+          header: (props: any) => {
+            return (
+              <BackHeader
+                {...props}
+                title={props.scene.route?.params.category.title}
+              />
+            );
+          },
+          // header: (props) => <BackHeader transparent {...props} />,
+
           // animationEnabled: false,
         }}
       />

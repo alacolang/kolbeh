@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Image,
   View,
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
@@ -13,7 +12,6 @@ import { FormattedText } from "components/formatted-text";
 import colors from "colors";
 import { IconSvg } from "components/icon";
 import { getVersion } from "utils/codepush";
-import ContactImg from "assets/images/contact-character.png";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -43,77 +41,44 @@ const Contact = () => {
       style={{
         backgroundColor: colors.backgroundPrimaryThird,
         flex: 1,
-        paddingHorizontal: 36,
+        paddingHorizontal: 36 + 16,
+        justifyContent: "center",
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          // borderWidth: 1,
-          marginBottom: 10,
-          paddingHorizontal: 40,
-        }}
+      <FormattedText style={styles.text} id="contact.title" />
+      <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
+        <View style={styles.row}>
+          <FormattedText style={styles.text} id="contact.tel" />
+          <FormattedText style={styles.text} id="contact.telnumber" />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => Linking.openURL("http://iacap.ir/")}
       >
-        <IconSvg
-          name="cloud"
-          color={colors[9]}
-          size="small"
-          style={{ position: "relative", top: -0 }}
-        />
-        <IconSvg
-          name="cloud"
-          color={colors[9]}
-          size="huge"
-          style={{ position: "relative", top: -10, left: 30 }}
-        />
-      </View>
-      <View style={{ paddingHorizontal: 16 }}>
-        <FormattedText style={styles.text} id="contact.title" />
-        <TouchableOpacity onPress={() => Linking.openURL("tel:+982155409495")}>
-          <View style={styles.row}>
-            <FormattedText style={styles.text} id="contact.tel" />
-            <FormattedText style={styles.text} id="contact.telnumber" />
+        <Text style={styles.text}>iacap.ir</Text>
+      </TouchableOpacity>
+      <View style={styles.socialContainer}>
+        <TouchableOpacity
+          onPress={() => Linking.openURL("https://twitter.com/iacap_ir")}
+        >
+          <View style={styles.socialIconContainer}>
+            <IconSvg name="twitter" size="tiny" color="white" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.row}
-          onPress={() => Linking.openURL("http://iacap.ir/")}
+          onPress={() => Linking.openURL("https://www.instagram.com/iacap2")}
         >
-          <Text style={styles.text}>iacap.ir</Text>
+          <View style={styles.socialIconContainer}>
+            <IconSvg name="instagram" size="tiny" color="white" />
+          </View>
         </TouchableOpacity>
-        <View style={styles.socialContainer}>
-          <TouchableOpacity
-            onPress={() => Linking.openURL("https://twitter.com/iacap_ir")}
-          >
-            <View style={styles.socialIconContainer}>
-              <IconSvg name="twitter" size="tiny" color="white" />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => Linking.openURL("https://www.instagram.com/iacap2")}
-          >
-            <View style={styles.socialIconContainer}>
-              <IconSvg name="instagram" size="tiny" color="white" />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => Linking.openURL("https://t.me/IACAP")}
-          >
-            <View style={styles.socialIconContainer}>
-              <IconSvg name="telegram" size="tiny" color="white" />
-            </View>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => Linking.openURL("https://t.me/IACAP")}>
+          <View style={styles.socialIconContainer}>
+            <IconSvg name="telegram" size="tiny" color="white" />
+          </View>
+        </TouchableOpacity>
       </View>
-      {/* <View style={{ position: "absolute", bottom: 110, right: 10 }}>
-        <Image
-          source={ContactImg}
-          style={{ width: 200, height: 300 }}
-          resizeMode="contain"
-        />
-      </View> */}
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>

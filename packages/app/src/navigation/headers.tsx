@@ -45,28 +45,30 @@ export const BackHeader = ({
   transparent = false,
   backgroundColor = colors.backgroundLight,
   color,
+  backIconBackgroundColor,
+  backIconColor,
 }: StackHeaderProps & {
   color?: string;
   title?: string | undefined;
   backgroundColor?: string;
   transparent?: boolean;
+  backIconColor?: string;
+  backIconBackgroundColor?: string;
 }) => {
   const { t } = useTranslation();
   return (
     <SafeAreaView
-      style={
-        transparent
-          ? null
-          : {
-              backgroundColor: backgroundColor,
-            }
-      }
+      style={transparent ? null : { backgroundColor: backgroundColor }}
     >
       <View style={backHeaderStyle.container}>
         <View style={backHeaderStyle.backContainer}>
-          <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
+          <GaussIcon
+            onPress={() => navigation.goBack()}
+            icon="rightArrow"
+            color={backIconColor}
+            backgroundColor={backIconBackgroundColor}
+          />
         </View>
-
         <FormattedText style={[styles.title, { color: color ?? colors[1] }]}>
           {title ? title : t(`screen-title.${scene.route.name}`)}
         </FormattedText>
@@ -82,45 +84,7 @@ const backHeaderStyle = StyleSheet.create({
     justifyContent: "center",
     height: 80,
     marginTop: 6,
-
     zIndex: 1,
-    // borderWidth: 1,
-    // borderColor: "red",
-  },
-  backContainer: {
-    position: "absolute",
-    left: 0,
-  },
-});
-
-export const ChildFeedBackHeader = ({
-  navigation,
-  scene,
-}: StackHeaderProps) => {
-  return (
-    <SafeAreaView>
-      <View style={childBackHeaderStyles.container}>
-        <View style={childBackHeaderStyles.backContainer}>
-          <GaussIcon onPress={() => navigation.goBack()} icon="rightArrow" />
-        </View>
-        <FormattedText
-          style={styles.title}
-          id={`screen-title.${scene.route?.params?.categoryId}`}
-        />
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const childBackHeaderStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 120,
-    backgroundColor: "white",
-    // borderBottomEndRadius: 15,
-    // borderBottomStartRadius: 15,
   },
   backContainer: {
     position: "absolute",
