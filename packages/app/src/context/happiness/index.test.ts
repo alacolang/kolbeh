@@ -180,7 +180,7 @@ describe("categories", () => {
   });
 });
 
-describe.only("next category to try", () => {
+describe("next category to try", () => {
   it("when data is ready", () => {
     const rawCategories = [
       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },

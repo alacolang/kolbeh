@@ -21,6 +21,7 @@ import * as Types from "types";
 import { errorReport } from "utils/error-reporter";
 import Post from "components/feed-tile";
 import { trackEvent } from "utils/analytics";
+import { NetworkStatus } from "apollo-client";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -63,9 +64,12 @@ type FeedData = {
 
 const SearchScreen = () => {
   const [refreshing, setRefreshing] = React.useState(false);
-  const { data, loading, refetch, error } = useQuery<FeedData>(GET_POSTS, {
-    variables: { types: ["image", "markdown", "video", "inapp"] },
-  });
+  const { data, loading, refetch, error, networkStatus } = useQuery<FeedData>(
+    GET_POSTS,
+    {
+      variables: { types: ["image", "markdown", "video", "inapp"] },
+    }
+  );
 
   const [query, setQuery] = React.useState("");
   const [isTagsVisible, setTagsVisibility] = React.useState(true);
@@ -77,7 +81,25 @@ const SearchScreen = () => {
 
   if (error) {
     errorReport(error, { origin: "parent> get feed" });
-    return null;
+    return (
+      <View
+        style={{
+          flexGrow: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: colors.backgroundLight,
+        }}
+      >
+        {networkStatus === NetworkStatus.error ? (
+          <FormattedText
+            id="error.connection"
+            style={{ color: colors.primary }}
+          />
+        ) : (
+          <FormattedText id="error.misc" style={{ color: colors.primary }} />
+        )}
+      </View>
+    );
   }
 
   const posts = (

@@ -122,19 +122,7 @@ const ParentScreen = () => {
         }
       >
         {categories.length === 0 && error ? (
-          <View
-            style={{
-              // position: "absolute",
-              // top: 0,
-              zIndex: 10,
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              paddingHorizontal: 36,
-              backgroundColor: "#ffffffa0",
-              width: "100%",
-            }}
-          >
+          <>
             {networkStatus === NetworkStatus.error ? (
               <FormattedText
                 id="error.connection"
@@ -146,7 +134,7 @@ const ParentScreen = () => {
                 style={{ color: colors.primary }}
               />
             )}
-          </View>
+          </>
         ) : (
           categories.map((category) => {
             return (

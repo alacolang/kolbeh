@@ -4,7 +4,7 @@ import { FormattedText } from "components/formatted-text";
 import Loading from "components/loading";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import gql from "graphql-tag";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DynamicColorIOS,
   FlatList,
@@ -17,6 +17,7 @@ import { errorReport } from "utils/error-reporter";
 
 import { useQuery } from "@apollo/react-hooks";
 import { NetworkStatus } from "apollo-client";
+import { useConnectivity } from "context/connectivity";
 
 const HEADER_HEIGHT = 180;
 
@@ -58,7 +59,7 @@ type FeedData = {
 const BookmarkPostsScreen = () => {
   const [savedPosts] = useBookmarkedPosts();
 
-  const { data, loading, error, networkStatus } = useQuery<FeedData>(
+  const { data, loading, error, refetch, networkStatus } = useQuery<FeedData>(
     GET_POSTS,
     {
       fetchPolicy: "cache-first",
@@ -85,8 +86,15 @@ const BookmarkPostsScreen = () => {
   const bookmarkedPosts: Types.IPostEdge[] = posts.edges.filter(({ node }) =>
     savedPosts.includes(node.id)
   );
-
   console.log({ bookmarkedPosts });
+
+  const { isConnected } = useConnectivity();
+
+  useEffect(() => {
+    if (posts.edges.length === 0 && isConnected) {
+      refetch();
+    }
+  }, [isConnected, refetch, posts.edges.length]);
 
   const itemsRendered = (
     <View
@@ -97,13 +105,9 @@ const BookmarkPostsScreen = () => {
       {bookmarkedPosts.length === 0 && error ? (
         <View
           style={{
-            zIndex: 10,
-            height: 30,
             justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: 36,
             flex: 1,
-            backgroundColor: "#ffffffa0",
           }}
         >
           {networkStatus === NetworkStatus.error ? (

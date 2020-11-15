@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
-import { useIdentity } from "context/identity";
 import { sync } from "../sync";
+import * as storage from "./storage";
 
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
@@ -95,7 +95,7 @@ export function isCategoryDoneGivenExercises(
 }
 
 function _sync(exercises: Exercises, reminder: ReminderState) {
-  sync({ happiness: { exercises, reminder: reminder } });
+  sync({ happiness: { exercises, reminder } });
 }
 
 function getLastExerciseDoneAt(
@@ -240,21 +240,18 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
   >([]);
-  const {
-    state: { userId },
-  } = useIdentity();
 
   const updateExercises = async (updated: Exercises) => {
     setExercises(updated);
-    AsyncStorage.setItem(EXERCISE_KEY, JSON.stringify(updated));
+    storage.update(EXERCISE_KEY, updated);
   };
   const updateCategories = async (updated: Categories) => {
     setCategories(updated);
-    AsyncStorage.setItem(CATEGORY_KEY, JSON.stringify(updated));
+    storage.update(CATEGORY_KEY, updated);
   };
   const updateIdeas = async (updated: Ideas) => {
     setIdeas(updated);
-    AsyncStorage.setItem(IDEA_KEY, JSON.stringify(updated));
+    storage.set(IDEA_KEY, updated);
   };
 
   const markExerciseAsDone = async (id: ID) => {
@@ -262,8 +259,12 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       ...exercises,
       [id]: { state: "done", doneAt: Date.now() },
     };
-    _sync(temp, reminder);
     updateExercises(temp);
+    try {
+      _sync(temp, reminder);
+    } catch (e) {
+      console.warn("happiness> failed to sync", e);
+    }
   };
 
   const addIdea = async (categoryID: ID, text: string) => {
@@ -291,22 +292,23 @@ export const HappinessProvider = <T extends {}>(props: T) => {
 
   useEffect(() => {
     async function readFromStorage() {
-      const storedExercises = await AsyncStorage.getItem(EXERCISE_KEY);
-      const storedIdeas = await AsyncStorage.getItem(IDEA_KEY);
-      const storedRawCategories = await AsyncStorage.getItem(SERVER_DATA_KEY);
-      const storedReminder = await AsyncStorage.getItem(REMINDER_KEY);
+      const storedExercises = await storage.get(EXERCISE_KEY);
+      const storedIdeas = await storage.get(IDEA_KEY);
+      const storedRawCategories = await storage.get(SERVER_DATA_KEY);
+      const storedReminder = await storage.get(REMINDER_KEY);
       try {
-        if (storedExercises) {
-          setExercises(JSON.parse(storedExercises));
-        }
         if (storedIdeas) {
-          setIdeas(JSON.parse(storedIdeas));
+          setIdeas(storedIdeas);
         }
         if (storedRawCategories) {
-          updateRawCategories(JSON.parse(storedRawCategories));
+          setRawCategories(storedRawCategories);
+        }
+        if (storedExercises) {
+          setExercises(storedExercises);
+          update(storedRawCategories ?? [], storedExercises);
         }
         if (storedReminder) {
-          setReminder(JSON.parse( storedReminder));
+          setReminder(storedReminder);
         }
       } catch (e) {
         console.warn("failed to load", e);
@@ -330,8 +332,9 @@ export const HappinessProvider = <T extends {}>(props: T) => {
     // return true;
   };
 
-  const update = () => {
-    const result = getNextState(rawCategories, exercises, Date.now());
+  const update = (r = rawCategories, e = exercises) => {
+    // console.log("h2", { exercises });
+    const result = getNextState(r, e, Date.now());
     updateCategories(result.categories);
     updateExercises(result.exercises);
   };

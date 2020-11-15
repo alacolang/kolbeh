@@ -1,5 +1,6 @@
 import "react-native-gesture-handler/jestSetup";
 import mockAsyncStorage from "@react-native-community/async-storage/jest/async-storage-mock";
+import mockRNCNetInfo from "@react-native-community/netinfo/jest/netinfo-mock.js";
 import fetchMock from "jest-fetch-mock";
 
 jest.mock("react-native-reanimated", () => {
@@ -18,6 +19,8 @@ jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("@react-native-community/async-storage", () => mockAsyncStorage);
 
 jest.mock("react-native-sound", () => {});
+
+jest.mock("@react-native-community/netinfo", () => mockRNCNetInfo);
 
 jest.mock("react-native-code-push", () => {
   const cp = (_) => (app) => app;

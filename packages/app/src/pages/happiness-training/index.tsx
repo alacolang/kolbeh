@@ -114,9 +114,7 @@ const HappinessTraining = () => {
     fetchPolicy: "cache-first",
   });
 
-  console.log({ loading, error });
-
-  const newCategories = data?.happinessTraining.categories;
+  const newCategories = data?.happinessTraining.categories ?? [];
   const categories = happiness.rawCategories;
   const categoryToTryNext = happiness.categoryToTryNext();
 
@@ -146,7 +144,7 @@ const HappinessTraining = () => {
   }, [isConnected, _refetch, categories.length]);
 
   useEffect(() => {
-    if (!newCategories) {
+    if (newCategories.length === 0) {
       return;
     }
     happiness.updateRawCategories(newCategories);
@@ -229,8 +227,8 @@ const HappinessTraining = () => {
         contentContainerStyle={styles.slider}
         ref={ref}
       >
-        {loading ? (
-          <View style={[slideStyles.container, { left: -32 }]}>
+        {loading && categories?.length === 0 ? (
+          <View style={[slideStyles.container, { left: -28 }]}>
             <Loading />
           </View>
         ) : (
@@ -262,12 +260,9 @@ const HappinessTraining = () => {
         {categories.length === 0 && error ? (
           <View
             style={{
-              zIndex: 10,
-              height: 30,
               justifyContent: "center",
               alignItems: "center",
-              paddingHorizontal: 36,
-              backgroundColor: "#ffffffa0",
+              flexGrow: 1,
             }}
           >
             {networkStatus === NetworkStatus.error ? (
@@ -276,7 +271,10 @@ const HappinessTraining = () => {
                 style={{ color: colors.primary }}
               />
             ) : (
-              <FormattedText id="error.misc" />
+              <FormattedText
+                id="error.misc"
+                style={{ color: colors.primary }}
+              />
             )}
           </View>
         ) : (
@@ -305,6 +303,7 @@ const styles = StyleSheet.create({
   },
   slider: {
     paddingRight: 32,
+    paddingLeft: 8,
   },
   greetingContainer: {
     paddingLeft: 16,
@@ -328,7 +327,7 @@ type SlideProps = {
 
 const slidesX: Record<string, number> = {};
 
-const Slide = ({ category, state, onClick, t }: SlideProps) => {
+const Slide = ({ category, state, onClick }: SlideProps) => {
   return (
     <TouchableOpacity disabled={state === "locked"} onPress={() => onClick()}>
       <View
@@ -400,9 +399,11 @@ const slideStyles = StyleSheet.create({
     borderRadius: 20,
     width: slideWidth,
     height: slideHeight,
-    paddingTop: 16,
+    paddingVertical: 16,
     alignItems: "center",
-    marginBottom: 16,
+    marginVertical: 16,
+    // marginHorizontal: 20,
+    // borderWidth: 2,
     elevation: 5,
   },
   contentContainer: {
