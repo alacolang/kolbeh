@@ -4,7 +4,7 @@ title: title-1
 category: child/kid
 type: image
 date: 2020-04-19 10:34
-tags: [کنترل استرس,مدیریت هیجان]
+tags: [کنترل استرس, مدیریت هیجان]
 ---
 
 ![](../../static/images/kid-victory-chap3-1.png)

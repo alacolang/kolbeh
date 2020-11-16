@@ -2,7 +2,7 @@
 title: title-0
 category: parent/autism
 type: image
-tags: [اوتیسم,آسپرگر]
+tags: [اوتیسم, آسپرگر]
 ---
 
 ![](../../static/images/autism1.png)

@@ -3,7 +3,7 @@ title: title-3
 category: parent/empathy
 type: image
 date: 2020-04-9 10:00
-tags: [گفتگو,همدلی]
+tags: [گفتگو, همدلی]
 description: "با فرزندانمان در مورد بحران‌ها گفتگو کنیم"
 ---
 

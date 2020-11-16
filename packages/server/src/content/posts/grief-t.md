@@ -4,7 +4,7 @@ title: title-3
 category: parent/grief
 type: image
 date: 2020-04-08 8:00
-tags: [سوگ,سوگواری]
+tags: [سوگ, سوگواری]
 ---
 
 ![](../../static/images/grief-t-1.png)

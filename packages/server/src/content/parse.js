@@ -14,7 +14,9 @@ const readFileAsync = util.promisify(readFile);
 function normalizeHref(href) {
   const adjustPathRE = new RegExp("../../static/", "g");
   const adjustExtensionRE = /\.png$/g;
-  return href.replace(adjustPathRE, "/static/").replace(adjustExtensionRE, '.webp')
+  return href
+    .replace(adjustPathRE, "/static/")
+    .replace(adjustExtensionRE, ".webp");
 }
 
 function createImageFeild(href) {

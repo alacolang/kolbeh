@@ -3,7 +3,7 @@ title: برخورد صحیح با فرزندان مبتلا به بیش فعال
 category: parent/adhd
 type: image
 date: 2020-05-1 20:00
-tags: [تمرکز,بیش فعالی]
+tags: [تمرکز, بیش فعالی]
 ---
 
 ![](../../static/images/adhd-at-home-1.png)

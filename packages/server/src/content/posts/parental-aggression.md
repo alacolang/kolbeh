@@ -4,7 +4,7 @@ title: title-4
 category: parent/stress
 type: image
 date: 2020-04-15 09:00
-tags: [پرخاشگری,خشم]
+tags: [پرخاشگری, خشم]
 description: "مهارت کنترل خشم، برای مراقبت از فرزندان در بحران‌ها ضروری است"
 ---
 

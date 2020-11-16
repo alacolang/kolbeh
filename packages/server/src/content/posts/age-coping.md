@@ -3,7 +3,7 @@ title: title-0
 category: parent/stress
 type: markdown
 cover: ../../static/images/age-coping-cover.webp
-tags: [سازگاری,مقابله]
+tags: [سازگاری, مقابله]
 description: "کودکان و نوجوانان در سنین مختلف، ممکن است واکنش‌های متفاوتی به شرایط بحرانی داشته باشند. آگاهی از ویژگی‌های سنی  فرزندان، به برخورد صحیح والدین کمک می‌کند"
 ---
 

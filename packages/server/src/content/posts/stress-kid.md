@@ -3,7 +3,7 @@ title: title-2
 category: child/kid
 type: image
 date: 2020-04-9 11:30
-tags: [استرس,آرامسازی]
+tags: [استرس, آرامسازی]
 ---
 
 ![](../../static/images/stress-kid-1.png)

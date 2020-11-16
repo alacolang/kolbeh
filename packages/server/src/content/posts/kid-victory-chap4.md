@@ -4,7 +4,7 @@ title: "ما پیروز می‌شویم: خواب‌های ترسناک من"
 category: child/kid
 type: image
 date: 2020-04-22 21:40
-tags: [کنترل استرس,مدیریت هیجان]
+tags: [کنترل استرس, مدیریت هیجان]
 ---
 
 ![](../../static/images/kid-victory-chap4-1.png)

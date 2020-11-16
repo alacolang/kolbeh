@@ -2,7 +2,7 @@
 title: title-1
 category: parent/depression
 type: video
-tags: [افسردگی,غم]
+tags: [افسردگی, غم]
 description: "در دوران فاصله‌گذاری اجتماعی، حواسمان به فرزندان مبتلا به افسردگی باشد"
 ---
 

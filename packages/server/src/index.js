@@ -74,7 +74,6 @@ app.use(
 
 app.use("/admin/queues", UI);
 
-
 app.get("/api/firebase/check", (req, res) => {
   const TOKEN =
     "fbKz258CQFCzwmB_D4Tyug:APA91bF5_bVLJyJVmGhTvUwVirpr8xCj1Xhy2LpkONsH_7E2yUtpInnT_FYkJuN1I1k35OtF_E_7A-ppMw4h76Py-YKESn5m6W0uKaIWq9itnxTwpjcsE7MDjz4S08PQYPW_HBt66rzi";
@@ -102,7 +101,6 @@ app.get("/api/firebase/check", (req, res) => {
   admin.messaging().send(message);
   res.send("sent!");
 });
-
 
 const port = process.env.PORT || 8000;
 app.listen({ port }, () => {

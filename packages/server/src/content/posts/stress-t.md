@@ -2,7 +2,7 @@
 title: title-3
 category: parent/anxiety
 type: image
-tags: [استرس,آرامسازی]
+tags: [استرس, آرامسازی]
 ---
 
 ![](../../static/images/stress-t-1.png)

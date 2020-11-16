@@ -3,7 +3,7 @@ title: اطلاع‌رسانی در بحران‌ها
 category: parent/empathy
 type: image
 date: 2020-04-29 11:00
-tags: [بحران,همدلی]
+tags: [بحران, همدلی]
 ---
 
 ![](../../static/images/crisis-awareness-1.png)
