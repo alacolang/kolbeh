@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node scripts/run.js",
+    "start-messaging": "node scripts/messaging.js",
     "dev": "nodemon --exec babel-node src/index.js",
+    "dev-messaging": "nodemon --exec babel-node src/messaging/index.js",
     "build": "babel-node src/index.js",
     "fmt": "prettier --write 'src/**/*.js'",
     "optimize-images": "node scripts/optimize-images.js"
@@ -17,27 +19,33 @@
     "apollo-server-plugin-response-cache": "^0.4.1",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "bull": "^3.18.1",
+    "bull-board": "^0.10.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
     "firebase-admin": "^9.3.0",
     "front-matter": "^3.1.0",
     "fs-extra": "^9.0.0",
     "graphql": "^14.6.0",
-    "leveldown": "^5.6.0",
-    "levelup": "^4.4.0",
+    "joi": "^17.3.0",
     "marked": "^0.8.2",
     "md5": "^2.2.1",
     "p-limit": "^2.3.0",
     "ramda": "^0.27.0",
-    "sharp": "^0.25.2"
+    "redis": "^3.0.2",
+    "sharp": "^0.25.2",
+    "typescript": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.0",
+    "@types/node": "^14.14.7",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.1"
+    "prettier": "^2.0.1",
+    "typescript": "^4.0.5"
   }
 }

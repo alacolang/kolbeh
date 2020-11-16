@@ -1,4 +1,5 @@
 *.webp
 db
-src/firebase.json
+firebase.json
+.env
 apollo.config.js

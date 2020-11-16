@@ -11,6 +11,10 @@ import resolvers from "./resolvers";
 // import logger from "./plugins/logger";
 import { admin } from "./firebase-config";
 import usersRouter from "./users";
+import basicAuth from "express-basic-auth";
+import { UI } from "bull-board";
+import "./messaging/setup-ui";
+import config from "./config";
 
 const app = express();
 app.use(cors());
@@ -31,7 +35,7 @@ const server = new ApolloServer({
     });
   },
   engine: {
-    reportSchema: true,
+    // reportSchema: true,
   },
   // formatError: (error) => error,
   // dataSources,
@@ -54,15 +58,37 @@ app.get("/health", (req, res) => {
   res.send("ok");
 });
 
-app.get("/firebase/check", (req, res) => {
+app.use("/api/users", usersRouter);
+
+app.post("/api/error", (req, res) => {
+  console.log("error", req.body);
+  res.json({ status: "ok" });
+});
+
+app.use(
+  basicAuth({
+    users: { [config.admin.username]: config.admin.password },
+    challenge: true,
+  })
+);
+
+app.use("/admin/queues", UI);
+
+
+app.get("/api/firebase/check", (req, res) => {
   const TOKEN =
-    "dwctybyXR_a9DrJx9f7CJQ:APA91bGBkGv4i4QDIM-sZwcPc0b74g37w1UPT8P_I89Z5LaaOAuIAk8DZbIs7LPt8UyyVnQbiZkR27SQy-eFH1PfCgA3fUb4BLsIZktfKlo6-tnCvFBKittlQw-gSZBB4H1qJn9hwpH0";
+    "fbKz258CQFCzwmB_D4Tyug:APA91bF5_bVLJyJVmGhTvUwVirpr8xCj1Xhy2LpkONsH_7E2yUtpInnT_FYkJuN1I1k35OtF_E_7A-ppMw4h76Py-YKESn5m6W0uKaIWq9itnxTwpjcsE7MDjz4S08PQYPW_HBt66rzi";
+
+  const name = "یاسر";
+  const exercise = "ذهن آگاهی";
 
   const message = {
     token: TOKEN,
     notification: {
-      body: "از بک‌اند",
-      title: "مشقت انجام بده",
+      body: "",
+      title: `${name} شکلات رو امروز با ${exercise} مزه کن`,
+      imageUrl:
+        "http://192.168.178.40:8000/static/images/notification-icon.png",
     },
     data: {
       exerciseToTry: "awe",
@@ -77,12 +103,6 @@ app.get("/firebase/check", (req, res) => {
   res.send("sent!");
 });
 
-app.use("/api/users", usersRouter);
-
-app.post("/api/error", (req, res) => {
-  console.log("error", req.body);
-  res.json({ status: "ok" });
-});
 
 const port = process.env.PORT || 8000;
 app.listen({ port }, () => {
