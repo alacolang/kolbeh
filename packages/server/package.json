@@ -9,7 +9,7 @@
     "dev": "nodemon --exec babel-node src/index.js",
     "dev-messaging": "nodemon --exec babel-node src/messaging/index.js",
     "build": "babel-node src/index.js",
-    "fmt": "prettier --write 'src/**/*.js'",
+    "fmt": "prettier --write 'src/**/*.*'",
     "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
