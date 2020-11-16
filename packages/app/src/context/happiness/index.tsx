@@ -112,7 +112,7 @@ function getLastExerciseDoneAt(
   return result;
 }
 
-export function categoryToTryNext(
+export function getCategoryToTryNext(
   categories: Categories,
   rawCategories: types.IHappinessTrainingCategory[]
 ): NextCategory {
@@ -360,7 +360,8 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         isCategoryDone,
         reminderState: reminder,
         updateReminder,
-        categoryToTryNext: () => categoryToTryNext(categories, rawCategories),
+        categoryToTryNext: () =>
+          getCategoryToTryNext(categories, rawCategories),
         isAllDone,
       }}
     />

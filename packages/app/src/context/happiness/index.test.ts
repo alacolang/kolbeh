@@ -1,4 +1,4 @@
-import { categoryToTryNext, getNextState } from "./index";
+import { getCategoryToTryNext, getNextState } from "./index";
 import * as types from "types";
 
 describe("categories", () => {
@@ -196,7 +196,7 @@ describe("next category to try", () => {
         state: "unlocked",
       },
     } as const;
-    const next = categoryToTryNext(categories, rawCategories);
+    const next = getCategoryToTryNext(categories, rawCategories);
     // @ts-expect-error
     expect(next?.id).toEqual("cat-2");
   });
@@ -206,13 +206,13 @@ describe("next category to try", () => {
       { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
     ] as types.IHappinessTrainingCategory[];
     const categories = {} as const;
-    const next = categoryToTryNext(categories, rawCategories);
+    const next = getCategoryToTryNext(categories, rawCategories);
     expect(next).toEqual(null);
   });
   it("when not rawCategories there", () => {
     const rawCategories = [] as types.IHappinessTrainingCategory[];
     const categories = {} as const;
-    const next = categoryToTryNext(categories, rawCategories);
+    const next = getCategoryToTryNext(categories, rawCategories);
     expect(next).toEqual(null);
   });
 });

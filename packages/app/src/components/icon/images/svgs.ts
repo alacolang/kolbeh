@@ -33,8 +33,8 @@ import onboarding from "./onboarding-image1.svg";
 import parent from "./parent.svg";
 import kolbeh from "./kolbeh.svg";
 import rewardDaily from "./reward-daily.svg";
-import rewardMedal from "./reward-medal-3.svg";
-import rewardCertificate from "./reward-certificate-1.svg";
+import rewardMedal from "./reward-medal.svg";
+import rewardCertificate from "./reward-certificate.svg";
 import loginHeader from "./login-header.svg";
 import edit from "./edit.svg";
 
