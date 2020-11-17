@@ -1,9 +1,13 @@
-import parse from "../content/parse";
+import { IResolvers } from "apollo-server-express";
+import parse, { Category, sortByDateThenOrder, Parsed } from "../content/parse";
 import happinessTrainingData from "./data/happinessTraining";
-let parsedData;
 
-const ALL_TYPES = ["image", "video", "markdown", "inapp"];
-const OLD_TYPES = ["image", "video", "markdown"];
+let parsedData: Parsed;
+
+export type PostType = "image" | "video" | "markdown" | "inapp";
+
+const ALL_TYPES = ["image", "video", "markdown", "inapp"] as const;
+const OLD_TYPES = ["image", "video", "markdown"] as const;
 
 async function init() {
   parsedData = await parse();
@@ -11,30 +15,12 @@ async function init() {
 
 init();
 
-function fixIconTypo(name) {
+function fixIconTypo(name: string) {
   if (name === "anxiety") return "axiety";
   return name;
 }
 
-const sortByDateThenOrder = (p1, p2) => {
-  try {
-    if (p2.node.date && p1.node.date) {
-      return (
-        new Date(p2.node.date).getTime() - new Date(p1.node.date).getTime()
-      );
-    } else if (p2.node.date && !p1.node.date) {
-      return 1;
-    } else if (p1.node.date && !p2.node.date) {
-      return -1;
-    } else {
-      return p1.node.order - p2.node.order;
-    }
-  } catch (e) {
-    return p1.node.order - p2.node.order;
-  }
-};
-
-const dataResolver = (data, types = OLD_TYPES) => {
+const dataResolver = (data: Category[], types: Readonly<PostType[]> = OLD_TYPES) => {
   return data.map((d) => {
     return {
       ...d,
@@ -53,11 +39,11 @@ const dataResolver = (data, types = OLD_TYPES) => {
   });
 };
 
-const resolvers = {
+const resolvers: IResolvers = {
   Query: {
     info: () => {
       return {
-        version: "0.0.2",
+        version: "0.0.3",
       };
     },
     postById: (_, { id }) => {
@@ -78,7 +64,7 @@ const resolvers = {
       ]
         .map((d) => d.feed.edges)
         .flat()
-        .sort(sortByDateThenOrder);
+        .sort((a, b) => sortByDateThenOrder(a.node, b.node));
 
       return {
         edges,

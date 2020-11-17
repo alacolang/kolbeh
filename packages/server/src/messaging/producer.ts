@@ -1,23 +1,29 @@
+import { utcToZonedTime } from "date-fns-tz";
 import { getCategoryToTryNext, getNextState } from "../happiness";
 import { findAll } from "../db";
 import HappinessTraining from "../resolvers/data/happinessTraining";
 import { happinessTryNextQueue } from "./queue";
 import config from "../config";
+import { omit } from "ramda";
 
-function getUserActivityStatus(lastSynced) {
+function getUserActivityStatus(lastSynced: number) {
   const diffInHours = (new Date().getTime() - lastSynced) / 1000 / 60 / 60;
   return {
     isActive: diffInHours < config.messaging.happiness.maxInactiveDays * 24,
+    hasSyncedRecently:
+      diffInHours < config.messaging.happiness.maxLastSyncedInDays * 24,
     lastSyncedInDays: Math.ceil(diffInHours / 24),
-    lastSyncedInHour: diffInHours,
+    lastSyncedInHour: Math.ceil(diffInHours),
   };
 }
 
 export function isSendingTimeOk() {
-  const hr = new Date().getHours();
+  const date = new Date();
+  const timeZone = "Asia/Tehran";
+  const hr = utcToZonedTime(date, timeZone).getHours();
   if (
-    hr < config.messaging.stopSendingHour &&
-    hr > config.messaging.startSendingHour
+    hr <= config.messaging.stopSendingHour &&
+    hr >= config.messaging.startSendingHour
   ) {
     return true;
   } else {
@@ -32,13 +38,11 @@ export async function producer() {
   }
 
   const users = await findAll();
-  Object.keys(users).map((key) => {
-    const user = users[key];
-
-    console.log({ user });
+  users.map((user) => {
+    console.log({ user: omit(["messagingToken"], user) });
 
     if (!user.lastSynced) return;
-    if (user.reminder?.state === "INACTIVE") {
+    if (user.happiness?.reminder?.state === "INACTIVE") {
       console.log("ignore this user, reminder is set to inactive");
       return;
     }
@@ -59,7 +63,16 @@ export async function producer() {
       HappinessTraining.categories
     );
 
-    if (!categoryToTryNext?.title) {
+    if (
+      categoryToTryNext === null ||
+      categoryToTryNext === "all-done" ||
+      categoryToTryNext === "not-now"
+    ) {
+      console.log("no need to exercise now");
+      return;
+    }
+
+    if (!categoryToTryNext.title) {
       console.log("no need to send message");
       console.log(user.name, { categoryToTryNext });
       return;
@@ -69,10 +82,10 @@ export async function producer() {
     const name = user.name;
 
     let messageTitle;
-    if (name) {
-      messageTitle = `${name}، شکلات رو امروز با ${exercise} مزه کن.`;
+    if (name && userActivityStatus.hasSyncedRecently) {
+      messageTitle = `${name}، شکلات رو امروز با «${exercise}» مزه کن.`;
     } else {
-      messageTitle = `شکلات رو امروز با ${exercise} مزه کن.`;
+      messageTitle = `شکلات رو امروز با «${exercise}» مزه کن.`;
     }
 
     const message = {
@@ -93,6 +106,6 @@ export async function producer() {
     };
 
     console.log("to add to queue", message);
-    happinessTryNextQueue.add(message);
+    // happinessTryNextQueue.add(message);
   });
 }

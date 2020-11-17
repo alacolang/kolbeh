@@ -17,7 +17,7 @@ happinessTryNextQueue.process(function (job, done) {
     .then(() => {
       console.log("message sent!", job.data);
     })
-    .catch((e) => {
+    .catch((e: Error) => {
       console.log("failed to send", e);
     })
     .finally(() => {

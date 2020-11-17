@@ -3,7 +3,7 @@ import cors from "cors";
 import path from "path";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import responseCachePlugin from "apollo-server-plugin-response-cache";
+// import responseCachePlugin from "apollo-server-plugin-response-cache";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import schema from "./schema";
@@ -28,12 +28,7 @@ const server = new ApolloServer({
   typeDefs: schema,
   // mocks: true,
   resolvers,
-  plugins: [responseCachePlugin()],
-  onHealthCheck: () => {
-    return new Promise((resolve) => {
-      resolve();
-    });
-  },
+  // plugins: [responseCachePlugin()],
   engine: {
     // reportSchema: true,
   },
@@ -96,7 +91,7 @@ app.get("/api/firebase/check", (req, res) => {
       // Required for background/quit data-only messages on Android
       priority: "high",
     },
-  };
+  } as const;
 
   admin.messaging().send(message);
   res.send("sent!");

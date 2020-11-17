@@ -1,7 +1,29 @@
-const minDelayBeforeNextExerciseInHour =
-  process.env.HAPPINESS_MIN_DELAY_BEFORE_NEXT_EXERCISE_IN_HOUR ?? 1.0 / 60 / 10;
+import * as types from "./types";
+import config from "./config";
 
-export function getCategoryToTryNext(categories, rawCategories) {
+const nextExerciseInMiliseconds =
+  config.messaging.happiness.nextExerciseInHour * 60 * 60 * 1000;
+
+export type State =
+  | { state: "locked" | "unlocked" }
+  | { state: "done"; doneAt: number };
+type ID = string;
+export type Exercises = Record<ID, State>;
+type Categories = Record<ID, State>;
+export type ReminderState = {
+  state: "ACTIVE" | "INACTIVE";
+};
+
+type NextCategory =
+  | null
+  | "all-done"
+  | "not-now"
+  | types.IHappinessTrainingCategory;
+
+export function getCategoryToTryNext(
+  categories: Categories,
+  rawCategories: types.IHappinessTrainingCategory[]
+): NextCategory {
   if (
     !rawCategories ||
     rawCategories.length === 0 ||
@@ -10,24 +32,36 @@ export function getCategoryToTryNext(categories, rawCategories) {
   ) {
     return null;
   }
-  return [...rawCategories].reverse().reduce((acc, category) => {
-    if (acc !== "not-now" && acc !== "all-done") {
-      return acc;
-    }
-    const state = categories[category.id]?.state;
-    if (state === "done" && acc === "all-done") {
-      return acc;
-    }
-    if (categories[category.id]?.state === "unlocked") {
-      return category;
-    }
-    return "not-now";
-  }, "all-done");
+  return [...rawCategories]
+    .reverse()
+    .reduce(
+      (
+        acc: "all-done" | "not-now" | types.IHappinessTrainingCategory,
+        category: types.IHappinessTrainingCategory
+      ) => {
+        if (acc !== "not-now" && acc !== "all-done") {
+          return acc;
+        }
+        const state = categories[category.id]?.state;
+        if (state === "done" && acc === "all-done") {
+          return acc;
+        }
+        if (categories[category.id]?.state === "unlocked") {
+          return category;
+        }
+        return "not-now";
+      },
+      "all-done"
+    );
 }
 
-export function getNextState(rawCategories, exercises, currentTime) {
-  const nextCategories = {};
-  const nextExercises = {};
+export function getNextState(
+  rawCategories: types.IHappinessTrainingCategory[],
+  exercises: Exercises,
+  currentTime: number
+): { exercises: Exercises; categories: Categories } {
+  const nextCategories: Categories = {};
+  const nextExercises: Exercises = {};
 
   // exercises are not locked, but first one locked, following are locked too.
   let isExercisesLocked = false;
@@ -46,8 +80,8 @@ export function getNextState(rawCategories, exercises, currentTime) {
 
     const lastExerciseDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
     const isRecent =
-      currentTime - lastExerciseDoneAt <
-      minDelayBeforeNextExerciseInHour * 60 * 60 * 1000;
+      currentTime - lastExerciseDoneAt < nextExerciseInMiliseconds;
+
     isExercisesLocked = isExercisesLocked || isRecent;
 
     rawCategory.exercises.forEach((rawExercise) => {
@@ -106,7 +140,10 @@ export function getNextState(rawCategories, exercises, currentTime) {
   };
 }
 
-function getLastExerciseDoneAt(rawCategory, exercises) {
+function getLastExerciseDoneAt(
+  rawCategory: types.IHappinessTrainingCategory,
+  exercises: Exercises
+): number {
   const result = rawCategory.exercises.reduce((last, { id }) => {
     const exercise = exercises[id];
     if (exercise?.state === "done") {
@@ -117,7 +154,10 @@ function getLastExerciseDoneAt(rawCategory, exercises) {
   return result;
 }
 
-function isCategoryDoneGivenExercises(rawCategory, exercises) {
+export function isCategoryDoneGivenExercises(
+  rawCategory: types.IHappinessTrainingCategory,
+  exercises: Exercises
+) {
   const allDone = rawCategory.exercises.every((rawExercise) => {
     const id = rawExercise.id;
     const exercise = exercises[id];
@@ -126,7 +166,10 @@ function isCategoryDoneGivenExercises(rawCategory, exercises) {
   return allDone && rawCategory.exercises.length > 0;
 }
 
-function isCategoryNotDoneYet(rawCategory, exercises) {
+export function isCategoryNotDoneYet(
+  rawCategory: types.IHappinessTrainingCategory,
+  exercises: Exercises
+) {
   const result = rawCategory.exercises.reduce((acc, rawExercise) => {
     const id = rawExercise.id;
     const exercise = exercises[id];

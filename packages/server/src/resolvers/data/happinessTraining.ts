@@ -1,4 +1,6 @@
-const categories = [
+import * as types from "../../types";
+
+const categories: types.IHappinessTrainingCategory[] = [
   {
     id: "mindfulness",
     title: "ذهن آگاهی",
@@ -410,7 +412,7 @@ const categories = [
   title,
   description,
   about,
-  image: { url: `/static/images/happiness-category-${id}.png` },
+  image: { id, url: `/static/images/happiness-category-${id}.png` },
   exercises: exercises || [],
 }));
 
