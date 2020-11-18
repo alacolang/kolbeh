@@ -39,6 +39,7 @@
     "appcenter": "^3.1.2",
     "appcenter-analytics": "^3.1.2",
     "appcenter-crashes": "^3.1.2",
+    "date-fns": "^2.16.1",
     "debounce": "^1.2.0",
     "deepmerge": "^4.2.2",
     "graphql": "^14.6.0",
