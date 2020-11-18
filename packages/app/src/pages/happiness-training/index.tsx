@@ -151,6 +151,8 @@ const HappinessTraining = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newCategories]);
 
+  const slidesX = useRef<Record<string, number>>({});
+
   const jumpToCategory = useCallback(() => {
     if (
       categoryToTryNext === "all-done" ||
@@ -161,7 +163,7 @@ const HappinessTraining = () => {
     }
 
     setTimeout(() => {
-      const x = slidesX[categoryToTryNext.id];
+      const x = slidesX.current[categoryToTryNext.id];
       if (x) {
         ref.current?.scrollTo({
           x: x - 24,
@@ -170,7 +172,7 @@ const HappinessTraining = () => {
       }
     }, 100);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryToTryNext, slidesX]);
+  }, [categoryToTryNext]);
 
   useFocusEffect(jumpToCategory);
   useEffect(jumpToCategory, [loading, jumpToCategory]);
@@ -241,6 +243,9 @@ const HappinessTraining = () => {
                 t={t}
                 category={category}
                 state={state}
+                setSlideX={(x: number) => {
+                  slidesX.current[category.id] = x;
+                }}
                 onClick={() =>
                   navigation.navigate("happinessCategory", { category })
                 }
@@ -323,29 +328,28 @@ type SlideProps = {
   category: Types.IHappinessTrainingCategory;
   state: State["state"];
   onClick: () => void;
+  setSlideX: (x: number) => void;
 };
 
-const slidesX: Record<string, number> = {};
-
-const Slide = ({ category, state, onClick }: SlideProps) => {
+const Slide = ({ category, state, onClick, setSlideX }: SlideProps) => {
   return (
-    <TouchableOpacity disabled={state === "locked"} onPress={() => onClick()}>
-      <View
-        key={category.id}
-        style={[
-          slideStyles.container,
-          {
-            backgroundColor:
-              state === "locked"
-                ? colors.backgroundPrimaryVariant
-                : colors.secondaryVarient,
-          },
-        ]}
-        onLayout={(event) => {
-          const layout = event.nativeEvent.layout;
-          slidesX[category.id] = layout.x;
-        }}
-      >
+    <View
+      key={category.id}
+      style={[
+        slideStyles.container,
+        {
+          backgroundColor:
+            state === "locked"
+              ? colors.backgroundPrimaryVariant
+              : colors.secondaryVarient,
+        },
+      ]}
+      onLayout={(event) => {
+        const layout = event.nativeEvent.layout;
+        setSlideX(layout.x);
+      }}
+    >
+      <TouchableOpacity disabled={state === "locked"} onPress={() => onClick()}>
         <Gif image={IMAGES[category.id]} />
         <View style={slideStyles.contentContainer}>
           <FormattedText style={slideStyles.categoryTitle}>
@@ -370,8 +374,8 @@ const Slide = ({ category, state, onClick }: SlideProps) => {
             </View>
           ) : null}
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
