@@ -1,19 +1,45 @@
+import "dotenv/config";
 import { utcToZonedTime } from "date-fns-tz";
-import { getCategoryToTryNext, getNextState } from "../happiness";
-import { findAll } from "../db";
+import {
+  getCategoryToTryNext,
+  getNextState,
+  isExerciseDoneRecently,
+} from "../happiness";
+import { findAll, User } from "../db";
 import HappinessTraining from "../resolvers/data/happinessTraining";
 import { happinessTryNextQueue } from "./queue";
 import config from "../config";
-import { omit } from "ramda";
+import { isEmpty, omit } from "ramda";
+import chalk from "chalk";
+import differenceInMinutes from "date-fns/differenceInMinutes";
 
-function getUserActivityStatus(lastSynced: number) {
-  const diffInHours = (new Date().getTime() - lastSynced) / 1000 / 60 / 60;
+const DAY_TO_MINUTE = 24 * 60;
+
+/*
+  * done
+  | day change
+  S send message
+  ~ no
+  E exercise title
+  || Max Inactive days
+
+  *       |        *      |          |        |       ||
+
+  .. ~N      SE        ~S      SE        S         S       ~S
+
+*/
+
+function getUserActivityStatus(modifiedAt: number) {
+  const currentTime = Date.now();
+  const diffInMinutes = differenceInMinutes(currentTime, modifiedAt);
   return {
-    isActive: diffInHours < config.messaging.happiness.maxInactiveDays * 24,
-    hasSyncedRecently:
-      diffInHours < config.messaging.happiness.maxLastSyncedInDays * 24,
-    lastSyncedInDays: Math.ceil(diffInHours / 24),
-    lastSyncedInHour: Math.ceil(diffInHours),
+    isActive:
+      diffInMinutes <
+      config.messaging.happiness.maxInactiveDays * DAY_TO_MINUTE,
+    hasSyncedRecently: isExerciseDoneRecently(currentTime, modifiedAt),
+    modifiedAtInDays: Math.ceil(diffInMinutes / 24),
+    modifiedAtInHour: Math.ceil(diffInMinutes),
+    diffInMinutes,
   };
 }
 
@@ -31,31 +57,75 @@ export function isSendingTimeOk() {
   }
 }
 
-export async function producer() {
+type Maybe<T> = T | undefined;
+
+function getMessage(
+  name: Maybe<string>,
+  exerciseToTry: Maybe<string>,
+  hasSyncedRecently = false
+) {
+  let result: string;
+  if (
+    name != undefined &&
+    !isEmpty(name) &&
+    exerciseToTry != undefined &&
+    !isEmpty(exerciseToTry) &&
+    hasSyncedRecently
+  ) {
+    result = `${name}، شکلات رو امروز با «${exerciseToTry}» مزه کن!`;
+  } else if (!isEmpty(name)) {
+    result = `${name}، شکلات رو امروز مزه کن!`;
+  } else {
+    result = `شکلات رو امروز مزه کن!`;
+  }
+  if (/undefined/i.test(result)) {
+    return undefined;
+  }
+  return result;
+}
+
+export async function producer(): Promise<void> {
   if (!isSendingTimeOk()) {
-    console.log("not a good time to add notification to queue");
+    console.warn("not a good time to add notification to queue");
     return;
   }
 
   const users = await findAll();
-  users.map((user) => {
-    console.log({ user: omit(["messagingToken"], user) });
+  users.map(processUser);
+}
 
-    if (!user.lastSynced) return;
-    if (user.happiness?.reminder?.state === "INACTIVE") {
-      console.log("ignore this user, reminder is set to inactive");
-      return;
-    }
+async function processUser(user: User) {
+  console.log(chalk.blue("******\nto try:"), {
+    user: omit(["messagingToken"], user),
+  });
 
-    const userActivityStatus = getUserActivityStatus(user.lastSynced);
-    if (!userActivityStatus.isActive) {
-      console.log("user not active anymore: ", userActivityStatus);
-      return;
-    }
+  if (user.happiness?.reminder?.state === "INACTIVE") {
+    console.info(chalk.red("ignore this user, reminder is set to inactive"));
+    return;
+  }
 
+  if (!user.modifiedAt) {
+    console.info(chalk.red("modifiedAt not exists!"));
+    return;
+  }
+
+  const userActivityStatus = getUserActivityStatus(user.modifiedAt);
+
+  console.log({ userActivityStatus });
+
+  if (!userActivityStatus.isActive) {
+    console.info(chalk.red("user not active anymore: "), userActivityStatus);
+    return;
+  }
+
+  const exercises = user?.happiness?.exercises ?? {};
+
+  let exerciseToTry: string | undefined;
+
+  if (!isEmpty(exercises)) {
     const nextState = getNextState(
       HappinessTraining.categories,
-      user?.happiness?.exercises ?? {},
+      exercises,
       Date.now()
     );
     const categoryToTryNext = getCategoryToTryNext(
@@ -68,44 +138,55 @@ export async function producer() {
       categoryToTryNext === "all-done" ||
       categoryToTryNext === "not-now"
     ) {
-      console.log("no need to exercise now");
+      console.info(chalk.red("no need to exercise now"));
       return;
     }
 
     if (!categoryToTryNext.title) {
-      console.log("no need to send message");
-      console.log(user.name, { categoryToTryNext });
+      console.warn(chalk.red("no need to send message"), { categoryToTryNext });
       return;
     }
 
-    const exercise = categoryToTryNext.title;
-    const name = user.name;
+    exerciseToTry = categoryToTryNext.title;
+  }
 
-    let messageTitle;
-    if (name && userActivityStatus.hasSyncedRecently) {
-      messageTitle = `${name}، شکلات رو امروز با «${exercise}» مزه کن.`;
-    } else {
-      messageTitle = `شکلات رو امروز با «${exercise}» مزه کن.`;
-    }
+  const title = getMessage(
+    user.name,
+    exerciseToTry,
+    userActivityStatus.hasSyncedRecently
+  );
 
-    const message = {
-      token: user.messagingToken,
-      notification: {
-        title: messageTitle,
-        body: "",
-        imageUrl: config.host + "/static/images/notification-icon.png",
-      },
-      // data: {
-      //   exerciseToTry: "awe",
-      // },
-      android: {
-        // Required for background/quit data-only messages on Android
-        priority: "high",
-        ttl: Number(config.messaging.happiness.ttlInHour) * 60 * 60, // duration in seconds to keep on FCM if device is offline
-      },
-    };
+  if (!title) {
+    console.warn(chalk.red("no proper message!"));
+    return;
+  }
 
-    console.log("to add to queue", message);
-    // happinessTryNextQueue.add(message);
+  const message = {
+    token: user.messagingToken,
+    notification: {
+      title,
+      body: "",
+      imageUrl: config.host + "/static/images/notification-icon.png",
+    },
+    // data: {
+    //   exerciseToTry: "awe",
+    // },
+    android: {
+      // Required for background/quit data-only messages on Android
+      priority: "high",
+      ttl: Number(config.messaging.happiness.ttlInHour) * 60 * 60, // duration in seconds to keep on FCM if device is offline
+    },
+  };
+
+  const job = {
+    message,
+    meta: {
+      createdAt: Date.now(),
+    },
+  };
+
+  console.info(chalk.green("to add to queue"), job);
+  happinessTryNextQueue.add(job, {
+    attempts: 1,
   });
 }

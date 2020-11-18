@@ -1,8 +1,22 @@
 import * as types from "./types";
+import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
+import differenceInMinutes from "date-fns/differenceInMinutes";
 import config from "./config";
 
-const nextExerciseInMiliseconds =
-  config.messaging.happiness.nextExerciseInHour * 60 * 60 * 1000;
+const DEV_MODE_NEXT_EXERCISE_IN_MINUTES = 2;
+
+export function isExerciseDoneRecently(
+  currentTime: number,
+  lastExerciseDoneAt: number
+): boolean {
+  if (config.isDevelopment || config.isStaging) {
+    return (
+      differenceInMinutes(currentTime, lastExerciseDoneAt) < DEV_MODE_NEXT_EXERCISE_IN_MINUTES
+    );
+  } else {
+    return differenceInCalendarDays(currentTime, lastExerciseDoneAt) < 1;
+  }
+}
 
 export type State =
   | { state: "locked" | "unlocked" }
@@ -79,9 +93,7 @@ export function getNextState(
     isExercisesLocked = isCategoryLocked;
 
     const lastExerciseDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
-    const isRecent =
-      currentTime - lastExerciseDoneAt < nextExerciseInMiliseconds;
-
+    const isRecent = isExerciseDoneRecently(currentTime, lastExerciseDoneAt);
     isExercisesLocked = isExercisesLocked || isRecent;
 
     rawCategory.exercises.forEach((rawExercise) => {

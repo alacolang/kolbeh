@@ -7,9 +7,9 @@ const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 const keysAsync = promisify(client.keys).bind(client);
 
-type User = {
+export type User = {
   name?: string;
-  lastSynced: number;
+  modifiedAt: number;
   happiness?: {
     exercises: Exercises;
     reminder: ReminderState;
@@ -28,10 +28,10 @@ export const findAll = async (): Promise<User[]> => {
   }
 };
 
-export const set = (key: string, data: any) => {
-  const lastSynced = Date.now();
-  console.log({ lastSynced, key });
-  return setAsync(key, JSON.stringify({ ...data, lastSynced }));
+export const set = (key: string, data: Record<string, any>) => {
+  const modifiedAt = Date.now();
+  console.log({ modifiedAt, key });
+  return setAsync(key, JSON.stringify({ ...data, modifiedAt }));
 };
 
 export const findByKey = async (key: string) => {

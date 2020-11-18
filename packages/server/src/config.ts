@@ -26,13 +26,13 @@ const schema = Joi.object({
       cron: Joi.string().pattern(/^([*/0-9]+\s){5}([*/0-9]+)/),
       maxInactiveDays: Joi.number(),
       ttlInHour: Joi.number(),
-      nextExerciseInHour: Joi.number(),
-      maxLastSyncedInDays: Joi.number(),
     },
     firebase: {
       databaseURL: Joi.string(),
     },
   }),
+  isDevelopment: Joi.boolean(),
+  isStaging: Joi.boolean(),
 });
 
 type Config = {
@@ -60,13 +60,13 @@ type Config = {
       cron: string;
       maxInactiveDays: number;
       ttlInHour: number;
-      nextExerciseInHour: number;
-      maxLastSyncedInDays: number;
     };
     firebase: {
       databaseURL: string;
     };
   };
+  isDevelopment: boolean;
+  isStaging: boolean;
 };
 
 const config: Config = {
@@ -94,15 +94,13 @@ const config: Config = {
       cron: process.env.HAPPINESS_MESSAGING_CRON!,
       maxInactiveDays: Number(process.env.HAPPINESS_MAX_INACTIVE_DAYS),
       ttlInHour: Number(process.env.HAPPINESS_MESSAGING_TTL_IN_HOUR),
-      nextExerciseInHour: Number(process.env.HAPPINESS_NEXT_EXERCISE_IN_HOUR),
-      maxLastSyncedInDays: Number(
-        process.env.HAPPINESS_MAX_LAST_SYNCED_IN_DAYS
-      ),
     },
     firebase: {
       databaseURL: process.env.FIREBASE_DATABASE_URL!,
     },
   },
+  isDevelopment: process.env.NODE_ENV === "development",
+  isStaging: process.env.NODE_ENV === "staging",
 };
 
 const result = schema.validate(config);
