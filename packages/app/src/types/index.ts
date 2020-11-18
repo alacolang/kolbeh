@@ -85,7 +85,7 @@ export type IHappinessTrainingCategory = {
   about: string;
   image: IImage;
   exercises: IExercise[];
-  post: IPost;
+  // post: IPost;
 };
 
 export type IExercise = {
