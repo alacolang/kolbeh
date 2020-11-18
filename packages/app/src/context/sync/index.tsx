@@ -169,7 +169,7 @@ export async function initSync() {
         await sync(syncState.data, { syncWhileInitializing: true });
       }
       const data = serviceState.dataToSyncWhileInit;
-      if (emptyObject(data)) {
+      if (!emptyObject(data)) {
         serviceState.state = "syncing";
         await sync(data, { syncWhileInitializing: true });
       }
@@ -184,7 +184,7 @@ export async function initSync() {
     });
 }
 
-const emptyObject = (obj: Record<string, any>) => Object.keys(obj).length > 0;
+const emptyObject = (obj: Record<string, any>) => Object.keys(obj).length === 0;
 
 // const key = "happiness_sync_key";
 // AsyncStorage.removeItem(key);
