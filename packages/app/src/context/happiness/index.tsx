@@ -3,17 +3,33 @@ import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
 import { sync } from "../sync";
 import * as storage from "./storage";
+import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
+import differenceInSeconds from "date-fns/differenceInSeconds";
+import config from "config";
 
+const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2;
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
 const SERVER_DATA_KEY = "happiness_server";
 const REMINDER_KEY = "happiness_reminder";
-const ONE_DAY_IN_MILLISECONDS = 1000 * 2 * 1;
-// export const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 const REMINDER_INITIAL_STATE: ReminderState = {
   state: "INACTIVE",
 };
+
+function isExerciseDoneRecently(
+  currentTime: number,
+  lastExerciseDoneAt: number
+) {
+  if (config.isDevelopment) {
+    return (
+      differenceInSeconds(currentTime, lastExerciseDoneAt) <
+      DEV_MODE_NEXT_EXERCISE_IN_SECONDS
+    );
+  } else {
+    return differenceInCalendarDays(currentTime, lastExerciseDoneAt) < 1;
+  }
+}
 
 export type State =
   | { state: "locked" | "unlocked" }
@@ -171,7 +187,7 @@ export function getNextState(
     isExercisesLocked = isCategoryLocked;
 
     const lastExerciseDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
-    const isRecent = currentTime - lastExerciseDoneAt < ONE_DAY_IN_MILLISECONDS;
+    const isRecent = isExerciseDoneRecently(currentTime, lastExerciseDoneAt);
     isExercisesLocked = isExercisesLocked || isRecent;
 
     rawCategory.exercises.forEach((rawExercise) => {
