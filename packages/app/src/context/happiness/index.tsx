@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
 import { sync } from "../sync";
-import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
-import differenceInSeconds from "date-fns/differenceInSeconds";
 import * as storage from "../../utils/storage";
+import { differenceInSeconds, differenceInCalendarDays } from "date-fns";
 import config from "config";
+import { useNotification } from "./notification";
 
-const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2;
+const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2000;
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
@@ -35,14 +35,14 @@ export type State =
   | { state: "locked" | "unlocked" }
   | { state: "done"; doneAt: number };
 type ID = string;
-type Exercises = Record<ID, State>;
-type Categories = Record<ID, State>;
+export type Exercises = Record<ID, State>;
+export type Categories = Record<ID, State>;
 type Ideas = Record<ID, string[]>;
 export type ReminderState = {
   state: "ACTIVE" | "INACTIVE";
 };
 
-type IHappinessContext = {
+export type IHappinessContext = {
   exercises: Exercises;
   categories: Categories;
   ideas: Ideas;
@@ -54,13 +54,13 @@ type IHappinessContext = {
   markExerciseAsDone: (id: ID) => void;
   addIdea: (categoryID: ID, text: string) => void;
   isCategoryDone: (category: types.IHappinessTrainingCategory) => boolean;
-  categoryToTryNext: () => NextCategory;
+  getCategoryToTryNext: () => NextCategory;
   isAllDone: () => boolean;
   reminderState: ReminderState;
   updateReminder: (s: ReminderState) => void;
 };
 
-type NextCategory =
+export type NextCategory =
   | null
   | "all-done"
   | "not-now"
@@ -76,7 +76,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   markExerciseAsDone: () => {},
   addIdea: () => {},
   isCategoryDone: () => false,
-  categoryToTryNext: () => null,
+  getCategoryToTryNext: () => null,
   isAllDone: () => false,
   reminderState: REMINDER_INITIAL_STATE,
   updateReminder: () => {},
@@ -333,6 +333,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
       }
     }
     readFromStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isCategoryDone = (
@@ -378,7 +379,7 @@ export const HappinessProvider = <T extends {}>(props: T) => {
         isCategoryDone,
         reminderState: reminder,
         updateReminder,
-        categoryToTryNext: () =>
+        getCategoryToTryNext: () =>
           getCategoryToTryNext(categories, rawCategories),
         isAllDone,
       }}
