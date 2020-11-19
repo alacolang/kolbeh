@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   View,
   RefreshControl,
@@ -7,11 +7,7 @@ import {
   ScrollView,
   InteractionManager,
 } from "react-native";
-import {
-  useNavigation,
-  NavigationProp,
-  useFocusEffect,
-} from "@react-navigation/core";
+import { useNavigation, NavigationProp } from "@react-navigation/core";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import CategoryTile from "./category-tile";
@@ -19,7 +15,6 @@ import Loading from "components/loading";
 import { ParentStackParamList } from "navigation/parent-stack-navigator";
 import colors from "colors";
 import * as Types from "types";
-import { errorReport } from "utils/error-reporter";
 import { FormattedText } from "components/formatted-text";
 import { useConnectivity } from "context/connectivity";
 import { NetworkStatus } from "apollo-client";
