@@ -1,6 +1,6 @@
 import React from "react";
-import AsyncStorage from "@react-native-community/async-storage";
 import { trackEvent } from "utils/analytics";
+import { set, get } from "utils/storage";
 
 const KEY = "saved-posts";
 
@@ -26,7 +26,7 @@ export const BookmarkedPostsProvider = <T extends {}>(props: T) => {
   const [posts, setPosts] = React.useState<ID[]>([]);
 
   const updateBookmarkedPosts = async (updatedBookmarkedPosts: ID[]) => {
-    await AsyncStorage.setItem(KEY, JSON.stringify(updatedBookmarkedPosts));
+    await set(KEY, updatedBookmarkedPosts);
     setPosts(updatedBookmarkedPosts);
     // return updatedBookmarkedPosts;
   };
@@ -49,12 +49,10 @@ export const BookmarkedPostsProvider = <T extends {}>(props: T) => {
 
   React.useEffect(() => {
     async function readFromStorage() {
-      const raw = await AsyncStorage.getItem(KEY);
-      try {
-        if (raw) {
-          setPosts(JSON.parse(raw));
-        }
-      } catch (e) {}
+      const stored = await get<ID[]>(KEY);
+      if (stored) {
+        setPosts(stored);
+      }
     }
     readFromStorage();
   }, []);

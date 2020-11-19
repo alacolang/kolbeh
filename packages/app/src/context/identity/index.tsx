@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import AsyncStorage from "@react-native-community/async-storage";
 import { initSync, sync } from "context/sync";
+import { get, set } from "utils/storage";
 
 const IDENTITY_KEY = "identity";
 
@@ -63,7 +63,7 @@ export const IdentityProvider = <T extends {}>(props: T) => {
 
   const doUpdate = async (updated: State) => {
     try {
-      AsyncStorage.setItem(IDENTITY_KEY, JSON.stringify(updated));
+      set(IDENTITY_KEY, updated);
       sync(updated);
       setState(updated);
     } catch (e) {
@@ -73,19 +73,21 @@ export const IdentityProvider = <T extends {}>(props: T) => {
 
   useEffect(() => {
     async function readFromStorage() {
-      const storedState = await AsyncStorage.getItem(IDENTITY_KEY);
+      const storedState = await get<State>(IDENTITY_KEY);
+
       try {
-        const parsedStoreState = JSON.parse(storedState!);
-        if (parsedStoreState.userId) {
-          userId = parsedStoreState.userId;
-          doUpdate(parsedStoreState);
+        if (storedState?.userId) {
+          userId = storedState.userId;
+          doUpdate(storedState);
         } else {
           const _userId = guidGenerator();
           userId = _userId;
           doUpdate({ ...initialState, userId: _userId });
         }
-        initSync();
-      } catch (e) {}
+        await initSync();
+      } catch (e) {
+        console.warn("init identity failed");
+      }
     }
     readFromStorage();
   }, []);

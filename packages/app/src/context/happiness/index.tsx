@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as types from "types";
 import { sync } from "../sync";
-import * as storage from "./storage";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import differenceInSeconds from "date-fns/differenceInSeconds";
+import * as storage from "../../utils/storage";
 import config from "config";
 
 const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2;
@@ -308,10 +308,12 @@ export const HappinessProvider = <T extends {}>(props: T) => {
 
   useEffect(() => {
     async function readFromStorage() {
-      const storedExercises = await storage.get(EXERCISE_KEY);
-      const storedIdeas = await storage.get(IDEA_KEY);
-      const storedRawCategories = await storage.get(SERVER_DATA_KEY);
-      const storedReminder = await storage.get(REMINDER_KEY);
+      const storedExercises = await storage.get<Exercises>(EXERCISE_KEY);
+      const storedIdeas = await storage.get<Ideas>(IDEA_KEY);
+      const storedRawCategories = await storage.get<
+        types.IHappinessTrainingCategory[]
+      >(SERVER_DATA_KEY);
+      const storedReminder = await storage.get<ReminderState>(REMINDER_KEY);
       try {
         if (storedIdeas) {
           setIdeas(storedIdeas);

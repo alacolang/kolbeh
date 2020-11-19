@@ -16,8 +16,7 @@ import Svg, { Path, Defs, ClipPath, Rect } from "react-native-svg";
 import colors from "colors";
 import { Icon } from "components/icon";
 import * as Types from "types";
-
-import AsyncStorage from "@react-native-community/async-storage";
+import { get, set } from "utils/storage";
 
 const GET_PROMOTIONS = gql`
   query {
@@ -44,22 +43,19 @@ const Splash = () => {
 
   React.useEffect(() => {
     async function restorePromotions() {
-      const raw = await AsyncStorage.getItem("promotions");
-      if (!raw) {
+      const stored = await get<Types.IPromotion[]>("promotions");
+      if (!stored) {
         return;
       }
-      try {
-        const p = getRandomPromotion(JSON.parse(raw));
-        setPromotion(p);
-      } catch (e) {}
+      const p = getRandomPromotion(stored);
+      setPromotion(p);
     }
     restorePromotions();
   }, []);
 
   React.useEffect(() => {
     if (!loading && data && data.promotions) {
-      AsyncStorage.setItem("promotions", JSON.stringify(data.promotions));
-      // AsyncStorage.removeItem("promotions")
+      set("promotions", data.promotions);
     }
   }, [data, loading]);
 

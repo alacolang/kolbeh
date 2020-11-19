@@ -1,10 +1,10 @@
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
-import AsyncStorage from "@react-native-community/async-storage";
 import config from "config";
 import { getUserId } from "../identity";
 import deepmerge from "deepmerge";
 import debounce from "debounce";
-import { log } from "utils/log";
+// import { log } from "utils/log";
+import { get, set } from "utils/storage";
 
 const url = config.HOST + "/api/users";
 
@@ -36,20 +36,20 @@ let syncState: SyncState = { ...initialSyncState };
 let serviceState: ServiceState = { ...initialServiceState };
 
 async function readFromStorage() {
-  try {
-    const stored = (await AsyncStorage.getItem(SYNCED_KEY)) ?? "";
-    syncState = JSON.parse(stored) as SyncState;
-  } catch (e) {
+  const stored = await get<SyncState>(SYNCED_KEY);
+  if (stored) {
+    syncState = stored;
+  } else {
     syncState = { ...initialSyncState };
   }
-  log("stored syncState", { syncState });
+  // log("stored syncState", { syncState });
   return syncState;
 }
 
 async function writeToStorage() {
-  log("write to storage> sync state", syncState);
+  // log("write to storage> sync state", syncState);
   try {
-    AsyncStorage.setItem(SYNCED_KEY, JSON.stringify(syncState));
+    set(SYNCED_KEY, syncState);
   } catch (e) {
     console.warn("sync> failed writing to storage", e);
   }
@@ -163,25 +163,22 @@ export async function initSync() {
   log("sync> init...");
   log("service state", { serviceState });
 
-  readFromStorage()
-    .then(async () => {
-      if (syncState.sync === "NOT_SYNCED") {
-        await sync(syncState.data, { syncWhileInitializing: true });
-      }
-      const data = serviceState.dataToSyncWhileInit;
-      if (!emptyObject(data)) {
-        serviceState.state = "syncing";
-        await sync(data, { syncWhileInitializing: true });
-      }
-    })
-    .catch((e) => {
-      console.warn("sync> failed to init", e);
-    })
-    .finally(() => {
-      serviceState.dataToSyncWhileInit = {};
-      serviceState.state = "idle";
-      log("sync> init done");
-    });
+  try {
+    await readFromStorage();
+    if (syncState.sync === "NOT_SYNCED") {
+      await sync(syncState.data, { syncWhileInitializing: true });
+    }
+    const data = serviceState.dataToSyncWhileInit;
+    if (!emptyObject(data)) {
+      serviceState.state = "syncing";
+      await sync(data, { syncWhileInitializing: true });
+    }
+  } catch (e) {
+    console.warn("sync> failed to init", e);
+  }
+  serviceState.dataToSyncWhileInit = {};
+  serviceState.state = "idle";
+  // log("sync> init done");
 }
 
 const emptyObject = (obj: Record<string, any>) => Object.keys(obj).length === 0;
