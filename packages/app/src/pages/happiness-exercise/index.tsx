@@ -65,30 +65,30 @@ function HappinessExercise({ navigation, route }: Props) {
         backgroundColor: colors.backgroundPrimary,
       }}
     >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Header title={exercise.title} />
-        <Markdown markdownStyles={markdownStyles}>
-          {exercise.description}
-        </Markdown>
-        <View style={{ marginTop: 16 }} />
-      </ScrollView>
-      <View style={{ marginTop: 16 }}>
-        <View
-          style={{
-            position: "absolute",
-            top: -32 - 16,
-            borderWidth: 0,
-            left: 0,
-            right: 0,
-            height: 32,
-            width: "100%",
-            backgroundColor: "#AF99F1a0",
-          }}
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <Header title={exercise.title} />
+          <Markdown markdownStyles={markdownStyles}>
+            {exercise.description}
+          </Markdown>
+          <View style={{ marginTop: 16 }} />
+        </ScrollView>
+        <View style={{ marginTop: 16 }}>
+          <View
+            style={{
+              position: "absolute",
+              top: -32 - 16,
+              borderWidth: 0,
+              left: 0,
+              right: 0,
+              height: 32,
+              width: "100%",
+              backgroundColor: "#AF99F1a0",
+            }}
+          />
 
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "padding"}
-        >
           {isAlreadyDone ? null : (
             <AddIdeaInput
               onPress={(idea: string) => {
@@ -104,37 +104,37 @@ function HappinessExercise({ navigation, route }: Props) {
               }}
             />
           )}
-        </KeyboardAvoidingView>
-      </View>
-      <Feedback
-        modalVisible={modalVisible}
-        title={category.title}
-        isCategoryDone={() => happiness.isCategoryDone(category)}
-        isAllDone={happiness.isAllDone}
-        handleAfterDone={() => {
-          if (happiness.isCategoryDone(category)) {
-            trackEvent("happiness-category-completed", {
-              category: category.id,
-              ideas: (happiness.ideas[category.id] ?? []).length,
-            });
-          }
-          if (happiness.isAllDone()) {
-            trackEvent("happiness-all-done");
-          }
-          navigation.navigate("home");
-        }}
-      />
-      <View style={{ height: 140 }}>
-        <Ideas
-          ideas={happiness.ideas[category.id] ?? []}
-          title={exercise.title}
-          categoryID={category.id}
-        />
-
-        <View style={styles.close}>
-          <CloseButton onPress={() => navigation.goBack()} />
         </View>
-      </View>
+        <Feedback
+          modalVisible={modalVisible}
+          title={category.title}
+          isCategoryDone={() => happiness.isCategoryDone(category)}
+          isAllDone={happiness.isAllDone}
+          handleAfterDone={() => {
+            if (happiness.isCategoryDone(category)) {
+              trackEvent("happiness-category-completed", {
+                category: category.id,
+                ideas: (happiness.ideas[category.id] ?? []).length,
+              });
+            }
+            if (happiness.isAllDone()) {
+              trackEvent("happiness-all-done");
+            }
+            navigation.navigate("home");
+          }}
+        />
+        <View style={styles.footer}>
+          <Ideas
+            ideas={happiness.ideas[category.id] ?? []}
+            title={exercise.title}
+            categoryID={category.id}
+          />
+
+          <View style={styles.close}>
+            <CloseButton onPress={() => navigation.goBack()} />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 30,
   },
-  close: { position: "absolute", left: 0, bottom: 40 },
+  close: { position: "absolute", left: 0, bottom: 32 },
+  footer: { height: 140 },
 });
 
 type AddIdeaInputProps = { onPress: (text: string) => void };
@@ -186,16 +187,16 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
       <TouchableOpacity
         disabled={disabled}
         onPress={() => {
+          Keyboard.dismiss();
           onPress(idea);
           setIdea("");
-          Keyboard.dismiss();
         }}
         style={{ position: "absolute", right: 11, top: 11, borderWidth: 0 }}
       >
         <IconSvg
           name="tickFill"
           size="tiny"
-          color={disabled ? colors.primaryThird : "#eaeaea"}
+          color={disabled ? colors.primaryThird : colors.backgroundPrimaryThird}
         />
       </TouchableOpacity>
     </View>
@@ -256,7 +257,7 @@ function Ideas({ title, categoryID, ideas }: IdeasProps) {
       >
         <IconSvg
           name={`happinessToolbox-${categoryID}` as IconSvgName}
-          size={100}
+          size={90}
           color={colors.backgroundPrimaryThird}
         />
       </TouchableOpacity>
@@ -314,7 +315,7 @@ const ideasStyles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    marginBottom: 36,
+    marginBottom: 24,
     marginHorizontal: 25,
   },
 });
