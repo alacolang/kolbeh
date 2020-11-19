@@ -15,6 +15,8 @@ import { IdentityProvider } from "context/identity";
 import { useFirebaseMessaging } from "context/identity/firebase";
 import { ConnectivityProvider } from "context/connectivity";
 import useFlipperAsyncStorageViewer from "utils/flipper-async-storage-viewer";
+import "./push";
+import { useNotification } from "context/happiness/notification";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -41,6 +43,7 @@ const client = new ApolloClient({
 
 const App = () => {
   useFirebaseMessaging();
+  useNotification();
   useFlipperAsyncStorageViewer();
   useEffect(() => {
     RNAsyncStorageFlipper(AsyncStorage);
