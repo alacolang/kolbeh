@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -20,
     left: -20,
-    // borderWidth: 1,
   },
   container: {
     backgroundColor: colors.backgroundLight,
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
-    // borderWidth: 1,
   },
   texts: {
     justifyContent: "center",
@@ -59,8 +57,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors[1],
     marginBottom: 20,
-    // fontWeight: 600
-    // fontWeight: "bold",
   },
   description: {
     fontSize: 18,
