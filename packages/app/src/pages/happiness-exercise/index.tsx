@@ -26,8 +26,7 @@ import config from "config";
 import rewardDailyImg from "../../assets/images/reward-daily.gif";
 import rewardMedalImg from "../../assets/images/connection.gif";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
-
-import { Gif } from "pages/happiness-training";
+import Gif from "pages/happiness-training/Gif";
 
 const fullWidth = Dimensions.get("window").width;
 

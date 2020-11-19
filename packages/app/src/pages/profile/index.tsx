@@ -13,7 +13,8 @@ import {
 import Header from "../settings/header";
 import { Trans } from "react-i18next";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
-import { Gif, imageSize } from "pages/happiness-training";
+import Gif from "pages/happiness-training/Gif";
+import { imageSize } from "pages/happiness-training/Slide";
 
 const fullWidth = Dimensions.get("window").width - 16 * 2;
 const size = (fullWidth - 20) / 3 - 4 * 2;

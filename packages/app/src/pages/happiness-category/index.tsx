@@ -10,7 +10,7 @@ import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
 import { trackEvent } from "utils/analytics";
-import { Gif, IMAGES } from "../happiness-training";
+import Gif, { IMAGES } from "../happiness-training/Gif";
 
 type Props = StackScreenProps<HomeStackParamList, "happinessCategory">;
 function HappinessCategory({ navigation, route }: Props) {
