@@ -18,7 +18,7 @@ import HappinessExercise from "../pages/happiness-exercise";
 import * as Types from "types";
 import Contact from "pages/contact";
 import Onboarding from "pages/onboarding";
-import { BackHeader, ChildFeedBackHeader, JustBackHeader } from "./headers";
+import { BackHeader, JustBackHeader } from "./headers";
 import { useTranslation } from "react-i18next";
 import colors from "colors";
 
@@ -101,18 +101,17 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="childFeed"
         component={ChildFeed}
-        options={{
+        options={({ route }) => ({
           headerTransparent: true,
           header: (props) => (
             <BackHeader
               {...props}
-              title={t(`screen-title.${props.scene.route?.params?.categoryId}`)}
+              title={t(`screen-title.${route?.params?.categoryId}`)}
             />
           ),
-          // header: (props) => <ChildFeedBackHeader {...props} />,
           animationEnabled: false,
           // ...TransitionPresets.SlideFromRightIOS,
-        }}
+        })}
       />
       <Stack.Screen
         name="home"
@@ -148,8 +147,6 @@ const HomeNavigator = () => {
               />
             );
           },
-          // header: (props) => <BackHeader transparent {...props} />,
-
           // animationEnabled: false,
         }}
       />
