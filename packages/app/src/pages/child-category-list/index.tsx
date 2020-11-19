@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingRight: 45,
-    // borderWidth: 1,
-    // borderColor: 'red',
     flexDirection: "column",
     justifyContent: "space-evenly",
   },

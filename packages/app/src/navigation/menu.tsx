@@ -116,14 +116,12 @@ const Links = ({ onPress }: LinksProps) => {
                   position: "absolute",
                   right: 65 - 25,
                   transform: [{ scaleX: -1 }],
-                  // borderWidth: 1
                 }}
                 viewBox={"0 0 14 70"}
               >
                 <Path
                   d={bellCurve(0, 70, 14)}
                   fill={colors.backgroundLight}
-                  // fill="red"
                   stroke="none"
                   x={0}
                 />

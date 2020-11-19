@@ -103,7 +103,6 @@ const Splash = () => {
   const borderRendered = (
     <View
       style={{
-        // borderWidth: 1,
         position: "relative",
       }}
     >
@@ -212,7 +211,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 120 - 35,
     flex: 1,
-    // borderWidth: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",

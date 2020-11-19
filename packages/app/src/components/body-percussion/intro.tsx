@@ -104,21 +104,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    // width: fullWidth,
-    // height: (fullHeight / 4) * 3,
-    // borderWidth: 1,
-    // borderColor: "red",
     zIndex: 10,
   },
   textContainer: {
     flex: 1,
-    // borderWidth: 1,
-    // zIndex: 10,
     borderColor: "red",
-    // height: 40,
     justifyContent: "center",
-    // marginTop: 60,
-    // paddingHorizontal: 20,
     alignItems: "center",
   },
   text: {
@@ -128,7 +119,6 @@ const styles = StyleSheet.create({
   image: {
     height: (fullHeight / 3) * 1.5,
     width: (fullHeight / 3) * 1.5,
-    // borderWidth: 1,
   },
 });
 

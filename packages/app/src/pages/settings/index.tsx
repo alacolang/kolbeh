@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // borderWidth: 1,
     height: 70,
   },
   itemTitle: {

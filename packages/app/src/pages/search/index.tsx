@@ -153,7 +153,6 @@ const SearchScreen = () => {
                 marginVertical: 4,
                 borderRadius: 10,
                 backgroundColor: colors.background,
-                // borderWidth: 1,
               }}
             >
               <FormattedText

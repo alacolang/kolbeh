@@ -191,7 +191,6 @@ const gifStyles = StyleSheet.create({
   image: {
     height: imageSize * 0.6,
     width: imageSize * 0.6,
-    borderWidth: 1,
   },
 });
 

@@ -38,9 +38,7 @@ const CategoryTile = ({ category, onPress, meta }: Props) => {
 const styles = StyleSheet.create({
   card: {
     flexDirection: "row-reverse",
-    // justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 1,
   },
   title: {
     fontSize: 18,
@@ -48,8 +46,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   iconContainer: {
-    // position: "absolute",
-    // top: 20,
     opacity: 0.8,
     height: 100,
     width: 100,

@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     backgroundColor: "transparent",
     borderRadius: 100,
-    // borderWidth: 1,
     width: 50,
     height: 50,
     justifyContent: "center",

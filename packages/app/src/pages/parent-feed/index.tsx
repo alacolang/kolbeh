@@ -8,6 +8,7 @@ import * as Types from "types";
 import colors from "colors";
 import FeedTile from "components/feed-tile";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { log } from "utils/log";
 
 export type FeedRouteParam = {
   category: Types.ICategory;
@@ -45,7 +46,7 @@ const Feed = () => {
                 style={styles.categoryIcon}
                 resizeMode="contain"
                 onError={(e) => {
-                  console.log("image failed", e);
+                  log("image failed", e);
                 }}
               />
             </View>

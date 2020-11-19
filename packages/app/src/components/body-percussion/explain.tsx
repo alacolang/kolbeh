@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     height: 150,
     paddingHorizontal: 25,
-    // borderWidth: 1
   },
   movementTitle: {
     fontSize: 18,

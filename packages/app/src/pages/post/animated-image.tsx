@@ -120,8 +120,6 @@ const LovelyImage = ({
 const styles = StyleSheet.create({
   something: {
     height: (frameHeight / 4) * 2.5,
-    // borderWidth: 4,
-    // borderColor: "blue",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -129,11 +127,8 @@ const styles = StyleSheet.create({
   image: {
     width: frameWidth,
     height: frameWidth,
-    // borderWidth: 1,
-    // borderColor: "red",
   },
   title: {
-    // borderWidth: 1,
     color: colors.primary,
     textAlign: "center",
   },

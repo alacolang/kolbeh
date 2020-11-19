@@ -5,15 +5,8 @@ import Loading from "components/loading";
 import { useBookmarkedPosts } from "context/bookmark-posts";
 import gql from "graphql-tag";
 import React, { useEffect } from "react";
-import {
-  DynamicColorIOS,
-  FlatList,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, StatusBar, StyleSheet, View } from "react-native";
 import * as Types from "types";
-import { errorReport } from "utils/error-reporter";
 
 import { useQuery } from "@apollo/react-hooks";
 import { NetworkStatus } from "apollo-client";
@@ -86,7 +79,7 @@ const BookmarkPostsScreen = () => {
   const bookmarkedPosts: Types.IPostEdge[] = posts.edges.filter(({ node }) =>
     savedPosts.includes(node.id)
   );
-  console.log({ bookmarkedPosts });
+  // console.log({ bookmarkedPosts });
 
   const { isConnected } = useConnectivity();
 

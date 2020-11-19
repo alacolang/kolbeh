@@ -205,14 +205,11 @@ const feedbackStyles = StyleSheet.create({
     lineHeight: 18 * 1.6,
     color: "white",
     textAlign: "center",
-    // borderWidth: 2,
-    // borderColor: "green",
   },
   imageContainer: {
     // position: "absolute",
     // right: -20,
     // top: 0,
-    // borderWidth: 1,
   },
 });
 
