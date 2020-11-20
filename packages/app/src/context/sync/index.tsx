@@ -97,9 +97,9 @@ export const sync = async (data: Record<string, any>, options?: Options) => {
     console.warn("sync> failed. data is undefined!");
     return;
   }
-  log("sync> ", { userId, data });
+  // log("sync> ", { userId, data });
   if (!syncWhileInitializing && serviceState.state === "initializing") {
-    log("sync> trying to sync while initializing");
+    // log("sync> trying to sync while initializing");
     serviceState.dataToSyncWhileInit = deepmerge(
       serviceState.dataToSyncWhileInit,
       data
@@ -144,11 +144,11 @@ export const sync = async (data: Record<string, any>, options?: Options) => {
 
 function networkHandler(netState: NetInfoState) {
   async function helper() {
-    log("net listener> connection change detected");
+    // log("net listener> connection change detected");
     if (netState.isInternetReachable && serviceState.state !== "initializing") {
       const stored = await readFromStorage();
       if (stored.sync === "SYNCED") {
-        log("already synced");
+        // log("already synced");
         return;
       }
       sync(stored?.data);
@@ -160,8 +160,8 @@ function networkHandler(netState: NetInfoState) {
 NetInfo.addEventListener(debounce(networkHandler, 1000));
 
 export async function initSync() {
-  log("sync> init...");
-  log("service state", { serviceState });
+  // log("sync> init...");
+  // log("service state", { serviceState });
 
   try {
     await readFromStorage();
