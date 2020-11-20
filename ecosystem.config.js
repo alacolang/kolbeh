@@ -63,7 +63,10 @@ module.exports = {
       path: "/home/www/kolbeh-production",
       "post-setup": "cp /home/www/kolbeh-environments/.env.production .env",
       "post-deploy":
-        "yarn && NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
+        "yarn install && yarn workspace server build &&  NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
+      env: {
+        NODE_ENV: "production",
+      },
     },
     staging: {
       user: "www",
@@ -71,9 +74,13 @@ module.exports = {
       ref: `origin/${branchName()}`,
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/kolbeh-staging",
-      "post-setup": "cp /home/www/kolbeh-environments/.env.staging ../shared/.env",
+      "post-setup":
+        "cp /home/www/kolbeh-environments/.env.staging ../shared/.env",
       "post-deploy":
-        "yarn && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
+        "yarn install && yarn workspace server build && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
+      env: {
+        NODE_ENV: "staging",
+      },
     },
   },
 };
