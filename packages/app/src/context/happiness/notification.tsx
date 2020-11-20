@@ -63,8 +63,9 @@ export function doScheduleNotification(date: Date, message: string) {
     color: "purple", // (optional) default: system default
     vibrate: true, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-    title: "وقت تمرین",
-    message,
+    title: message,
+    // message,
+    message: "",
   });
 }
 
