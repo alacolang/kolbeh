@@ -1,8 +1,8 @@
 import colors from "colors";
 import { FormattedText } from "components/formatted-text";
-import { Icon, IconSvg } from "components/icon";
+import { Icon, IconSvg, IconSvgName } from "components/icon";
 import { useHappiness } from "context/happiness";
-import React, { useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -14,7 +14,8 @@ import Header from "../settings/header";
 import { Trans } from "react-i18next";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
 import Gif from "pages/happiness-training/Gif";
-import { imageSize } from "pages/happiness-training/Slide";
+import { imageSize } from "pages/happiness-training/constants";
+import Loading from "components/loading";
 
 const fullWidth = Dimensions.get("window").width - 16 * 2;
 const size = (fullWidth - 20) / 3 - 4 * 2;
@@ -22,94 +23,74 @@ const size = (fullWidth - 20) / 3 - 4 * 2;
 function Profile() {
   const happiness = useHappiness();
 
-  const ys = [22, 8, 2, 7, 22];
-  const xs = [1, 4, 0, -6, -3];
-  const categories = happiness.rawCategories.map((category) => {
-    const exercises = category.exercises.map((exercise, index) => {
-      const isDone = happiness.exercises[exercise.id].state === "done";
+  const [data, setData] = useState<undefined | ReactElement>(undefined);
+
+  useEffect(() => {
+    const ys = [20, 8, 2, 7, 20];
+    const xs = [3, 4, 0, -6, -5];
+    const categories = happiness.rawCategories.map((category) => {
+      const exercises = category.exercises.map((exercise, index) => {
+        const isDone = happiness.exercises[exercise.id].state === "done";
+        return (
+          <View
+            key={exercise.id}
+            style={{
+              // paddingHorizontal: 2,
+              position: "relative",
+              top: -ys[index],
+              right: xs[index],
+            }}
+          >
+            <IconSvg
+              name="star"
+              size={(size - 2 * 2) / 7 - 2 * 2 - 1}
+              color={isDone ? colors[10] : "lightgrey"}
+            />
+          </View>
+        );
+      });
+
       return (
-        <View
-          key={exercise.id}
-          style={{
-            // paddingHorizontal: 2,
-            position: "relative",
-            top: -ys[index],
-            right: xs[index],
-          }}
-        >
-          <IconSvg
-            name="star"
-            size={(size - 2 * 2) / 7 - 2 * 2 - 1}
-            color={isDone ? colors[10] : "lightgrey"}
-          />
+        <View key={category.id} style={styles.categoryContainer}>
+          <Icon name="medal" size={0} style={styles.categoryBackground} />
+          <View
+            style={[
+              styles.categoryIcon,
+              { width: size / 3.5, height: size / 3.5 },
+            ]}
+          >
+            <IconSvg
+              name={`happinessToolbox-${category.id}` as IconSvgName}
+              size={size / 4}
+              color={colors[10]}
+            />
+          </View>
+          <View style={styles.categoryContent}>{exercises}</View>
         </View>
       );
     });
-
-    return (
-      <View
-        key={category.id}
-        style={{
-          marginHorizontal: 3,
-          width: size,
-          height: size - 10,
-          alignItems: "center",
-          paddingTop: 18,
-        }}
-      >
-        <Icon
-          name="medal"
-          size={0}
-          style={{
-            position: "absolute",
-            width: size - 20,
-            height: size - 20,
-          }}
-        />
-        <IconSvg
-          name={`happinessToolbox-${category.id}`}
-          size={size / 3.2}
-          color={colors[10]}
-        />
-        <View style={{ flexDirection: "row" }}>{exercises}</View>
-      </View>
+    const content = (
+      <>
+        {categories}
+        {happiness.isAllDone() || true ? (
+          <>
+            <View style={styles.emptySpace} />
+            <View style={styles.certificateContainer}>
+              <Certificate />
+            </View>
+          </>
+        ) : null}
+      </>
     );
-  });
+    setTimeout(() => {
+      setData(content);
+    }, 300);
+  }, [happiness]);
 
   return (
     <View style={styles.container}>
       <Header showMedal showName />
-      <View
-        style={{
-          justifyContent: "center",
-          marginTop: 24,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-          }}
-        >
-          {categories}
-          {happiness.isAllDone() || true ? (
-            <>
-              <View style={{ flex: 1 }} />
-              <View
-                style={{
-                  marginHorizontal: 3,
-                  width: size,
-                  height: size,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Certificate />
-              </View>
-            </>
-          ) : null}
-        </View>
-      </View>
+      <View style={styles.body}>{!data ? data : <Loading />}</View>
     </View>
   );
 }
@@ -121,6 +102,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 60,
   },
+  body: {
+    marginTop: 24,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex: 1,
+  },
+  categoryContainer: {
+    marginHorizontal: 3,
+    width: size,
+    height: size - 10,
+    alignItems: "center",
+    paddingTop: 18,
+  },
+  categoryBackground: {
+    position: "absolute",
+    width: size - 20,
+    height: size - 20,
+  },
+  categoryIcon: { top: -4, justifyContent: "center", alignItems: "center" },
+  categoryContent: { flexDirection: "row" },
+  certificateContainer: {
+    marginHorizontal: 3,
+    width: size,
+    height: size,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptySpace: { flex: 1 },
 });
 
 const Certificate = () => {
