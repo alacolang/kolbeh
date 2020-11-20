@@ -6,7 +6,7 @@ import * as storage from "../../utils/storage";
 import { differenceInSeconds, differenceInCalendarDays } from "date-fns";
 import config from "config";
 
-const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2000;
+const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 20;
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
