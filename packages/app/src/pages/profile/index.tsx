@@ -72,7 +72,7 @@ function Profile() {
     const content = (
       <>
         {categories}
-        {happiness.isAllDone() || true ? (
+        {happiness.isAllDone() ? (
           <>
             <View style={styles.emptySpace} />
             <View style={styles.certificateContainer}>
@@ -90,7 +90,7 @@ function Profile() {
   return (
     <View style={styles.container}>
       <Header showMedal showName />
-      <View style={styles.body}>{!data ? data : <Loading />}</View>
+      <View style={styles.body}>{data ? data : <Loading />}</View>
     </View>
   );
 }
