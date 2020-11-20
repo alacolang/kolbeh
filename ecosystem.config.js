@@ -77,7 +77,7 @@ module.exports = {
       "post-setup":
         "cp /home/www/kolbeh-environments/.env.staging ../shared/.env",
       "post-deploy":
-        "yarn install && yarn workspace server build && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
+        "./post-deploy.sh && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
       env: {
         NODE_ENV: "staging",
       },
