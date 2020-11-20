@@ -61,9 +61,10 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/kolbeh-production",
-      "post-setup": "cp /home/www/kolbeh-environments/.env.production .env",
+      "post-setup":
+        "cp /home/www/kolbeh-environments/.env.production ../shared/.env",
       "post-deploy":
-        "yarn install && yarn workspace server build &&  NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
+        "./post-deploy.sh && NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
       env: {
         NODE_ENV: "production",
       },

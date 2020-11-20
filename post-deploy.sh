@@ -1,4 +1,6 @@
 yarn install
 yarn workspace server build
-cp ../shared/.env packages/server/
-cp ../shared/firebase.json packages/server/lib/
+cd packages/server
+cp ../../../shared/.env .
+cp ../../../shared/firebase.json ./lib/
+cp -r ./src/content ./lib/
