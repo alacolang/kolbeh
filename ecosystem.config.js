@@ -61,7 +61,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/yara-pm2",
-      "post-setup": "copy /home/www/kolbeh-environments/.env.production .env",
+      "post-setup": "cp /home/www/kolbeh-environments/.env.production .env",
       "post-deploy":
         "yarn && NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
     },
@@ -71,7 +71,7 @@ module.exports = {
       ref: `origin/${branchName()}`,
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/yara-staging",
-      "post-setup": "copy /home/www/kolbeh-environments/.env.staging .env",
+      "post-setup": "cp /home/www/kolbeh-environments/.env.staging .env",
       "post-deploy":
         "yarn && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
     },
