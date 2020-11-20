@@ -90,7 +90,7 @@ export const IdentityProvider = (props: {
         } else {
           userId = guidGenerator();
         }
-        doUpdate({ ...initialState, userId });
+        doUpdate({ ...initialState, ...props.initialData, userId });
         await initSync();
       } catch (e) {
         console.warn("init identity failed");
