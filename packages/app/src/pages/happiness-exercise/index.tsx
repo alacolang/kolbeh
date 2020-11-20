@@ -44,7 +44,7 @@ function HappinessExercise({ navigation, route }: Props) {
   useEffect(() => {
     async function helper() {
       await load(SOUND_NAMES);
-      play("happiness_background", { volume: 0.3 });
+      play("happiness_background", { volume: 0.1 });
     }
     helper();
     return function () {
