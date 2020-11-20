@@ -6,6 +6,7 @@ import { Icon, IconSvg } from "components/icon";
 import { useIdentity } from "context/identity";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 const Header = ({
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 140,
-    // borderWidth: 1,
   },
   cloud1: { position: "absolute", bottom: 0, left: 0 },
   avatar: {
@@ -75,16 +75,16 @@ const Name = () => {
   const {
     state: { name },
   } = useIdentity();
+  const { t } = useTranslation();
   return (
     <TouchableOpacity
+      style={nameStyles.container}
       onPress={() => navigation.navigate("login", { shouldGoBack: true })}
     >
-      <View style={nameStyles.container}>
-        <FormattedText style={nameStyles.text}>{name}</FormattedText>
-        <View style={nameStyles.icon}>
-          <IconSvg name="edit" color={colors[10]} size={16} />
-        </View>
-      </View>
+      <FormattedText style={nameStyles.text}>
+        {name ?? t("login.name")}
+      </FormattedText>
+      <IconSvg name="edit" color={colors[10]} size={16} />
     </TouchableOpacity>
   );
 };
@@ -93,20 +93,14 @@ const nameStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 16,
+    right: -12,
+    height: 32,
   },
   text: {
     fontSize: 18,
     color: colors.primary,
-    paddingHorizontal: 4,
-  },
-  icon: {
-    position: "absolute",
-    right: -44 + 10,
-    // top: -20,
-    width: 44,
-    height: 44,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingHorizontal: 8,
   },
 });
 
