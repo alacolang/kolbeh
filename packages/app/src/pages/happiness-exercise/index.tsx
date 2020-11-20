@@ -29,6 +29,9 @@ import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
 import Gif from "pages/happiness-training/Gif";
 
 const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
+const FOOTER_HEIGHT = 140;
+const ADD_IDEA_HEIGHT = 120;
 
 type Props = StackScreenProps<HomeStackParamList, "happinessExercise">;
 function HappinessExercise({ navigation, route }: Props) {
@@ -68,9 +71,13 @@ function HappinessExercise({ navigation, route }: Props) {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.scrollViewContainer}
+          style={{ height: fullHeight - FOOTER_HEIGHT - ADD_IDEA_HEIGHT }}
+        >
           <Header title={exercise.title} />
           <Markdown markdownStyles={markdownStyles}>
+            {exercise.description}
             {exercise.description}
           </Markdown>
           <View style={{ marginTop: 16 }} />
@@ -80,7 +87,6 @@ function HappinessExercise({ navigation, route }: Props) {
             style={{
               position: "absolute",
               top: -32 - 16,
-              borderWidth: 0,
               left: 0,
               right: 0,
               height: 32,
@@ -140,11 +146,11 @@ function HappinessExercise({ navigation, route }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollViewContainer: {
     paddingHorizontal: 30,
   },
   close: { position: "absolute", left: 0, bottom: 32 },
-  footer: { height: 140 },
+  footer: { height: FOOTER_HEIGHT },
 });
 
 type AddIdeaInputProps = { onPress: (text: string) => void };
@@ -157,8 +163,8 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
       style={{
         alignSelf: "center",
         flexDirection: "row",
-        borderWidth: 0,
         marginHorizontal: 32,
+        height: ADD_IDEA_HEIGHT,
       }}
     >
       <TextInput
@@ -191,7 +197,7 @@ const AddIdeaInput = ({ onPress }: AddIdeaInputProps) => {
           onPress(idea);
           setIdea("");
         }}
-        style={{ position: "absolute", right: 11, top: 11, borderWidth: 0 }}
+        style={{ position: "absolute", right: 11, top: 11 }}
       >
         <IconSvg
           name="tickFill"
