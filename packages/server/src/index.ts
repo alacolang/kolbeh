@@ -53,7 +53,7 @@ app.get("/health", (req, res) => {
   res.send("ok");
 });
 
-app.use("/api/users", usersRouter);
+app.use("/api/users", usersRouter.router);
 
 app.post("/api/error", (req, res) => {
   console.log("error", req.body);
@@ -68,8 +68,8 @@ app.use(
 );
 
 app.use("/admin/queues", UI);
-
-app.get("/api/firebase/check", (req, res) => {
+app.use("/admin/api/users", usersRouter.adminRouter);
+app.get("/admin/api/firebase/check", (req, res) => {
   const TOKEN =
     "fBuM63GmTaGzGyIONMtsoZ:APA91bFrmLbx6DcNq12XeQHyinXhpNQ-oqaTnPpnckUVoe1AWiLQ6ZkGzIr8LyyyC8AHxVubF6WSVHYqbF1eDsk5ztH3t0wZq9XLrvJe7SnJiHUQ2bngCMRmWnt9aYr3BH8yifp4kkUF";
 

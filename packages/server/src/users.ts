@@ -3,17 +3,9 @@ import path from "path";
 import { findByKey, findAll, set } from "./db";
 
 const router = express.Router();
+const adminRouter = express.Router();
 
 const getUserKey = (req: Request) => path.join("user", getToken(req));
-
-router.get("/", (req, res) =>
-  findAll()
-    .then((data) => res.json(data))
-    .catch((e) => {
-      console.error("failed, e=", e);
-      res.status(500).json({ error: "failed" });
-    })
-);
 
 const getToken = (req: Request) => {
   const token = req.headers?.token;
@@ -46,4 +38,13 @@ router.post("/", checkToken, async (req, res) => {
   }
 });
 
-export default router;
+adminRouter.get("/", (req, res) =>
+  findAll()
+    .then((data) => res.json(data))
+    .catch((e) => {
+      console.error("failed, e=", e);
+      res.status(500).json({ error: "failed" });
+    })
+);
+
+export default { router, adminRouter };
