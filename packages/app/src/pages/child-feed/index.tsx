@@ -96,7 +96,6 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      {/* {loading && feed.length === 0 ? <Loading varient /> : null} */}
 
       <FlatList
         contentContainerStyle={styles.scrollViewContent}
@@ -135,7 +134,7 @@ const Feed = () => {
                 style={{ color: colors.primary }}
               />
             ) : loading ? (
-              <Loading varient />
+              <Loading />
             ) : null}
           </View>
         )}

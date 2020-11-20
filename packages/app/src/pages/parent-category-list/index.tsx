@@ -106,7 +106,7 @@ const ParentScreen = () => {
     >
       <StatusBar hidden />
 
-      {loading && categories.length === 0 ? <Loading varient /> : null}
+      {loading && categories.length === 0 ? <Loading /> : null}
       <ScrollView
         contentContainerStyle={styles.container}
         refreshControl={

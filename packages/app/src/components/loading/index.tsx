@@ -1,10 +1,13 @@
+import colors from "colors";
+import { IconSvg } from "components/icon";
 import React from "react";
 import { View, Animated, StyleSheet, Easing } from "react-native";
-import icons from "../icon/images";
 
-type Props = { varient?: boolean };
+type Props = { color?: string };
 
-const Loading = ({ varient = false }: Props) => {
+const size = 32;
+
+const Loading = ({ color = colors.primary }: Props) => {
   const spinValue = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -26,15 +29,16 @@ const Loading = ({ varient = false }: Props) => {
 
   return (
     <View style={styles.container}>
-      <Animated.Image
-        source={varient ? icons.loadingVarient : icons.loading}
+      <Animated.View
         style={[
           styles.size,
           {
             transform: [{ rotate: spin }],
           },
         ]}
-      />
+      >
+        <IconSvg name="loading" size={size} color={color} />
+      </Animated.View>
     </View>
   );
 };
@@ -46,8 +50,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   size: {
-    width: 24,
-    height: 24,
+    width: size,
+    height: size,
   },
 });
 

@@ -36,9 +36,11 @@ import rewardDaily from "./reward-daily.svg";
 import rewardMedal from "./reward-medal.svg";
 import rewardCertificate from "./reward-certificate.svg";
 import loginHeader from "./login-header.svg";
+import loading from "./loading.svg";
 import edit from "./edit.svg";
 
 export default {
+  loading,
   tickFill,
   tickOutline,
   circle,
