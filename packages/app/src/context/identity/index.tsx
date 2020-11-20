@@ -32,6 +32,14 @@ const IdentityContext = React.createContext<IIdentityContext>({
   updateName: noop,
 });
 
+export async function readFromStorage() {
+  const storedState = await get<State>(IDENTITY_KEY);
+  if (!storedState) {
+    return initialState;
+  }
+  return storedState;
+}
+
 function guidGenerator(): string {
   const S4 = function () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -52,7 +60,10 @@ function guidGenerator(): string {
   );
 }
 
-export const IdentityProvider = <T extends {}>(props: T) => {
+export const IdentityProvider = (props: {
+  children: React.ReactNode;
+  initialData: State;
+}) => {
   const [state, setState] = React.useState<State>(initialState);
 
   const update = (updated: State) => {
@@ -72,24 +83,21 @@ export const IdentityProvider = <T extends {}>(props: T) => {
   };
 
   useEffect(() => {
-    async function readFromStorage() {
-      const storedState = await get<State>(IDENTITY_KEY);
-
+    async function init() {
       try {
-        if (storedState?.userId) {
-          userId = storedState.userId;
-          doUpdate(storedState);
+        if (props.initialData.userId) {
+          userId = props.initialData.userId;
         } else {
-          const _userId = guidGenerator();
-          userId = _userId;
-          doUpdate({ ...initialState, userId: _userId });
+          userId = guidGenerator();
         }
+        doUpdate({ ...initialState, userId });
         await initSync();
       } catch (e) {
         console.warn("init identity failed");
       }
     }
-    readFromStorage();
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

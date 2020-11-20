@@ -5,7 +5,6 @@ import { sync } from "../sync";
 import * as storage from "../../utils/storage";
 import { differenceInSeconds, differenceInCalendarDays } from "date-fns";
 import config from "config";
-import { useNotification } from "./notification";
 
 const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 2000;
 const EXERCISE_KEY = "happiness_exercises";
@@ -16,6 +15,16 @@ const REMINDER_KEY = "happiness_reminder";
 const REMINDER_INITIAL_STATE: ReminderState = {
   state: "INACTIVE",
 };
+
+export async function readFromStorage() {
+  const exercises = await storage.get<Exercises>(EXERCISE_KEY);
+  const ideas = await storage.get<Ideas>(IDEA_KEY);
+  const rawCategories = await storage.get<types.IHappinessTrainingCategory[]>(
+    SERVER_DATA_KEY
+  );
+  const reminder = await storage.get<ReminderState>(REMINDER_KEY);
+  return { exercises, ideas, rawCategories, reminder };
+}
 
 function isExerciseDoneRecently(
   currentTime: number,
@@ -246,16 +255,33 @@ export function getNextState(
   };
 }
 
-export const HappinessProvider = <T extends {}>(props: T) => {
-  const [exercises, setExercises] = React.useState<Exercises>({});
-  const [categories, setCategories] = React.useState<Categories>({});
-  const [ideas, setIdeas] = React.useState<Ideas>({});
+type InitialData = {
+  exercises: Exercises;
+  categories: Categories;
+  ideas: Ideas;
+  rawCategories: types.IHappinessTrainingCategory[];
+  reminder: ReminderState;
+};
+
+export const HappinessProvider = (props: {
+  children: React.ReactNode;
+  initialData: InitialData;
+}) => {
+  const [exercises, setExercises] = React.useState<Exercises>(
+    props.initialData.exercises ?? {}
+  );
+  const [categories, setCategories] = React.useState<Categories>(
+    props.initialData.categories ?? {}
+  );
+  const [ideas, setIdeas] = React.useState<Ideas>(
+    props.initialData.ideas ?? {}
+  );
   const [reminder, setReminder] = React.useState<ReminderState>(
-    REMINDER_INITIAL_STATE
+    props.initialData.reminder ?? REMINDER_INITIAL_STATE
   );
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
-  >([]);
+  >(props.initialData.rawCategories ?? []);
 
   const updateExercises = async (updated: Exercises) => {
     setExercises(updated);
@@ -307,34 +333,39 @@ export const HappinessProvider = <T extends {}>(props: T) => {
   };
 
   useEffect(() => {
-    async function readFromStorage() {
-      const storedExercises = await storage.get<Exercises>(EXERCISE_KEY);
-      const storedIdeas = await storage.get<Ideas>(IDEA_KEY);
-      const storedRawCategories = await storage.get<
-        types.IHappinessTrainingCategory[]
-      >(SERVER_DATA_KEY);
-      const storedReminder = await storage.get<ReminderState>(REMINDER_KEY);
-      try {
-        if (storedIdeas) {
-          setIdeas(storedIdeas);
-        }
-        if (storedRawCategories) {
-          setRawCategories(storedRawCategories);
-        }
-        if (storedExercises) {
-          setExercises(storedExercises);
-          update(storedRawCategories ?? [], storedExercises);
-        }
-        if (storedReminder) {
-          setReminder(storedReminder);
-        }
-      } catch (e) {
-        console.warn("failed to load", e);
-      }
-    }
-    readFromStorage();
+    update(props.initialData.rawCategories ?? [], props.initialData.exercises);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   async function readFromStorage() {
+  //     const storedExercises = await storage.get<Exercises>(EXERCISE_KEY);
+  //     const storedIdeas = await storage.get<Ideas>(IDEA_KEY);
+  //     const storedRawCategories = await storage.get<
+  //       types.IHappinessTrainingCategory[]
+  //     >(SERVER_DATA_KEY);
+  //     const storedReminder = await storage.get<ReminderState>(REMINDER_KEY);
+  //     try {
+  //       if (storedIdeas) {
+  //         setIdeas(storedIdeas);
+  //       }
+  //       if (storedRawCategories) {
+  //         setRawCategories(storedRawCategories);
+  //       }
+  //       if (storedExercises) {
+  //         setExercises(storedExercises);
+  //         update(storedRawCategories ?? [], storedExercises);
+  //       }
+  //       if (storedReminder) {
+  //         setReminder(storedReminder);
+  //       }
+  //     } catch (e) {
+  //       console.warn("failed to load", e);
+  //     }
+  //   }
+  //   readFromStorage();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const isCategoryDone = (
     rawCategory: types.IHappinessTrainingCategory

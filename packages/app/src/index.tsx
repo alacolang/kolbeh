@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ApolloClient } from "apollo-client";
-import AsyncStorage from "@react-native-community/async-storage";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -9,14 +8,20 @@ import config from "config";
 import "utils/localize";
 import { codePushify } from "utils/codepush";
 import { BookmarkedPostsProvider } from "context/bookmark-posts";
-import { HappinessProvider } from "context/happiness";
-import RNAsyncStorageFlipper from "rn-async-storage-flipper";
-import { IdentityProvider } from "context/identity";
+import {
+  HappinessProvider,
+  readFromStorage as readFromStorageHappiness,
+} from "context/happiness";
+import {
+  IdentityProvider,
+  readFromStorage as readFromStorageIdentity,
+} from "context/identity";
 import { useFirebaseMessaging } from "context/identity/firebase";
 import { ConnectivityProvider } from "context/connectivity";
 import useFlipperAsyncStorageViewer from "utils/flipper-async-storage-viewer";
 import "./push";
 import { useNotification } from "context/happiness/notification";
+import Loading from "components/loading";
 
 const httpLink = new HttpLink({
   uri: config.API,
@@ -24,46 +29,48 @@ const httpLink = new HttpLink({
 
 const cache = new InMemoryCache();
 
-// const defaultOptions: DefaultOptions = {
-//   watchQuery: {
-//     fetchPolicy: "no-cache",
-//     errorPolicy: "ignore",
-//   },
-//   query: {
-//     fetchPolicy: "no-cache",
-//     errorPolicy: "all",
-//   },
-// };
-
 const client = new ApolloClient({
   link: httpLink,
   cache,
-  // defaultOptions: defaultOptions,
 });
 
 const App = () => {
+  useFlipperAsyncStorageViewer();
   useFirebaseMessaging();
   useNotification();
-  useFlipperAsyncStorageViewer();
-  useEffect(() => {
-    RNAsyncStorageFlipper(AsyncStorage);
-  }, []);
-
   return <AppNavigator />;
 };
 
-const WithProviders = () => (
-  <ApolloProvider client={client}>
-    <ConnectivityProvider>
-      <IdentityProvider>
-        <BookmarkedPostsProvider>
-          <HappinessProvider>
-            <App />
-          </HappinessProvider>
-        </BookmarkedPostsProvider>
-      </IdentityProvider>
-    </ConnectivityProvider>
-  </ApolloProvider>
-);
+const AppWithProviders = () => {
+  const [loadData, setLoadData] = useState<undefined | Record<string, any>>(
+    undefined
+  );
+  useEffect(() => {
+    async function read() {
+      const happinessData = await readFromStorageHappiness();
+      const identityData = await readFromStorageIdentity();
+      setLoadData({ happinessData, identityData });
+    }
+    read();
+  }, []);
 
-export default codePushify(WithProviders);
+  if (loadData === undefined) {
+    return <Loading />;
+  }
+
+  return (
+    <ApolloProvider client={client}>
+      <ConnectivityProvider>
+        <IdentityProvider initialData={loadData.identityData}>
+          <BookmarkedPostsProvider>
+            <HappinessProvider initialData={loadData.happinessData}>
+              <App />
+            </HappinessProvider>
+          </BookmarkedPostsProvider>
+        </IdentityProvider>
+      </ConnectivityProvider>
+    </ApolloProvider>
+  );
+};
+
+export default codePushify(AppWithProviders);
