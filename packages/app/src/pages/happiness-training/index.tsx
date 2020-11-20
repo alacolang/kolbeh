@@ -62,19 +62,19 @@ const HappinessTraining = () => {
       return;
     }
 
-    const timeout = setTimeout(() => {
-      const x = slidesX.current[categoryToTryNext.id];
-      if (x) {
-        scrollViewRef.current?.scrollTo({
-          x: x - 24,
-          animated: true,
-        });
-      }
-    }, 100);
+    // const timeout = setTimeout(() => {
+    const x = slidesX.current[categoryToTryNext.id];
+    if (x) {
+      scrollViewRef.current?.scrollTo({
+        x: x - 24,
+        animated: false,
+      });
+    }
+    // }, 0);
 
-    return () => {
-      clearTimeout(timeout);
-    };
+    // return () => {
+    //   clearTimeout(timeout);
+    // };
   }, [categoryToTryNext]);
 
   useFocusEffect(jumpToCategory);
