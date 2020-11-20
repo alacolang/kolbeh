@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import colors from "colors";
 import React, { useState } from "react";
@@ -13,6 +14,7 @@ import { FormattedText } from "components/formatted-text";
 import { useIdentity } from "context/identity";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const frameWidth = Dimensions.get("screen").width;
 
@@ -39,7 +41,8 @@ function Login({ navigation, route }: Props) {
     }
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar hidden />
       <Header />
       <View style={styles.body}>
         <TextInput
@@ -58,30 +61,28 @@ function Login({ navigation, route }: Props) {
             {t("login.errorName")}
           </FormattedText>
         ) : null}
-        <View style={styles.enterContainer}>
-          <TouchableOpacity onPress={() => handleEnter()}>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            onPress={() => handleEnter()}
+            style={styles.enterContainer}
+          >
             <FormattedText style={styles.enter}>
               {t("login.enter")}
             </FormattedText>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: colors.backgroundLight,
-  },
   body: {
     paddingHorizontal: 32,
     marginTop: 60 + 32,
     flexGrow: 1,
   },
   text: {
-    borderWidth: 0,
     backgroundColor: "white",
     borderRadius: 30,
     elevation: 5,
@@ -92,14 +93,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   error: { marginTop: 4, color: colors.primary, marginHorizontal: 16 },
+  footer: {
+    flexGrow: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingTop: 36,
+    paddingBottom: 36 * 2,
+  },
   enterContainer: {
-    position: "absolute",
-    bottom: 36 * 2,
     backgroundColor: colors[1],
     borderRadius: 44,
     height: 44,
-    width: 100,
-    alignSelf: "center",
+    width: frameWidth / 4,
     justifyContent: "center",
     alignItems: "center",
   },
