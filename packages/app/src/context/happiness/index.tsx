@@ -17,19 +17,23 @@ const REMINDER_INITIAL_STATE: ReminderState = {
 };
 
 export async function readFromStorage() {
-  const exercises = await storage.get<Exercises>(EXERCISE_KEY);
-  const ideas = await storage.get<Ideas>(IDEA_KEY);
-  const rawCategories = await storage.get<types.IHappinessTrainingCategory[]>(
-    SERVER_DATA_KEY
-  );
-  const reminder = await storage.get<ReminderState>(REMINDER_KEY);
+  const exercises = (await storage.get<Exercises>(EXERCISE_KEY)) ?? {};
+  const ideas = (await storage.get<Ideas>(IDEA_KEY)) ?? {};
+  const rawCategories =
+    (await storage.get<types.IHappinessTrainingCategory[]>(SERVER_DATA_KEY)) ??
+    [];
+  const reminder =
+    (await storage.get<ReminderState>(REMINDER_KEY)) ?? REMINDER_INITIAL_STATE;
   return { exercises, ideas, rawCategories, reminder };
 }
 
 function isExerciseDoneRecently(
   currentTime: number,
-  lastExerciseDoneAt: number
+  lastExerciseDoneAt: number | undefined
 ) {
+  if (!lastExerciseDoneAt) {
+    return false;
+  }
   if (config.isDevelopment) {
     return (
       differenceInSeconds(currentTime, lastExerciseDoneAt) <
@@ -79,7 +83,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   markExerciseAsDone: () => {},
   addIdea: () => {},
   isCategoryDone: () => false,
-  getCategoryToTryNext: () => null,
+  getCategoryToTryNext: () => ({ state: undefined, nextOne: undefined }),
   isAllDone: () => false,
   reminderState: REMINDER_INITIAL_STATE,
   updateReminder: () => {},
@@ -121,7 +125,9 @@ function getLastExerciseDoneAt(
   rawCategory: types.IHappinessTrainingCategory,
   exercises: Exercises
 ): number | undefined {
-  if (!exercises) return undefined;
+  if (!exercises) {
+    return undefined;
+  }
   const result = rawCategory.exercises.reduce((last, { id }) => {
     const exercise = exercises[id];
     if (exercise?.state === "done") {
@@ -240,7 +246,7 @@ export function getNextState(
     if (categoryIsDone) {
       nextCategories[categoryId] = {
         state: "done",
-        doneAt: lastExerciseDoneAt,
+        doneAt: lastExerciseDoneAt!,
       };
       isCategoryLocked = isRecent ? true : false;
     } else if (categoryIsNotDone && !isCategoryLocked) {
@@ -274,20 +280,18 @@ export const HappinessProvider = (props: {
   initialData: InitialData;
 }) => {
   const [exercises, setExercises] = React.useState<Exercises>(
-    props.initialData.exercises ?? {}
+    props.initialData.exercises
   );
   const [categories, setCategories] = React.useState<Categories>(
-    props.initialData.categories ?? {}
+    props.initialData.categories
   );
-  const [ideas, setIdeas] = React.useState<Ideas>(
-    props.initialData.ideas ?? {}
-  );
+  const [ideas, setIdeas] = React.useState<Ideas>(props.initialData.ideas);
   const [reminder, setReminder] = React.useState<ReminderState>(
-    props.initialData.reminder ?? REMINDER_INITIAL_STATE
+    props.initialData.reminder
   );
   const [rawCategories, setRawCategories] = React.useState<
     types.IHappinessTrainingCategory[]
-  >(props.initialData.rawCategories ?? []);
+  >(props.initialData.rawCategories);
 
   const updateExercises = async (updated: Exercises) => {
     setExercises(updated);
@@ -358,6 +362,9 @@ export const HappinessProvider = (props: {
   };
 
   const update = (r = rawCategories, e = exercises) => {
+    if (!r) {
+      return;
+    }
     const result = getNextState(r, e, Date.now());
     updateCategories(result.categories);
     updateExercises(result.exercises);

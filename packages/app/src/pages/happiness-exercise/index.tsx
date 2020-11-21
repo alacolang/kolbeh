@@ -73,7 +73,12 @@ function HappinessExercise({ navigation, route }: Props) {
       >
         <ScrollView
           contentContainerStyle={styles.scrollViewContainer}
-          style={{ height: fullHeight - FOOTER_HEIGHT - ADD_IDEA_HEIGHT }}
+          style={{
+            height:
+              fullHeight -
+              FOOTER_HEIGHT -
+              (isAlreadyDone ? 0 : ADD_IDEA_HEIGHT),
+          }}
         >
           <Header title={exercise.title} />
           <Markdown markdownStyles={markdownStyles}>
