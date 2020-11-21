@@ -79,11 +79,13 @@ const HappinessTraining = () => {
   const header = (
     <View style={styles.greetingContainer}>
       <FormattedText style={styles.greeting}>
-        <Trans
-          i18nKey="happiness.greeting.hello"
-          values={{ name }}
-          components={[<FormattedText style={styles.greeting} />]}
-        />
+        {categoryToTryNext.state !== "not-now" ? (
+          <Trans
+            i18nKey="happiness.greeting.hello"
+            values={{ name }}
+            components={[<FormattedText style={styles.greeting} />]}
+          />
+        ) : null}
       </FormattedText>
       {categoryToTryNext.state === "all-done" ? (
         <FormattedText style={styles.greeting}>
