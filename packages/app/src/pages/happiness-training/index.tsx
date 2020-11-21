@@ -53,28 +53,24 @@ const HappinessTraining = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const slidesX = useRef<Record<string, number>>({});
   const jumpToCategory = useCallback(() => {
-    console.log("jumptocategory:", { categoryToTryNext });
-    if (
-      categoryToTryNext === "all-done" ||
-      categoryToTryNext === "not-now" ||
-      categoryToTryNext === null
-    ) {
-      return;
-    }
+    // console.log("jumptocategory:", { categoryToTryNext });
+    function helper() {
+      if (categoryToTryNext.nextOne === undefined) {
+        return;
+      }
 
-    // const timeout = setTimeout(() => {
-    const x = slidesX.current[categoryToTryNext.id];
-    if (x) {
-      scrollViewRef.current?.scrollTo({
-        x: x - 24,
-        animated: false,
-      });
+      const x = slidesX.current[categoryToTryNext.nextOne.id];
+      if (x) {
+        scrollViewRef.current?.scrollTo({
+          x: x - 24,
+          animated: false,
+        });
+      }
     }
-    // }, 0);
-
-    // return () => {
-    //   clearTimeout(timeout);
-    // };
+    setTimeout(() => {
+      helper();
+    }, 50);
+    helper();
   }, [categoryToTryNext]);
 
   useFocusEffect(jumpToCategory);
@@ -89,30 +85,30 @@ const HappinessTraining = () => {
           components={[<FormattedText style={styles.greeting} />]}
         />
       </FormattedText>
-      {categoryToTryNext === "all-done" ? (
+      {categoryToTryNext.state === "all-done" ? (
         <FormattedText style={styles.greeting}>
           <Trans
             i18nKey="happiness.greeting.allDone"
             components={[<FormattedText style={styles.greetingCategory} />]}
           />
         </FormattedText>
-      ) : categoryToTryNext === "not-now" ? (
+      ) : categoryToTryNext.state === "not-now" ? (
         <FormattedText
           style={styles.greeting}
           id="happiness.greeting.enoughForToday"
         />
-      ) : categoryToTryNext?.title ? (
+      ) : categoryToTryNext.nextOne !== undefined ? (
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("happinessCategory", {
-              category: categoryToTryNext,
+              category: categoryToTryNext.nextOne!,
             })
           }
         >
           <FormattedText style={styles.greeting}>
             <Trans
               i18nKey="happiness.greeting.tryNow"
-              values={{ title: categoryToTryNext?.title ?? "" }}
+              values={{ title: categoryToTryNext?.nextOne.title ?? "" }}
               components={[<FormattedText style={styles.greetingCategory} />]}
               parent={FormattedText}
             />

@@ -6,14 +6,14 @@ import * as storage from "../../utils/storage";
 import { differenceInSeconds, differenceInCalendarDays } from "date-fns";
 import config from "config";
 
-const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 20;
+export const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 20;
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
 const SERVER_DATA_KEY = "happiness_server";
 const REMINDER_KEY = "happiness_reminder";
 const REMINDER_INITIAL_STATE: ReminderState = {
-  state: "INACTIVE",
+  state: "ACTIVE",
 };
 
 export async function readFromStorage() {
@@ -69,12 +69,6 @@ export type IHappinessContext = {
   updateReminder: (s: ReminderState) => void;
 };
 
-export type NextCategory =
-  | null
-  | "all-done"
-  | "not-now"
-  | types.IHappinessTrainingCategory;
-
 const HappinessContext = React.createContext<IHappinessContext>({
   exercises: {},
   categories: {},
@@ -126,7 +120,8 @@ function _sync(exercises: Exercises, reminder: ReminderState) {
 function getLastExerciseDoneAt(
   rawCategory: types.IHappinessTrainingCategory,
   exercises: Exercises
-): number {
+): number | undefined {
+  if (!exercises) return undefined;
   const result = rawCategory.exercises.reduce((last, { id }) => {
     const exercise = exercises[id];
     if (exercise?.state === "done") {
@@ -137,9 +132,16 @@ function getLastExerciseDoneAt(
   return result;
 }
 
+export type NextCategory = {
+  state: "can-try" | "all-done" | "not-now" | undefined;
+  nextOne: types.IHappinessTrainingCategory | undefined;
+};
+
 export function getCategoryToTryNext(
   categories: Categories,
-  rawCategories: types.IHappinessTrainingCategory[]
+  rawCategories: types.IHappinessTrainingCategory[],
+  currentTime: number,
+  exercises: Exercises
 ): NextCategory {
   if (
     !rawCategories ||
@@ -147,29 +149,33 @@ export function getCategoryToTryNext(
     !categories ||
     Object.keys(categories).length === 0
   ) {
-    return null;
+    return { state: undefined, nextOne: undefined };
   }
-  return [...rawCategories]
-    .reverse()
-    .reduce(
-      (
-        acc: "all-done" | "not-now" | types.IHappinessTrainingCategory,
-        category: types.IHappinessTrainingCategory
-      ) => {
-        if (acc !== "not-now" && acc !== "all-done") {
-          return acc;
-        }
-        const state = categories[category.id]?.state;
-        if (state === "done" && acc === "all-done") {
-          return acc;
-        }
-        if (categories[category.id]?.state === "unlocked") {
-          return category;
-        }
-        return "not-now";
-      },
-      "all-done"
-    );
+  return [...rawCategories].reverse().reduce(
+    (acc: NextCategory, rawCategory: types.IHappinessTrainingCategory) => {
+      if (acc.state === "not-now") {
+        return acc;
+      }
+
+      const category = categories[rawCategory.id];
+      if (category.state === "done" || category.state === "locked") {
+        return acc;
+      }
+      if (category.state === "unlocked") {
+        const lastDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
+        return {
+          nextOne: rawCategory,
+          state: !lastDoneAt
+            ? "can-try"
+            : isExerciseDoneRecently(currentTime, lastDoneAt)
+            ? "not-now"
+            : "can-try",
+        } as NextCategory;
+      }
+      return { state: "not-now", nextOne: rawCategory } as const;
+    },
+    { state: "all-done", nextOne: undefined } as NextCategory
+  );
 }
 
 export function getNextState(
@@ -337,36 +343,6 @@ export const HappinessProvider = (props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   async function readFromStorage() {
-  //     const storedExercises = await storage.get<Exercises>(EXERCISE_KEY);
-  //     const storedIdeas = await storage.get<Ideas>(IDEA_KEY);
-  //     const storedRawCategories = await storage.get<
-  //       types.IHappinessTrainingCategory[]
-  //     >(SERVER_DATA_KEY);
-  //     const storedReminder = await storage.get<ReminderState>(REMINDER_KEY);
-  //     try {
-  //       if (storedIdeas) {
-  //         setIdeas(storedIdeas);
-  //       }
-  //       if (storedRawCategories) {
-  //         setRawCategories(storedRawCategories);
-  //       }
-  //       if (storedExercises) {
-  //         setExercises(storedExercises);
-  //         update(storedRawCategories ?? [], storedExercises);
-  //       }
-  //       if (storedReminder) {
-  //         setReminder(storedReminder);
-  //       }
-  //     } catch (e) {
-  //       console.warn("failed to load", e);
-  //     }
-  //   }
-  //   readFromStorage();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   const isCategoryDone = (
     rawCategory: types.IHappinessTrainingCategory
   ): boolean => {
@@ -379,11 +355,9 @@ export const HappinessProvider = (props: {
       isCategoryDoneGivenExercises(rawCategory, exercises)
     );
     return result;
-    // return true;
   };
 
   const update = (r = rawCategories, e = exercises) => {
-    // console.log("h2", { exercises });
     const result = getNextState(r, e, Date.now());
     updateCategories(result.categories);
     updateExercises(result.exercises);
@@ -411,7 +385,12 @@ export const HappinessProvider = (props: {
         reminderState: reminder,
         updateReminder,
         getCategoryToTryNext: () =>
-          getCategoryToTryNext(categories, rawCategories),
+          getCategoryToTryNext(
+            categories,
+            rawCategories,
+            Date.now(),
+            exercises
+          ),
         isAllDone,
       }}
     />

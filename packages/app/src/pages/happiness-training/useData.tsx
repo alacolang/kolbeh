@@ -48,7 +48,8 @@ export function useData() {
   console.log({
     newCategories: newCategories?.length,
     rawCategories: rawCategories?.length,
-    categoryToTryNext: categoryToTryNext?.title,
+    categoryToTryNextState: categoryToTryNext.state,
+    categoryToTryNextTitle: categoryToTryNext.nextOne?.title,
     loading,
   });
 

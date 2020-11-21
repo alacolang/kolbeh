@@ -180,39 +180,39 @@ describe("categories", () => {
   });
 });
 
-describe("next category to try", () => {
-  it("when data is ready", () => {
-    const rawCategories = [
-      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
-      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
-    ] as types.IHappinessTrainingCategory[];
+// describe("next category to try", () => {
+//   it("when data is ready", () => {
+//     const rawCategories = [
+//       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+//       { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+//     ] as types.IHappinessTrainingCategory[];
 
-    const categories = {
-      "cat-1": {
-        state: "done",
-        doneAt: 10,
-      },
-      "cat-2": {
-        state: "unlocked",
-      },
-    } as const;
-    const next = getCategoryToTryNext(categories, rawCategories);
-    // @ts-expect-error
-    expect(next?.id).toEqual("cat-2");
-  });
-  it("when only rawCategories there", () => {
-    const rawCategories = [
-      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
-      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
-    ] as types.IHappinessTrainingCategory[];
-    const categories = {} as const;
-    const next = getCategoryToTryNext(categories, rawCategories);
-    expect(next).toEqual(null);
-  });
-  it("when not rawCategories there", () => {
-    const rawCategories = [] as types.IHappinessTrainingCategory[];
-    const categories = {} as const;
-    const next = getCategoryToTryNext(categories, rawCategories);
-    expect(next).toEqual(null);
-  });
-});
+//     const categories = {
+//       "cat-1": {
+//         state: "done",
+//         doneAt: 10,
+//       },
+//       "cat-2": {
+//         state: "unlocked",
+//       },
+//     } as const;
+//     const next = getCategoryToTryNext(categories, rawCategories);
+//     // @ts-expect-error
+//     expect(next?.id).toEqual("cat-2");
+//   });
+//   it("when only rawCategories there", () => {
+//     const rawCategories = [
+//       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+//       { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+//     ] as types.IHappinessTrainingCategory[];
+//     const categories = {} as const;
+//     const next = getCategoryToTryNext(categories, rawCategories);
+//     expect(next).toEqual(null);
+//   });
+//   it("when not rawCategories there", () => {
+//     const rawCategories = [] as types.IHappinessTrainingCategory[];
+//     const categories = {} as const;
+//     const next = getCategoryToTryNext(categories, rawCategories);
+//     expect(next).toEqual(null);
+//   });
+// });

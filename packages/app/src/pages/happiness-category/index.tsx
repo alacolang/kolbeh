@@ -34,18 +34,7 @@ function HappinessCategory({ navigation, route }: Props) {
         <View style={{ marginTop: 16 }} />
       </ScrollView>
       <View style={styles.contentContainer}>
-        <View
-          style={{
-            position: "absolute",
-            top: -32 - 16,
-            borderWidth: 0,
-            left: 0,
-            right: 0,
-            height: 32,
-            width: "120%",
-            backgroundColor: "#F0F5FFa0",
-          }}
-        />
+        <View style={styles.endingTextOpacity} />
         <View style={styles.verticalLine}>
           <View style={styles.verticalLineInner} />
         </View>
@@ -107,6 +96,16 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     bottom: 0,
+  },
+  endingTextOpacity: {
+    position: "absolute",
+    top: -32 - 16,
+    borderWidth: 0,
+    left: 0,
+    right: 0,
+    height: 32,
+    width: "120%",
+    backgroundColor: "#F0F5FFa0",
   },
   exercisesContainer: {
     flexGrow: 1,

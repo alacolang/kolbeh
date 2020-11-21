@@ -3,6 +3,7 @@ import {
   getCategoryToTryNext,
   getNextState,
   useHappiness,
+  DEV_MODE_NEXT_EXERCISE_IN_SECONDS,
 } from "context/happiness";
 import { useIdentity } from "context/identity";
 import { addSeconds, addDays, setHours, setMinutes } from "date-fns";
@@ -38,8 +39,15 @@ function createMessage(name: Maybe<string>, exerciseToTry: Maybe<string>) {
 
 function getScheduledDates() {
   if (config.isDevelopment) {
-    const nextOne = addSeconds(Date.now(), 5);
-    return [nextOne, addSeconds(nextOne, 10), addSeconds(nextOne, 15)];
+    const nextOne = addSeconds(
+      Date.now(),
+      DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 5
+    );
+    return [
+      nextOne,
+      addSeconds(nextOne, DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 10),
+      addSeconds(nextOne, DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 15),
+    ];
   } else {
     const today = setMinutes(setHours(new Date(), 18), 0);
     return [addDays(today, 1), addDays(today, 2), addDays(today, 3)];
@@ -83,15 +91,17 @@ export function useNotification() {
     const nextState = getNextState(rawCategories, exercises, date.getTime());
     const nextCategory = getCategoryToTryNext(
       nextState.categories,
-      rawCategories
+      rawCategories,
+      date.getTime(),
+      exercises
     );
-    if (nextCategory === "all-done" || nextCategory === null) {
+    if (nextCategory.state === "all-done" || nextCategory === null) {
       return;
-    } else if (nextCategory === "not-now") {
+    } else if (nextCategory.state === "not-now") {
       const nextDay = addDays(Date.now(), 1);
       return getMessage(nextDay);
     } else {
-      return createMessage(name, nextCategory.title);
+      return createMessage(name, nextCategory.nextOne?.title);
     }
   }
 

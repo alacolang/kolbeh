@@ -135,8 +135,8 @@ android {
         applicationId "ir.alacolang.kolbeh"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "0.0.18"
+        versionCode 20
+        versionName "0.0.20"
         multiDexEnabled true
         resValue "string", "build_config_package", "ir.alacolang.kolbeh"
     }
