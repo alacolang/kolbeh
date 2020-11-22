@@ -65,13 +65,10 @@ export function doScheduleNotification(date: Date, message: string) {
   PushNotification.localNotificationSchedule({
     date,
     channelId: "happiness-reminder",
-    // largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
     smallIcon: "ic_push", // (optional) default: "ic_notification" with fallback for "ic_launcher"
-    color: "purple", // (optional) default: system default
     vibrate: true, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
     title: message,
-    // message,
     message: "",
   });
 }
