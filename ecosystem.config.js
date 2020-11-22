@@ -63,7 +63,7 @@ module.exports = {
       path: "/home/www/kolbeh-production",
       "post-setup": "./post-deploy.sh",
       "post-deploy":
-        "./post-deploy.sh && NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
+        "./post-deploy.sh && NODE_ENV=production pm2 reload ecosystem.config.js --env production",
       env: {
         NODE_ENV: "production",
       },
@@ -76,7 +76,7 @@ module.exports = {
       path: "/home/www/kolbeh-staging",
       "post-setup": "./post-deploy.sh",
       "post-deploy":
-        "./post-deploy.sh && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
+        "./post-deploy.sh && NODE_ENV=staging pm2 reload ecosystem.config.js --env staging",
       env: {
         NODE_ENV: "staging",
       },
