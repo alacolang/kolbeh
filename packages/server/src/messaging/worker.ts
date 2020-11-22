@@ -30,8 +30,6 @@ happinessTryNextQueue.process(function (job, done) {
     console.warn(chalk.red(error.message));
     done(error);
   }
-  // done();
-  // return;
 
   if (!isSendingTimeOk()) {
     const error = new Error("not a good time to send notification");

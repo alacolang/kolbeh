@@ -23,9 +23,8 @@ function checkToken(req: Request, res: Response, next: NextFunction) {
 
 router.post("/", checkToken, async (req, res) => {
   const data = req.body ?? {};
-  console.log("data=", data);
-  console.log("token=", req.headers.token);
-
+  // console.log("data=", data);
+  // console.log("token=", req.headers.token);
   const key = getUserKey(req);
 
   try {
