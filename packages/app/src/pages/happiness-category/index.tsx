@@ -27,6 +27,15 @@ function HappinessCategory({ navigation, route }: Props) {
     navigation.navigate("happinessExercise", { exercise, category });
   }
 
+  function handleNextPress() {
+    for (const exercise of category.exercises) {
+      if (happiness.exercises[exercise.id].state === "unlocked") {
+        navigation.navigate("happinessExercise", { exercise, category });
+        return;
+      }
+    }
+  }
+
   return (
     <SafeAreaView style={styles.outerContainer}>
       <ScrollView style={styles.container}>
@@ -67,7 +76,13 @@ function HappinessCategory({ navigation, route }: Props) {
             );
           })}
         </View>
-        <Gif image={IMAGES[category.id]} dropShadow />
+        <TouchableOpacity
+          onPress={() => {
+            handleNextPress();
+          }}
+        >
+          <Gif image={IMAGES[category.id]} dropShadow />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -144,13 +159,11 @@ const markdownStyles = {
   h2: {
     color: colors.h2,
     paddingVertical: 20,
-    // fontWeight: "bold",
     fontSize: 24,
   },
   h3: {
     color: colors.h3,
     paddingVertical: 20,
-    // fontWeight: "bold",
     fontSize: 24,
   },
   text: {
