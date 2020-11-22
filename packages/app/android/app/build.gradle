@@ -136,7 +136,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 20
-        versionName "0.0.20"
+        versionName "0.1.0"
         multiDexEnabled true
         resValue "string", "build_config_package", "ir.alacolang.kolbeh"
     }
