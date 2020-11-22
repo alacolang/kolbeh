@@ -61,8 +61,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/kolbeh-production",
-      "post-setup":
-        "cp /home/www/kolbeh-environments/.env.production ../shared/.env",
+      "post-setup": "./post-deploy.sh",
       "post-deploy":
         "./post-deploy.sh && NODE_ENV=production pm2 startOrRestart ecosystem.config.js --env production",
       env: {
@@ -75,8 +74,7 @@ module.exports = {
       ref: `origin/${branchName()}`,
       repo: "git@github.com:alacolang/kolbeh.git",
       path: "/home/www/kolbeh-staging",
-      "post-setup":
-        "cp /home/www/kolbeh-environments/.env.staging ../shared/.env",
+      "post-setup": "./post-deploy.sh",
       "post-deploy":
         "./post-deploy.sh && NODE_ENV=staging pm2 startOrRestart ecosystem.config.js --env staging",
       env: {
