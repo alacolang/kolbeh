@@ -68,6 +68,7 @@ android/app/release
 .project
 .settings
 
+.env.production
 .env
 
 android/app/google-services.json
