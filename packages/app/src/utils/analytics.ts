@@ -1,5 +1,6 @@
 import Analytics from "appcenter-analytics";
 import config from "config";
+import { log } from "utils/log";
 
 export const trackEvent = (
   eventName: string,
@@ -9,8 +10,7 @@ export const trackEvent = (
     return;
   }
   if (config.isDevelopment) {
-    // eslint-disable-next-line no-console
-    console.log(`%c ${eventName}`, "color: red", properties);
+    log(`%c ${eventName}`, "color: red", properties);
   }
   Analytics.trackEvent(eventName, properties);
 };

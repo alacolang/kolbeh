@@ -31,4 +31,9 @@ const config: Config = {
   isDevelopment,
 };
 
+if (isDevelopment) {
+  // eslint-disable-next-line no-console
+  console.log({ config, NODE_ENV: process.env.NODE_ENV });
+}
+
 export default config;

@@ -1,4 +1,5 @@
 import Sound from "react-native-sound";
+import { log } from "utils/log";
 
 const SOUNDS = {
   reward_exercise: "reward_exercise.mp3",
@@ -67,7 +68,7 @@ export const play = (
     sounds[soundName].play((success) => {
       state = { mode: "idle" };
       if (success) {
-        // console.log("sound played");
+        log("sound played");
       } else {
         console.warn("sound play failed");
       }

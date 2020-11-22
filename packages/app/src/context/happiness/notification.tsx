@@ -49,14 +49,13 @@ function getScheduledDates() {
       addSeconds(nextOne, DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 15),
     ];
   } else {
-    const today = setMinutes(setHours(new Date(), 18), 0);
+    const today = setMinutes(setHours(new Date(), 17), 0);
     return [addDays(today, 1), addDays(today, 2), addDays(today, 3)];
   }
 }
 
 function scheduleNotification(message: string) {
   const dates = getScheduledDates();
-  console.log({ dates });
   dates.forEach((date: Date) => {
     doScheduleNotification(date, message);
   });
@@ -111,7 +110,6 @@ export function useNotification() {
     return;
   }
   const message = getMessage(new Date());
-  console.log({ message });
   if (!message) {
     return;
   }

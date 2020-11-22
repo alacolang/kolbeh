@@ -16,7 +16,6 @@ import { ParentStackParamList } from "navigation/parent-stack-navigator";
 import colors from "colors";
 import * as Types from "types";
 import { FormattedText } from "components/formatted-text";
-import { useConnectivity } from "context/connectivity";
 import { NetworkStatus } from "apollo-client";
 
 const GET_PARENT = gql`
@@ -73,7 +72,6 @@ const ParentScreen = () => {
   >(GET_PARENT, {
     notifyOnNetworkStatusChange: true,
   });
-  const { isConnected } = useConnectivity();
 
   const _refetch = useCallback(() => {
     const task = InteractionManager.runAfterInteractions(async () => {
@@ -85,17 +83,6 @@ const ParentScreen = () => {
   }, [refetch]);
 
   const categories: Types.ICategory[] = data?.parentCategories ?? [];
-
-  // useEffect(() => {
-  //   if (categories.length === 0) {
-  //     _refetch();
-  //   }
-  // }, [isConnected, _refetch, categories.length]);
-
-  console.log(
-    { isConnected, networkStatus, loading, error },
-    error?.networkError
-  );
 
   return (
     <View

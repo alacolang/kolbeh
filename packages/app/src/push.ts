@@ -62,6 +62,6 @@ PushNotification.createChannel(
     vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
   },
   (created) => {
-    console.log(`createChannel 'happiness-reminder' returned '${created}'`); // (optional) callback returns whether the channel was created, false means it already existed.
+    log(`createChannel 'happiness-reminder' returned '${created}'`); // (optional) callback returns whether the channel was created, false means it already existed.
   }
 );

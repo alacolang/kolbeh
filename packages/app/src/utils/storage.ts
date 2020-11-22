@@ -4,7 +4,9 @@ import deepmerge from "deepmerge";
 export async function get<T>(key: string): Promise<T | undefined> {
   try {
     const stored = await AsyncStorage.getItem(key);
-    if (!stored) return undefined;
+    if (!stored) {
+      return undefined;
+    }
     return JSON.parse(stored);
   } catch (e) {
     return undefined;

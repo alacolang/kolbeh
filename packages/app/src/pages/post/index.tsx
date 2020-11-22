@@ -14,7 +14,6 @@ import { useBookmarkedPosts } from "context/bookmark-posts";
 import InAppPost from "components/body-percussion";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "colors";
-import { NetworkStatus } from "apollo-client";
 import { FormattedText } from "components/formatted-text";
 import { useConnectivity } from "context/connectivity";
 

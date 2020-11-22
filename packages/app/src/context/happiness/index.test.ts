@@ -1,4 +1,4 @@
-import { getCategoryToTryNext, getNextState } from "./index";
+import { getNextState } from "./index";
 import * as types from "types";
 
 describe("categories", () => {

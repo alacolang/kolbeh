@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import { useCallback, useEffect } from "react";
 import { InteractionManager } from "react-native";
 import * as Types from "types";
+import { log } from "utils/log";
 
 type HappinessTrainingData = {
   happinessTraining: Types.IHappinessTraining;
@@ -45,7 +46,7 @@ export function useData() {
   const rawCategories = happiness.rawCategories;
   const categoryToTryNext = happiness.getCategoryToTryNext();
 
-  console.log({
+  log({
     newCategories: newCategories?.length,
     rawCategories: rawCategories?.length,
     categoryToTryNextState: categoryToTryNext.state,

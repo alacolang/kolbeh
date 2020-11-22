@@ -53,7 +53,6 @@ const HappinessTraining = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const slidesX = useRef<Record<string, number>>({});
   const jumpToCategory = useCallback(() => {
-    // console.log("jumptocategory:", { categoryToTryNext });
     function helper() {
       if (categoryToTryNext.nextOne === undefined) {
         return;
@@ -78,15 +77,15 @@ const HappinessTraining = () => {
 
   const header = (
     <View style={styles.greetingContainer}>
-      <FormattedText style={styles.greeting}>
-        {categoryToTryNext.state !== "not-now" ? (
+      {categoryToTryNext.state !== "not-now" ? (
+        <FormattedText style={styles.greeting}>
           <Trans
             i18nKey="happiness.greeting.hello"
             values={{ name }}
             components={[<FormattedText style={styles.greeting} />]}
           />
-        ) : null}
-      </FormattedText>
+        </FormattedText>
+      ) : null}
       {categoryToTryNext.state === "all-done" ? (
         <FormattedText style={styles.greeting}>
           <Trans

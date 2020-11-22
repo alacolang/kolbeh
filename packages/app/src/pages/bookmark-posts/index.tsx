@@ -7,7 +7,6 @@ import gql from "graphql-tag";
 import React, { useEffect } from "react";
 import { FlatList, StatusBar, StyleSheet, View } from "react-native";
 import * as Types from "types";
-
 import { useQuery } from "@apollo/react-hooks";
 import { NetworkStatus } from "apollo-client";
 import { useConnectivity } from "context/connectivity";
@@ -79,8 +78,6 @@ const BookmarkPostsScreen = () => {
   const bookmarkedPosts: Types.IPostEdge[] = posts.edges.filter(({ node }) =>
     savedPosts.includes(node.id)
   );
-  // console.log({ bookmarkedPosts });
-
   const { isConnected } = useConnectivity();
 
   useEffect(() => {

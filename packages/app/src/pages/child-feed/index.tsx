@@ -91,8 +91,6 @@ const Feed = () => {
     return <FeedTile post={item} />;
   };
 
-  // console.log({ feed, error, networkStatus });
-
   return (
     <View style={styles.container}>
       <StatusBar hidden />

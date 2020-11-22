@@ -19,14 +19,9 @@ export function ConnectivityProvider<T>(props: T) {
   const [state, setState] = useState<State>(initialState);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((netState) => {
-      // console.log("Connection type", netState.type);
-      // console.log("Is connected?", netState.isConnected);
-      // console.log("isInternetReachable	", netState.isInternetReachable);
       setState({
         isConnected: netState.isConnected,
         isInternetReachable: Boolean(netState.isInternetReachable),
-        // isConnected: true,
-        // isInternetReachable: false,
       });
     });
     return unsubscribe;

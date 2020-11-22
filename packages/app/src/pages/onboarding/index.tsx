@@ -267,14 +267,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 36,
   },
-  doneContainer: {
-    // position: "absolute",
-    // bottom: 0,
-    paddingBottom: 36,
-    // justifyContent: "center",
-    // alignItems: "flex-end",
-    backgroundColor: "transparent",
-  },
 });
 
 export default Onboarding;
