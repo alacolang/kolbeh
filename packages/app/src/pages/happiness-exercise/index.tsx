@@ -422,10 +422,14 @@ const Feedback = ({
                 position: "absolute",
                 justifyContent: "center",
                 alignItems: "center",
-                top: 0,
+                top: -20,
               }}
             >
-              <IconSvg name={image2} size={55} color={colors[10]} />
+              <IconSvg
+                name={image2}
+                size={75}
+                color={colors.backgroundSecondary}
+              />
             </View>
             <View style={feedbackStyles.textContainer}>
               <FormattedText style={feedbackStyles.text}>
@@ -455,20 +459,20 @@ const feedbackStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: colors.backgroundPrimary,
   },
   container: {
     width: fullWidth - 2 * 36,
     height: fullWidth - 2 * 36,
     borderRadius: fullWidth - 2 * 36,
-    borderWidth: 5,
+    borderWidth: 7,
     borderColor: colors.backgroundPrimary,
     minHeight: fullWidth / 2,
     backgroundColor: colors.backgroundPrimaryThird,
     // borderWidth: 3,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 15,
+    elevation: 25,
   },
   textContainer: {
     flexDirection: "column",

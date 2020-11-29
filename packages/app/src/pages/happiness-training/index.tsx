@@ -91,10 +91,15 @@ const HappinessTraining = () => {
           </Trans>
         </FormattedText>
       ) : categoryToTryNext.state === "not-now" ? (
-        <FormattedText
-          style={styles.greeting}
-          id="happiness.greeting.enoughForToday"
-        />
+        <FormattedText style={styles.greeting}>
+          <Trans
+            style={styles.greeting}
+            values={{ name }}
+            i18nKey="happiness.greeting.enoughForToday"
+          >
+            <FormattedText style={styles.name} />
+          </Trans>
+        </FormattedText>
       ) : categoryToTryNext.nextOne !== undefined ? (
         <TouchableOpacity
           onPress={() =>
@@ -225,6 +230,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     lineHeight: 18 * 1.8,
     paddingHorizontal: 16,
+  },
+  name: {
+    fontSize: 20,
+    color: colors.primary,
+    lineHeight: 18 * 1.8,
   },
   greetingCategory: { color: colors[1] },
 });
