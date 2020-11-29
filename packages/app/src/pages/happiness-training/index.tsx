@@ -79,19 +79,16 @@ const HappinessTraining = () => {
     <View style={styles.greetingContainer}>
       {categoryToTryNext.state !== "not-now" ? (
         <FormattedText style={styles.greeting}>
-          <Trans
-            i18nKey="happiness.greeting.hello"
-            values={{ name }}
-            components={[<FormattedText style={styles.greeting} />]}
-          />
+          <Trans i18nKey="happiness.greeting.hello" values={{ name }}>
+            <FormattedText style={styles.greeting} />
+          </Trans>
         </FormattedText>
       ) : null}
       {categoryToTryNext.state === "all-done" ? (
         <FormattedText style={styles.greeting}>
-          <Trans
-            i18nKey="happiness.greeting.allDone"
-            components={[<FormattedText style={styles.greetingCategory} />]}
-          />
+          <Trans i18nKey="happiness.greeting.allDone">
+            <FormattedText style={styles.greetingCategory} />
+          </Trans>
         </FormattedText>
       ) : categoryToTryNext.state === "not-now" ? (
         <FormattedText
@@ -109,7 +106,7 @@ const HappinessTraining = () => {
           <FormattedText style={styles.greeting}>
             <Trans
               i18nKey="happiness.greeting.tryNow"
-              values={{ title: categoryToTryNext?.nextOne.title ?? "" }}
+              values={{ title: categoryToTryNext?.nextOne?.title ?? "" }}
               components={[<FormattedText style={styles.greetingCategory} />]}
               parent={FormattedText}
             />
