@@ -11,7 +11,7 @@ import gql from "graphql-tag";
 import { FormattedText } from "components/formatted-text";
 import colors from "colors";
 import { IconSvg } from "components/icon";
-import { getVersion } from "utils/codepush";
+import { getCodePushVersion } from "utils/codepush";
 
 const GET_INFO = gql`
   query GetInfo {
@@ -25,13 +25,17 @@ const Contact = () => {
   const { data } = useQuery(GET_INFO);
   const info = data ? data.info : {};
   const [codepushVersion, setCodepushVersion] = React.useState({
-    label: "na",
-    version: "na",
+    pushVersion: "na",
+    appVersion: "na",
   });
 
   React.useEffect(() => {
     async function helper() {
-      setCodepushVersion(await getVersion());
+      const result = await getCodePushVersion();
+      setCodepushVersion({
+        pushVersion: result.label,
+        appVersion: result.version,
+      });
     }
     helper();
   }, []);
@@ -82,10 +86,10 @@ const Contact = () => {
       <View style={styles.versionContainer}>
         <Text style={styles.version}>api version: {info.version || "-"}</Text>
         <Text style={styles.version}>
-          push version: {codepushVersion.label}
+          push version: {codepushVersion.pushVersion}
         </Text>
         <Text style={styles.version}>
-          app version: {codepushVersion.version}
+          app version: {codepushVersion.appVersion}
         </Text>
       </View>
     </View>

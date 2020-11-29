@@ -5,7 +5,7 @@ const options = {
   installMode: codePush.InstallMode.ON_NEXT_RESUME,
 };
 
-const getVersion = () => {
+export const getCodePushVersion = () => {
   return codePush
     .getUpdateMetadata()
     .then((metadata: { label: any; appVersion: any; description: any }) => {
@@ -15,8 +15,8 @@ const getVersion = () => {
         description: metadata.description,
       };
     })
-    .catch(() => {
-      // console.log("codepush error:", e);
+    .catch((e) => {
+      console.log("codepush error:", e);
       return {
         label: "na",
         version: "na",
@@ -24,11 +24,9 @@ const getVersion = () => {
     });
 };
 
-let codePushify: Function;
+export let codePushify: Function;
 if (process.env.NODE_ENV === "production") {
   codePushify = codePush(options);
 } else {
   codePushify = (x: any) => x;
 }
-
-export { getVersion, codePushify };
