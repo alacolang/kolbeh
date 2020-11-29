@@ -29,7 +29,6 @@ export type HomeStackParamList = {
   profile: undefined;
   search: undefined;
   contact: undefined;
-  saved: undefined;
   post: PostRouteParam;
   home: undefined;
   parent: undefined;

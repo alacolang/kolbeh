@@ -1,9 +1,10 @@
 import React from "react";
 import Slider from "@react-native-community/slider";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Icon } from "components/icon";
+import { IconSvg, Icon } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { colors } from "./common";
+import Colors from "../../colors";
 
 type Props = { next: () => void };
 
@@ -25,7 +26,7 @@ const ExplainStep = ({ next }: Props) => {
         <Icon name="pause" size="medium" />
       </View>
       <TouchableOpacity onPress={next} style={styles.nextContainer}>
-        <Icon name="leftArrow" size="medium" />
+        <IconSvg name="leftArrowFill" size="medium" color={Colors[1]} />
       </TouchableOpacity>
     </View>
   );

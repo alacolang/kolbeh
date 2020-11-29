@@ -6,10 +6,11 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { Icon } from "components/icon";
+import { IconSvg } from "components/icon";
 import { FormattedText } from "components/formatted-text";
 import { useSound } from "./sound";
 import { Rhythm, resources, colors, injectID, RhythmNoId } from "./common";
+import Colors from "../../colors";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -150,7 +151,7 @@ const ExplainStep = ({ next }: Props) => {
       />
       <View style={styles.movementsContainer}>{movementsRendered}</View>
       <TouchableOpacity onPress={handleNext} style={styles.nextContainer}>
-        <Icon name="leftArrow" size="medium" />
+        <IconSvg name="leftArrowFill" size="medium" color={Colors[1]} />
       </TouchableOpacity>
     </View>
   );

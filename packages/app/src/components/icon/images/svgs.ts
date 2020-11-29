@@ -29,7 +29,6 @@ import star from "./star.svg";
 import gaussCurve from "./gauss-curve.svg";
 import leftArrowFill from "./left-arrow-fill.svg";
 import rightArrow from "./right-arrow.svg";
-import onboarding from "./onboarding-image1.svg";
 import parent from "./parent.svg";
 import kolbeh from "./kolbeh.svg";
 import rewardDaily from "./reward-daily.svg";
@@ -63,7 +62,6 @@ export default {
   leftArrowFill,
   rightArrow,
   parent,
-  onboarding,
   kolbeh,
   rewardDaily,
   rewardMedal,

@@ -134,7 +134,7 @@ const BookmarkPostsScreen = () => {
       <View style={styles.headerContainer}>
         <FormattedText
           id="screen-title.bookmark"
-          style={{ color: colors.secondary, fontSize: 24 }}
+          style={{ color: colors[1], fontSize: 24 }}
         />
       </View>
       {itemsRendered}
