@@ -15,21 +15,25 @@ export function getUserId() {
 type State = {
   userId: string;
   name: string | undefined;
+  age: string | undefined;
 };
 
 const initialState = {
   userId: "",
   name: undefined,
+  age: undefined,
 };
 
 type IIdentityContext = {
   state: State;
   updateName: (name: string) => void;
+  updateAge: (age: string) => void;
 };
 
 const IdentityContext = React.createContext<IIdentityContext>({
   state: initialState,
   updateName: noop,
+  updateAge: noop,
 });
 
 export async function readFromStorage() {
@@ -95,6 +99,7 @@ export const IdentityProvider = (props: {
       value={{
         state,
         updateName: (name: string) => update({ ...state, name }),
+        updateAge: (age: string) => update({ ...state, age }),
       }}
     />
   );

@@ -15,17 +15,21 @@ import { useIdentity } from "context/identity";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Picker } from "@react-native-picker/picker";
 
+const AGES = ["۹", "۱۰", "۱۱", "۱۲", "۱۳", "۱۴", "۱۵", "۱۶", "۱۷", "۱۸", "۱۸+"];
 const frameWidth = Dimensions.get("screen").width;
 
 type Props = StackScreenProps<HomeStackParamList, "login">;
 function Login({ navigation, route }: Props) {
   const [error, setError] = useState<string | undefined>(undefined);
   const {
-    state: { name: savedName },
+    state: { name: savedName, age: savedAge },
     updateName,
+    updateAge,
   } = useIdentity();
   const [name, setName] = useState(savedName ?? "");
+  const [age, setAge] = useState(savedAge ?? undefined);
   const { t } = useTranslation();
   const handleEnter = () => {
     if (name.trim().length < 3) {
@@ -33,7 +37,14 @@ function Login({ navigation, route }: Props) {
       return;
     }
 
+    if (!age) {
+      setError(t("login.errorAge"));
+      return;
+    }
+
+    updateAge(age);
     updateName(name);
+
     if (route.params?.shouldGoBack) {
       navigation.goBack();
     } else {
@@ -61,6 +72,21 @@ function Login({ navigation, route }: Props) {
             {t("login.errorName")}
           </FormattedText>
         ) : null}
+        <View style={styles.age}>
+          <View style={styles.text}>
+            <Picker
+              selectedValue={age}
+              onValueChange={(value) => {
+                setAge(value as string);
+              }}
+            >
+              <Picker.Item key={0} label={t("login.age")} value={undefined} />
+              {AGES.map((item) => (
+                <Picker.Item key={item} label={item} value={item} />
+              ))}
+            </Picker>
+          </View>
+        </View>
         <View style={styles.footer}>
           <TouchableOpacity
             onPress={() => handleEnter()}
@@ -91,6 +117,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: colors.primary,
     fontSize: 18,
+  },
+  age: {
+    paddingVertical: 5,
   },
   error: { marginTop: 4, color: colors.primary, marginHorizontal: 16 },
   footer: {
