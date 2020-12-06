@@ -1,4 +1,3 @@
-
 import {
   Dimensions,
   TextInput,
