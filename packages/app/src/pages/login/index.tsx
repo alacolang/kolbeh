@@ -1,3 +1,4 @@
+
 import {
   Dimensions,
   TextInput,
@@ -22,7 +23,10 @@ const frameWidth = Dimensions.get("screen").width;
 
 type Props = StackScreenProps<HomeStackParamList, "login">;
 function Login({ navigation, route }: Props) {
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<{
+    name: string | undefined;
+    age: string | undefined;
+  }>({ name: undefined, age: undefined });
   const {
     state: { name: savedName, age: savedAge },
     updateName,
@@ -33,12 +37,11 @@ function Login({ navigation, route }: Props) {
   const { t } = useTranslation();
   const handleEnter = () => {
     if (name.trim().length < 3) {
-      setError(t("login.errorName"));
+      setError({ ...error, name: t("login.errorName") });
       return;
     }
-
     if (!age) {
-      setError(t("login.errorAge"));
+      setError({ ...error, age: t("login.errorAge") });
       return;
     }
 
@@ -63,11 +66,11 @@ function Login({ navigation, route }: Props) {
           maxLength={50}
           onChangeText={(text) => {
             setName(text);
-            setError(undefined);
+            setError({ ...error, name: undefined });
           }}
           returnKeyType="done"
         />
-        {error ? (
+        {error.name ? (
           <FormattedText style={styles.error}>
             {t("login.errorName")}
           </FormattedText>
@@ -78,6 +81,7 @@ function Login({ navigation, route }: Props) {
               selectedValue={age}
               onValueChange={(value) => {
                 setAge(value as string);
+                setError({ ...error, age: undefined });
               }}
             >
               <Picker.Item key={0} label={t("login.age")} value={undefined} />
@@ -87,6 +91,11 @@ function Login({ navigation, route }: Props) {
             </Picker>
           </View>
         </View>
+        {error.age ? (
+          <FormattedText style={styles.error}>
+            {t("login.errorAge")}
+          </FormattedText>
+        ) : null}
         <View style={styles.footer}>
           <TouchableOpacity
             onPress={() => handleEnter()}
@@ -119,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   age: {
-    paddingVertical: 5,
+    paddingTop: 30,
   },
   error: { marginTop: 4, color: colors.primary, marginHorizontal: 16 },
   footer: {
