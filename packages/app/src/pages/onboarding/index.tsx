@@ -69,7 +69,7 @@ type Props = StackScreenProps<HomeStackParamList, "onboarding">;
 const Onboarding = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const {
-    state: { name },
+    state: { name, age },
   } = useIdentity();
   const [activeIndex, setActiveIndex] = useState(0);
   return (
@@ -123,7 +123,7 @@ const Onboarding = ({ navigation }: Props) => {
             <Action
               text={t("onboarding.done")}
               onPress={() => {
-                if (name) {
+                if (name && age) {
                   navigation.replace("home");
                 } else {
                   navigation.replace("login");

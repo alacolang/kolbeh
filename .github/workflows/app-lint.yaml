@@ -22,4 +22,7 @@ jobs:
       - name: Lint
         run: yarn lint
       - name: Run tests
+        env:
+          HOST: http://stg.alacolang.ir/kolbeh
+          API: http://stg.alacolang.ir/kolbeh/graphql
         run: yarn jest

@@ -15,25 +15,38 @@ import { useIdentity } from "context/identity";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Picker } from "@react-native-picker/picker";
 
+const AGES = ["۹", "۱۰", "۱۱", "۱۲", "۱۳", "۱۴", "۱۵", "۱۶", "۱۷", "۱۸", "۱۸+"];
 const frameWidth = Dimensions.get("screen").width;
 
 type Props = StackScreenProps<HomeStackParamList, "login">;
 function Login({ navigation, route }: Props) {
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<{
+    name: string | undefined;
+    age: string | undefined;
+  }>({ name: undefined, age: undefined });
   const {
-    state: { name: savedName },
+    state: { name: savedName, age: savedAge },
     updateName,
+    updateAge,
   } = useIdentity();
   const [name, setName] = useState(savedName ?? "");
+  const [age, setAge] = useState(savedAge ?? undefined);
   const { t } = useTranslation();
   const handleEnter = () => {
     if (name.trim().length < 3) {
-      setError(t("login.errorName"));
+      setError({ ...error, name: t("login.errorName") });
+      return;
+    }
+    if (!age) {
+      setError({ ...error, age: t("login.errorAge") });
       return;
     }
 
+    updateAge(age);
     updateName(name);
+
     if (route.params?.shouldGoBack) {
       navigation.goBack();
     } else {
@@ -52,13 +65,34 @@ function Login({ navigation, route }: Props) {
           maxLength={50}
           onChangeText={(text) => {
             setName(text);
-            setError(undefined);
+            setError({ ...error, name: undefined });
           }}
           returnKeyType="done"
         />
-        {error ? (
+        {error.name ? (
           <FormattedText style={styles.error}>
             {t("login.errorName")}
+          </FormattedText>
+        ) : null}
+        <View style={styles.age}>
+          <View style={styles.picker}>
+            <Picker
+              selectedValue={age}
+              onValueChange={(value) => {
+                setAge(value as string);
+                setError({ ...error, age: undefined });
+              }}
+            >
+              <Picker.Item key={0} label={t("login.age")} value={undefined} />
+              {AGES.map((item) => (
+                <Picker.Item key={item} label={item} value={item} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+        {error.age ? (
+          <FormattedText style={styles.error}>
+            {t("login.errorAge")}
           </FormattedText>
         ) : null}
         <View style={styles.footer}>
@@ -91,6 +125,17 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: colors.primary,
     fontSize: 18,
+  },
+  picker: {
+    backgroundColor: "white",
+    borderRadius: 30,
+    elevation: 5,
+    paddingHorizontal: 16,
+    fontFamily: "IRANYekanRDMobile",
+    color: colors.primary,
+  },
+  age: {
+    paddingTop: 40,
   },
   error: { marginTop: 4, color: colors.primary, marginHorizontal: 16 },
   footer: {
