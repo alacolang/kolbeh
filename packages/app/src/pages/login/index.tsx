@@ -75,7 +75,7 @@ function Login({ navigation, route }: Props) {
           </FormattedText>
         ) : null}
         <View style={styles.age}>
-          <View style={styles.text}>
+          <View style={styles.picker}>
             <Picker
               selectedValue={age}
               onValueChange={(value) => {
@@ -126,8 +126,16 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 18,
   },
+  picker: {
+    backgroundColor: "white",
+    borderRadius: 30,
+    elevation: 5,
+    paddingHorizontal: 16,
+    fontFamily: "IRANYekanRDMobile",
+    color: colors.primary,
+  },
   age: {
-    paddingTop: 30,
+    paddingTop: 40,
   },
   error: { marginTop: 4, color: colors.primary, marginHorizontal: 16 },
   footer: {
