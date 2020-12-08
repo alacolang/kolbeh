@@ -16,7 +16,6 @@ export const getCodePushVersion = () => {
       };
     })
     .catch((e) => {
-      console.log("codepush error:", e);
       return {
         label: "na",
         version: "na",

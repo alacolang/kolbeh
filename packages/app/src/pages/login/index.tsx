@@ -16,6 +16,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
+import { trackEvent } from "utils/analytics";
 
 const AGES = ["۹", "۱۰", "۱۱", "۱۲", "۱۳", "۱۴", "۱۵", "۱۶", "۱۷", "۱۸", "۱۸+"];
 const frameWidth = Dimensions.get("screen").width;
@@ -46,6 +47,7 @@ function Login({ navigation, route }: Props) {
 
     updateAge(age);
     updateName(name);
+    trackEvent("login-age", { age });
 
     if (route.params?.shouldGoBack) {
       navigation.goBack();
