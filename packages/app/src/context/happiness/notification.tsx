@@ -10,6 +10,8 @@ import { addSeconds, addDays, setHours, setMinutes } from "date-fns";
 import PushNotification from "react-native-push-notification";
 import { log } from "utils/log";
 
+const NOTIFICATION_HOUR = 17;
+
 type Maybe<T> = T | undefined;
 
 function isEmpty(str: string | undefined) {
@@ -49,7 +51,7 @@ function getScheduledDates() {
       addSeconds(nextOne, DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 15),
     ];
   } else {
-    const today = setMinutes(setHours(new Date(), 17), 0);
+    const today = setMinutes(setHours(new Date(), NOTIFICATION_HOUR), 0);
     return [addDays(today, 1), addDays(today, 2), addDays(today, 3)];
   }
 }
