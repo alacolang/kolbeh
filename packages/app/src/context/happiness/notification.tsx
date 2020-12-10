@@ -91,7 +91,7 @@ export function useNotification() {
       nextState.categories,
       rawCategories,
       date.getTime(),
-      exercises
+      nextState.exercises
     );
     if (nextCategory.state === "all-done" || nextCategory === null) {
       return;
@@ -99,7 +99,10 @@ export function useNotification() {
       const nextDay = addDays(Date.now(), 1);
       return getMessage(nextDay);
     } else {
-      return createMessage(name, nextCategory.nextOne?.title);
+      const exerciseTitle = nextCategory.nextOne?.exercises.find(
+        (exercise) => nextState.exercises[exercise.id].state === "unlocked"
+      )?.title;
+      return createMessage(name, exerciseTitle);
     }
   }
 
