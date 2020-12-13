@@ -40,5 +40,6 @@ const colors = {
   h1: "#747695",
   h2: "#747695",
   h3: "#ABDDD2",
+  redPurple: "#D22086",
 };
 export default colors;
