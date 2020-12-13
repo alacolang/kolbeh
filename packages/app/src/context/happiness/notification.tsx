@@ -10,23 +10,28 @@ import { addSeconds, addDays, setHours, setMinutes } from "date-fns";
 import PushNotification from "react-native-push-notification";
 import { log } from "utils/log";
 
+const NOTIFICATION_HOUR = 17;
+
 type Maybe<T> = T | undefined;
 
 function isEmpty(str: string | undefined) {
   return str === undefined || str?.trim()?.length === 0;
 }
 
-function createMessage(name: Maybe<string>, exerciseToTry: Maybe<string>) {
+function createMessage(
+  name: Maybe<string>,
+  notificationMessage: Maybe<string>
+) {
   let result: string;
   if (!isEmpty(name)) {
-    if (!isEmpty(exerciseToTry)) {
-      result = `${name}، شکلات رو امروز با «${exerciseToTry}» مزه کن!`;
+    if (!isEmpty(notificationMessage)) {
+      result = `${name}، ${notificationMessage}`;
     } else {
       result = `${name}، شکلات رو امروز با مزه کن!`;
     }
   } else {
-    if (!isEmpty(exerciseToTry)) {
-      result = `شکلات رو امروز با «${exerciseToTry}» مزه کن!`;
+    if (!isEmpty(notificationMessage)) {
+      result = `${notificationMessage}`;
     } else {
       result = "شکلات رو امروز مزه کن!";
     }
@@ -49,7 +54,7 @@ function getScheduledDates() {
       addSeconds(nextOne, DEV_MODE_NEXT_EXERCISE_IN_SECONDS + 15),
     ];
   } else {
-    const today = setMinutes(setHours(new Date(), 17), 0);
+    const today = setMinutes(setHours(new Date(), NOTIFICATION_HOUR), 0);
     return [addDays(today, 1), addDays(today, 2), addDays(today, 3)];
   }
 }
@@ -89,7 +94,7 @@ export function useNotification() {
       nextState.categories,
       rawCategories,
       date.getTime(),
-      exercises
+      nextState.exercises
     );
     if (nextCategory.state === "all-done" || nextCategory === null) {
       return;
@@ -97,7 +102,10 @@ export function useNotification() {
       const nextDay = addDays(Date.now(), 1);
       return getMessage(nextDay);
     } else {
-      return createMessage(name, nextCategory.nextOne?.title);
+      const notificationMessage = nextCategory.nextOne?.exercises.find(
+        (exercise) => nextState.exercises[exercise.id].state === "unlocked"
+      )?.notificationMessage;
+      return createMessage(name, notificationMessage);
     }
   }
 
