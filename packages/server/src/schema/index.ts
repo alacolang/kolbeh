@@ -42,6 +42,7 @@ const schema = gql`
     id: String!
     title: String!
     description: String!
+    notificationMessage: String
     order: Int!
     post: Post
   }
