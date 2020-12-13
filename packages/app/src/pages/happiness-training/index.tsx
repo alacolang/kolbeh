@@ -27,6 +27,8 @@ import { NetworkStatus } from "apollo-client";
 import { useData } from "./useData";
 import Slide, { styles as slidesStyles } from "./Slide";
 import { slideGutter, slideWidth } from "./constants";
+import { IconSvg } from "../../components/icon";
+import Colors from "../../colors";
 
 export type Navigation = CompositeNavigationProp<
   NavigationProp<TabParamList, "kolbeh">,
@@ -76,48 +78,55 @@ const HappinessTraining = () => {
   useEffect(jumpToCategory, [loading, jumpToCategory]);
 
   const header = (
-    <View style={styles.greetingContainer}>
-      {categoryToTryNext.state !== "not-now" ? (
-        <FormattedText style={styles.greeting}>
-          <Trans i18nKey="happiness.greeting.hello" values={{ name }}>
-            <FormattedText style={styles.greeting} />
-          </Trans>
-        </FormattedText>
-      ) : null}
-      {categoryToTryNext.state === "all-done" ? (
-        <FormattedText style={styles.greeting}>
-          <Trans i18nKey="happiness.greeting.allDone">
-            <FormattedText style={styles.greetingCategory} />
-          </Trans>
-        </FormattedText>
-      ) : categoryToTryNext.state === "not-now" ? (
-        <FormattedText style={styles.greeting}>
-          <Trans
-            style={styles.greeting}
-            values={{ name }}
-            i18nKey="happiness.greeting.enoughForToday"
-          >
-            <FormattedText style={styles.name} />
-          </Trans>
-        </FormattedText>
-      ) : categoryToTryNext.nextOne !== undefined ? (
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("happinessCategory", {
-              category: categoryToTryNext.nextOne!,
-            })
-          }
-        >
+    <View style={styles.header}>
+      <View style={styles.profileButtonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("profile")}>
+          <IconSvg name="rewardMedal" size="medium" color={Colors.redPurple} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.greetingContainer}>
+        {categoryToTryNext.state !== "not-now" ? (
+          <FormattedText style={styles.greeting}>
+            <Trans i18nKey="happiness.greeting.hello" values={{ name }}>
+              <FormattedText style={styles.greeting} />
+            </Trans>
+          </FormattedText>
+        ) : null}
+        {categoryToTryNext.state === "all-done" ? (
+          <FormattedText style={styles.greeting}>
+            <Trans i18nKey="happiness.greeting.allDone">
+              <FormattedText style={styles.greetingCategory} />
+            </Trans>
+          </FormattedText>
+        ) : categoryToTryNext.state === "not-now" ? (
           <FormattedText style={styles.greeting}>
             <Trans
-              i18nKey="happiness.greeting.tryNow"
-              values={{ title: categoryToTryNext?.nextOne?.title ?? "" }}
-              components={[<FormattedText style={styles.greetingCategory} />]}
-              parent={FormattedText}
-            />
+              style={styles.greeting}
+              values={{ name }}
+              i18nKey="happiness.greeting.enoughForToday"
+            >
+              <FormattedText style={styles.name} />
+            </Trans>
           </FormattedText>
-        </TouchableOpacity>
-      ) : null}
+        ) : categoryToTryNext.nextOne !== undefined ? (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("happinessCategory", {
+                category: categoryToTryNext.nextOne!,
+              })
+            }
+          >
+            <FormattedText style={styles.greeting}>
+              <Trans
+                i18nKey="happiness.greeting.tryNow"
+                values={{ title: categoryToTryNext?.nextOne?.title ?? "" }}
+                components={[<FormattedText style={styles.greetingCategory} />]}
+                parent={FormattedText}
+              />
+            </FormattedText>
+          </TouchableOpacity>
+        ) : null}
+      </View>
     </View>
   );
 
@@ -221,6 +230,10 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     paddingLeft: 8,
   },
+  header: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
   greetingContainer: {
     paddingLeft: 16,
     flexDirection: "column",
@@ -237,6 +250,11 @@ const styles = StyleSheet.create({
     lineHeight: 18 * 1.8,
   },
   greetingCategory: { color: colors[1] },
+  profileButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 16,
+  },
 });
 
 export default HappinessTraining;
