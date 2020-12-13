@@ -15,8 +15,7 @@ export const getCodePushVersion = () => {
         description: metadata.description,
       };
     })
-    .catch((e) => {
-      console.log("codepush error:", e);
+    .catch(() => {
       return {
         label: "na",
         version: "na",
