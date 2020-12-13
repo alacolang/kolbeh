@@ -15,7 +15,7 @@ export const getCodePushVersion = () => {
         description: metadata.description,
       };
     })
-    .catch((e) => {
+    .catch(() => {
       return {
         label: "na",
         version: "na",

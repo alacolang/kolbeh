@@ -93,5 +93,6 @@ export type IExercise = {
   title: string;
   order: number;
   description: string;
+  notificationMessage?: string;
   post?: IPost;
 };

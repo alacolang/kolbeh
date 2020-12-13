@@ -27,6 +27,7 @@ const GET_HAPPINESS_TRAININGS = gql`
           id
           title
           description
+          notificationMessage
         }
       }
     }
