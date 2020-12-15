@@ -29,6 +29,7 @@ import Slide, { styles as slidesStyles } from "./Slide";
 import { slideGutter, slideWidth } from "./constants";
 import { IconSvg } from "../../components/icon";
 import Colors from "../../colors";
+import { useHappiness } from "context/happiness";
 
 export type Navigation = CompositeNavigationProp<
   NavigationProp<TabParamList, "kolbeh">,
@@ -51,6 +52,8 @@ const HappinessTraining = () => {
     categories,
     rawCategories,
   } = useData();
+
+  const happiness = useHappiness();
 
   const scrollViewRef = useRef<ScrollView>(null);
   const slidesX = useRef<Record<string, number>>({});
@@ -147,6 +150,13 @@ const HappinessTraining = () => {
         ) : (
           rawCategories?.map((category) => {
             const state = categories[category.id]?.state;
+            const numExercisesDone = category.exercises.reduce<number>(
+              (acc, exercise) =>
+                acc +
+                (happiness.exercises[exercise.id].state === "done" ? 1 : 0),
+              0
+            );
+            const totalNumExercises = category.exercises.length;
 
             return (
               <Slide
@@ -154,6 +164,8 @@ const HappinessTraining = () => {
                 t={t}
                 category={category}
                 state={state}
+                numExercisesDone={numExercisesDone}
+                totalNumExercises={totalNumExercises}
                 setSlideX={(x: number) => {
                   slidesX.current[category.id] = x;
                 }}

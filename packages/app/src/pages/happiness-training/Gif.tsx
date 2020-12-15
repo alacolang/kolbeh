@@ -13,6 +13,7 @@ import connection from "../../assets/images/connection.gif";
 import optimism from "../../assets/images/optimism.gif";
 import mindfulness from "../../assets/images/mindfulness.gif";
 import { imageSize } from "./constants";
+import ProgressCircle from "./progressCircle";
 
 export const IMAGES: Record<any, ImageSourcePropType> = {
   "self-compassion": selfCompassion,
@@ -32,8 +33,16 @@ type GifProp = {
   image: ImageSourcePropType;
   dropShadow?: boolean;
   theme?: "purple" | "yellow";
+  numExercisesDone?: number;
+  totalNumExercises?: number;
 };
-const Gif = ({ image, dropShadow = false, theme = "yellow" }: GifProp) => {
+const Gif = ({
+  image,
+  dropShadow = false,
+  theme = "yellow",
+  numExercisesDone,
+  totalNumExercises,
+}: GifProp) => {
   const xx = imageSize - 40;
   const yy = 10;
   return (
@@ -72,6 +81,14 @@ const Gif = ({ image, dropShadow = false, theme = "yellow" }: GifProp) => {
           </Svg>
         </View>
       )}
+      {numExercisesDone && totalNumExercises ? (
+        <View style={gifStyles.progressCircle}>
+          <ProgressCircle
+            numExercisesDone={numExercisesDone}
+            totalNumExercises={totalNumExercises}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -104,6 +121,11 @@ const gifStyles = StyleSheet.create({
   image: {
     height: imageSize * 0.65,
     width: imageSize * 0.65,
+  },
+  progressCircle: {
+    position: "absolute",
+    width: imageSize,
+    height: imageSize,
   },
 });
 

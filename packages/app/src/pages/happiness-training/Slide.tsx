@@ -15,9 +15,18 @@ type SlideProps = {
   state: State["state"];
   onClick: () => void;
   setSlideX: (x: number) => void;
+  numExercisesDone: number;
+  totalNumExercises: number;
 };
 
-function Slide({ category, state, onClick, setSlideX }: SlideProps) {
+function Slide({
+  category,
+  state,
+  onClick,
+  setSlideX,
+  numExercisesDone,
+  totalNumExercises,
+}: SlideProps) {
   return (
     <TouchableOpacity
       key={category.id}
@@ -37,7 +46,12 @@ function Slide({ category, state, onClick, setSlideX }: SlideProps) {
       disabled={state === "locked"}
       onPress={() => onClick()}
     >
-      <Gif image={IMAGES[category.id]} />
+      <Gif
+        image={IMAGES[category.id]}
+        numExercisesDone={numExercisesDone}
+        totalNumExercises={totalNumExercises}
+      />
+
       <View style={styles.contentContainer}>
         <FormattedText style={styles.categoryTitle}>
           {category.title}
