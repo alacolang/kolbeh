@@ -6,7 +6,7 @@ import * as storage from "../../utils/storage";
 import { differenceInSeconds, differenceInCalendarDays } from "date-fns";
 import config from "config";
 
-export const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 20;
+export const DEV_MODE_NEXT_EXERCISE_IN_SECONDS = 5;
 const EXERCISE_KEY = "happiness_exercises";
 const CATEGORY_KEY = "happiness_categories";
 const IDEA_KEY = "happiness_ideas";
@@ -83,7 +83,7 @@ const HappinessContext = React.createContext<IHappinessContext>({
   markExerciseAsDone: () => {},
   addIdea: () => {},
   isCategoryDone: () => false,
-  getCategoryToTryNext: () => ({ state: undefined, nextOne: undefined }),
+  getCategoryToTryNext: () => undefined,
   isAllDone: () => false,
   reminderState: REMINDER_INITIAL_STATE,
   updateReminder: () => {},
@@ -138,50 +138,66 @@ function getLastExerciseDoneAt(
   return result;
 }
 
-export type NextCategory = {
-  state: "can-try" | "all-done" | "not-now" | undefined;
-  nextOne: types.IHappinessTrainingCategory | undefined;
-};
+export type NextCategory =
+  | undefined
+  | {
+      state: "can-try" | "all-done" | "not-now";
+      nextCategory: types.IHappinessTrainingCategory;
+      nextExercises: Exercises;
+    };
 
 export function getCategoryToTryNext(
-  categories: Categories,
   rawCategories: types.IHappinessTrainingCategory[],
-  currentTime: number,
-  exercises: Exercises
+  exercises: Exercises,
+  currentTime: number
 ): NextCategory {
-  if (
-    !rawCategories ||
-    rawCategories.length === 0 ||
-    !categories ||
-    Object.keys(categories).length === 0
-  ) {
-    return { state: undefined, nextOne: undefined };
+  if (!rawCategories || rawCategories.length === 0) {
+    return undefined;
   }
-  return [...rawCategories].reverse().reduce(
-    (acc: NextCategory, rawCategory: types.IHappinessTrainingCategory) => {
-      if (acc.state === "not-now") {
-        return acc;
-      }
+  const nextState = getNextState(rawCategories, exercises, currentTime);
 
-      const category = categories[rawCategory.id];
-      if (category.state === "done" || category.state === "locked") {
-        return acc;
+  const result = [...rawCategories]
+    .reverse()
+    .reduce<NextCategory>((acc, rawCategory, index) => {
+      // in reverse order
+      // locked, locked, done, done, done -> not-now
+      // locked, unlocked, done, done -> can-try
+      // done, done -> all-done
+      //
+      const category = nextState.categories[rawCategory.id];
+      if (index === 0 && category.state === "done") {
+        // last category is done, so all is done!
+        return {
+          state: "all-done",
+          nextCategory: rawCategory,
+          nextExercises: nextState.exercises,
+        };
+      }
+      if (category.state === "done" && acc === undefined) {
+        return {
+          state: "not-now",
+          nextCategory: rawCategory,
+          nextExercises: nextState.exercises,
+        };
       }
       if (category.state === "unlocked") {
-        const lastDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
+        // const lastDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
+        // if (lastDoneAt && isExerciseDoneRecently(currentTime, lastDoneAt)) {
+        //   return {
+        //     state: "not-now",
+        //     nextCategory: rawCategory,
+        //     nextExercises: nextState.exercises,
+        //   };
+        // }
         return {
-          nextOne: rawCategory,
-          state: !lastDoneAt
-            ? "can-try"
-            : isExerciseDoneRecently(currentTime, lastDoneAt)
-            ? "not-now"
-            : "can-try",
-        } as NextCategory;
+          state: "can-try",
+          nextCategory: rawCategory,
+          nextExercises: nextState.exercises,
+        };
       }
-      return { state: "not-now", nextOne: rawCategory } as const;
-    },
-    { state: "all-done", nextOne: undefined } as NextCategory
-  );
+      return acc;
+    }, undefined);
+  return result;
 }
 
 export function getNextState(
@@ -392,12 +408,7 @@ export const HappinessProvider = (props: {
         reminderState: reminder,
         updateReminder,
         getCategoryToTryNext: () =>
-          getCategoryToTryNext(
-            categories,
-            rawCategories,
-            Date.now(),
-            exercises
-          ),
+          getCategoryToTryNext(rawCategories, exercises, Date.now()),
         isAllDone,
       }}
     />

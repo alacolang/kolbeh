@@ -56,11 +56,11 @@ const HappinessTraining = () => {
   const slidesX = useRef<Record<string, number>>({});
   const jumpToCategory = useCallback(() => {
     function helper() {
-      if (categoryToTryNext.nextOne === undefined) {
+      if (categoryToTryNext === undefined) {
         return;
       }
 
-      const x = slidesX.current[categoryToTryNext.nextOne.id];
+      const x = slidesX.current[categoryToTryNext.nextCategory.id];
       if (x) {
         scrollViewRef.current?.scrollTo({
           x: x - 24,
@@ -85,14 +85,14 @@ const HappinessTraining = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.greetingContainer}>
-        {categoryToTryNext.state !== "not-now" ? (
+        {categoryToTryNext?.state === "not-now" ? null : (
           <FormattedText style={styles.greeting}>
             <Trans i18nKey="happiness.greeting.hello" values={{ name }}>
               <FormattedText style={styles.greeting} />
             </Trans>
           </FormattedText>
-        ) : null}
-        {categoryToTryNext.state === "all-done" ? (
+        )}
+        {!categoryToTryNext ? null : categoryToTryNext.state === "all-done" ? (
           <FormattedText style={styles.greeting}>
             <Trans i18nKey="happiness.greeting.allDone">
               <FormattedText style={styles.greetingCategory} />
@@ -108,18 +108,18 @@ const HappinessTraining = () => {
               <FormattedText style={styles.name} />
             </Trans>
           </FormattedText>
-        ) : categoryToTryNext.nextOne !== undefined ? (
+        ) : categoryToTryNext.state === "can-try" ? (
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("happinessCategory", {
-                category: categoryToTryNext.nextOne!,
+                category: categoryToTryNext.nextCategory!,
               })
             }
           >
             <FormattedText style={styles.greeting}>
               <Trans
                 i18nKey="happiness.greeting.tryNow"
-                values={{ title: categoryToTryNext?.nextOne?.title ?? "" }}
+                values={{ title: categoryToTryNext.nextCategory.title }}
                 components={[<FormattedText style={styles.greetingCategory} />]}
                 parent={FormattedText}
               />

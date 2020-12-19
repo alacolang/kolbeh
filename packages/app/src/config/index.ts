@@ -15,7 +15,8 @@ const getSchema = () => {
   return isAndroid4() ? "http" : "https";
 };
 
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
 
 function fixSchema(uri: string): string {
   if (isDevelopment) {
