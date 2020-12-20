@@ -70,8 +70,7 @@ export function doScheduleNotification(date: Date, message: string) {
     date,
     channelId: "happiness-reminder",
     smallIcon: "ic_push", // (optional) default: "ic_notification" with fallback for "ic_launcher"
-    vibrate: true, // (optional) default: true
-    vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+    largeIconUrl: `${config.HOST}/static/images/notification-icon.png`,
     title: message,
     message: "",
   });
