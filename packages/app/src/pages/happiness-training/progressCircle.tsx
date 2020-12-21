@@ -1,9 +1,9 @@
 import React, { useRef, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Path, SvgXml } from "react-native-svg";
-import Animated, { sub, divide, Easing } from "react-native-reanimated";
 import colors from "../../colors";
 import { imageSize } from "./constants";
+import Animated, { sub, Easing } from "react-native-reanimated";
 import { Icon } from "components/icon";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -36,9 +36,14 @@ const ProgressCircle = ({
     useCallback(() => {
       Animated.timing(progress, {
         toValue: numExercisesDone / totalNumExercises,
-        duration: 1000,
+        duration: 1500,
         easing: Easing.linear,
-      }).start();
+      }).start(() => {
+        if (numExercisesDone === totalNumExercises) {
+          scale.setValue(0);
+          scaleAnimated.start();
+        }
+      });
       //   eslint-disable-next-line react-hooks/exhaustive-deps
     }, [numExercisesDone])
   );
@@ -59,9 +64,33 @@ const ProgressCircle = ({
   const y3 = -radius + cy;
   const d = `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} A ${radius} ${radius} 0 0 1 ${x3} ${y3}`;
 
+  const scaleConfig = {
+    toValue: 1,
+    damping: 5,
+    mass: 1,
+    durations: 2000,
+    stiffness: 40,
+    overshootClamping: false,
+    restSpeedThreshold: 0.001,
+    restDisplacementThreshold: 0.001,
+  };
+
+  const scale = useRef(new Animated.Value<number>(0.5)).current;
+
+  const scaleAnimated = Animated.spring(scale, {
+    ...scaleConfig,
+  });
+
   const crownRendered =
     numExercisesDone === totalNumExercises ? (
-      <Animated.View style={[styles.star]}>
+      <Animated.View
+        style={[
+          styles.star,
+          {
+            transform: [{ scale }],
+          },
+        ]}
+      >
         <Icon name="crown" size={crownSize} />
       </Animated.View>
     ) : null;
