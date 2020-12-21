@@ -1,16 +1,16 @@
 import React, { useRef, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import Svg, { Path, SvgXml } from "react-native-svg";
-import colors from "../../colors";
-import { imageSize } from "./constants";
+import Svg, { Path, LinearGradient, Defs, Stop } from "react-native-svg";
 import Animated, { sub, Easing } from "react-native-reanimated";
+import { imageSize, ringSize } from "./constants";
 import { Icon } from "components/icon";
 import { useFocusEffect } from "@react-navigation/native";
+import colors from "colors";
 
 const { interpolate, multiply } = Animated;
 const width = imageSize;
-const size = width - 0;
-const strokeWidth = 8;
+const size = width;
+const strokeWidth = ringSize;
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const { PI } = Math;
@@ -97,15 +97,21 @@ const ProgressCircle = ({
   return (
     <View style={styles.container}>
       <Svg width={size} height={size}>
-        <Path
-          stroke="white"
-          fill="none"
-          strokeLinecap="round"
-          strokeDasharray={`${circumference}, ${circumference}`}
-          {...{ d, strokeWidth }}
-        />
+        <Defs>
+          <LinearGradient
+            id="grad"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2={size}
+            gradientUnits="userSpaceOnUse"
+          >
+            <Stop offset="0" stopColor={colors[10]} stopOpacity="0.8" />
+            <Stop offset="0.2" stopColor="#FFECA3" stopOpacity="0.8" />
+          </LinearGradient>
+        </Defs>
         <AnimatedPath
-          stroke="#D4C2FF"
+          stroke="url(#grad)"
           fill="none"
           strokeLinecap="round"
           strokeDasharray={`${circumference}, ${circumference}`}
