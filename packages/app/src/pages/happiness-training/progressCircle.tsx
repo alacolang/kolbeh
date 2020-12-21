@@ -28,7 +28,9 @@ const ProgressCircle = ({
   numExercisesDone,
   totalNumExercises,
 }: CircularPogressProps) => {
-  const progress = useRef(new Animated.Value<number>(0)).current;
+  const numExercisesDoneRatio = numExercisesDone / totalNumExercises;
+  const progress = useRef(new Animated.Value<number>(numExercisesDoneRatio))
+    .current;
 
   useFocusEffect(
     useCallback(() => {
