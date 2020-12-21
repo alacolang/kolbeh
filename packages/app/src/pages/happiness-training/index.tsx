@@ -24,8 +24,8 @@ import Loading from "components/loading";
 import { useIdentity } from "context/identity";
 import { NetworkStatus } from "apollo-client";
 // import { doScheduleNotification } from "../../context/happiness/notification";
-import Slide, { styles as slidesStyles } from "./Slide";
 import { useData } from "./use-data";
+import Slide, { styles as slidesStyles } from "./slide";
 import { slideGutter, slideWidth } from "./constants";
 import { IconSvg } from "../../components/icon";
 import Colors from "../../colors";
@@ -82,11 +82,12 @@ const HappinessTraining = () => {
 
   const header = (
     <View style={styles.header}>
-      <View style={styles.profileButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("profile")}>
-          <IconSvg name="rewardMedal" size="medium" color={Colors.redPurple} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.profileButtonContainer}
+        onPress={() => navigation.navigate("profile")}
+      >
+        <IconSvg name="rewardMedal" size="small" color={Colors[1]} />
+      </TouchableOpacity>
       <View style={styles.greetingContainer}>
         {categoryToTryNext.state !== "not-now" ? (
           <FormattedText style={styles.greeting}>
@@ -229,10 +230,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    justifyContent: "center",
   },
   contentContainer: {
-    marginTop: 64,
+    marginTop: 44,
     marginBottom: 16,
     flexGrow: 1,
     paddingLeft: BAR_WIDTH,
@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "column",
-    justifyContent: "center",
   },
   greetingContainer: {
     paddingLeft: 16,
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
   profileButtonContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    paddingRight: 16,
+    paddingRight: 32,
   },
 });
 
