@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import Svg, { Path, SvgXml } from "react-native-svg";
 import Animated, { sub, divide, Easing } from "react-native-reanimated";
 import colors from "../../colors";
-import star from "../../components/icon/images/star.svg";
 import crown from "../../components/icon/images/reward-medal.svg";
 import { imageSize } from "./constants";
 import { useFocusEffect } from "@react-navigation/native";
@@ -31,7 +30,6 @@ const ProgressCircle = ({
   totalNumExercises,
 }: CircularPogressProps) => {
   const progress = useRef(new Animated.Value<number>(0)).current;
-  const fixedStarAngles = [];
 
   useFocusEffect(
     useCallback(() => {
@@ -53,14 +51,6 @@ const ProgressCircle = ({
   );
   const strokeDashoffset = sub(2 * PI * radius, multiply(alpha, radius));
 
-  if (numExercisesDone > 0 && numExercisesDone <= totalNumExercises) {
-    for (let i = 1; i < numExercisesDone; i++) {
-      fixedStarAngles.push((i / totalNumExercises) * 2 * PI);
-    }
-    numExercisesDone !== totalNumExercises
-      ? fixedStarAngles.push((numExercisesDone / totalNumExercises) * 2 * PI)
-      : null;
-  }
   const cx = +size / 2;
   const cy = +size / 2;
   const x1 = cx;
@@ -89,36 +79,6 @@ const ProgressCircle = ({
           {...{ d, strokeDashoffset, strokeWidth }}
         />
       </Svg>
-      {fixedStarAngles.map((angle, index) => {
-        const translateXFixedStar =
-          cx - starSize / 2 + radius * Math.sin(angle);
-        const translateYFixedStar =
-          cy - starSize / 2 - radius * Math.cos(angle);
-        return (
-          <Animated.View
-            style={{
-              ...styles.star,
-              opacity,
-              transform: [
-                {
-                  translateX: translateXFixedStar,
-                },
-                {
-                  translateY: translateYFixedStar,
-                },
-              ],
-            }}
-            key={index}
-          >
-            <SvgXml
-              color={colors.backgroundPrimaryThird}
-              width={starSize}
-              height={starSize}
-              xml={star}
-            />
-          </Animated.View>
-        );
-      })}
       {numExercisesDone === totalNumExercises ? (
         <SvgXml
           style={{
