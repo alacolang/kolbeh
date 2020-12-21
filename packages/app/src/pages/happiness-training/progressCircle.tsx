@@ -3,8 +3,8 @@ import { StyleSheet, View } from "react-native";
 import Svg, { Path, SvgXml } from "react-native-svg";
 import Animated, { sub, divide, Easing } from "react-native-reanimated";
 import colors from "../../colors";
-import crown from "../../components/icon/images/reward-medal.svg";
 import { imageSize } from "./constants";
+import { Icon } from "components/icon";
 import { useFocusEffect } from "@react-navigation/native";
 
 const { interpolate, multiply } = Animated;
@@ -17,8 +17,7 @@ const { PI } = Math;
 const radius = (size - strokeWidth) / 2;
 const circumference = radius * 2 * PI;
 
-const starSize = 20;
-const crownSize = 30;
+const crownSize = 38;
 
 type CircularPogressProps = {
   numExercisesDone: number;
@@ -45,10 +44,7 @@ const ProgressCircle = ({
     inputRange: [0, 1],
     outputRange: [0, 2 * PI],
   });
-  const opacity = divide(
-    alpha,
-    ((2 * PI) / totalNumExercises) * numExercisesDone
-  );
+
   const strokeDashoffset = sub(2 * PI * radius, multiply(alpha, radius));
 
   const cx = +size / 2;
@@ -61,6 +57,12 @@ const ProgressCircle = ({
   const y3 = -radius + cy;
   const d = `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} A ${radius} ${radius} 0 0 1 ${x3} ${y3}`;
 
+  const crownRendered =
+    numExercisesDone === totalNumExercises ? (
+      <Animated.View style={[styles.star]}>
+        <Icon name="crown" size={crownSize} />
+      </Animated.View>
+    ) : null;
   return (
     <View style={styles.container}>
       <Svg width={size} height={size}>
@@ -79,21 +81,7 @@ const ProgressCircle = ({
           {...{ d, strokeDashoffset, strokeWidth }}
         />
       </Svg>
-      {numExercisesDone === totalNumExercises ? (
-        <SvgXml
-          style={{
-            ...styles.star,
-            transform: [
-              { translateX: cx - crownSize / 2 },
-              { translateY: cy - crownSize / 2 - radius },
-            ],
-          }}
-          color={colors.redPurple}
-          width={crownSize}
-          height={crownSize}
-          xml={crown}
-        />
-      ) : null}
+      {crownRendered}
     </View>
   );
 };
@@ -104,7 +92,8 @@ const styles = StyleSheet.create({
   },
   star: {
     position: "absolute",
-    right: 0,
+    top: -crownSize / 2 + 3,
+    left: (width - crownSize) / 2,
   },
 });
 
