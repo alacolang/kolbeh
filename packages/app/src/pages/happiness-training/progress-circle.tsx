@@ -59,9 +59,7 @@ const ProgressCircle = ({
           return;
         }
         if (numExercisesDone === totalNumExercises) {
-          const scaleAnimated = Animated.spring(scale, {
-            ...scaleConfig,
-          });
+          const scaleAnimated = Animated.spring(scale, scaleConfig);
           scaleAnimated.start();
         }
       });
