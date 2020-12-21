@@ -10,7 +10,8 @@ import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHappiness } from "context/happiness";
 import { trackEvent } from "utils/analytics";
-import Gif, { IMAGES } from "../happiness-training/Gif";
+import CircularGifWithDropShadow from "./circular-gif-with-drop-shadow";
+import { Gifs } from "components/gifs";
 
 type Props = StackScreenProps<HomeStackParamList, "happinessCategory">;
 function HappinessCategory({ navigation, route }: Props) {
@@ -81,7 +82,7 @@ function HappinessCategory({ navigation, route }: Props) {
             handleNextPress();
           }}
         >
-          <Gif image={IMAGES[category.id]} dropShadow />
+          <CircularGifWithDropShadow image={Gifs[category.id]} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
