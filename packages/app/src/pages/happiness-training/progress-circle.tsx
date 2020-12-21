@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Path, LinearGradient, Defs, Stop } from "react-native-svg";
 import Animated, { sub, Easing } from "react-native-reanimated";
@@ -17,6 +17,7 @@ const { PI } = Math;
 const radius = (size - strokeWidth) / 2;
 const circumference = radius * 2 * PI;
 
+const animationDurationMs = 1500;
 const crownSize = 38;
 
 type CircularPogressProps = {
@@ -24,29 +25,50 @@ type CircularPogressProps = {
   totalNumExercises: number;
 };
 
+const scaleConfig = {
+  toValue: 1,
+  damping: 5,
+  mass: 1,
+  durations: 2000,
+  stiffness: 40,
+  overshootClamping: false,
+  restSpeedThreshold: 0.001,
+  restDisplacementThreshold: 0.001,
+};
+
 const ProgressCircle = ({
   numExercisesDone,
   totalNumExercises,
 }: CircularPogressProps) => {
+  const [isAlreadyComplete] = useState(numExercisesDone === totalNumExercises);
   const numExercisesDoneRatio = numExercisesDone / totalNumExercises;
   const progress = useRef(new Animated.Value<number>(numExercisesDoneRatio))
+    .current;
+
+  const scale = useRef(new Animated.Value<number>(isAlreadyComplete ? 1 : 0))
     .current;
 
   useFocusEffect(
     useCallback(() => {
       Animated.timing(progress, {
         toValue: numExercisesDone / totalNumExercises,
-        duration: 1500,
+        duration: animationDurationMs,
         easing: Easing.linear,
-      }).start(() => {
+      }).start(({ finished }) => {
+        if (!finished) {
+          return;
+        }
         if (numExercisesDone === totalNumExercises) {
-          scale.setValue(0);
+          const scaleAnimated = Animated.spring(scale, {
+            ...scaleConfig,
+          });
           scaleAnimated.start();
         }
       });
       //   eslint-disable-next-line react-hooks/exhaustive-deps
     }, [numExercisesDone])
   );
+
   const alpha = interpolate(progress, {
     inputRange: [0, 1],
     outputRange: [0, 2 * PI],
@@ -64,23 +86,6 @@ const ProgressCircle = ({
   const y3 = -radius + cy;
   const d = `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} A ${radius} ${radius} 0 0 1 ${x3} ${y3}`;
 
-  const scaleConfig = {
-    toValue: 1,
-    damping: 5,
-    mass: 1,
-    durations: 2000,
-    stiffness: 40,
-    overshootClamping: false,
-    restSpeedThreshold: 0.001,
-    restDisplacementThreshold: 0.001,
-  };
-
-  const scale = useRef(new Animated.Value<number>(0.5)).current;
-
-  const scaleAnimated = Animated.spring(scale, {
-    ...scaleConfig,
-  });
-
   const crownRendered =
     numExercisesDone === totalNumExercises ? (
       <Animated.View
@@ -94,6 +99,7 @@ const ProgressCircle = ({
         <Icon name="crown" size={crownSize} />
       </Animated.View>
     ) : null;
+
   return (
     <View style={styles.container}>
       <Svg width={size} height={size}>

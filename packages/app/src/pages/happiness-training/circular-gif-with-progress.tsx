@@ -20,7 +20,6 @@ const CircularGifWithProgress = ({
         <View style={styles.progressCircle}>
           <ProgressCircle
             numExercisesDone={numExercisesDone}
-            // numExercisesDone={5}
             totalNumExercises={totalNumExercises}
           />
         </View>
