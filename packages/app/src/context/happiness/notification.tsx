@@ -1,7 +1,6 @@
 import config from "config";
 import {
   getCategoryToTryNext,
-  getNextState,
   useHappiness,
   DEV_MODE_NEXT_EXERCISE_IN_SECONDS,
 } from "context/happiness";
@@ -27,7 +26,7 @@ function createMessage(
     if (!isEmpty(notificationMessage)) {
       result = `${name}، ${notificationMessage}`;
     } else {
-      result = `${name}، شکلات رو امروز با مزه کن!`;
+      result = `${name}، شکلات رو امروز مزه کن!`;
     }
   } else {
     if (!isEmpty(notificationMessage)) {
@@ -71,8 +70,7 @@ export function doScheduleNotification(date: Date, message: string) {
     date,
     channelId: "happiness-reminder",
     smallIcon: "ic_push", // (optional) default: "ic_notification" with fallback for "ic_launcher"
-    vibrate: true, // (optional) default: true
-    vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+    largeIconUrl: `${config.HOST}/static/images/notification-icon.png`,
     title: message,
     message: "",
   });
@@ -89,23 +87,20 @@ export function useNotification() {
   }
 
   function getMessage(date: Date): string | undefined {
-    const nextState = getNextState(rawCategories, exercises, date.getTime());
-    const nextCategory = getCategoryToTryNext(
-      nextState.categories,
-      rawCategories,
-      date.getTime(),
-      nextState.exercises
-    );
-    if (nextCategory.state === "all-done" || nextCategory === null) {
+    const next = getCategoryToTryNext(rawCategories, exercises, date.getTime());
+    if (!next) {
       return;
-    } else if (nextCategory.state === "not-now") {
+    }
+    if (next.state === "not-now") {
       const nextDay = addDays(Date.now(), 1);
       return getMessage(nextDay);
-    } else {
-      const notificationMessage = nextCategory.nextOne?.exercises.find(
-        (exercise) => nextState.exercises[exercise.id].state === "unlocked"
-      )?.notificationMessage;
-      return createMessage(name, notificationMessage);
+    } else if (next.state === "can-try") {
+      const category = next.nextCategory.exercises.find((exercise) => {
+        const state = next.nextExercises[exercise.id].state;
+        return state === "unlocked" || state === "locked";
+      });
+      log({ notification: category?.id });
+      return createMessage(name, category?.notificationMessage);
     }
   }
 

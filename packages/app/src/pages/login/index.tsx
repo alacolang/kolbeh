@@ -63,7 +63,7 @@ function Login({ navigation, route }: Props) {
         <TextInput
           style={styles.text}
           value={name}
-          placeholder={t("login.name")}
+          placeholder={t("login.errorName")}
           maxLength={50}
           onChangeText={(text) => {
             setName(text);

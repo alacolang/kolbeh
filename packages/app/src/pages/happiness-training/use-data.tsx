@@ -50,8 +50,8 @@ export function useData() {
   log({
     newCategories: newCategories?.length,
     rawCategories: rawCategories?.length,
-    categoryToTryNextState: categoryToTryNext.state,
-    categoryToTryNextTitle: categoryToTryNext.nextOne?.title,
+    categoryToTryNextState: categoryToTryNext?.state,
+    categoryToTryNextTitle: categoryToTryNext?.nextCategory?.id,
     loading,
   });
 

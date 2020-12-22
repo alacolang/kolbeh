@@ -1,7 +1,16 @@
-import { getNextState } from "./index";
+import {
+  getNextState,
+  getCategoryToTryNext,
+  DEV_MODE_NEXT_EXERCISE_IN_SECONDS,
+} from "./index";
 import * as types from "types";
 
-describe("categories", () => {
+const yesterday = Date.now();
+const NEXT_MS = DEV_MODE_NEXT_EXERCISE_IN_SECONDS * 1000;
+const today = NEXT_MS / 2 + yesterday + 10;
+const tomorrow = yesterday + NEXT_MS * 2 + 10;
+
+describe("happiness categories", () => {
   it("empty case", () => {
     const rawCategories = [
       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
@@ -178,41 +187,121 @@ describe("categories", () => {
 
     expect(result).toEqual(expectedResult);
   });
+
+  it("getCategoryToTryNext> on same day should be not-now", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: yesterday },
+      "cat-1-ex-2": {
+        state: "done",
+        doneAt: today,
+      },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const sameDay = today + 10;
+    const nextCategory = getCategoryToTryNext(
+      rawCategories,
+      exercises,
+      sameDay
+    );
+    const expectedResult = {
+      state: "not-now",
+      nextCategory: rawCategories[0],
+      nextExercises: exercises,
+    };
+    expect(nextCategory).toEqual(expectedResult);
+  });
+
+  it("getCategoryToTryNext> initially should be can-try", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {};
+    const nextCategory = getCategoryToTryNext(
+      rawCategories,
+      exercises,
+      tomorrow
+    );
+    const expectedResult = {
+      state: "can-try",
+      nextCategory: rawCategories[0],
+      nextExercises: {
+        "cat-1-ex-1": { state: "unlocked" },
+        "cat-1-ex-2": { state: "locked" },
+        "cat-2-ex-1": { state: "locked" },
+        "cat-2-ex-2": { state: "locked" },
+      },
+    };
+    expect(nextCategory).toEqual(expectedResult);
+  });
+
+  it("getCategoryToTryNext> tomorrow should be can-try", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: yesterday },
+      "cat-1-ex-2": {
+        state: "done",
+        doneAt: today,
+      },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const nextCategory = getCategoryToTryNext(
+      rawCategories,
+      exercises,
+      tomorrow
+    );
+    const expectedResult = {
+      state: "can-try",
+      nextCategory: rawCategories[1],
+      nextExercises: { ...exercises, "cat-2-ex-1": { state: "unlocked" } },
+    };
+    expect(nextCategory).toEqual(expectedResult);
+  });
+
+  it("getCategoryToTryNext> if all done, should be all-done", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: yesterday },
+      "cat-1-ex-2": {
+        state: "done",
+        doneAt: today,
+      },
+      "cat-2-ex-1": { state: "done", doneAt: today },
+      "cat-2-ex-2": { state: "done", doneAt: today },
+    } as const;
+    const sameDay = today + 100;
+    const nextCategory = getCategoryToTryNext(
+      rawCategories,
+      exercises,
+      sameDay
+    );
+    const expectedResult = {
+      state: "all-done",
+      nextCategory: rawCategories[1],
+      nextExercises: exercises,
+    };
+    expect(nextCategory).toEqual(expectedResult);
+  });
+
+  it("getCategoryToTryNext> if no rawCategories, should return undefined", () => {
+    const rawCategories = [] as types.IHappinessTrainingCategory[];
+    const next = getCategoryToTryNext(rawCategories, {}, today);
+    expect(next).toEqual(undefined);
+  });
 });
-
-// describe("next category to try", () => {
-//   it("when data is ready", () => {
-//     const rawCategories = [
-//       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
-//       { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
-//     ] as types.IHappinessTrainingCategory[];
-
-//     const categories = {
-//       "cat-1": {
-//         state: "done",
-//         doneAt: 10,
-//       },
-//       "cat-2": {
-//         state: "unlocked",
-//       },
-//     } as const;
-//     const next = getCategoryToTryNext(categories, rawCategories);
-//     // @ts-expect-error
-//     expect(next?.id).toEqual("cat-2");
-//   });
-//   it("when only rawCategories there", () => {
-//     const rawCategories = [
-//       { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
-//       { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
-//     ] as types.IHappinessTrainingCategory[];
-//     const categories = {} as const;
-//     const next = getCategoryToTryNext(categories, rawCategories);
-//     expect(next).toEqual(null);
-//   });
-//   it("when not rawCategories there", () => {
-//     const rawCategories = [] as types.IHappinessTrainingCategory[];
-//     const categories = {} as const;
-//     const next = getCategoryToTryNext(categories, rawCategories);
-//     expect(next).toEqual(null);
-//   });
-// });
