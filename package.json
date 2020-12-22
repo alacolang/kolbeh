@@ -17,9 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pm2": "^4.2.3"
-  },
-  "devDependencies": {
+    "pm2": "^4.2.3",
     "current-git-branch": "^1.1.0"
   }
 }
