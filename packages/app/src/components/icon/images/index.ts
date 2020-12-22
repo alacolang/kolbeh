@@ -15,6 +15,7 @@ import pause from "./pause.png";
 import play from "./play.png";
 import avatar from "./avatar.png";
 import medal from "./medal.png";
+import crown from "./crown.png";
 
 const icons = {
   logo,
@@ -34,6 +35,7 @@ const icons = {
   play,
   avatar,
   medal,
+  crown,
 };
 
 export default icons;

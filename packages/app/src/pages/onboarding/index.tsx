@@ -96,7 +96,7 @@ const Onboarding = ({ navigation }: Props) => {
       >
         <View style={styles.slide}>
           <View style={styles.upperContainer}>
-            <Gif image={img1} />
+            <OnboardingGif image={img1} />
           </View>
           <View style={styles.lowerContainer}>
             <Title text={t("onboarding.1.title")} />
@@ -105,7 +105,7 @@ const Onboarding = ({ navigation }: Props) => {
         </View>
         <View style={styles.slide}>
           <View style={styles.upperContainer}>
-            <Gif image={img2} />
+            <OnboardingGif image={img2} />
           </View>
           <View style={styles.lowerContainer}>
             <Title text={t("onboarding.2.title")} />
@@ -115,7 +115,7 @@ const Onboarding = ({ navigation }: Props) => {
 
         <View style={styles.slide}>
           <View style={styles.upperContainer}>
-            <Gif image={img3} />
+            <OnboardingGif image={img3} />
           </View>
           <View style={styles.lowerContainer}>
             <Title text={t("onboarding.3.title")} />
@@ -167,7 +167,7 @@ const descriptionStyles = StyleSheet.create({
   },
 });
 
-const Gif = ({ image }: { image: ImageSourcePropType }) => {
+const OnboardingGif = ({ image }: { image: ImageSourcePropType }) => {
   return (
     <View style={gifStyles.imageContainer}>
       <Image source={img} style={gifStyles.imageOverlay} resizeMode="contain" />

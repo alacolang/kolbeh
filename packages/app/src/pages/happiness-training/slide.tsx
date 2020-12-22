@@ -1,13 +1,14 @@
 import colors from "colors";
 import { FormattedText } from "components/formatted-text";
+import { Gifs } from "components/gifs";
 import { IconSvg } from "components/icon";
 import { State } from "context/happiness";
 import { TFunction } from "i18next";
 import React from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import * as Types from "types";
+import CircularGifWithProgress from "./circular-gif-with-progress";
 import { slideGutter, slideWidth, slideHeight } from "./constants";
-import Gif, { IMAGES } from "./Gif";
 
 type SlideProps = {
   t: TFunction;
@@ -15,9 +16,18 @@ type SlideProps = {
   state: State["state"];
   onClick: () => void;
   setSlideX: (x: number) => void;
+  numExercisesDone: number;
+  totalNumExercises: number;
 };
 
-function Slide({ category, state, onClick, setSlideX }: SlideProps) {
+function Slide({
+  category,
+  state,
+  onClick,
+  setSlideX,
+  numExercisesDone,
+  totalNumExercises,
+}: SlideProps) {
   return (
     <TouchableOpacity
       key={category.id}
@@ -37,7 +47,12 @@ function Slide({ category, state, onClick, setSlideX }: SlideProps) {
       disabled={state === "locked"}
       onPress={() => onClick()}
     >
-      <Gif image={IMAGES[category.id]} />
+      <CircularGifWithProgress
+        image={Gifs[category.id]}
+        numExercisesDone={numExercisesDone}
+        totalNumExercises={totalNumExercises}
+      />
+
       <View style={styles.contentContainer}>
         <FormattedText style={styles.categoryTitle}>
           {category.title}

@@ -13,9 +13,9 @@ import {
 import Header from "../settings/header";
 import { Trans } from "react-i18next";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
-import Gif from "pages/happiness-training/Gif";
 import { imageSize } from "pages/happiness-training/constants";
 import Loading from "components/loading";
+import { CircularGif } from "pages/happiness-exercise/circular-gif";
 
 const fullWidth = Dimensions.get("window").width - 16 * 2;
 const size = (fullWidth - 20) / 3 - 4 * 2;
@@ -146,7 +146,10 @@ const Certificate = () => {
               style={{ alignItems: "center" }}
             >
               <View style={feedbackStyles.imageContainer}>
-                <Gif image={image} theme="purple" />
+                <CircularGif
+                  image={image}
+                  ringColor={colors.backgroundPrimary}
+                />
                 <View
                   style={{
                     position: "absolute",
