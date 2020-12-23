@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   contentContainer: {
-    marginTop: 44,
+    marginTop: 32,
     marginBottom: 16,
     flexGrow: 1,
     paddingLeft: BAR_WIDTH,

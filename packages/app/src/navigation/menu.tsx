@@ -150,7 +150,7 @@ const Links = ({ onPress }: LinksProps) => {
 const styles = StyleSheet.create({
   linksContainer: {
     flexDirection: "column",
-    marginTop: 32,
+    marginTop: 16,
     alignItems: "center",
     backgroundColor: colors.backgroundLight,
   },
