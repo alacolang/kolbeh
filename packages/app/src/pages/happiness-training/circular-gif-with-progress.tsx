@@ -16,7 +16,7 @@ const CircularGifWithProgress = ({
 }: Prop) => {
   return (
     <View style={styles.imageContainer}>
-      {numExercisesDone && totalNumExercises ? (
+      {numExercisesDone !== undefined && totalNumExercises !== undefined ? (
         <View style={styles.progressCircle}>
           <ProgressCircle
             numExercisesDone={numExercisesDone}
