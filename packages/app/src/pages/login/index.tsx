@@ -29,8 +29,7 @@ function Login({ navigation, route }: Props) {
   }>({ name: undefined, age: undefined });
   const {
     state: { name: savedName, age: savedAge },
-    updateName,
-    updateAge,
+    updateNameAndAge,
   } = useIdentity();
   const [name, setName] = useState(savedName ?? "");
   const [age, setAge] = useState(savedAge ?? undefined);
@@ -45,8 +44,7 @@ function Login({ navigation, route }: Props) {
       return;
     }
 
-    updateAge(age);
-    updateName(name);
+    updateNameAndAge(name, age);
     trackEvent("login-age", { age });
 
     if (route.params?.shouldGoBack) {
