@@ -155,13 +155,21 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
         release {
-            if (project.hasProperty('KOLBEH_UPLOAD_STORE_FILE')) {
-                storeFile file(KOLBEH_UPLOAD_STORE_FILE)
-                storePassword KOLBEH_UPLOAD_STORE_PASSWORD
-                keyAlias KOLBEH_UPLOAD_KEY_ALIAS
-                keyPassword KOLBEH_UPLOAD_KEY_PASSWORD
-            }
+            // https://docs.microsoft.com/en-us/appcenter/build/android/code-signing
+            //if (project.hasProperty('KOLBEH_UPLOAD_STORE_FILE')) {
+                // storeFile file(KOLBEH_UPLOAD_STORE_FILE)
+                // storePassword KOLBEH_UPLOAD_STORE_PASSWORD
+                // keyAlias KOLBEH_UPLOAD_KEY_ALIAS
+                // keyPassword KOLBEH_UPLOAD_KEY_PASSWORD
+            //}
+            // if (System.getenv("KOLBEH_KEYSTORE")) {
+            //    storeFile file(System.getenv("KOLBEH_KEYSTORE"))
+            //    storePassword System.getenv("KOLBEH_KEYSTORE_PASS")
+            //    keyAlias System.getenv("KOLBEH_KEYSTORE_ALIAS")
+            //    keyPassword System.getenv("KOLBEH_KEYSTORE_PASS")
+            // }
         }
     }
     buildTypes {
@@ -170,8 +178,6 @@ android {
             applicationIdSuffix '.debug'
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -192,7 +198,7 @@ android {
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+        variant.outputs.all { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
             def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
@@ -201,7 +207,11 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-
+            // def currentFile = new File(output.outputFileName)
+            // def filename = currentFile.getName()
+            // def flavor = variant.name
+            // def versionName = variant.versionName
+            // outputFileName = new File("./../../../../../app/build/", "${flavor}_${versionName}_${filename}")
         }
     }
 }
