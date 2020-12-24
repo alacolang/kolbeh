@@ -26,14 +26,12 @@ const initialState = {
 
 type IIdentityContext = {
   state: State;
-  updateName: (name: string) => void;
-  updateAge: (age: string) => void;
+  updateNameAndAge: (name: string, age: string) => void;
 };
 
 const IdentityContext = React.createContext<IIdentityContext>({
   state: initialState,
-  updateName: noop,
-  updateAge: noop,
+  updateNameAndAge: noop,
 });
 
 export async function readFromStorage() {
@@ -67,7 +65,7 @@ export const IdentityProvider = (props: {
 
   const doUpdate = async (updated: State) => {
     try {
-      set(IDENTITY_KEY, updated);
+      await set(IDENTITY_KEY, updated);
       sync(updated);
       setState(updated);
     } catch (e) {
@@ -98,8 +96,8 @@ export const IdentityProvider = (props: {
       {...props}
       value={{
         state,
-        updateName: (name: string) => update({ ...state, name }),
-        updateAge: (age: string) => update({ ...state, age }),
+        updateNameAndAge: (name: string, age: string) =>
+          update({ ...state, name, age }),
       }}
     />
   );
