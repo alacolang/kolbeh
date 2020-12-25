@@ -50,7 +50,7 @@ function Login({ navigation, route }: Props) {
     if (route.params?.shouldGoBack) {
       navigation.goBack();
     } else {
-      navigation.navigate("home");
+      navigation.replace("home");
     }
   };
   return (
