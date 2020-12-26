@@ -40,10 +40,6 @@ function HappinessExercise({ navigation, route }: Props) {
     false
   );
 
-  const toggleHideFooterAndDescription = () => {
-    setHideFooterAndDescription(!hideFooterAndDescription);
-  };
-
   useEffect(() => {
     async function helper() {
       await load(SOUND_NAMES);
@@ -103,7 +99,7 @@ function HappinessExercise({ navigation, route }: Props) {
 
           {isAlreadyDone ? null : (
             <AddIdeaInput
-              toggleHideFooterAndDescription={toggleHideFooterAndDescription}
+              setHideFooterAndDescription={setHideFooterAndDescription}
               onPress={(idea: string) => {
                 if (idea.trim() === "" && !config.isDevelopment) {
                   return;

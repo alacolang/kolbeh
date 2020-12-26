@@ -5,22 +5,22 @@ import { IconSvg } from "components/icon";
 import { TextInput } from "react-native-gesture-handler";
 import { useTranslation } from "react-i18next";
 
-const ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW = 120;
+const ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOWING = 120;
 const ADD_IDEA_HEIGHT_WHEN_KEYBOARD_SHOWS = 120 * 2;
 
 type AddIdeaInputProps = {
   onPress: (text: string) => void;
-  toggleHideFooterAndDescription: () => void;
+  setHideFooterAndDescription: (hide: boolean) => void;
 };
 
 export function AddIdeaInput({
   onPress,
-  toggleHideFooterAndDescription,
+  setHideFooterAndDescription,
 }: AddIdeaInputProps) {
   const { t } = useTranslation();
   const [idea, setIdea] = useState("");
   const [ideaInputHeight, setIdeaInputHeight] = useState(
-    ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW
+    ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOWING
   );
   const disabled = idea.length < 2;
 
@@ -37,12 +37,12 @@ export function AddIdeaInput({
 
   const _keyboardDidShow = () => {
     setIdeaInputHeight(ADD_IDEA_HEIGHT_WHEN_KEYBOARD_SHOWS);
-    toggleHideFooterAndDescription();
+    setHideFooterAndDescription(true);
   };
 
   const _keyboardDidHide = () => {
-    setIdeaInputHeight(ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW);
-    toggleHideFooterAndDescription();
+    setIdeaInputHeight(ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOWING);
+    setHideFooterAndDescription(false);
   };
 
   return (
