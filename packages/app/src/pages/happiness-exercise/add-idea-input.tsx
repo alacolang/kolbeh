@@ -1,5 +1,5 @@
 import colors from "colors";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
 import { IconSvg } from "components/icon";
 import { TextInput } from "react-native-gesture-handler";
@@ -7,12 +7,35 @@ import { useTranslation } from "react-i18next";
 
 const ADD_IDEA_HEIGHT = 120;
 
-type AddIdeaInputProps = { onPress: (text: string) => void };
+type AddIdeaInputProps = {
+  onPress: (text: string) => void;
+  toggleShowFooter: () => void;
+};
 
-export function AddIdeaInput({ onPress }: AddIdeaInputProps) {
+export function AddIdeaInput({ onPress, toggleShowFooter }: AddIdeaInputProps) {
   const { t } = useTranslation();
   const [idea, setIdea] = useState("");
   const disabled = idea.length < 2;
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
+  });
+
+  const _keyboardDidShow = () => {
+    toggleShowFooter();
+  };
+
+  const _keyboardDidHide = () => {
+    toggleShowFooter();
+  };
+
   return (
     <View style={AddIdeaInputStyles.container}>
       <TextInput

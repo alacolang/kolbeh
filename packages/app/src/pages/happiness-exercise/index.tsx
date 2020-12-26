@@ -36,6 +36,11 @@ function HappinessExercise({ navigation, route }: Props) {
   const [isAlreadyDone] = useState(
     happiness.exercises[exercise.id].state === "done"
   );
+  const [showFooter, setShowFooter] = useState(false);
+
+  const toggleShowFooter = () => {
+    setShowFooter(!showFooter);
+  };
 
   useEffect(() => {
     async function helper() {
@@ -94,6 +99,7 @@ function HappinessExercise({ navigation, route }: Props) {
 
           {isAlreadyDone ? null : (
             <AddIdeaInput
+              toggleShowFooter={toggleShowFooter}
               onPress={(idea: string) => {
                 if (idea.trim() === "" && !config.isDevelopment) {
                   return;
@@ -126,17 +132,21 @@ function HappinessExercise({ navigation, route }: Props) {
             navigation.navigate("home");
           }}
         />
-        <View style={styles.footer}>
-          <Ideas
-            ideas={happiness.ideas[category.id] ?? []}
-            title={exercise.title}
-            categoryID={category.id}
-          />
+        {showFooter ? (
+          <View style={styles.footer} />
+        ) : (
+          <View style={styles.footer}>
+            <Ideas
+              ideas={happiness.ideas[category.id] ?? []}
+              title={exercise.title}
+              categoryID={category.id}
+            />
 
-          <View style={styles.close}>
-            <CloseButton onPress={() => navigation.goBack()} />
+            <View style={styles.close}>
+              <CloseButton onPress={() => navigation.goBack()} />
+            </View>
           </View>
-        </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
