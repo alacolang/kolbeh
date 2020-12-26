@@ -5,16 +5,23 @@ import { IconSvg } from "components/icon";
 import { TextInput } from "react-native-gesture-handler";
 import { useTranslation } from "react-i18next";
 
-const ADD_IDEA_HEIGHT = 120;
+const ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW = 120;
+const ADD_IDEA_HEIGHT_WHEN_KEYBOARD_SHOWS = 120 * 2;
 
 type AddIdeaInputProps = {
   onPress: (text: string) => void;
-  toggleShowFooter: () => void;
+  toggleHideFooterAndDescription: () => void;
 };
 
-export function AddIdeaInput({ onPress, toggleShowFooter }: AddIdeaInputProps) {
+export function AddIdeaInput({
+  onPress,
+  toggleHideFooterAndDescription,
+}: AddIdeaInputProps) {
   const { t } = useTranslation();
   const [idea, setIdea] = useState("");
+  const [ideaInputHeight, setIdeaInputHeight] = useState(
+    ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW
+  );
   const disabled = idea.length < 2;
 
   useEffect(() => {
@@ -29,15 +36,17 @@ export function AddIdeaInput({ onPress, toggleShowFooter }: AddIdeaInputProps) {
   });
 
   const _keyboardDidShow = () => {
-    toggleShowFooter();
+    setIdeaInputHeight(ADD_IDEA_HEIGHT_WHEN_KEYBOARD_SHOWS);
+    toggleHideFooterAndDescription();
   };
 
   const _keyboardDidHide = () => {
-    toggleShowFooter();
+    setIdeaInputHeight(ADD_IDEA_HEIGHT_WHEN_KEYBOARD_NOT_SHOW);
+    toggleHideFooterAndDescription();
   };
 
   return (
-    <View style={AddIdeaInputStyles.container}>
+    <View style={{ ...AddIdeaInputStyles.container, height: ideaInputHeight }}>
       <TextInput
         multiline
         numberOfLines={3}
@@ -74,13 +83,13 @@ const AddIdeaInputStyles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     marginHorizontal: 32,
-    height: ADD_IDEA_HEIGHT,
   },
   input: {
     flex: 1,
     borderWidth: 5,
     borderColor: "white",
-    paddingHorizontal: 16,
+    paddingRight: 32,
+    paddingLeft: 16,
     borderTopLeftRadius: 30,
     borderBottomRightRadius: 30,
     fontFamily: "IRANYekanRDMobile",

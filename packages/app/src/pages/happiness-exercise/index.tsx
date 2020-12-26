@@ -36,10 +36,12 @@ function HappinessExercise({ navigation, route }: Props) {
   const [isAlreadyDone] = useState(
     happiness.exercises[exercise.id].state === "done"
   );
-  const [showFooter, setShowFooter] = useState(false);
+  const [hideFooterAndDescription, setHideFooterAndDescription] = useState(
+    false
+  );
 
-  const toggleShowFooter = () => {
-    setShowFooter(!showFooter);
+  const toggleHideFooterAndDescription = () => {
+    setHideFooterAndDescription(!hideFooterAndDescription);
   };
 
   useEffect(() => {
@@ -69,21 +71,23 @@ function HappinessExercise({ navigation, route }: Props) {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollViewContainer}
-          style={{
-            height:
-              fullHeight -
-              FOOTER_HEIGHT -
-              (isAlreadyDone ? 0 : ADD_IDEA_HEIGHT),
-          }}
-        >
-          <Header title={exercise.title} />
-          <Markdown markdownStyles={markdownStyles}>
-            {exercise.description}
-          </Markdown>
-          <View style={{ marginTop: 16 }} />
-        </ScrollView>
+        {hideFooterAndDescription ? null : (
+          <ScrollView
+            contentContainerStyle={styles.scrollViewContainer}
+            style={{
+              height:
+                fullHeight -
+                FOOTER_HEIGHT -
+                (isAlreadyDone ? 0 : ADD_IDEA_HEIGHT),
+            }}
+          >
+            <Header title={exercise.title} />
+            <Markdown markdownStyles={markdownStyles}>
+              {exercise.description}
+            </Markdown>
+            <View style={{ marginTop: 16 }} />
+          </ScrollView>
+        )}
         <View style={{ marginTop: 16 }}>
           <View
             style={{
@@ -99,7 +103,7 @@ function HappinessExercise({ navigation, route }: Props) {
 
           {isAlreadyDone ? null : (
             <AddIdeaInput
-              toggleShowFooter={toggleShowFooter}
+              toggleHideFooterAndDescription={toggleHideFooterAndDescription}
               onPress={(idea: string) => {
                 if (idea.trim() === "" && !config.isDevelopment) {
                   return;
@@ -132,7 +136,7 @@ function HappinessExercise({ navigation, route }: Props) {
             navigation.navigate("home");
           }}
         />
-        {showFooter ? (
+        {hideFooterAndDescription ? (
           <View style={styles.footer} />
         ) : (
           <View style={styles.footer}>
