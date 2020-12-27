@@ -75,6 +75,7 @@ export function AddIdeaInput({
         placeholder={t("happiness.exercise.ideaPlaceholder")}
         placeholderTextColor="white"
         value={idea}
+        textAlignVertical="top"
       />
       <TouchableOpacity
         disabled={disabled}
@@ -108,6 +109,7 @@ const AddIdeaInputStyles = StyleSheet.create({
     borderColor: "white",
     paddingRight: 32,
     paddingLeft: 16,
+    paddingTop: 24,
     borderTopLeftRadius: 30,
     borderBottomRightRadius: 30,
     fontFamily: "IRANYekanRDMobile",
