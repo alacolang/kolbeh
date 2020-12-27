@@ -36,6 +36,9 @@ function HappinessExercise({ navigation, route }: Props) {
   const [isAlreadyDone] = useState(
     happiness.exercises[exercise.id].state === "done"
   );
+  const [hideFooterAndDescription, setHideFooterAndDescription] = useState(
+    false
+  );
 
   useEffect(() => {
     async function helper() {
@@ -64,21 +67,23 @@ function HappinessExercise({ navigation, route }: Props) {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollViewContainer}
-          style={{
-            height:
-              fullHeight -
-              FOOTER_HEIGHT -
-              (isAlreadyDone ? 0 : ADD_IDEA_HEIGHT),
-          }}
-        >
-          <Header title={exercise.title} />
-          <Markdown markdownStyles={markdownStyles}>
-            {exercise.description}
-          </Markdown>
-          <View style={{ marginTop: 16 }} />
-        </ScrollView>
+        {hideFooterAndDescription ? null : (
+          <ScrollView
+            contentContainerStyle={styles.scrollViewContainer}
+            style={{
+              height:
+                fullHeight -
+                FOOTER_HEIGHT -
+                (isAlreadyDone ? 0 : ADD_IDEA_HEIGHT),
+            }}
+          >
+            <Header title={exercise.title} />
+            <Markdown markdownStyles={markdownStyles}>
+              {exercise.description}
+            </Markdown>
+            <View style={{ marginTop: 16 }} />
+          </ScrollView>
+        )}
         <View style={{ marginTop: 16 }}>
           <View
             style={{
@@ -94,6 +99,9 @@ function HappinessExercise({ navigation, route }: Props) {
 
           {isAlreadyDone ? null : (
             <AddIdeaInput
+              fullWindowHeight={fullHeight}
+              addIdeaHeightWithoutKeyBoard={ADD_IDEA_HEIGHT}
+              setHideFooterAndDescription={setHideFooterAndDescription}
               onPress={(idea: string) => {
                 if (idea.trim() === "" && !config.isDevelopment) {
                   return;
@@ -126,17 +134,21 @@ function HappinessExercise({ navigation, route }: Props) {
             navigation.navigate("home");
           }}
         />
-        <View style={styles.footer}>
-          <Ideas
-            ideas={happiness.ideas[category.id] ?? []}
-            title={exercise.title}
-            categoryID={category.id}
-          />
+        {hideFooterAndDescription ? (
+          <View style={styles.footer} />
+        ) : (
+          <View style={styles.footer}>
+            <Ideas
+              ideas={happiness.ideas[category.id] ?? []}
+              title={exercise.title}
+              categoryID={category.id}
+            />
 
-          <View style={styles.close}>
-            <CloseButton onPress={() => navigation.goBack()} />
+            <View style={styles.close}>
+              <CloseButton onPress={() => navigation.goBack()} />
+            </View>
           </View>
-        </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

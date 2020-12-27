@@ -1,20 +1,70 @@
 import colors from "colors";
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardEvent,
+} from "react-native";
 import { IconSvg } from "components/icon";
 import { TextInput } from "react-native-gesture-handler";
 import { useTranslation } from "react-i18next";
 
-const ADD_IDEA_HEIGHT = 120;
+const PADDING_FOR_FULLSCREEN_TEXTINPUT_WITHKEYBOARD = 120;
 
-type AddIdeaInputProps = { onPress: (text: string) => void };
+type AddIdeaInputProps = {
+  fullWindowHeight: number;
+  addIdeaHeightWithoutKeyBoard: number;
+  onPress: (text: string) => void;
+  setHideFooterAndDescription: (hide: boolean) => void;
+};
 
-export function AddIdeaInput({ onPress }: AddIdeaInputProps) {
+export function AddIdeaInput({
+  fullWindowHeight,
+  addIdeaHeightWithoutKeyBoard,
+  onPress,
+  setHideFooterAndDescription,
+}: AddIdeaInputProps) {
   const { t } = useTranslation();
   const [idea, setIdea] = useState("");
+  const [addIdeaInputHeight, setIdeaInputHeight] = useState(
+    addIdeaHeightWithoutKeyBoard
+  );
+
   const disabled = idea.length < 2;
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", keyboardDidHide);
+    };
+  });
+
+  const keyboardDidShow = (e: KeyboardEvent): void => {
+    setIdeaInputHeight(
+      Math.floor(
+        fullWindowHeight -
+          e.endCoordinates.height -
+          PADDING_FOR_FULLSCREEN_TEXTINPUT_WITHKEYBOARD
+      )
+    );
+    setHideFooterAndDescription(true);
+  };
+
+  const keyboardDidHide = (): void => {
+    setIdeaInputHeight(addIdeaHeightWithoutKeyBoard);
+    setHideFooterAndDescription(false);
+  };
+
   return (
-    <View style={AddIdeaInputStyles.container}>
+    <View
+      style={{ ...AddIdeaInputStyles.container, height: addIdeaInputHeight }}
+    >
       <TextInput
         multiline
         numberOfLines={3}
@@ -51,13 +101,13 @@ const AddIdeaInputStyles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     marginHorizontal: 32,
-    height: ADD_IDEA_HEIGHT,
   },
   input: {
     flex: 1,
     borderWidth: 5,
     borderColor: "white",
-    paddingHorizontal: 16,
+    paddingRight: 32,
+    paddingLeft: 16,
     borderTopLeftRadius: 30,
     borderBottomRightRadius: 30,
     fontFamily: "IRANYekanRDMobile",
