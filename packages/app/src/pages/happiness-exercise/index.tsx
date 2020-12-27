@@ -99,6 +99,8 @@ function HappinessExercise({ navigation, route }: Props) {
 
           {isAlreadyDone ? null : (
             <AddIdeaInput
+              fullWindowHeight={fullHeight}
+              addIdeaHeightWithoutKeyBoard={ADD_IDEA_HEIGHT}
               setHideFooterAndDescription={setHideFooterAndDescription}
               onPress={(idea: string) => {
                 if (idea.trim() === "" && !config.isDevelopment) {
