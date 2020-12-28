@@ -107,7 +107,7 @@ const AddIdeaInputStyles = StyleSheet.create({
     flex: 1,
     borderWidth: 5,
     borderColor: "white",
-    paddingRight: 32,
+    paddingRight: 50,
     paddingLeft: 16,
     paddingTop: 24,
     borderTopLeftRadius: 30,
@@ -118,7 +118,13 @@ const AddIdeaInputStyles = StyleSheet.create({
     textAlign: "right",
     elevation: 4,
   },
-  iconContainer: { position: "absolute", right: 15, top: 15 },
+  iconContainer: {
+    position: "absolute",
+    right: 0,
+    top: 15,
+    width: 44,
+    height: 44,
+  },
   icon: {
     elevation: 8,
     borderRadius: 24,
