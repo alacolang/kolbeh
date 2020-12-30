@@ -181,14 +181,14 @@ export function getCategoryToTryNext(
         };
       }
       if (category.state === "unlocked") {
-        // const lastDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
-        // if (lastDoneAt && isExerciseDoneRecently(currentTime, lastDoneAt)) {
-        //   return {
-        //     state: "not-now",
-        //     nextCategory: rawCategory,
-        //     nextExercises: nextState.exercises,
-        //   };
-        // }
+        const lastDoneAt = getLastExerciseDoneAt(rawCategory, exercises);
+        if (lastDoneAt && isExerciseDoneRecently(currentTime, lastDoneAt)) {
+          return {
+            state: "not-now",
+            nextCategory: rawCategory,
+            nextExercises: nextState.exercises,
+          };
+        }
         return {
           state: "can-try",
           nextCategory: rawCategory,

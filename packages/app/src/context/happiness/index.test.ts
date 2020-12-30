@@ -195,11 +195,34 @@ describe("happiness categories", () => {
     ] as types.IHappinessTrainingCategory[];
 
     const exercises = {
+      "cat-1-ex-1": { state: "done", doneAt: today },
+      "cat-1-ex-2": { state: "locked" },
+      "cat-2-ex-1": { state: "locked" },
+      "cat-2-ex-2": { state: "locked" },
+    } as const;
+    const sameDay = today + 10;
+    const nextCategory = getCategoryToTryNext(
+      rawCategories,
+      exercises,
+      sameDay
+    );
+    const expectedResult = {
+      state: "not-now",
+      nextCategory: rawCategories[0],
+      nextExercises: exercises,
+    };
+    expect(nextCategory).toEqual(expectedResult);
+  });
+
+  it("getCategoryToTryNext> on same day should be not-now - second case", () => {
+    const rawCategories = [
+      { id: "cat-1", exercises: [{ id: "cat-1-ex-1" }, { id: "cat-1-ex-2" }] },
+      { id: "cat-2", exercises: [{ id: "cat-2-ex-1" }, { id: "cat-2-ex-2" }] },
+    ] as types.IHappinessTrainingCategory[];
+
+    const exercises = {
       "cat-1-ex-1": { state: "done", doneAt: yesterday },
-      "cat-1-ex-2": {
-        state: "done",
-        doneAt: today,
-      },
+      "cat-1-ex-2": { state: "done", doneAt: today },
       "cat-2-ex-1": { state: "locked" },
       "cat-2-ex-2": { state: "locked" },
     } as const;
