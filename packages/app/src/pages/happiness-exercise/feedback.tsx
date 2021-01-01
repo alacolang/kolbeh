@@ -22,7 +22,7 @@ const bigStarSize = Math.floor(fullWidth * 0.9);
 const smallStarSize = Math.floor(fullWidth * 0.1);
 const gifSize = Math.floor(fullWidth * 0.4);
 
-const rewardSize = 100;
+const rewardSize = 80;
 
 type FeedbackProps = {
   modalVisible: boolean;
@@ -46,17 +46,18 @@ export function Feedback({
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    if (!modalVisible) return;
     Animated.timing(animatedValue, {
       toValue: 1,
-      duration: 700,
+      duration: 1000,
       easing: Easing.linear,
     }).start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [modalVisible]);
 
   const opacity = animatedValue.interpolate({
-    inputRange: [0.8, 1],
-    outputRange: [0, 1],
+    inputRange: [0, 0.7, 1],
+    outputRange: [0, 0, 1],
   });
 
   useEffect(() => {
@@ -123,9 +124,9 @@ export function Feedback({
                 name={"starWithShadow"}
                 style={feedbackStyles.bigStar}
               />
-              <Image
+              <Animated.Image
                 source={image}
-                style={feedbackStyles.gif}
+                style={[feedbackStyles.gif, { opacity }]}
                 resizeMode="contain"
               />
               {rewardIconName ? (
