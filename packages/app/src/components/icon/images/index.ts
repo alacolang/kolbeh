@@ -16,6 +16,7 @@ import play from "./play.png";
 import avatar from "./avatar.png";
 import medal from "./medal.png";
 import crown from "./crown.png";
+import starWithShadow from "./star-with-shadow.png";
 
 const icons = {
   logo,
@@ -36,6 +37,7 @@ const icons = {
   avatar,
   medal,
   crown,
+  starWithShadow,
 };
 
 export default icons;
