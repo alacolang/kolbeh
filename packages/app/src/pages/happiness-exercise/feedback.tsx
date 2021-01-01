@@ -43,7 +43,23 @@ export function Feedback({
     ? "reward_category"
     : "reward_exercise";
 
-  React.useEffect(() => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 700,
+      easing: Easing.linear,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const opacity = animatedValue.interpolate({
+    inputRange: [0.8, 1],
+    outputRange: [0, 1],
+  });
+
+  useEffect(() => {
     if (modalVisible && sound) {
       play(sound, { stopAndPlay: true });
     }
@@ -54,7 +70,7 @@ export function Feedback({
     : isCategoryDone()
     ? rewardMedalImg
     : rewardDailyImg;
-  const image2: IconSvgName | undefined = isAllDone()
+  const rewardIconName: IconSvgName | undefined = isAllDone()
     ? "rewardCertificate"
     : isCategoryDone()
     ? "rewardMedal"
@@ -112,16 +128,20 @@ export function Feedback({
                 style={feedbackStyles.gif}
                 resizeMode="contain"
               />
-              {image2 ? (
-                <IconSvg
-                  name={image2}
-                  size={rewardSize}
-                  color={rewardColor}
+              {rewardIconName ? (
+                <Animated.View
                   style={{
                     ...feedbackStyles.reward,
                     top: rewardOffsetTop,
+                    opacity,
                   }}
-                />
+                >
+                  <IconSvg
+                    name={rewardIconName}
+                    size={rewardSize}
+                    color={rewardColor}
+                  />
+                </Animated.View>
               ) : null}
             </View>
           </TouchableOpacity>
