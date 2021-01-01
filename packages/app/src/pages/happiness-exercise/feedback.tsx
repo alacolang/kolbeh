@@ -1,5 +1,5 @@
 import colors from "colors";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -14,12 +14,13 @@ import rewardDailyImg from "../../assets/images/reward-daily.gif";
 import rewardMedalImg from "../../assets/images/connection.gif";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
 import RadialGradientBackground from "./radial-gradient-background";
+import Animated, { Easing } from "react-native-reanimated";
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 const bigStarSize = Math.floor(fullWidth * 0.9);
 const smallStarSize = Math.floor(fullWidth * 0.1);
-const gifSize = Math.floor(fullWidth * 0.35);
+const gifSize = Math.floor(fullWidth * 0.4);
 
 const rewardSize = 100;
 
@@ -63,9 +64,7 @@ export function Feedback({
     : isCategoryDone()
     ? colors.redPurple
     : "";
-  const rewardOffsetTop = isAllDone()
-    ? Math.floor(bigStarSize / 2)
-    : Math.floor(bigStarSize / 2 - rewardSize / 4);
+  const rewardOffsetTop = isAllDone() ? 0 : -rewardSize / 3;
 
   return (
     <Modal
@@ -81,7 +80,7 @@ export function Feedback({
         <RadialGradientBackground
           height={fullHeight}
           width={fullWidth}
-          stopColorInside={"#9CB2FF"}
+          stopColorInside={"#AF99F1"}
           stopColorOutside={colors.backgroundLight}
           style={feedbackStyles.background}
         />
@@ -142,33 +141,30 @@ const feedbackStyles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: bigStarSize,
+    height: bigStarSize,
   },
   background: {
     ...StyleSheet.absoluteFillObject,
   },
   bigStar: {
-    flex: 1,
     width: bigStarSize,
     height: bigStarSize,
-    minHeight: fullWidth / 2,
   },
   gif: {
     position: "absolute",
-    flex: 1,
+    top: (bigStarSize - gifSize) / 2 + 20,
     width: gifSize,
     height: gifSize,
   },
   reward: {
-    flex: 1,
     position: "absolute",
     height: rewardSize,
     width: rewardSize,
   },
   smallStarCenter: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 4,
     left: fullWidth / 2 - smallStarSize / 2,
@@ -176,7 +172,6 @@ const feedbackStyles = StyleSheet.create({
     height: smallStarSize,
   },
   smallStarLeft: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 2,
     left: bigStarSize / 5,
@@ -184,7 +179,6 @@ const feedbackStyles = StyleSheet.create({
     height: smallStarSize,
   },
   smallStarRight: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 2,
     right: bigStarSize / 5,
