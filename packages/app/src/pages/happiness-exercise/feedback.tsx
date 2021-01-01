@@ -102,17 +102,17 @@ export function Feedback({
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarCenter}
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarLeft}
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarRight}
         />
         <View style={feedbackStyles.touchable}>

@@ -17,6 +17,7 @@ import avatar from "./avatar.png";
 import medal from "./medal.png";
 import crown from "./crown.png";
 import starWithShadow from "./star-with-shadow.png";
+import starWithInsetShadow from "./star-with-inset-shadow.png";
 
 const icons = {
   logo,
@@ -38,6 +39,7 @@ const icons = {
   medal,
   crown,
   starWithShadow,
+  starWithInsetShadow,
 };
 
 export default icons;
