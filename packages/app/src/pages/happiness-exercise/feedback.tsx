@@ -6,7 +6,6 @@ import {
   Modal,
   Dimensions,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { IconSvg, IconSvgName, Icon } from "components/icon";
 import { play } from "./sound";
@@ -46,7 +45,9 @@ export function Feedback({
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (!modalVisible) return;
+    if (!modalVisible) {
+      return;
+    }
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 1000,
