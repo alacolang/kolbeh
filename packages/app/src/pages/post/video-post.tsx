@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Video from "react-native-video";
 import * as Types from "types";
 import { resolveURL } from "utils/resolve";
 import Loading from "../../components/loading/index";
-import Color from "../../colors";
+
+const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
 
 type Props = {
   post: Types.IPost;
@@ -43,7 +45,7 @@ const VideoPost = ({ post }: Props) => {
       />
       {videoIsLoaded ? null : (
         <View style={styles.loadingIcon}>
-          <Loading color={Color.primary} />
+          <Loading color={"black"} />
         </View>
       )}
     </View>
@@ -67,9 +69,14 @@ const styles = StyleSheet.create({
     right: 0,
   },
   loadingIcon: {
+    flex: 1,
     position: "absolute",
+    width: fullWidth,
+    height: fullHeight,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    opacity: 0.5,
   },
 });
 
