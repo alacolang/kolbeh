@@ -118,7 +118,6 @@ function HappinessExercise({ navigation, route }: Props) {
         </View>
         <Feedback
           modalVisible={modalVisible}
-          title={category.title}
           isCategoryDone={() => happiness.isCategoryDone(category)}
           isAllDone={happiness.isAllDone}
           handleAfterDone={() => {
