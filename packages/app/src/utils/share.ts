@@ -1,5 +1,8 @@
+import { trackEvent } from "appcenter-analytics";
 import { Share } from "react-native";
 import messages from "./localize/fa.json";
+
+const track = () => trackEvent("share");
 
 export const onShare = async () => {
   try {
@@ -18,6 +21,7 @@ export const onShare = async () => {
         // shared with activity type of result.activityType
       } else {
         // shared
+        track();
       }
     } else if (result.action === Share.dismissedAction) {
       // dismissed
