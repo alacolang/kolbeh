@@ -88,7 +88,7 @@ export function AddIdeaInput({
       >
         <IconSvg
           name="tickFill"
-          size={24}
+          size={30}
           color={disabled ? colors.primaryThird : colors.backgroundPrimaryThird}
           style={AddIdeaInputStyles.icon}
         />
@@ -120,8 +120,8 @@ const AddIdeaInputStyles = StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    right: 0,
-    top: 15,
+    right: 6,
+    bottom: 6,
     width: 44,
     height: 44,
   },

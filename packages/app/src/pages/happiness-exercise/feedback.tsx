@@ -1,12 +1,11 @@
 import colors from "colors";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
   Modal,
   Dimensions,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { IconSvg, IconSvgName, Icon } from "components/icon";
 import { play } from "./sound";
@@ -14,14 +13,15 @@ import rewardDailyImg from "../../assets/images/reward-daily.gif";
 import rewardMedalImg from "../../assets/images/connection.gif";
 import rewardCertificateImg from "../../assets/images/reward-certificate.gif";
 import RadialGradientBackground from "./radial-gradient-background";
+import Animated, { Easing } from "react-native-reanimated";
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 const bigStarSize = Math.floor(fullWidth * 0.9);
 const smallStarSize = Math.floor(fullWidth * 0.1);
-const gifSize = Math.floor(fullWidth * 0.35);
+const gifSize = Math.floor(fullWidth * 0.4);
 
-const rewardSize = 100;
+const rewardSize = 80;
 
 type FeedbackProps = {
   modalVisible: boolean;
@@ -42,7 +42,26 @@ export function Feedback({
     ? "reward_category"
     : "reward_exercise";
 
-  React.useEffect(() => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (!modalVisible) {
+      return;
+    }
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalVisible]);
+
+  const opacity = animatedValue.interpolate({
+    inputRange: [0, 0.7, 1],
+    outputRange: [0, 0, 1],
+  });
+
+  useEffect(() => {
     if (modalVisible && sound) {
       play(sound, { stopAndPlay: true });
     }
@@ -53,7 +72,7 @@ export function Feedback({
     : isCategoryDone()
     ? rewardMedalImg
     : rewardDailyImg;
-  const image2: IconSvgName | undefined = isAllDone()
+  const rewardIconName: IconSvgName | undefined = isAllDone()
     ? "rewardCertificate"
     : isCategoryDone()
     ? "rewardMedal"
@@ -63,9 +82,7 @@ export function Feedback({
     : isCategoryDone()
     ? colors.redPurple
     : "";
-  const rewardOffsetTop = isAllDone()
-    ? Math.floor(bigStarSize / 2)
-    : Math.floor(bigStarSize / 2 - rewardSize / 4);
+  const rewardOffsetTop = isAllDone() ? 0 : -rewardSize / 3;
 
   return (
     <Modal
@@ -81,23 +98,23 @@ export function Feedback({
         <RadialGradientBackground
           height={fullHeight}
           width={fullWidth}
-          stopColorInside={"#9CB2FF"}
+          stopColorInside={"#AF99F1"}
           stopColorOutside={colors.backgroundLight}
           style={feedbackStyles.background}
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarCenter}
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarLeft}
         />
         <Icon
           size={smallStarSize}
-          name={"starWithShadow"}
+          name={"starWithInsetShadow"}
           style={feedbackStyles.smallStarRight}
         />
         <View style={feedbackStyles.touchable}>
@@ -108,21 +125,25 @@ export function Feedback({
                 name={"starWithShadow"}
                 style={feedbackStyles.bigStar}
               />
-              <Image
+              <Animated.Image
                 source={image}
-                style={feedbackStyles.gif}
+                style={[feedbackStyles.gif, { opacity }]}
                 resizeMode="contain"
               />
-              {image2 ? (
-                <IconSvg
-                  name={image2}
-                  size={rewardSize}
-                  color={rewardColor}
+              {rewardIconName ? (
+                <Animated.View
                   style={{
                     ...feedbackStyles.reward,
                     top: rewardOffsetTop,
+                    opacity,
                   }}
-                />
+                >
+                  <IconSvg
+                    name={rewardIconName}
+                    size={rewardSize}
+                    color={rewardColor}
+                  />
+                </Animated.View>
               ) : null}
             </View>
           </TouchableOpacity>
@@ -142,33 +163,30 @@ const feedbackStyles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: bigStarSize,
+    height: bigStarSize,
   },
   background: {
     ...StyleSheet.absoluteFillObject,
   },
   bigStar: {
-    flex: 1,
     width: bigStarSize,
     height: bigStarSize,
-    minHeight: fullWidth / 2,
   },
   gif: {
     position: "absolute",
-    flex: 1,
+    top: (bigStarSize - gifSize) / 2 + 20,
     width: gifSize,
     height: gifSize,
   },
   reward: {
-    flex: 1,
     position: "absolute",
     height: rewardSize,
     width: rewardSize,
   },
   smallStarCenter: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 4,
     left: fullWidth / 2 - smallStarSize / 2,
@@ -176,7 +194,6 @@ const feedbackStyles = StyleSheet.create({
     height: smallStarSize,
   },
   smallStarLeft: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 2,
     left: bigStarSize / 5,
@@ -184,7 +201,6 @@ const feedbackStyles = StyleSheet.create({
     height: smallStarSize,
   },
   smallStarRight: {
-    flex: 1,
     position: "absolute",
     top: bigStarSize / 2,
     right: bigStarSize / 5,
