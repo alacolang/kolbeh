@@ -67,6 +67,22 @@ export function Feedback({
     }
   }, [sound, modalVisible]);
 
+  useEffect(() => {
+    let flag = false;
+    if (!modalVisible) {
+      return;
+    }
+    setTimeout(() => {
+      if (flag === true) {
+        return;
+      }
+      handleAfterDone();
+    }, 4000);
+    return () => {
+      flag = true;
+    };
+  }, [modalVisible, handleAfterDone]);
+
   const image = isAllDone()
     ? rewardCertificateImg
     : isCategoryDone()
