@@ -31,81 +31,74 @@ export const triedThisWeek = (users: User[]): number => {
   ).length;
 };
 
+const sum = (arr: number[]): number => {
+  return arr.reduce((acc, element) => {
+    return acc + element;
+  }, 0);
+};
+
 export const didExerciseThisManyTimes = (users: User[]) => (
   howManyTimes: number
 ): number => {
   return users
     .map((user) =>
-      happinessTrainingData.categories
-        .map((category) => {
+      sum(
+        happinessTrainingData.categories.map((category) => {
           return category.exercises.filter(
             (exercise) =>
               user.happiness?.exercises[exercise.id].state === "done"
           ).length;
         })
-        .reduce((acc, numberOfExerciseDonePerCat) => {
-          return acc + numberOfExerciseDonePerCat;
-        }, 0)
+      )
     )
-    .reduce((acc, userTotalNumberExercisesDone) => {
-      return acc + (userTotalNumberExercisesDone === howManyTimes ? 1 : 0);
-    }, 0);
+    .filter(
+      (userTotalNumberExercisesDone) =>
+        userTotalNumberExercisesDone === howManyTimes
+    ).length;
+};
+
+const isLastWeek = (time: number): boolean => {
+  const diff = differenceInDays(new Date(), time);
+  return diff > 7 && diff <= 14;
 };
 
 export const howManyUsersDidExerciseLastWeek = (users: User[]): number => {
   return users
     .map((user) =>
-      happinessTrainingData.categories
-        .map((category) => {
-          return category.exercises.filter((exercise): number => {
+      sum(
+        happinessTrainingData.categories.map((category) => {
+          return category.exercises.filter((exercise) => {
             const exerciseState = user.happiness?.exercises[exercise.id];
-            let exerciseDoneTime = 0;
-            if (exerciseState?.state === "done") {
-              exerciseDoneTime = exerciseState.doneAt;
+            if (exerciseState?.state !== "done") {
+              return false;
             }
-            const didExerciseLastWeek =
-              differenceInDays(new Date(), exerciseDoneTime) > 7 &&
-              differenceInDays(new Date(), exerciseDoneTime) <= 14
-                ? 1
-                : 0;
-            return didExerciseLastWeek;
+            return isLastWeek(exerciseState.doneAt);
           }).length;
         })
-        .reduce((acc, TimesDidExerciseLastWeek): number => {
-          return acc + TimesDidExerciseLastWeek;
-        }, 0)
+      )
     )
-    .reduce((acc, TotalTimesUserDidExerciseLastWeek) => {
-      return acc + (TotalTimesUserDidExerciseLastWeek > 0 ? 1 : 0);
-    }, 0);
+    .filter(
+      (TotalTimesUserDidExerciseLastWeek) =>
+        TotalTimesUserDidExerciseLastWeek > 0
+    ).length;
 };
 
 export const howManyExcercisesUsersDidLastWeek = (users: User[]): number => {
-  return users
-    .map((user) =>
-      happinessTrainingData.categories
-        .map((category) => {
-          return category.exercises.filter((exercise): number => {
+  return sum(
+    users.map((user) =>
+      sum(
+        happinessTrainingData.categories.map((category) => {
+          return category.exercises.filter((exercise) => {
             const exerciseState = user.happiness?.exercises[exercise.id];
-            let exerciseDoneTime = 0;
-            if (exerciseState?.state === "done") {
-              exerciseDoneTime = exerciseState.doneAt;
+            if (exerciseState?.state !== "done") {
+              return false;
             }
-            const didExerciseLastWeek =
-              differenceInDays(new Date(), exerciseDoneTime) > 7 &&
-              differenceInDays(new Date(), exerciseDoneTime) <= 14
-                ? 1
-                : 0;
-            return didExerciseLastWeek;
+            return isLastWeek(exerciseState.doneAt);
           }).length;
         })
-        .reduce((acc, TimesDidExerciseLastWeek): number => {
-          return acc + TimesDidExerciseLastWeek;
-        }, 0)
+      )
     )
-    .reduce((acc, TotalTimesUserDidExerciseLastWeek) => {
-      return acc + TotalTimesUserDidExerciseLastWeek;
-    }, 0);
+  );
 };
 
 statsRouter.get("/", (req, res) => {
@@ -123,7 +116,6 @@ statsRouter.get("/", (req, res) => {
       ),
     });
   });
-  // res.json({ status: "ok" });
 });
 
 export default statsRouter;
