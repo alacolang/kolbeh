@@ -20,6 +20,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { StackScreenProps } from "@react-navigation/stack";
 import { HomeStackParamList } from "navigation/home-stack-navigator";
 import { useIdentity } from "context/identity";
+import { GaussIcon } from "../../components/curve-icon";
 
 const frameWidth = Dimensions.get("window").width;
 const frameHeight = Dimensions.get("window").height;
@@ -121,7 +122,6 @@ const Onboarding = ({ navigation }: Props) => {
             <Title text={t("onboarding.3.title")} />
             <Description id={t("onboarding.3.description")} />
             <Action
-              text={t("onboarding.done")}
               onPress={() => {
                 if (name && age) {
                   navigation.replace("home");
@@ -211,31 +211,29 @@ const titleStyles = StyleSheet.create({
   },
 });
 
-type ActionProps = { onPress: () => void; text: string };
-function Action({ onPress, text }: ActionProps) {
+type ActionProps = { onPress: () => void };
+
+function Action({ onPress }: ActionProps) {
   return (
-    <TouchableOpacity onPress={() => onPress()} style={actionStyles.container}>
-      <FormattedText style={actionStyles.text}>{text}</FormattedText>
-    </TouchableOpacity>
+    <View style={actionStyles.container}>
+      <GaussIcon
+        icon="leftArrowFill"
+        onPress={() => onPress()}
+        backgroundColor="white"
+        color={colors.backgroundPrimary}
+      />
+    </View>
   );
 }
 const actionStyles = StyleSheet.create({
   container: {
-    marginTop: 36,
-    width: 60,
-    height: 60,
-    borderRadius: 60,
+    position: "absolute",
+    bottom: 0,
+    transform: [{ rotateZ: "90deg" }, { scale: 1.2 }],
+    width: 70,
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 7,
-    borderColor: "rgba(255,255,255,.5)",
-    backgroundColor: colors.backgroundPrimary,
-    elevation: 5,
-  },
-  text: {
-    fontSize: 16,
-    top: -3,
-    color: "rgba(255,255,255,.7)",
   },
 });
 
