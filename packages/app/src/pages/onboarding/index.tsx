@@ -6,7 +6,6 @@ import {
   Dimensions,
   StatusBar,
   ImageSourcePropType,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import img1 from "../../assets/images/1.gif";
