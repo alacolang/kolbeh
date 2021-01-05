@@ -62,43 +62,28 @@ const isLastWeek = (time: number): boolean => {
   return diff > 7 && diff <= 14;
 };
 
-export const howManyUsersDidExerciseLastWeek = (users: User[]): number => {
-  return users
-    .map((user) =>
-      sum(
-        happinessTrainingData.categories.map((category) => {
-          return category.exercises.filter((exercise) => {
-            const exerciseState = user.happiness?.exercises[exercise.id];
-            if (exerciseState?.state !== "done") {
-              return false;
-            }
-            return isLastWeek(exerciseState.doneAt);
-          }).length;
-        })
-      )
+const totalTimesUserDidExerciseLastWeek = (users: User[]): number[] => {
+  return users.map((user) =>
+    sum(
+      happinessTrainingData.categories.map((category) => {
+        return category.exercises.filter((exercise) => {
+          const exerciseState = user.happiness?.exercises[exercise.id];
+          if (exerciseState?.state !== "done") {
+            return false;
+          }
+          return isLastWeek(exerciseState.doneAt);
+        }).length;
+      })
     )
-    .filter(
-      (TotalTimesUserDidExerciseLastWeek) =>
-        TotalTimesUserDidExerciseLastWeek > 0
-    ).length;
+  );
+};
+
+export const howManyUsersDidExerciseLastWeek = (users: User[]): number => {
+  return totalTimesUserDidExerciseLastWeek(users).filter((x) => x > 0).length;
 };
 
 export const howManyExcercisesUsersDidLastWeek = (users: User[]): number => {
-  return sum(
-    users.map((user) =>
-      sum(
-        happinessTrainingData.categories.map((category) => {
-          return category.exercises.filter((exercise) => {
-            const exerciseState = user.happiness?.exercises[exercise.id];
-            if (exerciseState?.state !== "done") {
-              return false;
-            }
-            return isLastWeek(exerciseState.doneAt);
-          }).length;
-        })
-      )
-    )
-  );
+  return sum(totalTimesUserDidExerciseLastWeek(users));
 };
 
 statsRouter.get("/", (req, res) => {
