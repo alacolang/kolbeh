@@ -20,7 +20,10 @@ function fixIconTypo(name: string) {
   return name;
 }
 
-const dataResolver = (data: Category[], types: Readonly<PostType[]> = OLD_TYPES) => {
+const dataResolver = (
+  data: Category[],
+  types: Readonly<PostType[]> = OLD_TYPES
+) => {
   return data.map((d) => {
     return {
       ...d,

@@ -13,6 +13,7 @@ import basicAuth from "express-basic-auth";
 import { UI } from "bull-board";
 import "./messaging/setup-ui";
 import config from "./config";
+import statsRouter from "./stats";
 
 const app = express();
 app.use(cors());
@@ -63,6 +64,7 @@ app.use(
 
 app.use("/admin/queues", UI);
 app.use("/admin/api/users", usersRouter.adminRouter);
+app.use("/admin/api/stats", statsRouter);
 app.get("/admin/api/firebase/check", (req, res) => {
   const TOKEN = "fBuM...";
 

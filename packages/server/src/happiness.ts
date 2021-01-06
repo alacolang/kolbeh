@@ -11,7 +11,8 @@ export function isExerciseDoneRecently(
 ): boolean {
   if (config.isDevelopment || config.isStaging) {
     return (
-      differenceInMinutes(currentTime, lastExerciseDoneAt) < DEV_MODE_NEXT_EXERCISE_IN_MINUTES
+      differenceInMinutes(currentTime, lastExerciseDoneAt) <
+      DEV_MODE_NEXT_EXERCISE_IN_MINUTES
     );
   } else {
     return differenceInCalendarDays(currentTime, lastExerciseDoneAt) < 1;

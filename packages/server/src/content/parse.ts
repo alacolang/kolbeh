@@ -230,7 +230,7 @@ export const sortByDateThenOrder = (p1: Post, p2: Post): number => {
 
 parse();
 // parse().then((d) => {
-  // console.log(d.parent[1].feed[0]);
+// console.log(d.parent[1].feed[0]);
 // });
 
 export default parse;

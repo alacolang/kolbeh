@@ -1,4 +1,3 @@
-
 import * as types from "../../types";
 
 const categories: types.IHappinessTrainingCategory[] = [
@@ -345,7 +344,8 @@ const categories: types.IHappinessTrainingCategory[] = [
         title: "خانواده شگفت انگیز",
         description: `امروز ذره بین شگفتی جو رو روی خانواده ات بگیر و خوب  بهشون دقت کن. یکی از ویژگی‌های شگفت انگیزی که دارند رو پیدا کن و این پایین بنویس.`,
         order: 2,
-        notificationMessage: "امروز در شکلات به خانواده شگفت انگیزت توجه می‌کنی.",
+        notificationMessage:
+          "امروز در شکلات به خانواده شگفت انگیزت توجه می‌کنی.",
       },
       {
         id: "awe-3",
@@ -366,7 +366,8 @@ const categories: types.IHappinessTrainingCategory[] = [
         title: "نشانه شگفت انگیز",
         description: `امروز برای شگفتی بینی یک نشونه انتخاب کن. نشونه‌ای که هر وقت میبینیش یادت بیوفته، دنیا پر از شگفتی هست و باید بهش دقت کنی. نشانه شگفت انگیز تو چیه؟ این پایین بنویس.`,
         order: 5,
-        notificationMessage: "امروز در شکلات نشانه شگفت انگیز رو انتخاب می‌کنی.",
+        notificationMessage:
+          "امروز در شکلات نشانه شگفت انگیز رو انتخاب می‌کنی.",
       },
     ],
   },
@@ -425,14 +426,16 @@ const categories: types.IHappinessTrainingCategory[] = [
         title: " من دوست داشتنی",
         description: `توجه به توانایی‌ها و ویژگی‌های خوبمون باعث میشه با خودمون مهربانتر بشیم. امروز به خوبی هات دقت کن و سه تا از ویژگی‌های خوبت را این پایین بنویس.`,
         order: 1,
-        notificationMessage: "امروز در شکلات به خودت می‌گی که چقدر دوست‌داشتنی هستی.",
+        notificationMessage:
+          "امروز در شکلات به خودت می‌گی که چقدر دوست‌داشتنی هستی.",
       },
       {
         id: "self-compassion-2",
         title: "مهربانی‌های من",
         description: `بیا امروز مهربانی‌هایی که در این هفته انجام دادی رو مرور کن و این پایین بنویس. یادت باشه که به خودت برای مهربانی هایی که انجام دادی، افتخار کنی.`,
         order: 2,
-        notificationMessage: "امروز در شکلات به خودت می‌گی که چقدر مهربان هستی.",
+        notificationMessage:
+          "امروز در شکلات به خودت می‌گی که چقدر مهربان هستی.",
       },
       {
         id: "self-compassion-3",
@@ -446,7 +449,8 @@ const categories: types.IHappinessTrainingCategory[] = [
         title: "مقاومت‌های من",
         description: `مقاومت های هر آدمی سرمایه هایی هستند که پس انداز کرده، تا آدم بهتری بشه. سه تا از مقاومت‌هایی که انجام دادی رو این پایین بنویس و به خودت افتخار کن.`,
         order: 4,
-        notificationMessage: "امروز در شکلات به خودت مقاومت‌‌هات رو یادآوری می‌کنی.",
+        notificationMessage:
+          "امروز در شکلات به خودت مقاومت‌‌هات رو یادآوری می‌کنی.",
       },
       {
         id: "self-compassion-5",
